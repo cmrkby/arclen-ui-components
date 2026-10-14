@@ -1,0 +1,33 @@
+# Signal Field
+
+A decorative WebGL2 field with pointer distortion and a separate glyph layer. The default includes the reference sample headline. Set `showText={false}` when composing your own content, and place meaningful heading copy outside the decorative component.
+
+## React
+
+Import the named component from the installed component directory. The entry includes its CSS. Give image and background components a sized container; the wrapper accepts `style` and `className`.
+
+```tsx
+import { SignalField } from "./components/signal-field";
+
+<SignalField interaction="ascii-lens" accentColor="#7182e8" style={{height: 480}} />
+```
+
+Use regular props for every setting in the generated props table. `paused` suspends motion without discarding settings. Unmount releases observers, event listeners and animation resources.
+
+## HTML and vanilla
+
+Copy the complete HTML bundle, including its assets, to your static host. Use the supplied `component.html` markup with `component.css` and `component.js`. Relative bundle URLs work under a subpath. The bundle initializes each instance independently from its serialized settings.
+
+For a custom integration, import `render`, `mount` and `resolveSettings` from `src/core`. `render(settings)` is safe during server rendering. Pass an outer host element to `mount(host, settings)`, then use `update(settings)`, `pause()`, `resume()` and `destroy()` on the returned controller. Always destroy a controller before removing its host.
+
+## Accessibility and fallback
+
+The canvas layers and sample headline are decorative. Without WebGL the bundled poster remains visible; JavaScript-free HTML delivery includes a poster. Reduced motion renders a static field. Animation pauses offscreen and when the document is hidden. Touch scrolling does not trigger pointer effects. Context loss switches to the poster and context restoration recreates GPU resources.
+
+## Assets and rights
+
+See `component.json` for the complete asset list and `assets/NOTICE.md` for provenance. All source is standalone. No Arclen application runtime, authentication, database code, commercial fonts or licensed icon packs are required.
+
+## Performance
+
+Hardware GPUs retain the original shader path. Software WebGL renderers use a bounded 50,000-pixel field to keep the CPU rasterizer responsive. The original shader and motion timing are unchanged; the separate glyph layer and headline retain full resolution. Hardware WebGL retains the requested resolution. The component has no npm runtime dependencies. The release gate records the compressed bundle size, startup and interaction timing. Reduced motion and offscreen suspension take priority over continuous effects.

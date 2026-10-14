@@ -1,0 +1,24 @@
+.ss-slot{position:relative;display:inline-grid;vertical-align:middle;box-sizing:border-box;max-width:100%;min-width:0;width:max-content;min-width:min(100%,var(--ss-w));min-height:44px;height:var(--ss-h);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:var(--ss-font);font-weight:var(--ss-weight);line-height:var(--ss-line);isolation:isolate}
+.ss-slot[data-width=full]{width:100%}
+.ss-slot *{box-sizing:border-box}
+.ss-measure{align-self:start;height:max-content;visibility:hidden;pointer-events:none;display:grid;grid-area:1/1;min-width:0;padding:var(--ss-y) var(--ss-x);border:var(--ss-border) solid transparent}
+.ss-measure-idle,.ss-measure-active{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:var(--ss-gap);min-width:0;overflow-wrap:anywhere}
+.ss-slot[data-appearance=circle] .ss-measure-active{display:none}
+.ss-bookmark{width:var(--ss-icon);height:var(--ss-icon);flex:none}
+.ss-button{position:absolute;inset-block-start:50%;inset-inline-start:50%;translate:-50% -50%;display:grid;place-items:center;min-width:0;width:100%;height:var(--ss-h);padding:0;border:var(--ss-border) solid var(--ss-border-color);border-radius:var(--ss-radius);background:var(--ss-surface);color:var(--ss-text);font:inherit;cursor:pointer;overflow:hidden;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.ss-face{display:contents}
+.ss-slot[data-appearance=roll] .ss-button{border:0;background:transparent;overflow:visible}
+.ss-slot[data-appearance=roll] .ss-face{position:absolute;inset:0;display:grid;place-items:center;border:var(--ss-border) solid var(--ss-border-color);border-radius:inherit;background:var(--ss-surface);overflow:hidden;pointer-events:none}
+.ss-button:focus-visible{outline:3px solid #69b4ff;outline-offset:4px}
+.ss-button:disabled{cursor:default}
+.ss-idle,.ss-active{position:absolute;display:flex;align-items:center;justify-content:center;gap:var(--ss-gap);width:calc(100% - 2 * var(--ss-x));overflow-wrap:anywhere;text-align:center;pointer-events:none}
+.ss-idle>span{min-width:0}
+.ss-active{opacity:0;color:var(--ss-tick)}
+.ss-tick{position:absolute;width:24px;height:24px;opacity:0;color:var(--ss-tick);pointer-events:none}
+.ss-slot[data-appearance=circle] .ss-active,.ss-slot[data-appearance=roll] .ss-tick,.ss-slot[data-appearance=roll] .ss-bookmark{display:none}
+.ss-slot[data-saved=true][data-appearance=circle] .ss-button,.ss-slot[data-saved=true][data-appearance=roll] .ss-face{background:var(--ss-saved)}
+.ss-slot[data-saved=true] .ss-idle{opacity:0}
+.ss-slot[data-saved=true][data-appearance=circle] .ss-button{width:min(100%,var(--ss-h));height:auto;aspect-ratio:1;border-radius:999px}
+.ss-slot[data-saved=true][data-appearance=circle] .ss-tick,.ss-slot[data-saved=true][data-appearance=roll] .ss-active{opacity:1}
+@media(pointer:coarse){.ss-slot[data-appearance=circle] .ss-button{min-width:min(44px,100%)}.ss-button::after{content:"";position:absolute;inset:0;min-height:44px}.ss-slot[data-appearance=roll] .ss-button{min-height:44px}}
+@media(forced-colors:active){.ss-button{border-color:ButtonText}.ss-tick,.ss-active{color:ButtonText}}

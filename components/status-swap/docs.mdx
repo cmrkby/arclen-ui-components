@@ -1,0 +1,140 @@
+# Status Swap
+
+A local two-state button. Circle changes Save into a green circle with a white tick.
+Roll keeps the label visible and rolls between a dark Save pill and a white Saved pill with dark text.
+Click, tap, Enter or Space toggles the state. Saved persists until another activation
+or a change to `initialSaved`. It does not save data, make a network request or
+reset after a delay. Remounting starts again from `initialSaved`; state is not stored
+across page loads.
+
+## Install and use in React
+
+Choose React in the delivery bar, then Copy install command. Run that command
+from an existing React TypeScript project. It installs the complete source,
+stylesheet, poster and notice into `components/status-swap` at the project root.
+Status Swap has no additional npm dependencies beyond the receiving React app.
+The wrapper imports its own stylesheet and exports both `StatusSwap` and `Component`.
+
+This complete example is for `src/App.tsx`, with the component installed at the
+project root. The second button uses Roll, custom labels and a full-width slot.
+
+```tsx
+import { StatusSwap } from '../components/status-swap';
+
+export default function App() {
+  return (
+    <main style={{ maxWidth: 320 }}>
+      <StatusSwap />
+      <StatusSwap
+        appearance="roll"
+        idleLabel="Keep draft"
+        activeLabel="Draft kept"
+        widthMode="full"
+        fontSize={14}
+        paddingY={11}
+        rollSavedSurface="#ffffff"
+        rollSavedTextColor="#111111"
+      />
+    </main>
+  );
+}
+```
+
+For your current preview settings, choose Copy configured usage. That example
+uses `@/components/status-swap`; configure that alias or change it to the relative
+path for your file. In Next.js, the supplied wrapper is already a client
+component. If `@/*` points to `src/`, append `--directory src` to the install
+command. A page that manages React state also needs its own `"use client"` directive.
+Open Docs in the site navigation for Vite, Next.js and HTML project setup.
+
+## HTML and vanilla use
+
+Choose Copy HTML to get the current configured markup with inline CSS,
+JavaScript and a poster fallback. Paste the complete result into your HTML page.
+Keep the included no-JavaScript fallback. HTML delivery requires no React or
+animation library. If using the separate bundle files, keep `component.html`,
+`component.css`, `component.js`, `poster.webp` and the asset notice together;
+serve the page over HTTP and preserve their relative paths when embedding it.
+
+For a TypeScript app with a bundler, this complete helper creates a standalone
+button and returns a cleanup function. Place it at `src/save-button.ts` with the
+same root installation as the React example. Call `attachSaveButton(container)`
+after the container exists, and call the returned function before removing it.
+
+```ts
+import { mount } from '../components/status-swap/src/core';
+import '../components/status-swap/src/styles.css';
+
+export function attachSaveButton(container: HTMLElement) {
+  const host = document.createElement('div');
+  container.append(host);
+  const control = mount(host, {
+    idleLabel: 'Keep draft',
+    activeLabel: 'Draft kept',
+  });
+  return () => {
+    control.destroy();
+    host.remove();
+  };
+}
+```
+
+The core also exports `defaults`, `resolveSettings` and `render`. `mount` owns
+its host's children and returns `update`, `pause`, `resume` and `destroy`.
+`update` replaces configuration from defaults plus the supplied values. It
+preserves local status unless the resolved `initialSaved` value changes.
+Invalid settings throw before changing the button. `pause` settles the current
+state immediately; `resume` allows future motion without replay. Destroy is
+idempotent. Multiple instances have independent state and resources.
+
+## State and integration
+
+`initialSaved` is an initial value and a reset input, not a controlled `saved`
+prop. Reapplying the same value preserves local state; changing it resets to the
+new value. There is no change callback, loading state, error state or persistence
+adapter. Connect real saving in your application separately. React also accepts
+`className`, `style` and `paused` for its host and motion control.
+
+## Settings and sizing
+
+The API reference is generated from the manifest and lists all 24 settings,
+including their defaults, options and bounds. Circle is the default; Circle and
+Roll are the delivered appearances. `widthMode="full"` fills the receiving
+container while idle; the saved circle stays centered inside the reserved slot.
+Fit mode follows content with Circle's preferred minimum width. Long labels wrap.
+The reserved space stays stable when toggled. Use a host at least 44px wide for
+a usable touch target. Smaller hosts constrain the circle to avoid page overflow
+and cannot provide a 44px horizontal target. Roll's height follows its font,
+padding and border settings; choose padding that leaves a suitable touch target.
+
+`surface` and `textColor` style idle content. `savedSurface` and
+`savedIconColor` set Circle's saved background and tick. `rollSavedSurface`
+and `rollSavedTextColor` independently set Roll's saved background and text.
+Explicit color settings override these defaults; check contrast for your chosen
+colors. Corner choices style the idle surface; Circle always finishes round.
+Zero travel, blur and recovery depth each remove that part of the movement.
+Zero motion duration makes state changes immediate. Labels must contain visible
+text, have no control characters and be at most 40 UTF-16 units.
+
+## Accessibility and fallback
+
+The native button exposes one accessible name and `aria-pressed` immediately.
+Circle's hidden saved label is still its accessible name. Focus stays on the
+same button through changes. Disabled buttons cannot be activated. Before
+JavaScript enhancement the server-rendered button is disabled and shows its
+configured idle or saved state. HTML delivery also includes the local rendered
+poster as a no-JavaScript preview.
+
+Reduced motion, paused or hidden instances settle immediately. Changing the
+system motion preference during movement also settles the current state.
+Offscreen motion stops when IntersectionObserver is available. Without that
+API, explicit pause and document visibility still work. Missing animation APIs
+or motion-preference detection produce immediate state changes. No external
+assets are requested.
+
+## Assets and licence
+
+Status Swap is MIT licensed. The bookmark, tick and rendered poster are original
+Arclen UI assets. The package uses system fonts and includes no third-party font,
+image or animation library. Keep the supplied `assets/NOTICE.md` with the source
+and assets you distribute.

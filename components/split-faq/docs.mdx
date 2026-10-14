@@ -1,0 +1,55 @@
+# Split FAQ
+
+Five questions share an answer column in a wide container. Below 700px of available component width, each answer sits below its question. The background belongs to the receiving page.
+
+```tsx
+import { SplitFAQ } from './components/split-faq';
+
+export default function Example() {
+  return (
+    <SplitFAQ theme="light" />
+  );
+}
+```
+
+Pass equal-length `titles` and `descriptions` arrays with 1–12 entries. Questions accept up to 80 characters and answers up to 500. Text is escaped, and line breaks in answers are preserved. `initialOpen` selects an initial question by its zero-based index; `-1` or an out-of-range index starts closed. An unrelated parent render preserves selection and focus. Changing `initialOpen` deliberately changes selection.
+
+`maxWidth={0}` uses the 1000px default cap. A positive value changes the cap. `motionScale` ranges from 0 to 2; zero settles immediately. Use `paused` in React to pause active transitions. There are no imagery, heading, subtitle, or appearance-variant settings.
+
+For standalone pages, keep the downloaded HTML, CSS, JavaScript and poster together, including when serving beneath a subpath. The vanilla core exports `defaults`, `resolveSettings`, `render` and `mount`; call `mount(host, settings)` after inserting the static markup, then use its `update`, `pause`, `resume` and `destroy` methods. Pass the complete desired settings to `update`.
+
+Question buttons support Tab, Enter and Space. Arrow keys wrap through questions; Home and End focus the first and last. Closing answers become inert immediately. Focus stays on the selected question. Answers remain readable before enhancement and after destruction; the HTML package also includes a poster when JavaScript is disabled. Missing animation APIs use immediate state changes. Reduced motion settles immediately. Offscreen and hidden-tab transitions pause and resume, and destruction removes owned observers and listeners.
+
+The arrow marks, component code and rendered poster are original Arclen work. The package uses system fonts and has no external asset requests or animation dependencies.
+
+
+### Tweaks and configured delivery
+
+Questions and answers are paired, with 1–12 items, up to 80 characters per question and 500 per answer. The tweaks panel holds invalid or mismatched drafts and shows an error; preview and downloads keep the last valid pair of lists. Reset also clears drafts. Direct configured downloads reject invalid paired content.
+
+Maximum width `0` preserves the style default. Turn off **Use style default width** for a custom 240–1440px cap. Positive values below 240 passed directly to the component resolve to 240; the component still shrinks inside a narrower container. The initially open question uses a zero-based index, with `-1` for all closed.
+
+The panel exposes content, initial selection, theme, maximum width and motion duration. Typography, spacing and radius remain direct CSS customization. Preview headings, viewport and playback controls are outside the portable settings. Configured React and HTML use the same accepted values.
+
+### Complete vanilla example
+
+After installing the package, use this in a browser module or bundler entry. Remove the created host after `destroy()` when your page no longer needs it.
+
+```ts
+import { mount, render, resolveSettings } from './components/split-faq/src/core';
+import './components/split-faq/src/styles.css';
+
+const settings = resolveSettings({
+  titles: ['Can I use my own content?'],
+  descriptions: ['Yes. Keep the question and answer lists paired.'],
+  theme: 'light',
+  initialOpen: 0,
+});
+const host = document.createElement('div');
+document.body.append(host);
+host.innerHTML = render(settings);
+const faq = mount(host, settings);
+// On page teardown: faq.destroy(); host.remove();
+```
+
+The standalone Split core throws for malformed settings or unequal lists. Validate caller input before mounting. Editorial and Connected instead use their documented defaults for invalid paired lists; the website rejects invalid configured downloads for all three.

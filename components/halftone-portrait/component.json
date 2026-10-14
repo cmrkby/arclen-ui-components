@@ -1,0 +1,418 @@
+{
+  "id": "halftone-portrait",
+  "version": "2.0.2",
+  "tier": "free",
+  "name": "Halftone Portrait",
+  "category": "Image effects",
+  "description": "Interactive image dots with photo detail, colour controls and a responsive cursor.",
+  "keywords": [
+    "image",
+    "halftone",
+    "portrait",
+    "canvas"
+  ],
+  "previews": [
+    {
+      "name": "Ronin",
+      "settings": {
+        "src": "ronin",
+        "alt": "Silver ronin with engraved samurai armor",
+        "fit": "contain"
+      }
+    },
+    {
+      "name": "Eclipse",
+      "settings": {
+        "src": "eclipse",
+        "alt": "Astronaut in front of an eclipse",
+        "scale": 1.08,
+        "focalY": 0.08,
+        "fit": "contain"
+      }
+    },
+    {
+      "name": "Sentinel",
+      "settings": {
+        "src": "sentinel",
+        "alt": "Silver warrior in sculpted armor",
+        "focalY": 0.2,
+        "fit": "contain"
+      }
+    }
+  ],
+  "settings": [
+    {
+      "key": "src",
+      "label": "Artwork or image",
+      "kind": "image",
+      "default": "ronin",
+      "group": "Appearance"
+    },
+    {
+      "key": "alt",
+      "label": "Image description",
+      "kind": "text",
+      "default": "Interactive halftone portrait",
+      "group": "Appearance"
+    },
+    {
+      "key": "spacing",
+      "label": "Dot spacing",
+      "kind": "number",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 2,
+      "group": "Appearance"
+    },
+    {
+      "key": "size",
+      "label": "Dot size",
+      "kind": "number",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.01,
+      "default": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "variation",
+      "label": "Size variation",
+      "kind": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.1,
+      "group": "Appearance"
+    },
+    {
+      "key": "threshold",
+      "label": "Shadow cutoff",
+      "kind": "number",
+      "min": 0,
+      "max": 0.9,
+      "step": 0.01,
+      "default": 0.1,
+      "group": "Appearance"
+    },
+    {
+      "key": "contrast",
+      "label": "Contrast",
+      "kind": "number",
+      "min": 0.25,
+      "max": 4,
+      "step": 0.01,
+      "default": 1.15,
+      "group": "Appearance"
+    },
+    {
+      "key": "exposure",
+      "label": "Exposure",
+      "kind": "number",
+      "min": 0.25,
+      "max": 3,
+      "step": 0.01,
+      "default": 1.15,
+      "group": "Appearance"
+    },
+    {
+      "key": "alphaGamma",
+      "label": "Tonal curve",
+      "kind": "number",
+      "min": 0.2,
+      "max": 2.5,
+      "step": 0.01,
+      "default": 0.5,
+      "group": "Appearance"
+    },
+    {
+      "key": "opacity",
+      "label": "Opacity",
+      "kind": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "color",
+      "label": "Dot colour",
+      "kind": "color",
+      "default": "#ffffff",
+      "group": "Appearance"
+    },
+    {
+      "key": "accent",
+      "label": "Accent colour",
+      "kind": "color",
+      "default": "#f54e00",
+      "group": "Appearance"
+    },
+    {
+      "key": "accentAmount",
+      "label": "Accent mix",
+      "kind": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0,
+      "group": "Appearance"
+    },
+    {
+      "key": "colorMode",
+      "label": "Colour source",
+      "kind": "select",
+      "options": [
+        {
+          "value": "duotone",
+          "label": "duotone"
+        },
+        {
+          "value": "original",
+          "label": "original"
+        },
+        {
+          "value": "photo",
+          "label": "Photo (full detail)"
+        }
+      ],
+      "default": "duotone",
+      "group": "Appearance"
+    },
+    {
+      "key": "fit",
+      "label": "Image fit",
+      "kind": "select",
+      "options": [
+        {
+          "value": "cover",
+          "label": "cover"
+        },
+        {
+          "value": "contain",
+          "label": "contain"
+        }
+      ],
+      "default": "cover",
+      "group": "Appearance"
+    },
+    {
+      "key": "scale",
+      "label": "Zoom",
+      "kind": "number",
+      "min": 0.4,
+      "max": 3,
+      "step": 0.01,
+      "default": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "focalX",
+      "label": "Horizontal crop",
+      "kind": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.5,
+      "group": "Appearance"
+    },
+    {
+      "key": "focalY",
+      "label": "Vertical crop",
+      "kind": "number",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.5,
+      "group": "Appearance"
+    },
+    {
+      "key": "radius",
+      "label": "Influence radius",
+      "kind": "number",
+      "min": 20,
+      "max": 500,
+      "step": 1,
+      "default": 180,
+      "group": "Appearance"
+    },
+    {
+      "key": "force",
+      "label": "Strength",
+      "kind": "number",
+      "min": 0,
+      "max": 140,
+      "step": 1,
+      "default": 32,
+      "group": "Appearance"
+    },
+    {
+      "key": "returnSpeed",
+      "label": "Particle response",
+      "kind": "number",
+      "min": 0.02,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.16,
+      "group": "Appearance"
+    },
+    {
+      "key": "cursorSmoothing",
+      "label": "Cursor tracking",
+      "kind": "number",
+      "min": 0.02,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.22,
+      "group": "Appearance"
+    },
+    {
+      "key": "releaseSpeed",
+      "label": "Release response",
+      "kind": "number",
+      "min": 0.02,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.12,
+      "group": "Appearance"
+    },
+    {
+      "key": "falloff",
+      "label": "Edge softness",
+      "kind": "number",
+      "min": 1,
+      "max": 5,
+      "step": 0.01,
+      "default": 2,
+      "group": "Appearance"
+    },
+    {
+      "key": "cursorMode",
+      "label": "Cursor behavior",
+      "kind": "select",
+      "options": [
+        {
+          "value": "repel",
+          "label": "repel"
+        },
+        {
+          "value": "attract",
+          "label": "attract"
+        },
+        {
+          "value": "swirl",
+          "label": "swirl"
+        }
+      ],
+      "default": "repel",
+      "group": "Appearance"
+    },
+    {
+      "key": "showCursor",
+      "label": "Cursor ring",
+      "kind": "boolean",
+      "default": false,
+      "group": "Appearance"
+    },
+    {
+      "key": "cursorColor",
+      "label": "Ring colour",
+      "kind": "color",
+      "default": "#ffffff",
+      "group": "Appearance"
+    },
+    {
+      "key": "motion",
+      "label": "Interaction",
+      "kind": "boolean",
+      "default": true,
+      "group": "Appearance"
+    },
+    {
+      "key": "background",
+      "label": "Background",
+      "kind": "color",
+      "default": "transparent",
+      "group": "Appearance"
+    },
+    {
+      "key": "borderRadius",
+      "label": "Corner radius",
+      "kind": "number",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "group": "Appearance"
+    },
+    {
+      "key": "fade",
+      "label": "Bottom fade",
+      "kind": "number",
+      "min": 0,
+      "max": 0.7,
+      "step": 0.01,
+      "default": 0,
+      "group": "Appearance"
+    },
+    {
+      "key": "aspectRatio",
+      "label": "Aspect ratio",
+      "kind": "number",
+      "min": 0.3,
+      "max": 3,
+      "step": 0.01,
+      "default": 0.8,
+      "group": "Appearance"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI",
+        "license": "MIT"
+      }
+    },
+    {
+      "path": "assets/ronin.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen generated ronin artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/eclipse.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen generated eclipse artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/sentinel.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen generated sentinel artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Static readable frame; no continuous animation.",
+    "pauseOffscreen": true
+  }
+}

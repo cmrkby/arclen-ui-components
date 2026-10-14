@@ -1,0 +1,128 @@
+{
+  "id": "editorial-faq",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Editorial FAQ",
+  "category": "Accordions",
+  "description": "An accessible, responsive FAQ with original interruptible motion.",
+  "keywords": [
+    "faq",
+    "accordion",
+    "questions"
+  ],
+  "settings": [
+    {
+      "key": "titles",
+      "kind": "string-list",
+      "label": "Questions",
+      "group": "Content",
+      "default": [
+        "Can I use this with React or plain HTML?",
+        "How much can I customize?",
+        "Do I need an animation library?",
+        "Does it work with a keyboard?",
+        "Can I use longer answers?"
+      ],
+      "minItems": 1,
+      "maxItems": 12,
+      "maxItemLength": 80
+    },
+    {
+      "key": "descriptions",
+      "kind": "string-list",
+      "label": "Answers",
+      "group": "Content",
+      "default": [
+        "The same interaction can live in either format. In React, pass your questions and answers as props. For a plain HTML page, use the standalone markup, styles and small script together.",
+        "Start with your own questions and answers, then adjust the type, spacing, corner radius and colours. The layout should fit your content, whether an answer is one sentence or a few short paragraphs.",
+        "These FAQ previews use browser animation features and a small amount of JavaScript. There are no third-party animation dependencies, font requests or remote assets.",
+        "Yes. Tab moves between question buttons, and Enter or Space opens an answer. Focus stays on the question you chose. People who prefer reduced motion see the answer change without the animated travel.",
+        "Yes. The answer area follows its content rather than a fixed height. Keep each answer focused, put the useful information first, and test your longest answer on a small screen."
+      ],
+      "minItems": 1,
+      "maxItems": 12,
+      "maxItemLength": 500
+    },
+    {
+      "key": "initialOpen",
+      "kind": "number",
+      "label": "Initially open question",
+      "group": "Content",
+      "default": 0,
+      "min": -1,
+      "max": 11,
+      "step": 1
+    },
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "group": "Appearance",
+      "default": "dark",
+      "options": [
+        "dark",
+        "light"
+      ]
+    },
+    {
+      "key": "maxWidth",
+      "kind": "number",
+      "label": "Maximum width (0 uses style default)",
+      "group": "Layout",
+      "default": 0,
+      "min": 0,
+      "max": 1440,
+      "step": 8,
+      "description": "0 keeps the style default. Positive widths below 240px resolve to 240px; custom widths still shrink to fit smaller containers."
+    },
+    {
+      "key": "motionScale",
+      "kind": "number",
+      "label": "Motion duration",
+      "group": "Motion",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.1
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Editorial FAQ rendering created for Arclen UI."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settle state immediately; preserve readable content and keyboard controls.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Default",
+      "settings": {}
+    },
+    {
+      "name": "Light",
+      "settings": {
+        "theme": "light"
+      }
+    },
+    {
+      "name": "All closed",
+      "settings": {
+        "initialOpen": -1
+      }
+    }
+  ]
+}

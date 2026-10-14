@@ -1,0 +1,23 @@
+.efq{--efq-fg:#f1f0ed;--efq-muted:#99999f;--efq-line:#303034;box-sizing:border-box;width:100%;max-width:var(--efq-width,1000px);margin-inline:auto;color:var(--efq-fg);font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:normal;container-type:inline-size}
+.efq[data-theme="light"]{--efq-fg:#202020;--efq-muted:#6b6965;--efq-line:#dedbd6}
+.efq *{box-sizing:border-box}
+.efq-row{border-top:1px solid var(--efq-line)}
+.efq-row:last-child{border-bottom:1px solid var(--efq-line)}
+.efq-heading{margin:0;font:inherit}
+.efq-question{width:100%;min-height:76px;margin:0;padding:23px 0;border:0;border-radius:0;display:flex;align-items:center;gap:18px;background:transparent;color:var(--efq-muted);font:400 18px/1.4 Arial,Helvetica,sans-serif;letter-spacing:-.025em;text-align:left;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.efq-question:disabled{cursor:default;opacity:1}
+.efq-row[data-open="true"] .efq-question{color:var(--efq-fg)}
+.efq-question:focus-visible{outline:2px solid var(--efq-fg);outline-offset:5px}
+.efq-index{min-width:21px;flex-shrink:0;margin-top:7px;font-size:11px;line-height:1;letter-spacing:0;color:var(--efq-muted)}
+.efq-label{flex:1;min-width:0;overflow-wrap:anywhere}
+.efq-mark{width:18px;height:18px;flex:0 0 18px;margin-left:8px;position:relative}
+.efq-mark::before,.efq-mark::after{content:"";position:absolute;top:8px;left:2px;width:14px;height:1px;background:currentColor}
+.efq-mark::after{transform:rotate(90deg);transition:transform calc(330ms * var(--efq-scale,1)) cubic-bezier(.24,.82,.24,1),opacity calc(330ms * var(--efq-scale,1)) cubic-bezier(.24,.82,.24,1)}
+.efq-row[data-open="true"] .efq-mark::after{transform:rotate(0deg);opacity:0}
+.efq-answer{overflow:hidden}
+.efq-answer[hidden]{display:none}
+.efq-body{max-width:660px;padding:0 38px 26px 39px;color:var(--efq-muted);font:400 15px/1.75 Arial,Helvetica,sans-serif;overflow-wrap:anywhere}
+.efq-body p{margin:0}
+.efq[data-quiet="true"] .efq-mark,.efq[data-quiet="true"] .efq-mark::after{transition:none}
+@container (max-width:480px){.efq-question{font-size:17px;gap:12px}.efq-body{padding-left:33px;padding-right:22px}}
+@media (prefers-reduced-motion:reduce){.efq-mark,.efq-mark::after{transition:none}}

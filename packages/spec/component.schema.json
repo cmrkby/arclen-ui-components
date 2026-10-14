@@ -1,0 +1,420 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://arclenui.com/spec/component.schema.json",
+  "title": "Arclen UI component",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "tier",
+    "name",
+    "category",
+    "description",
+    "keywords",
+    "settings",
+    "targets",
+    "dependencies",
+    "assets",
+    "poster",
+    "motion",
+    "previews"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?![\\s\\S])"
+    },
+    "tier": {
+      "enum": [
+        "free",
+        "pro"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "settings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "kind",
+          "label",
+          "default"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-zA-Z][a-zA-Z0-9_.]*$"
+          },
+          "kind": {
+            "enum": [
+              "select",
+              "text",
+              "string-list",
+              "number",
+              "boolean",
+              "color",
+              "image"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default": {},
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "step": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "options": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "minLength": 1
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "label",
+                    "value"
+                  ],
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "value": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "maxLength": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "maxItems": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "maxItemLength": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "text",
+                    "color",
+                    "image",
+                    "select"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "number"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "boolean"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "string-list"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "select"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "options"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "color"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "pattern": "^(?:transparent|#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?)$"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "react",
+          "html",
+          "vanilla"
+        ]
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?![\\s\\S])"
+      }
+    },
+    "remoteScripts": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^https://(?:(?:cdn\\.jsdelivr\\.net/npm/|unpkg\\.com/)(?:@[^/]+/)?[^/@]+@\\d+\\.\\d+\\.\\d+/|cdnjs\\.cloudflare\\.com/ajax/libs/[^/]+/\\d+\\.\\d+\\.\\d+/).+$"
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "rights"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"
+          },
+          "rights": {
+            "type": "object",
+            "required": [
+              "kind",
+              "attribution"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "kind": {
+                "enum": [
+                  "original",
+                  "licensed"
+                ]
+              },
+              "license": {
+                "type": "string",
+                "minLength": 1
+              },
+              "attribution": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "licensed"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "license"
+                  ]
+                }
+              }
+            ]
+          },
+          "contentType": {
+            "type": "string",
+            "minLength": 1
+          },
+          "gallery": {
+            "type": "boolean",
+            "description": "List this image in Arclen Gallery and composer add menu on ingest."
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "gallery"
+              ],
+              "properties": {
+                "gallery": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "path": {
+                  "pattern": "\\.(?:png|jpe?g|webp|gif|avif|svg)$"
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "poster": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))[A-Za-z0-9_./-]+$"
+    },
+    "motion": {
+      "type": "object",
+      "required": [
+        "reducedMotion",
+        "pauseOffscreen"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "reducedMotion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pauseOffscreen": {
+          "type": "boolean"
+        }
+      }
+    },
+    "previews": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "settings"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "settings": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

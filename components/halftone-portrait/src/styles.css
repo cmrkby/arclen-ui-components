@@ -1,0 +1,13 @@
+/* Component-only styles. No body, heading, button, font or website layout rules. */
+.arclen-halftone{position:relative;width:100%;height:100%;overflow:hidden;isolation:isolate;touch-action:pan-y;outline:none;min-width:0}
+.arclen-halftone:focus-visible{outline:2px solid #fff;outline-offset:-4px;box-shadow:inset 0 0 0 6px #111}
+.arclen-halftone__fallback{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none}
+.arclen-halftone[data-state=ready]>.arclen-halftone__fallback{visibility:hidden}
+.arclen-halftone .portrait-status{position:absolute;inset:auto 12px 12px;padding:8px;background:#141414;color:#fff;font:12px/1.4 system-ui,sans-serif;max-width:calc(100% - 24px)}
+.arclen-halftone[data-rendering=true] .portrait-status{inset:12px auto auto 12px}
+.arclen-halftone .portrait-status[hidden]{display:none}
+.arclen-halftone::after{content:'';position:absolute;left:0;top:0;width:12px;height:12px;border:1px solid var(--halftone-cursor-color,#fff);border-radius:50%;transform:translate(calc(var(--halftone-cursor-x,0px) - 7px),calc(var(--halftone-cursor-y,0px) - 7px));opacity:0;pointer-events:none}
+.arclen-halftone[data-cursor=true]::after{opacity:.65}
+@media(prefers-reduced-motion:reduce){.arclen-halftone::after{display:none}}
+
+.aui-halftone-portrait{width:100%;height:100%;min-height:240px}.arclen-halftone{min-height:240px}

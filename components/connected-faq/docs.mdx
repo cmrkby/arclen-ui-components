@@ -1,0 +1,66 @@
+# Connected FAQ
+
+A single-open FAQ with three appearances: Connected Cards, Soft Bridge and Floating Capsules. Connected Cards is the default, with a thin left connector and a steady card colour. Soft Bridge groups closed rows and morphs its leading circles into rounded squares. Floating Capsules separates pill-shaped rows as they open.
+
+## Use
+
+Pass equally sized `titles` and `descriptions` arrays. Each array accepts one to twelve items. Questions allow 80 characters and answers allow 500. Content is plain text; line breaks in an answer are preserved. Invalid paired lists fall back to the example content. Use `initialOpen={-1}` to start with every answer closed.
+
+```tsx
+import { ConnectedFAQ } from './components/connected-faq';
+
+export default function Example() {
+  return (
+    <ConnectedFAQ
+      titles={['Can I customize the questions?', 'Does it support a keyboard?']}
+      descriptions={['Yes. Supply your own question and answer lists.', 'Yes. Use Tab, Enter or Space.']}
+      appearance="connected"
+      theme="light"
+    />
+  );
+}
+```
+
+## Appearance and layout
+
+Choose `connected`, `bridge` or `capsules`. A `maxWidth` of zero uses the appearance's natural cap: 384px for Connected/Bridge, 1000px for Capsules. A positive value sets another cap. The component fits its receiving container; Capsules uses compact spacing when that container is at most 480px wide. The heading and description seen on the preview page are separate page content.
+
+## Accessibility and motion
+
+Questions are native buttons. Tab reaches each question, Enter/Space toggles it, and Arrow Up/Down, Home and End move focus. Focus stays on the chosen question. Closed answers are hidden and inert. Reduced motion and `motionScale={0}` change state immediately.
+
+The static render exposes every answer when JavaScript is unavailable. Without the animation API, controls still work and state changes immediately. Pausing or moving offscreen settles active transitions to the current selected state; resuming enables motion for subsequent interaction. No animation library, remote font or external artwork is needed.
+
+## Vanilla lifecycle
+
+The core exports `defaults`, `resolveSettings`, `render` and `mount`. The mounted instance provides `update`, `pause`, `resume` and `destroy`. Updating existing rows preserves their DOM nodes and focus. Destruction removes observers and listeners and restores readable static answers. Each instance owns its IDs and state.
+
+
+### Tweaks and configured delivery
+
+Questions and answers are paired, with 1–12 items, up to 80 characters per question and 500 per answer. The tweaks panel holds invalid or mismatched drafts and shows an error; preview and downloads keep the last valid pair of lists. Reset also clears drafts. Direct configured downloads reject invalid paired content.
+
+Maximum width `0` preserves the style default. Turn off **Use style default width** for a custom 240–1440px cap. Positive values below 240 passed directly to the component resolve to 240; the component still shrinks inside a narrower container. The initially open question uses a zero-based index, with `-1` for all closed.
+
+The panel exposes content, initial selection, theme, maximum width and motion duration, plus Connected, Bridge and Capsules appearances. Typography, spacing and radius remain direct CSS customization. Preview headings, viewport and playback controls are outside the portable settings. Configured React and HTML use the same accepted values.
+
+### Complete vanilla example
+
+After installing the package, use this in a browser module or bundler entry. Remove the created host after `destroy()` when your page no longer needs it.
+
+```ts
+import { mount, render, resolveSettings } from './components/connected-faq/src/core';
+import './components/connected-faq/src/styles.css';
+
+const settings = resolveSettings({
+  titles: ['Can I use my own content?'],
+  descriptions: ['Yes. Keep the question and answer lists paired.'],
+  theme: 'light',
+  initialOpen: 0,
+});
+const host = document.createElement('div');
+document.body.append(host);
+host.innerHTML = render(settings);
+const faq = mount(host, settings);
+// On page teardown: faq.destroy(); host.remove();
+```

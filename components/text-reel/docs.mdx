@@ -1,0 +1,33 @@
+# Text Reel
+
+An ordered phrase reel with masked type. Original mode uses a 1500 ms hold, 1200 ms travel and a bounded spring. Readable mode holds for 2600 ms and travels for 650 ms. On-demand mode advances by keyboard or pointer activation.
+
+## React
+
+Import the named component from the installed component directory. The entry includes its CSS. Give image and background components a sized container; the wrapper accepts `style` and `className`.
+
+```tsx
+import { TextReel } from "./components/text-reel";
+
+<TextReel mode="on-demand" leading="We build" words={["AI agents", "web apps", "workflows"]} />
+```
+
+Use regular props for every setting in the generated props table. `paused` suspends motion without discarding settings. Unmount releases observers, event listeners and animation resources.
+
+## HTML and vanilla
+
+Copy the complete HTML bundle, including its assets, to your static host. Use the supplied `component.html` markup with `component.css` and `component.js`. Relative bundle URLs work under a subpath. The bundle initializes each instance independently from its serialized settings.
+
+For a custom integration, import `render`, `mount` and `resolveSettings` from `src/core`. `render(settings)` is safe during server rendering. Pass an outer host element to `mount(host, settings)`, then use `update(settings)`, `pause()`, `resume()` and `destroy()` on the returned controller. Always destroy a controller before removing its host.
+
+## Accessibility and fallback
+
+The static leading phrase and first word render on the server. Reduced motion stops autoplay; on-demand activation changes the word without animated travel. The button has a current-phrase label and visible focus. Only on-demand changes use a polite announcement. Empty or invalid word lists return to defaults; a single word stays static.
+
+## Assets and rights
+
+See `component.json` for the complete asset list and `assets/NOTICE.md` for provenance. All source is standalone. No Arclen application runtime, authentication, database code, commercial fonts or licensed icon packs are required.
+
+## Performance
+
+The component has no npm runtime dependencies. The release gate records the compressed bundle size, startup and interaction timing. Reduced motion and offscreen suspension take priority over continuous effects.

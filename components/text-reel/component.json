@@ -1,0 +1,150 @@
+{
+  "id": "text-reel",
+  "version": "2.0.2",
+  "tier": "free",
+  "name": "Text Reel",
+  "category": "Typography",
+  "description": "A masked phrase reel with original, readable and on-demand behavior presets.",
+  "keywords": [
+    "text",
+    "typography",
+    "reel",
+    "kinetic"
+  ],
+  "previews": [
+    {
+      "name": "Original",
+      "settings": {
+        "mode": "original"
+      }
+    },
+    {
+      "name": "Readable",
+      "settings": {
+        "mode": "readable"
+      }
+    },
+    {
+      "name": "On demand",
+      "settings": {
+        "mode": "on-demand"
+      }
+    }
+  ],
+  "settings": [
+    {
+      "kind": "select",
+      "key": "mode",
+      "label": "Behavior",
+      "options": [
+        {
+          "value": "original",
+          "label": "Original"
+        },
+        {
+          "value": "readable",
+          "label": "Readable"
+        },
+        {
+          "value": "on-demand",
+          "label": "On demand"
+        }
+      ],
+      "default": "original",
+      "group": "Text"
+    },
+    {
+      "kind": "text",
+      "key": "leading",
+      "label": "Leading copy",
+      "maxLength": 80,
+      "default": "We build",
+      "group": "Text"
+    },
+    {
+      "kind": "string-list",
+      "key": "words",
+      "label": "Rotating words",
+      "minItems": 1,
+      "maxItems": 24,
+      "maxItemLength": 80,
+      "default": [
+        "AI agents",
+        "web apps",
+        "copilots",
+        "workflows",
+        "APIs"
+      ],
+      "group": "Text"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI",
+        "license": "MIT"
+      }
+    },
+    {
+      "path": "assets/gyByhwUxId8gMEwRGFWNOITddY4.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/gyByhwUxId8gMEwYGFWNOITddY4.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/gyByhwUxId8gMEwTGFWNOITddY4.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/gyByhwUxId8gMEwSGFWNOITddY4.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/gyByhwUxId8gMEwcGFWNOITd.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors"
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Static readable frame; no continuous animation.",
+    "pauseOffscreen": true
+  }
+}

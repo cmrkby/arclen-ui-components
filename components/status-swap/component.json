@@ -1,0 +1,317 @@
+{
+  "id": "status-swap",
+  "version": "1.1.0",
+  "tier": "free",
+  "name": "Status Swap",
+  "category": "Micro interactions",
+  "description": "An accessible local status button that becomes a green circle with a tick; optional rolling label appearance.",
+  "keywords": [
+    "button",
+    "status",
+    "toggle",
+    "micro interaction"
+  ],
+  "settings": [
+    {
+      "key": "appearance",
+      "kind": "select",
+      "label": "Appearance",
+      "default": "circle",
+      "options": [
+        {
+          "label": "Circle",
+          "value": "circle"
+        },
+        {
+          "label": "Roll",
+          "value": "roll"
+        }
+      ],
+      "group": "Appearance"
+    },
+    {
+      "key": "idleLabel",
+      "kind": "text",
+      "label": "Idle label",
+      "default": "Save",
+      "maxLength": 40,
+      "group": "Content"
+    },
+    {
+      "key": "activeLabel",
+      "kind": "text",
+      "label": "Active label",
+      "default": "Saved",
+      "maxLength": 40,
+      "group": "Content",
+      "description": "Accessible saved name in Circle; visible saved label in Roll."
+    },
+    {
+      "key": "initialSaved",
+      "kind": "boolean",
+      "label": "Initially active",
+      "default": false,
+      "group": "State"
+    },
+    {
+      "key": "disabled",
+      "kind": "boolean",
+      "label": "Disabled",
+      "default": false,
+      "group": "State"
+    },
+    {
+      "key": "motionScale",
+      "kind": "number",
+      "label": "Motion duration",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.1,
+      "group": "Motion"
+    },
+    {
+      "key": "surface",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#252525",
+      "group": "Colors"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text",
+      "default": "#f4f4f4",
+      "group": "Colors"
+    },
+    {
+      "key": "fontSize",
+      "kind": "number",
+      "label": "Font size",
+      "default": 15,
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "group": "Typography"
+    },
+    {
+      "key": "fontWeight",
+      "kind": "number",
+      "label": "Font weight",
+      "default": 500,
+      "min": 400,
+      "max": 700,
+      "step": 100,
+      "group": "Typography"
+    },
+    {
+      "key": "paddingX",
+      "kind": "number",
+      "label": "Horizontal padding",
+      "default": 16,
+      "min": 8,
+      "max": 40,
+      "step": 1,
+      "group": "Layout"
+    },
+    {
+      "key": "paddingY",
+      "kind": "number",
+      "label": "Vertical padding",
+      "default": 15,
+      "min": 6,
+      "max": 24,
+      "step": 1,
+      "group": "Layout"
+    },
+    {
+      "key": "cornerStyle",
+      "kind": "select",
+      "label": "Corners",
+      "default": "pill",
+      "options": [
+        {
+          "label": "Pill",
+          "value": "pill"
+        },
+        {
+          "label": "Rounded",
+          "value": "rounded"
+        },
+        {
+          "label": "Square",
+          "value": "square"
+        }
+      ],
+      "group": "Layout",
+      "description": "Idle corners; Circle always ends round."
+    },
+    {
+      "key": "widthMode",
+      "kind": "select",
+      "label": "Width",
+      "default": "fit",
+      "options": [
+        {
+          "label": "Fit content",
+          "value": "fit"
+        },
+        {
+          "label": "Fill container",
+          "value": "full"
+        }
+      ],
+      "group": "Layout"
+    },
+    {
+      "key": "borderWidth",
+      "kind": "number",
+      "label": "Border width",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "group": "Border"
+    },
+    {
+      "key": "borderColor",
+      "kind": "color",
+      "label": "Border colour",
+      "default": "#ffffff",
+      "group": "Border"
+    },
+    {
+      "key": "borderOpacity",
+      "kind": "number",
+      "label": "Border opacity",
+      "default": 0.05,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "group": "Border"
+    },
+    {
+      "key": "travel",
+      "kind": "number",
+      "label": "Label travel",
+      "default": 18,
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "group": "Motion"
+    },
+    {
+      "key": "blur",
+      "kind": "number",
+      "label": "Label blur",
+      "default": 3,
+      "min": 0,
+      "max": 6,
+      "step": 0.5,
+      "group": "Motion"
+    },
+    {
+      "key": "pressDepth",
+      "kind": "number",
+      "label": "Recovery depth",
+      "default": 0.028,
+      "min": 0,
+      "max": 0.08,
+      "step": 0.002,
+      "group": "Motion",
+      "description": "Circle surface recovery and swell; Roll recovery scale."
+    },
+    {
+      "key": "savedSurface",
+      "kind": "color",
+      "label": "Circle saved surface",
+      "default": "#16864b",
+      "group": "Colors"
+    },
+    {
+      "key": "savedIconColor",
+      "kind": "color",
+      "label": "Circle saved tick",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "rollSavedSurface",
+      "kind": "color",
+      "label": "Roll saved surface",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "rollSavedTextColor",
+      "kind": "color",
+      "label": "Roll saved text",
+      "default": "#111111",
+      "group": "Colors"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Status Swap component rendered by Arclen UI."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/NOTICE.md",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI original implementation and provenance notice."
+      },
+      "contentType": "text/markdown"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settle immediately to the current local status without label travel, blur or scale.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Circle",
+      "settings": {}
+    },
+    {
+      "name": "Saved circle",
+      "settings": {
+        "initialSaved": true
+      }
+    },
+    {
+      "name": "Roll",
+      "settings": {
+        "appearance": "roll",
+        "fontSize": 14,
+        "paddingY": 9,
+        "surface": "#1c1c1c",
+        "textColor": "#f2f2f2"
+      }
+    },
+    {
+      "name": "Full width",
+      "settings": {
+        "widthMode": "full"
+      }
+    },
+    {
+      "name": "Light",
+      "settings": {
+        "surface": "#ececec",
+        "textColor": "#151515"
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+# Editorial FAQ
+
+Five numbered questions with fine dividers, a single open answer and interruptible motion. It uses system fonts and no external dependencies.
+
+```tsx
+import { EditorialFAQ } from './components/editorial-faq';
+
+export default function Example() {
+  return (
+    <EditorialFAQ theme="light" initialOpen={0} />
+  );
+}
+```
+
+Pass paired `titles` and `descriptions` arrays with 1–12 entries. Questions accept up to 80 characters and answers up to 500. Text is escaped. Invalid or mismatched lists resolve to the default pairs. Set `initialOpen` to `-1` for all closed; an out-of-range index also resolves to all closed.
+
+The inspector controls content, initial selection, theme, maximum width and motion duration. Direct CSS edits can change typography and spacing. The component has no background fill: use a suitable dark or light parent surface. Preview headlines and other page framing are not part of the component.
+
+The layout responds to its receiving container. A maximum width of zero uses 1000px. At 480px or narrower, question size and answer indentation become compact. Long text wraps without a fixed answer height.
+
+Tab reaches every question. Enter and Space toggle an answer; arrow keys wrap focus, and Home/End focus the first/last question. Closed answers are inert immediately. Reduced motion and a motion duration of zero settle instantly. Before JavaScript, every answer is readable and controls are disabled; mounting enables the controls and applies the selected state. Missing animation APIs use immediate changes.
+
+For vanilla use, import `render` and `mount` from `src/core`. The returned controller supports `update`, `pause`, `resume` and `destroy`. Pause, offscreen and hidden-page changes settle active motion. Destroy removes observers/listeners and restores all-readable static content. Updates preserve matching button nodes and focus. The React component accepts `className`, `style` and `paused` in addition to settings, renders server HTML and shares the same core.
+
+
+### Tweaks and configured delivery
+
+Questions and answers are paired, with 1–12 items, up to 80 characters per question and 500 per answer. The tweaks panel holds invalid or mismatched drafts and shows an error; preview and downloads keep the last valid pair of lists. Reset also clears drafts. Direct configured downloads reject invalid paired content.
+
+Maximum width `0` preserves the style default. Turn off **Use style default width** for a custom 240–1440px cap. Positive values below 240 passed directly to the component resolve to 240; the component still shrinks inside a narrower container. The initially open question uses a zero-based index, with `-1` for all closed.
+
+The panel exposes content, initial selection, theme, maximum width and motion duration. Typography, spacing and radius remain direct CSS customization. Preview headings, viewport and playback controls are outside the portable settings. Configured React and HTML use the same accepted values.
+
+### Complete vanilla example
+
+After installing the package, use this in a browser module or bundler entry. Remove the created host after `destroy()` when your page no longer needs it.
+
+```ts
+import { mount, render, resolveSettings } from './components/editorial-faq/src/core';
+import './components/editorial-faq/src/styles.css';
+
+const settings = resolveSettings({
+  titles: ['Can I use my own content?'],
+  descriptions: ['Yes. Keep the question and answer lists paired.'],
+  theme: 'light',
+  initialOpen: 0,
+});
+const host = document.createElement('div');
+document.body.append(host);
+host.innerHTML = render(settings);
+const faq = mount(host, settings);
+// On page teardown: faq.destroy(); host.remove();
+```

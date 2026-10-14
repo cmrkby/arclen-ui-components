@@ -1,0 +1,419 @@
+{
+  "id": "signal-field",
+  "version": "2.0.1",
+  "tier": "free",
+  "name": "Signal Field",
+  "category": "Backgrounds",
+  "description": "A pointer-responsive WebGL field with editable colour, motion and grain.",
+  "keywords": [
+    "background",
+    "shader",
+    "webgl",
+    "interactive"
+  ],
+  "previews": [
+    {
+      "name": "Original",
+      "settings": {
+        "showText": true
+      }
+    },
+    {
+      "name": "ASCII lens",
+      "settings": {
+        "interaction": "ascii-lens",
+        "showText": true
+      }
+    },
+    {
+      "name": "Orange",
+      "settings": {
+        "baseColor": "#181511",
+        "surfaceColor": "#211c18",
+        "accentColor": "#d57630",
+        "secondaryAccentColor": "#ffb159",
+        "showText": true
+      }
+    }
+  ],
+  "settings": [
+    {
+      "kind": "select",
+      "key": "interaction",
+      "label": "Interaction",
+      "options": [
+        {
+          "value": "classic",
+          "label": "Classic"
+        },
+        {
+          "value": "ascii-lens",
+          "label": "ASCII lens"
+        }
+      ],
+      "default": "classic",
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "asciiSize",
+      "label": "ASCII cell size",
+      "min": 6,
+      "max": 32,
+      "step": 1,
+      "default": 14,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "asciiStrength",
+      "label": "ASCII strength",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 1,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "asciiSoftness",
+      "label": "Lens softness",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.65,
+      "group": "Field"
+    },
+    {
+      "kind": "color",
+      "key": "baseColor",
+      "label": "Base colour",
+      "default": "#f4efe5",
+      "group": "Colours"
+    },
+    {
+      "kind": "color",
+      "key": "surfaceColor",
+      "label": "Surface colour",
+      "default": "#f2eee6",
+      "group": "Colours"
+    },
+    {
+      "kind": "color",
+      "key": "accentColor",
+      "label": "Accent colour",
+      "default": "#7182e8",
+      "group": "Colours"
+    },
+    {
+      "kind": "color",
+      "key": "secondaryAccentColor",
+      "label": "Second accent",
+      "default": "#9A75EA",
+      "group": "Colours"
+    },
+    {
+      "kind": "boolean",
+      "key": "showText",
+      "label": "Show headline",
+      "default": true,
+      "group": "Field"
+    },
+    {
+      "kind": "text",
+      "key": "text",
+      "label": "Headline",
+      "maxLength": 120,
+      "default": "Motion, made visible.",
+      "group": "Field"
+    },
+    {
+      "kind": "boolean",
+      "key": "animate",
+      "label": "Animation",
+      "default": true,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "speed",
+      "label": "Motion speed",
+      "min": 0,
+      "max": 0.8,
+      "step": 0.01,
+      "default": 0.42,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "distortion",
+      "label": "Distortion",
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05,
+      "default": 1.05,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "detail",
+      "label": "Detail",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "contrast",
+      "label": "Contrast",
+      "min": 0.7,
+      "max": 1.6,
+      "step": 0.02,
+      "default": 1,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "accentIntensity",
+      "label": "Accent intensity",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.9,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "accentSpread",
+      "label": "Accent spread",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.54,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "flowAngle",
+      "label": "Flow direction",
+      "min": -3.14,
+      "max": 3.14,
+      "step": 0.02,
+      "default": 0,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "grain",
+      "label": "Grain",
+      "min": 0,
+      "max": 0.06,
+      "step": 0.001,
+      "default": 0.005,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "scale",
+      "label": "Scale",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.01,
+      "default": 0.55,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "pointerStrength",
+      "label": "Pointer response",
+      "min": 0,
+      "max": 1,
+      "step": 0.02,
+      "default": 0.2,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "pointerRadius",
+      "label": "Pointer radius",
+      "min": 0.2,
+      "max": 1,
+      "step": 0.02,
+      "default": 0.24,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "pointerSmoothing",
+      "label": "Cursor smoothing",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.65,
+      "group": "Field"
+    },
+    {
+      "kind": "select",
+      "key": "cursor",
+      "label": "Cursor style",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "crosshair",
+          "label": "Crosshair"
+        },
+        {
+          "value": "hidden",
+          "label": "Hidden"
+        }
+      ],
+      "default": "default",
+      "group": "Field"
+    },
+    {
+      "kind": "boolean",
+      "key": "showGlyphs",
+      "label": "Show glyphs",
+      "default": true,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "glyphDensity",
+      "label": "Glyph density",
+      "min": 0.1,
+      "max": 1,
+      "step": 0.01,
+      "default": 1,
+      "group": "Field"
+    },
+    {
+      "kind": "color",
+      "key": "glyphColor",
+      "label": "Glyph colour",
+      "default": "#545a96",
+      "group": "Colours"
+    },
+    {
+      "kind": "color",
+      "key": "glyphActiveColor",
+      "label": "Active glyph colour",
+      "default": "#6270d2",
+      "group": "Colours"
+    },
+    {
+      "kind": "select",
+      "key": "glyphResponse",
+      "label": "Glyph reaction",
+      "options": [
+        {
+          "value": "repel",
+          "label": "Repel"
+        },
+        {
+          "value": "attract",
+          "label": "Attract"
+        },
+        {
+          "value": "shimmer",
+          "label": "Shimmer"
+        }
+      ],
+      "default": "attract",
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "glyphOpacity",
+      "label": "Glyph opacity",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.22,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "glyphSize",
+      "label": "Glyph size",
+      "min": 4,
+      "max": 32,
+      "step": 1,
+      "default": 22,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "glyphStrength",
+      "label": "Glyph strength",
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.25,
+      "group": "Field"
+    },
+    {
+      "kind": "number",
+      "key": "glyphRadius",
+      "label": "Glyph radius",
+      "min": 0.05,
+      "max": 1,
+      "step": 0.01,
+      "default": 0.24,
+      "group": "Field"
+    },
+    {
+      "key": "frameRate",
+      "label": "frameRate",
+      "kind": "number",
+      "min": 1,
+      "max": 60,
+      "step": 1,
+      "default": 60,
+      "group": "Field"
+    },
+    {
+      "key": "resolutionScale",
+      "label": "resolutionScale",
+      "kind": "number",
+      "min": 0.25,
+      "max": 1,
+      "step": 0.05,
+      "default": 0.85,
+      "group": "Field"
+    },
+    {
+      "key": "glyphs",
+      "label": "glyphs",
+      "kind": "text",
+      "default": " .:+*oO#",
+      "group": "Field"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI",
+        "license": "MIT"
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Static readable frame; no continuous animation.",
+    "pauseOffscreen": true
+  }
+}

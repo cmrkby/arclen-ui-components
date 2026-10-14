@@ -1,0 +1,39 @@
+# Cascade Menu
+
+Cascade Menu is a radial navigation menu with eight fixed positions. It keeps the sculpted wheel and moving light. Everyday reveal is the default: the first opening uses the longer reveal, then reopening is quicker. Cascade, Quick and Instant item reveals are available in the controls. The Cascade option keeps the `original` value in code for compatibility.
+
+Theme defaults to System, which follows the host page's CSS `color-scheme` and its light/dark preference. Set `theme="light"` or `theme="dark"` to override it. In the Arclen UI preview, System follows the site's theme switch.
+
+Light palette and Dark palette each have editable colours for the wheel, center button, idle and active icons, center glyph, moving light, brand mark, caption, focus outline and ring edge. Edit the palette for the theme you are viewing; System switches between both palettes with the host. React props and the HTML bundle carry both palettes. The brand colour applies to the included Arclen mark; a replacement `logo-src` image keeps its own colours.
+
+## Install and use
+
+Choose React or HTML in the code panel and copy the complete source with your current settings. For React, install into a client-capable project and import `CascadeMenu` or `Component` from `components/cascade-menu`. The stylesheet is included by the wrapper.
+
+```tsx
+import { CascadeMenu } from '@/components/cascade-menu';
+
+export default function Navigation() {
+  return <CascadeMenu
+    itemLabels={['Home', 'Work', 'About', 'Journal', 'Community', 'Email', 'Next', 'Contact']}
+    itemUrls={['/', '/work', '/about', '/journal', '/community', 'mailto:hello@example.com', '/next', '/contact']}
+    onSelect={(item) => console.log(item.label)}
+  />;
+}
+```
+
+In a plain HTML page, copy the entire HTML bundle. Keep its CSS and JavaScript beside the markup when using the separate files. Cascade uses native browser APIs and has no runtime dependency beyond React in the optional React wrapper.
+
+## Content and behavior
+
+The wheel always has eight actions; `itemLabels` and `itemUrls` must each contain eight entries. Blank URLs emit the `radial-select` event without navigation. Supported URLs start with `http:`, `https:`, `mailto:`, `tel:`, `/`, `./`, `../` or `#`. Unsafe URL schemes are rejected. The default preview uses blank URLs so trying it does not leave the page.
+
+`initialOpen` is a reset input. Opening and closing the menu locally does not change the setting, and reapplying an unchanged setting preserves that local state. Changing `initialOpen` requests the new state. `onOpenChange` reports user or controlled transitions in React. `activeIndex` selects the illuminated action; `currentIndex` independently adds a current-page dot, and `-1` hides it. `closeOnSelect` and `outsideClose` are optional.
+
+The center button opens and closes the menu. Tab reaches its actions; arrows move around the wheel; Home and End jump to its first and last actions. Escape closes it and returns focus to the center. Action targets have fixed geometry; provide at least 300px of width for the open wheel. On narrower placements, use the closed trigger or another navigation layout. The wrapper reserves 380px so captions are not clipped.
+
+## Motion and fallback
+
+The menu stops active animations and settles immediately when reduced motion is requested or the preview is paused. The Arclen UI shell pauses offscreen and hidden previews. The no-JavaScript HTML fallback exposes action labels and configured links. The native menu cleans up animation frames, reveal animations, timers and document listeners when removed. The source can be mounted more than once without sharing state.
+
+The included logo is an owner-supplied original Arclen asset. The component includes no remote images, fonts or scripts. See `assets/NOTICE.md` for provenance. Check readability if you customize the surrounding surface or link labels.
