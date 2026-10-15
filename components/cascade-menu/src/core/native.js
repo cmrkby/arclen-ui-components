@@ -105,10 +105,14 @@ class RadialMenu extends HTMLElement {
     this._on(this._center,'click',event=>this.setOpen(!this._open,{instant:event.detail===0}));
     this._links.forEach((link,i)=>{
       this._on(link,'pointerenter',event=>{if(this._open&&event.pointerType!=='touch'&&matchMedia('(hover:hover) and (pointer:fine)').matches){this.select(i);this._showCaption(i);}});
-      this._on(link,'pointerleave',()=>{if(!link.matches(':focus-visible'))this._hideCaption();});
+      this._on(link,'pointerleave',event=>{if(event.pointerType!=='touch'&&!link.matches(':focus-visible'))this._hideCaption();});
       this._on(link,'focus',()=>{if(this._open){this.select(i,{instant:link.matches(':focus-visible')});this._showCaption(i,true);}});
       this._on(link,'blur',()=>this._hideCaption());
       this._on(link,'click',event=>{
+        // Touch has no hover state, and mobile browsers do not reliably focus links on tap.
+        // Make every activation update the light and label before emitting the action.
+        this.select(i,{instant:event.detail===0});
+        this._showCaption(i,true);
         const destination=this._destinations?.[i];
         const accepted=this.dispatchEvent(new CustomEvent('radial-select',{detail:{index:i,label:destination?.label||items[i].label,href:destination?.href||'',newTab:destination?.newTab||false},bubbles:true,composed:true,cancelable:true}));
         if(!destination?.href||!accepted)event.preventDefault();
