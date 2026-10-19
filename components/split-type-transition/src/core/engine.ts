@@ -1,5 +1,5 @@
 import {renderHeroImage} from './hero-image';
-import {titleDefaults,resolveTitle,renderTitle,fitGraphicTitle,graphicSlices,type TitleSettings} from './title';
+import {titleDefaults,resolveTitle,renderTitle,fitGraphicTitle,graphicSlices,titleWidth,titleSettle,type TitleSettings} from './title';
 import wordmarkImage from '../../assets/arclen-wordmark.svg';
 import manifest from './engine-manifest.json';
 import {renderTacticalButton,attachTactical,type TacticalSettings} from './scan';
@@ -45,7 +45,7 @@ export function createPageTransition(host:HTMLElement,input:unknown={}):PageTran
  const wait=(ms:number,signal:AbortSignal)=>new Promise<void>(resolve=>{if(signal.aborted||!ms){resolve();return;}const done=()=>{clearTimeout(timer);signal.removeEventListener('abort',done);resolve();};const timer=setTimeout(done,ms);signal.addEventListener('abort',done,{once:true});});
  const animate=async(el:Element,frames:Keyframe[],duration:number,delay=0,easing=curve())=>{if(!canMove()||active?.signal.aborted)return;const a=el.animate(frames,{duration,delay,easing,fill:'both'});animations.add(a);await a.finished.catch(()=>{});};
  function curve(){return s.easing==='split'?'cubic-bezier(.76,0,.24,1)':s.easing==='linear'?'linear':s.easing==='expressive'?'cubic-bezier(.19,1,.22,1)':'cubic-bezier(.22,1,.36,1)';}
- function fitTitle(){const title=host.querySelector<HTMLElement>('.pt-title[data-pt-title]');if(!title||s.preset!=='split-type')return;const hostRect=host.getBoundingClientRect(),width=hostRect.width,margin=width<480?16:width<1200?24:40;if(fitGraphicTitle(title,width,hostRect.height))return;title.style.fontSize='198px';const natural=title.getBoundingClientRect().width;if(natural>0)title.style.fontSize=`${198*(width<1200?width-margin*2:Math.min(680,width*.4722))/natural}px`;}
+ function fitTitle(){const title=host.querySelector<HTMLElement>('.pt-title[data-pt-title]');if(!title||s.preset!=='split-type')return;const hostRect=host.getBoundingClientRect(),width=hostRect.width;if(fitGraphicTitle(title,width,hostRect.height))return;title.style.fontSize='198px';const natural=title.getBoundingClientRect().width;if(natural>0)title.style.fontSize=`${198*titleWidth(width)/natural}px`;}
  function makeOverlay(){overlay?.remove();overlay=host.ownerDocument.createElement('div');overlay.dataset.ptOverlay='';overlay.setAttribute('aria-hidden','true');overlay.style.setProperty('--pt-label-color',s.overlayText);overlay.style.cssText=`position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:10;color:${s.overlayText};`;overlay.style.setProperty('--pt-label-color',s.overlayText);host.append(overlay);return overlay;}
  function cells(){const root=makeOverlay(),rect=host.getBoundingClientRect();let cols=s.preset==='three-panels'?3:s.slatCount,rows=1;
  if(s.preset==='slats'&&s.responsiveSlats&&rect.width<1200)cols=6;
@@ -94,7 +94,9 @@ export function createPageTransition(host:HTMLElement,input:unknown={}):PageTran
  const settleAt=s.titleDelay+s.hold,target=content();
  // Match the receiving title while the cover clears, before the temporary slices leave.
  if(destination){const finalColor=view!.getComputedStyle(destination).color;for(const slice of word.querySelectorAll('.pt-glyph > span'))jobs.push(animate(slice,[{color:s.overlayText},{color:finalColor}],400,settleAt));}
- if(!compact)jobs.push(animate(word,[{transform:`translateY(${s.titleTravel}px) scale(${s.titleScale})`},{transform:'translateY(0) scale(1)'}],s.settleDuration,settleAt));
+ const wordBox=word.getBoundingClientRect(),motion=titleSettle(rect,{x:wordBox.left-rect.left,y:wordBox.top-rect.top,width:wordBox.width,height:wordBox.height},s.titleScale,s.titleTravel);
+ if(compact)word.style.transformOrigin='center center';
+ jobs.push(animate(word,[{transform:`translateY(${motion.travel}px) scale(${motion.scale})`},{transform:'translateY(0) scale(1)'}],s.settleDuration,settleAt));
  jobs.push(animate(root,[{backgroundColor:s.overlayColor},{backgroundColor:'transparent'}],400,settleAt));
  if(target){jobs.push(animate(target,[{transform:`scale(${s.scale})`},{transform:'scale(1)'}],s.duration,settleAt));jobs.push(animate(target,[{opacity:0},{opacity:1}],400,settleAt));}
  await Promise.all(jobs);return;

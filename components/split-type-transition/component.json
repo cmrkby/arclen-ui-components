@@ -1,6 +1,6 @@
 {
   "id": "split-type-transition",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tier": "free",
   "name": "Split Type Transition",
   "category": "Transitions",
@@ -217,7 +217,7 @@
       "min": 100,
       "max": 2000,
       "step": 10,
-      "description": "Desktop title settling duration in milliseconds. Below 1200px the title assembles in place."
+      "description": "Title settling duration in milliseconds, at every viewport size including cards."
     },
     {
       "key": "scale",
@@ -254,7 +254,7 @@
           "value": "split"
         }
       ],
-      "description": "Curve for letter-band assembly, desktop title settling and content scaling. The 400ms background and content fades use this curve too."
+      "description": "Curve for letter-band assembly, title settling and content scaling. The 400ms background and content fades use this curve too."
     },
     {
       "key": "titleDelay",
@@ -265,7 +265,7 @@
       "max": 3000,
       "step": 10,
       "group": "Motion",
-      "description": "Time in milliseconds before the background clears and desktop title settles. Hold adds to this offset."
+      "description": "Time in milliseconds before the background clears and title settles. Hold adds to this offset."
     },
     {
       "key": "titleTravel",
@@ -276,7 +276,7 @@
       "max": 400,
       "step": 1,
       "group": "Motion",
-      "description": "Desktop title starting offset in pixels. Below 1200px the title assembles in place."
+      "description": "Title starting offset in pixels. In frames below 1200px, travel is bounded to keep the title inside the frame."
     },
     {
       "key": "titleScale",
@@ -287,7 +287,7 @@
       "max": 3,
       "step": 0.05,
       "group": "Motion",
-      "description": "Desktop title starting scale. Below 1200px the title assembles in place."
+      "description": "Title starting scale. Below 1200px this is capped at 1.22 and fitted to the frame. Set 1 to disable title scaling."
     }
   ],
   "targets": [
