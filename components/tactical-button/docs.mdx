@@ -1,0 +1,84 @@
+# Tactical Button
+
+One free button, three motion styles. **Classic** is the default: scattering text, staggered brackets and a gently receding fill. **Scan** adds an orange sweep across graphite. **Shutter** parts two graphite panels to uncover orange letters. All three use Classic’s scattering text and bracket order.
+
+## Choose a preset
+
+The tweaks panel includes six complete starting points:
+
+- **Classic:** the original graphite treatment and timing.
+- **Scan:** graphite, ivory lettering, orange brackets and a directional sweep.
+- **Shutter:** graphite panels with an orange text reveal.
+- **Compact scan:** smaller spacing, shorter bracket travel and faster text and sweep timing.
+- **Soft shutter:** slower panels, stronger damping and gentler press feedback.
+- **Quiet classic:** no scattering or blur, with restrained bracket travel.
+
+Presets replace the full configuration. The Variant control changes only the motion style and preserves your custom colours and tuning. Reset restores Classic and all manifest defaults. The API retains `variant="original"` for Classic compatibility.
+
+```tsx
+import { TacticalButton } from './components/tactical-button';
+
+<TacticalButton
+  variant="scan"
+  label="Replay reveal"
+  textColor="#eeeae1"
+  backgroundColor="#18191b"
+  cornerColor="#de4912"
+  fontSize={16}
+  paddingX={24}
+  scanDuration={420}
+  scrambleInterval={100}
+  scatterColor="#de4912"
+  onAction={() => replay()}
+/>
+```
+
+```tsx
+<TacticalButton
+  variant="shutter"
+  label="Show project"
+  textColor="#eeeae1"
+  cornerColor="#de4912"
+  revealColor="#ef6b35"
+  shutterDuration={1.5}
+  shutterDamping={38}
+  pressDepth={0.5}
+  onAction={() => showProject()}
+/>
+```
+
+## Shape and colour
+
+Layout controls adjust font size, horizontal and vertical padding, and letter spacing. Compact screens use 87.5% of the font-size setting. The button follows its label, wraps within its container and retains a minimum 44px target. Bracket size and weight affect only the corner marks. Text, fill and bracket colours are independent; Scan also uses the bracket colour for its sweep and accent lettering. Shutter’s Reveal text colour appears as the panels uncover each letter.
+
+## Motion controls
+
+Bracket travel, timing and stagger apply to every style. Travel can be zero. Stagger preserves the Classic corner order: top left, bottom left, bottom right, top right. Turning Scatter text off preserves the full label. Scatter colour sets the active lettering independently from Text color. All masked copies use it while scattering, then restore their ordinary text or Shutter reveal colour. This control is disabled when Scatter text is off. Character interval sets the time per resolved character; the first resolves at 60% of that interval. Every masked text layer receives the same scramble sample.
+
+Classic exposes fill inset, fill blur and label scale. Its bracket timing also sets the fill and label duration. Scan exposes sweep timing and opacity. Shutter timing is a multiplier for its spring: larger values move more slowly. Higher damping softens its settling motion. Press depth controls Scan’s label travel and compression, or Shutter’s fill dimming. Controls for another style are hidden, and Character interval is disabled while Scatter text is off.
+
+## Vanilla and HTML
+
+```ts
+import { mount } from './components/tactical-button/src/core';
+
+const controller = mount(host, { variant: 'scan', label: 'Replay reveal', textColor: '#eeeae1', cornerColor: '#de4912' });
+const button = host.querySelector('[data-tb-trigger]');
+button?.addEventListener('click', handleReplay);
+controller.update({ scanDuration: 600, cornerTravel: 6 });
+controller.pause();
+controller.resume();
+// When removing the component:
+button?.removeEventListener('click', handleReplay);
+controller.destroy();
+```
+
+The configured React install and HTML download include your selected settings. HTML uses the same core and local assets. The generated API reference lists all bounds, defaults and property names.
+
+## Interaction and accessibility
+
+`onAction` receives one native MouseEvent for click, Enter, Space or touch activation. It never navigates or submits a form on its own. The accessible name always remains the complete label; decorative text copies are hidden from assistive technology. Keyboard focus is visible. Hover decoration runs only for hover-capable fine pointers.
+
+Updates, including variant changes, preserve the native button, focus, consumer listeners and any outer transform owned by a parent animation. Pause, hidden-document and offscreen states stop decoration and restore the complete label. Resume waits for fresh pointer entry. Disabled blocks activation. Reduced motion and Animate off keep the readable idle state; functionality remains available.
+
+Server HTML is readable before JavaScript. Missing motion APIs use a static fallback. The included OFL Geist Mono font falls back to system monospace. There are no external runtime dependencies or remote assets.

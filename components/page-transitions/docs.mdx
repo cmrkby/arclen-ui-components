@@ -1,0 +1,70 @@
+# Page Transitions
+
+Five entrances for a receiving content area, with a separate opt-in navigation controller. Staggered slats is the default, including its long-decay timing and responsive strip count. Theme Reveal owns appearance changes; Page Transitions owns content entry and application-requested navigation. Neither requires a router.
+
+## React
+
+```tsx
+import { PageTransitions } from './components/page-transitions/src/react';
+
+<PageTransitions routeKey={pathname}>
+  <main>{children}</main>
+</PageTransitions>
+```
+
+Children stay owned by React. A changed `routeKey` replays the incoming entrance after React commits. It does not delay navigation or wait for assets. For coordinated outgoing cover, application readiness, content commit and incoming reveal, use the controller below. With no children, the component renders the original full-bleed editorial image demo. `paused` cancels motion into usable content; resuming allows the next explicit trigger, without an unexpected replay.
+
+## Framework-neutral navigation
+
+```ts
+import { createPageTransition } from './components/page-transitions/src/core';
+import './components/page-transitions/src/styles.css';
+
+const transition = createPageTransition(container, {
+  ...presetSettings.slats,
+});
+const result = await transition.navigate({
+  ready: signal => fetch('/article.json', { signal }).then(r => r.json()),
+  commit: signal => {
+    if (!signal.aborted) renderAlreadyPreparedContent();
+  },
+  timeout: 5000,
+});
+// result.status: finished, cancelled, timeout or error
+// Later, when this container unmounts:
+transition.destroy();
+```
+
+Put incoming content in a direct child with `data-pt-content` to enable the Split type scale and Center split content settle. The controller appends only its temporary overlay. It does not replace your children, intercept links, change focus, set a theme or make network requests. The application owns readiness and commits. Prepare data during `ready`, and synchronously apply it in `commit`; do not mutate content in an asynchronous continuation after its signal was aborted.
+
+`cover()` and `uncover()` are also available separately. A completed cover has an eight-second safety limit. `navigate` accepts an optional abort signal and a timeout bounded to 100–8000ms. An error, timeout, cancellation, pause, offscreen container or teardown removes the cover. Subsequent triggers supersede earlier work. A readiness timeout preserves the existing content; it does not pretend the next page loaded.
+
+## Entrances and controls
+
+- **Three panels:** three equal shutters start at−1% with102% height,6px corners and1px seam strips. The120×80px centered label mask contains an original wordmark. Label and first shutter share the same easing curve; the label travels112px. Defaults are1470ms travel,1600ms lead-in and60ms stagger, with continuous cubic-bezier(.83,0,.15,1) easing. The image starts120px lower, begins450ms after the first shutter, and settles over850ms. Image rise, duration and start offset are adjustable; set image rise to0 to disable it. Custom media can opt in with `data-pt-image`. This is an entrance movement, not scroll parallax. Shutter colors and corner radius are independent controls.
+- **Split type:** each glyph has four quarter-height main bands and two bleed bands, with alternating horizontal directions by both letter and band. The700ms slices use25ms band and50ms letter stagger. Desktop title settles from213px lower and2× scale at1300ms over1100ms; content scales1.35→1 over1200ms. The assembled title stays in the demo hero. Below1200px the title remains in place while its slices assemble. The title font is fitted to the available title width. For custom children, provide a final title element marked `data-pt-title` to maintain title continuity; without one, the temporary label is removed when your content is revealed.
+- **Center split:** an aesthetic counter and independent200px fill sit above/in a2px centered track. Draw0–300ms, fill225–725ms, stretch725–1075ms, and outward panel travel1031–1731ms overlap deliberately. Fill fades725–975ms. `lineDuration` scales the pre-opening phases together, with1031ms as the baseline. The counter is not resource readiness. Counter color, line timing and secondary8px content rise are adjustable.
+- **Staggered slats:** ten full-height strips translate upward by101%. Below1200px responsive mode uses six downward strips. Independent desktop and compact duration/stagger controls set the long decay:2600ms/60ms and3500ms/90ms respectively. Disable responsive mode to use your chosen count/direction and desktop timings at every width.
+- **Pixel sweep:** a fixed30×22 grid reveals actual image fragments with1px overlap. Each tile fades0→1 with a30ms fade and23ms delay per continuous Euclidean grid-radius unit. Rows and columns are independent controls, capped at900total tiles. Copy moves150px from the left, Replay40px downward after the copy entrance, and credit100px upward. These entrances have independent travel controls and a shared copy duration. With custom children that have no demo image, an opaque-grid fallback clears over the content instead.
+
+`duration` is a single panel/tile traversal, not total sequence duration. Stagger, assembly, lead-in and optional covered hold add to elapsed time. `coverDuration` affects navigation; use the demo's **Next scene** action to inspect it. **Replay reveal** exercises the incoming entrance only. `hold` is an aesthetic dwell, never an inferred loading signal. Pixel stagger is per continuous radial distance, not per tile index.
+
+`presetSettings` exports manifest-authored motion patches. Apply one when switching styles to get that style's intended timings without overwriting custom content or palette. Setting `preset` alone retains your other chosen values. `applicableSettings(preset)` exports the relevant controls; receiving dimensions and content remain common. Palette fields are not included in preset patches; custom colors survive a preset change.
+
+`mount(host, settings)` creates the standalone demo and returns the normal `update`, `pause`, `resume`, `destroy` lifecycle plus `replay`, `cover`, `uncover`, `navigate` and `cancel`. `update` merges validated settings and replays when autoplay is enabled. `createPageTransition` updates settings without replaying. Use `autoplay: false` for a stable thumbnail, then call `replay()` once on hover entry.
+
+## Accessibility and fallback
+
+Server-rendered and no-JavaScript content is visible with no cover. Reduced motion and unavailable Web Animations skip spatial effects. A changed reduced-motion preference settles active work. Replay reveal and Next scene are native keyboard buttons with visible focus; temporary layers are pointer-transparent and hidden from assistive technology. No artificial loading announcements or focus traps are added. The application should announce actual route changes and place focus after navigation as appropriate for its own content.
+
+All motion is bounded and instance-scoped. Pause, cancellation, offscreen entry and document hiding settle to usable content, rather than freezing an opaque cover. Resizing uses percentage cover geometry; a new trigger recalculates tile geometry and responsive slat count. All animations, listeners, observers and safety timers are removed on destroy.
+
+## Demo assets
+
+The demo includes AI-generated editorial artwork and bundled Geist fonts. Font licences are retained in `assets/`. The Arclen wordmark is provided for this demonstration; trademark rights are reserved. Replace it with your own branding in your application.
+
+The Pixel image mosaic begins on `pixelBackdrop` (black by default). Desktop heading, compact heading and mobile copy/credit colors have separate editable tokens. The demo uses ivory headings across sizes, with a separate mobile copy token below600px. Its hero layout adapts to the receiving width independently of the reveal effect. Pixel fragments recalculate their shared full-image geometry when the receiving box resizes, including during an active reveal.
+
+The demo's assembled title refits on initial mount, label/settings updates with autoplay off, and container resize. Resizing during a Split type entrance settles that entrance into its newly fitted title. Resize observers and fallback window listeners are removed on destroy.
+
+The hero uses bundled Geist under the SIL Open Font License (see `assets/OFL-Geist.txt`). The headline and caption remain editable. Text and replay action share a flow layout so spacing follows the content; the portrait crop and headline scale adapt to the receiving width. The Split type loader retains its separately fitted Arial title.

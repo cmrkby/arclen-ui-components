@@ -1,0 +1,541 @@
+{
+  "id": "tactical-button",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Tactical Button",
+  "category": "Buttons",
+  "description": "Three graphite buttons with scattering text and staggered brackets: Classic, Scan and Shutter.",
+  "keywords": [
+    "button",
+    "tactical",
+    "scramble",
+    "interaction",
+    "scan"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Variant",
+      "default": "original",
+      "options": [
+        {
+          "label": "Classic",
+          "value": "original"
+        },
+        {
+          "label": "Scan",
+          "value": "scan"
+        },
+        {
+          "label": "Shutter",
+          "value": "shutter"
+        }
+      ],
+      "group": "Style",
+      "description": "Choose a motion style; use a preset to apply its complete palette and tuning."
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Label",
+      "default": "Button",
+      "maxLength": 40,
+      "group": "Content & state",
+      "description": "Visible label and accessible button name, up to 40 characters."
+    },
+    {
+      "key": "disabled",
+      "kind": "boolean",
+      "label": "Disabled",
+      "default": false,
+      "group": "Content & state",
+      "description": "Blocks activation and cancels decorative motion."
+    },
+    {
+      "key": "animate",
+      "kind": "boolean",
+      "label": "Animate",
+      "default": true,
+      "group": "Content & state",
+      "description": "Enable hover and press effects. Reduced-motion preferences always take priority."
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text color",
+      "default": "#edeef0",
+      "group": "Colours",
+      "description": "Resting letter colour."
+    },
+    {
+      "key": "backgroundColor",
+      "kind": "color",
+      "label": "Background color",
+      "default": "#18191b",
+      "group": "Colours",
+      "description": "Button fill and Shutter panel colour."
+    },
+    {
+      "key": "cornerColor",
+      "kind": "color",
+      "label": "Corner color",
+      "default": "#5a6169",
+      "group": "Colours",
+      "description": "Bracket colour and Scan sweep accent."
+    },
+    {
+      "key": "revealColor",
+      "kind": "color",
+      "label": "Reveal text",
+      "default": "#ef6b35",
+      "description": "Letter colour uncovered by the Shutter panels.",
+      "group": "Colours"
+    },
+    {
+      "key": "fontSize",
+      "kind": "number",
+      "label": "Font size",
+      "default": 16,
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "group": "Layout",
+      "description": "Desktop font size in pixels; compact screens use 87.5% of this size."
+    },
+    {
+      "key": "paddingX",
+      "kind": "number",
+      "label": "Horizontal padding",
+      "default": 24,
+      "min": 8,
+      "max": 48,
+      "step": 1,
+      "group": "Layout",
+      "description": "Space on each side of the label in pixels."
+    },
+    {
+      "key": "paddingY",
+      "kind": "number",
+      "label": "Vertical padding",
+      "default": 12,
+      "min": 4,
+      "max": 24,
+      "step": 1,
+      "group": "Layout",
+      "description": "Space above and below the label. The native target remains at least 44 pixels high."
+    },
+    {
+      "key": "letterSpacing",
+      "kind": "number",
+      "label": "Letter spacing",
+      "default": 0,
+      "min": -0.02,
+      "max": 0.2,
+      "step": 0.01,
+      "group": "Layout",
+      "description": "Tracking in em units; label and decorative copies stay aligned."
+    },
+    {
+      "key": "cornerSize",
+      "kind": "number",
+      "label": "Bracket size",
+      "default": 8,
+      "min": 4,
+      "max": 16,
+      "step": 1,
+      "group": "Brackets",
+      "description": "Length of each corner arm in pixels."
+    },
+    {
+      "key": "cornerWeight",
+      "kind": "number",
+      "label": "Bracket weight",
+      "default": 1,
+      "min": 1,
+      "max": 3,
+      "step": 0.5,
+      "group": "Brackets",
+      "description": "Stroke weight in pixels."
+    },
+    {
+      "key": "cornerTravel",
+      "kind": "number",
+      "label": "Bracket travel",
+      "default": 4,
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "group": "Brackets",
+      "description": "Outward diagonal travel in pixels. Zero keeps the brackets still."
+    },
+    {
+      "key": "cornerDuration",
+      "kind": "number",
+      "label": "Bracket timing",
+      "default": 600,
+      "min": 200,
+      "max": 1200,
+      "step": 20,
+      "group": "Brackets",
+      "description": "Travel duration in milliseconds; stagger is independent."
+    },
+    {
+      "key": "cornerStagger",
+      "kind": "number",
+      "label": "Bracket stagger",
+      "default": 100,
+      "min": 0,
+      "max": 250,
+      "step": 10,
+      "group": "Brackets",
+      "description": "Milliseconds between corners, preserving the Classic corner order."
+    },
+    {
+      "key": "scatterColor",
+      "kind": "color",
+      "label": "Scatter colour",
+      "default": "#edeef0",
+      "group": "Text scatter",
+      "description": "Letter colour while scattering. When the text resolves, its normal or Shutter reveal colour returns."
+    },
+    {
+      "key": "scrambleInterval",
+      "kind": "number",
+      "label": "Character interval",
+      "default": 100,
+      "min": 30,
+      "max": 180,
+      "step": 10,
+      "group": "Text scatter",
+      "description": "Milliseconds per resolved character. The first character resolves at 60% of this interval."
+    },
+    {
+      "key": "classicInset",
+      "kind": "number",
+      "label": "Fill inset",
+      "default": 4,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Classic motion",
+      "description": "How far the Classic fill retreats on hover, in pixels."
+    },
+    {
+      "key": "classicBlur",
+      "kind": "number",
+      "label": "Fill blur",
+      "default": 1,
+      "min": 0,
+      "max": 6,
+      "step": 0.5,
+      "group": "Classic motion",
+      "description": "Classic fill blur on hover, in pixels."
+    },
+    {
+      "key": "labelScale",
+      "kind": "number",
+      "label": "Label scale",
+      "default": 0.95,
+      "min": 0.85,
+      "max": 1,
+      "step": 0.01,
+      "group": "Classic motion",
+      "description": "Classic label scale on hover. One keeps its original size."
+    },
+    {
+      "key": "scanDuration",
+      "kind": "number",
+      "label": "Sweep timing",
+      "default": 420,
+      "min": 180,
+      "max": 1000,
+      "step": 20,
+      "group": "Scan motion",
+      "description": "Duration of the single directional sweep in milliseconds."
+    },
+    {
+      "key": "scanOpacity",
+      "kind": "number",
+      "label": "Sweep opacity",
+      "default": 0.12,
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "group": "Scan motion",
+      "description": "Brightness of the moving orange band. Accent letters remain visible."
+    },
+    {
+      "key": "shutterDuration",
+      "kind": "number",
+      "label": "Shutter timing",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.1,
+      "group": "Shutter motion",
+      "description": "Time multiplier for the panel spring. Higher values move more slowly."
+    },
+    {
+      "key": "shutterDamping",
+      "kind": "number",
+      "label": "Shutter damping",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1,
+      "group": "Shutter motion",
+      "description": "Higher values give a softer, more restrained settle."
+    },
+    {
+      "key": "pressDepth",
+      "kind": "number",
+      "label": "Press depth",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "step": 0.25,
+      "group": "Press feedback",
+      "description": "Scan label travel and fill compression; Shutter fill dimming. Zero removes decorative press feedback."
+    },
+    {
+      "key": "scramble",
+      "kind": "boolean",
+      "label": "Scatter text",
+      "default": true,
+      "group": "Text scatter",
+      "description": "Use Classic\u2019s character scramble on pointer entry. Turning this off keeps the label readable throughout."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/GeistMono-Regular.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-GeistMono.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "text/plain"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Readable static label and idle geometry; no scramble, transform, blur animation or ongoing frames.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Classic",
+      "settings": {
+        "variant": "original",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#edeef0",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#5a6169",
+        "revealColor": "#ef6b35",
+        "fontSize": 16,
+        "paddingX": 24,
+        "paddingY": 12,
+        "letterSpacing": 0,
+        "cornerSize": 8,
+        "cornerWeight": 1,
+        "cornerTravel": 4,
+        "cornerDuration": 600,
+        "cornerStagger": 100,
+        "scrambleInterval": 100,
+        "classicInset": 4,
+        "classicBlur": 1,
+        "labelScale": 0.95,
+        "scanDuration": 420,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1,
+        "shutterDamping": 32,
+        "pressDepth": 1,
+        "scramble": true,
+        "scatterColor": "#edeef0"
+      }
+    },
+    {
+      "name": "Scan",
+      "settings": {
+        "variant": "scan",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#eeeae1",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#de4912",
+        "revealColor": "#ef6b35",
+        "fontSize": 16,
+        "paddingX": 24,
+        "paddingY": 12,
+        "letterSpacing": 0,
+        "cornerSize": 8,
+        "cornerWeight": 1,
+        "cornerTravel": 4,
+        "cornerDuration": 600,
+        "cornerStagger": 100,
+        "scrambleInterval": 100,
+        "classicInset": 4,
+        "classicBlur": 1,
+        "labelScale": 0.95,
+        "scanDuration": 420,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1,
+        "shutterDamping": 32,
+        "pressDepth": 1,
+        "scramble": true,
+        "scatterColor": "#de4912"
+      }
+    },
+    {
+      "name": "Shutter",
+      "settings": {
+        "variant": "shutter",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#eeeae1",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#de4912",
+        "revealColor": "#ef6b35",
+        "fontSize": 16,
+        "paddingX": 24,
+        "paddingY": 12,
+        "letterSpacing": 0,
+        "cornerSize": 8,
+        "cornerWeight": 1,
+        "cornerTravel": 4,
+        "cornerDuration": 600,
+        "cornerStagger": 100,
+        "scrambleInterval": 100,
+        "classicInset": 4,
+        "classicBlur": 1,
+        "labelScale": 0.95,
+        "scanDuration": 420,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1,
+        "shutterDamping": 32,
+        "pressDepth": 1,
+        "scramble": true,
+        "scatterColor": "#ef6b35"
+      }
+    },
+    {
+      "name": "Compact scan",
+      "settings": {
+        "variant": "scan",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#eeeae1",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#de4912",
+        "revealColor": "#ef6b35",
+        "fontSize": 14,
+        "paddingX": 16,
+        "paddingY": 8,
+        "letterSpacing": 0,
+        "cornerSize": 6,
+        "cornerWeight": 1,
+        "cornerTravel": 3,
+        "cornerDuration": 420,
+        "cornerStagger": 60,
+        "scrambleInterval": 60,
+        "classicInset": 4,
+        "classicBlur": 1,
+        "labelScale": 0.95,
+        "scanDuration": 280,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1,
+        "shutterDamping": 32,
+        "pressDepth": 1,
+        "scramble": true,
+        "scatterColor": "#de4912"
+      }
+    },
+    {
+      "name": "Soft shutter",
+      "settings": {
+        "variant": "shutter",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#eeeae1",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#de4912",
+        "revealColor": "#ef6b35",
+        "fontSize": 16,
+        "paddingX": 24,
+        "paddingY": 12,
+        "letterSpacing": 0,
+        "cornerSize": 8,
+        "cornerWeight": 1,
+        "cornerTravel": 3,
+        "cornerDuration": 800,
+        "cornerStagger": 100,
+        "scrambleInterval": 120,
+        "classicInset": 4,
+        "classicBlur": 1,
+        "labelScale": 0.95,
+        "scanDuration": 420,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1.5,
+        "shutterDamping": 38,
+        "pressDepth": 0.5,
+        "scramble": true,
+        "scatterColor": "#ef6b35"
+      }
+    },
+    {
+      "name": "Quiet classic",
+      "settings": {
+        "variant": "original",
+        "label": "Button",
+        "disabled": false,
+        "animate": true,
+        "textColor": "#edeef0",
+        "backgroundColor": "#18191b",
+        "cornerColor": "#5a6169",
+        "revealColor": "#ef6b35",
+        "fontSize": 16,
+        "paddingX": 24,
+        "paddingY": 12,
+        "letterSpacing": 0,
+        "cornerSize": 8,
+        "cornerWeight": 1,
+        "cornerTravel": 2,
+        "cornerDuration": 800,
+        "cornerStagger": 60,
+        "scrambleInterval": 100,
+        "classicInset": 2,
+        "classicBlur": 0,
+        "labelScale": 0.98,
+        "scanDuration": 420,
+        "scanOpacity": 0.12,
+        "shutterDuration": 1,
+        "shutterDamping": 32,
+        "pressDepth": 1,
+        "scramble": false,
+        "scatterColor": "#edeef0"
+      }
+    }
+  ]
+}
