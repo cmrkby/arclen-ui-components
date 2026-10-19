@@ -12,6 +12,11 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Split FAQ | [`components/split-faq`](components/split-faq) |
 | Status Swap | [`components/status-swap`](components/status-swap) |
 | Text Reel | [`components/text-reel`](components/text-reel) |
+| Gooey Switch | [`components/gooey-switch`](components/gooey-switch) |
+| Hold Switch | [`components/hold-switch`](components/hold-switch) |
+| Theme Reveal | [`components/theme-reveal`](components/theme-reveal) |
+| Page Transitions | [`components/page-transitions`](components/page-transitions) |
+| Tactical Button | [`components/tactical-button`](components/tactical-button) |
 
 Open a package's `docs.mdx` for its usage and settings. `src/react/index.tsx` is the React entry point. `src/core/index.ts` provides the framework-neutral renderer and mount lifecycle, and `src/styles.css` supplies its styles. Keep the package's assets with the source when copying it. The component and HTML bundle schemas live in [`packages/spec`](packages/spec).
 

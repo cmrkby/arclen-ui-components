@@ -1,0 +1,88 @@
+# Theme Reveal
+
+Three appearance transitions that can cover a whole page. The application owns its theme; Theme Reveal owns the brief visual transition. The included moon/sun toggle sits alone on a flat receiving canvas. Soft Circle is the default, with a feathered circular reveal from the toggle.
+
+## Motion presets
+
+| Preset | Character | Default timing |
+| --- | --- | --- |
+| Soft circle | Feathered circle from the trigger; reverses when returning to light | 900 ms, Gentle |
+| Dissolve | Opacity fade without spatial movement | 500 ms, Smooth |
+| Curtain | Hard outgoing cover lifts upward, revealing the stationary new appearance | 760 ms, Curtain |
+
+Presets replace only motion settings: `duration`, `easing`, `revealStyle`, `revealOrigin`, `originX`, `originY`, and `edgeSoftness`. They preserve palette, toggle geometry, accessible name, disabled state, and the current logical theme. Soft Circle uses `'circle'`, Dissolve uses `'fade'`, and Curtain uses `'curtain'`. Origin and edge softness controls appear only for Soft Circle; custom coordinates appear when Origin is Custom.
+
+Curtain lifts the outgoing appearance from 0% to −100% using `cubic-bezier(0.45,0,0.15,1)`. The theme callback commits the new appearance behind the cover before it lifts. The same sequence runs in both theme directions, with no loader wait or logo layer.
+
+Theme changes and page entrances have different ownership. This API commits appearance only. It does not navigate, load data, intercept links, or decide when a page is ready. Use a separate page entrance controller for that lifecycle.
+
+## React toggle
+
+```tsx
+import { ThemeReveal } from './components/theme-reveal/src/react';
+
+export default function Example() {
+  return <ThemeReveal toggleWidth={72} toggleHeight={36} duration={900} />;
+}
+```
+
+The wrapper imports its bundled stylesheet. `ThemeReveal` and `Component` are the same export. `className`, `style`, and `paused` are wrapper props. All manifest settings are flat props. The canvas never changes document theme, storage, or body classes. `initialTheme` sets its initial appearance; changing that prop requests a new endpoint. Unrelated React renders preserve the visitor's current toggle state.
+
+## Full-page integration
+
+This complete vanilla example uses any ordinary button and an application-owned data attribute. Load your application theme CSS separately; the engine captures the actual page after the callback commits.
+
+```ts
+import { createThemeReveal } from './components/theme-reveal/src/core';
+
+const button = document.querySelector<HTMLButtonElement>('#appearance')!;
+let desired: 'light' | 'dark' = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+const reveal = createThemeReveal({
+  document,
+  motion: { duration: 760, easing: 'curtain', revealStyle: 'curtain' },
+  commitTheme(theme, { signal }) {
+    if (!signal.aborted) document.documentElement.dataset.theme = theme;
+  },
+});
+const activate = () => {
+  desired = desired === 'light' ? 'dark' : 'light';
+  void reveal.reveal(desired, button).catch(console.error);
+};
+button.addEventListener('click', activate);
+
+// Run this when the application view unmounts.
+function cleanup() {
+  button.removeEventListener('click', activate);
+  reveal.destroy();
+}
+```
+
+`createThemeReveal` is also exported from the React entry. Create it in an effect or event handler, never during server rendering. A React theme-store callback must resolve **after its DOM update**, for example by using the application's synchronous commit mechanism. Returning immediately after an asynchronously scheduled state update captures the wrong page.
+
+`reveal('light' | 'dark', origin?)` accepts an optional trigger element or viewport coordinate argument for Soft Circle. If omitted, the origin is centered. Dissolve and Curtain ignore spatial origins. Curtain always lifts the old page snapshot upward. Dissolve reveals a new dark snapshot or fades the old dark snapshot away when returning to light. The application should call the controller when its requested appearance changes.
+
+The result promise resolves to `{ status, theme }`. Status is `completed`, `superseded`, or `destroyed`. Callback failures reject. Every accepted active request calls the callback once. While one transition runs, only the latest pending request survives; replaced requests resolve `superseded` without calling the callback. Native snapshots finish before the next request begins. They do not reverse mid-flight. The bounded Soft Circle and Dissolve panels reverse continuously. A repeated Curtain input cancels its prior animation and starts a fresh outgoing cover from the previous requested appearance; the latest theme wins.
+
+The controller has `update(motion)`, `pause()`, `resume()`, and `destroy()`. Its motion options are `duration`, `easing`, `revealStyle`, `revealOrigin`, `originX`, `originY`, and `edgeSoftness`. Updates affect the next page request; the active snapshot keeps its captured settings. Toggle geometry and canvas colors do not affect an application-owned page.
+
+## Ownership and fallbacks
+
+Explicit full-page invocation temporarily owns the root View Transition snapshot and suppresses independently named descendant snapshots. Its temporary stylesheet is removed on completion, failure, or destruction. Multiple Theme Reveal controllers serialize their page work. Do not start unrelated document View Transitions concurrently; the browser has one document-wide transition lifecycle.
+
+Reduced motion and browsers without the required View Transition or animation APIs call `commitTheme` directly. Pausing the page controller also preserves useful commits without movement. Destruction aborts the supplied signal and resolves pending requests as destroyed. It cannot undo application changes already made. Async callbacks must check `signal.aborted` before later writes; a callback that never resolves can block subsequent coordinated requests.
+
+The panel uses a native button with a stable accessible name and pressed state. Enter and Space work normally. Focus survives updates. Original SVG moon and sun marks are hidden from assistive technology; the button supplies the accessible name and pressed state. Before JavaScript, the requested initial appearance remains visible and its button is disabled. Pause, offscreen, hidden-document, reduced-motion changes and resize settle the panel at its current requested endpoint; resume does not replay old animation.
+
+## Canvas sizing and settings
+
+The canvas fills its receiving element and has a standalone minimum height of 320px. Set the wrapper height to fill a specific layout, or adjust `canvasMinHeight`. There is no inner card or outer padding. The visible pill defaults to 72×36px, with a native hit area at least 44px high. Its circular thumb contains an icon clamped to fit at every allowed size.
+
+The 27-setting reference below comes from `component.json`. Hero/content settings are not part of this component. `accentColor` controls the keyboard focus ring; default surfaces remain monochrome. Motion duration ranges from 240 to 2000 ms, with Gentle, Smooth, Linear, or Curtain easing. Supplied colors remain the application's responsibility for contrast.
+
+## Free package and validation
+
+Theme Reveal 1.0.0 is free. The package includes its CSS and inline moon/sun SVG marks, with no external fonts, icons or image requests. The poster shows the centered toggle.
+
+Local browser checks exercise the retained modes in bounded and native page transitions, upward cover travel, complete corner coverage, rapid input, queue replacement, callback rejection, reduced motion and teardown. Native hidden-tab behavior and real-device touch remain unverified; emulation is not a physical-device result. Clean-host delivery and final release checks are tracked separately from local component evidence.
+
+Soft Circle’s radial mask expands from the selected origin with a default 16% feather and enough overscan to cover every corner. The full-page controller applies the same mask to the actual page snapshot.
