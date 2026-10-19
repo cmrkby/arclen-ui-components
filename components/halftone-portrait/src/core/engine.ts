@@ -1,4 +1,5 @@
 import {coverRect,samplePoint,targetFor,easingStep,samplingPitch,type Point,type Pointer} from './math';
+import {PointIndex} from './point-index';
 import {DEFAULT_PROPS,type HalftoneProps} from './options';
 type Options=HalftoneProps&{maxDpr:number;frameIndependent:boolean;sharpSquares:boolean};
 const sampledOptions=new Set(['src','spacing','size','variation','threshold','contrast','exposure','alphaGamma','opacity','color','accent','accentAmount','colorMode','fit','scale','focalX','focalY','maxDpr','sharpSquares']);
@@ -8,7 +9,11 @@ export class HalftonePortrait {
   smoothPointer={x:0,y:0,strength:0,active:false};points:Point[]=[];pointer:Pointer={x:0,y:0,active:false};frame=0;
   visible=true;destroyed=false;generation=0;lastTime=0;frames=0;width=1;height=1;dpr=1;image:HTMLImageElement|null=null;
   needsFullDraw=true;
-  circles:Point[]=[];
+  pointIndex=new PointIndex();
+  displaced=new Set<Point>();
+  maxDotRadius=1;
+  scratch:HTMLCanvasElement;
+  scratchContext:CanvasRenderingContext2D|null;
   pendingDirty:[number,number,number,number]|null=null;
   pendingRebuild:{timer:ReturnType<typeof setTimeout>;promise:Promise<void>;resolve:()=>void}|null=null;
   media:MediaQueryList|null=null;listeners:(()=>void)[]=[];resizeObserver?:ResizeObserver;intersectionObserver?:IntersectionObserver;
@@ -26,7 +31,8 @@ export class HalftonePortrait {
     host.setAttribute('aria-label',options.alt||'Interactive halftone portrait. Move pointer or use arrow keys; Escape resets.');
     host.dataset['state']='loading';
     this.context=this.canvas.getContext('2d');
-    if(!this.context){this.fail('Canvas is unavailable in this browser.');return;}
+    this.scratch=document.createElement('canvas');this.scratchContext=this.scratch.getContext('2d');
+    if(!this.context||!this.scratchContext){this.fail('Canvas is unavailable in this browser.');return;}
     this.media=typeof matchMedia==='function'?matchMedia('(prefers-reduced-motion: reduce)'):null;this.listeners=[];
     const listen=(target:EventTarget,type:string,handler:EventListener)=>{target.addEventListener(type,handler);this.listeners.push(()=>target.removeEventListener(type,handler));};
     listen(host,'pointermove',e=>this.move(e as PointerEvent));
@@ -62,7 +68,7 @@ export class HalftonePortrait {
   }
   async setImage(src:string,alt?:string){
     this.cancelRebuild();
-    const id=++this.generation;this.stop();this.points=[];this.circles=[];this.image=null;
+    const id=++this.generation;this.stop();this.points=[];this.pointIndex.rebuild([],1);this.displaced.clear();this.image=null;
     this.host.dataset['state']='loading';this.status.hidden=false;this.status.textContent='Loading artwork';
     this.context?.clearRect(0,0,this.width||1,this.height||1);
     const image=new (this.host.ownerDocument.defaultView?.Image??Image)();image.crossOrigin='anonymous';image.src=src;
@@ -102,17 +108,19 @@ export class HalftonePortrait {
     this.width=width;this.height=height;this.dpr=Math.min(this.options.maxDpr,Math.max(1,devicePixelRatio||1));
     this.needsFullDraw=true;
     this.canvas.width=Math.round(width*this.dpr);this.canvas.height=Math.round(height*this.dpr);
+    this.scratch.width=this.canvas.width;this.scratch.height=this.canvas.height;
     this.canvas.style.width=width+'px';this.canvas.style.height=height+'px';
     const sample=document.createElement('canvas');sample.width=width;sample.height=height;
     const ctx=sample.getContext('2d',{willReadFrequently:true});if(!ctx)return this.fail('Image sampling is unavailable.');
     const crop=coverRect(width,height,this.image.naturalWidth,this.image.naturalHeight,this.options.fit,this.options.scale,this.options.focalX,this.options.focalY);
     ctx.drawImage(this.image,crop.x,crop.y,crop.width,crop.height);
     let data;try{data=ctx.getImageData(0,0,width,height).data;}catch{this.fail('This image does not allow canvas sampling. Use a same-origin image.');return;}
-    this.points=[];this.circles=[];const pitch=samplingPitch(this.options.spacing);
+    this.points=[];this.displaced.clear();this.maxDotRadius=1;const pitch=samplingPitch(this.options.spacing);
     for(let y=0;y<height;y+=pitch)for(let x=0;x<width;x+=pitch){
       const i=(y*width+x)*4,p=samplePoint(data[i]??0,data[i+1]??0,data[i+2]??0,data[i+3]??0,x,y,this.options);
-      if(p){this.points.push(p);if(p.size>1)this.circles.push(p);}
+      if(p){this.points.push(p);this.maxDotRadius=Math.max(this.maxDotRadius,p.size);}
     }
+    this.pointIndex.rebuild(this.points,pitch);
     delete this.host.dataset['rendering'];
     this.host.dataset['state']='ready';this.host.dataset['points']=String(this.points.length);this.status.hidden=true;
     this.host.dispatchEvent(new CustomEvent('halftone:ready',{detail:{points:this.points.length,width,height}}));this.wake();
@@ -122,7 +130,7 @@ export class HalftonePortrait {
     if(immediate){
       this.smoothPointer.strength=0;
       let [left,top,right,bottom]=this.pendingDirty??[Infinity,Infinity,-Infinity,-Infinity];
-      for(const p of this.points){
+      for(const p of this.displaced){
         if(p.x!==p.homeX||p.y!==p.homeY){
           const margin=Math.max(1,p.size)+2;
           left=Math.min(left,p.x-margin,p.homeX-margin);top=Math.min(top,p.y-margin,p.homeY-margin);
@@ -130,6 +138,7 @@ export class HalftonePortrait {
           p.x=p.homeX;p.y=p.homeY;
         }
       }
+      this.displaced.clear();
       this.pendingDirty=[left,top,right,bottom];
     }
     this.wake();
@@ -154,7 +163,10 @@ export class HalftonePortrait {
     this.host.dataset['cursor']=String(Boolean(o.showCursor&&pointer.active&&!this.reduced));
     let [left,top,right,bottom]=this.pendingDirty??[Infinity,Infinity,-Infinity,-Infinity];
     this.pendingDirty=null;
-    for(const p of this.points){
+    if(pointer.active){
+      this.pointIndex.forEach(pointer.x-o.radius,pointer.y-o.radius,pointer.x+o.radius,pointer.y+o.radius,p=>this.displaced.add(p));
+    }
+    for(const p of this.displaced){
       const [tx,ty]=targetFor(p.homeX,p.homeY,pointer,o.radius,o.force,o.cursorMode,o.falloff);
       const dx=(tx-p.x)*blend,dy=(ty-p.y)*blend;
       if(Math.abs(dx)>.01||Math.abs(dy)>.01)moving=true;
@@ -166,44 +178,42 @@ export class HalftonePortrait {
         right=Math.max(right,p.x+margin,x+margin);bottom=Math.max(bottom,p.y+margin,y+margin);
       }
       p.x=x;p.y=y;
+      if(x===p.homeX&&y===p.homeY)this.displaced.delete(p);
     }
     const floorPixel=(value:number)=>Math.floor(value*this.dpr)/this.dpr;
     const ceilPixel=(value:number)=>Math.ceil(value*this.dpr)/this.dpr;
-    // Fractional backing scales can change edge antialiasing when clipped.
-    let full=this.needsFullDraw||!Number.isInteger(this.dpr);
+    const full=this.needsFullDraw;
     if(full){left=0;top=0;right=this.width;bottom=this.height;}
     else {left=Math.max(0,floorPixel(left));top=Math.max(0,floorPixel(top));right=Math.min(this.width,ceilPixel(right));bottom=Math.min(this.height,ceilPixel(bottom));}
-    // Clipping through a circle changes Canvas antialias coverage even on the
-    // retained side. Enclose boundary circles completely before clipping.
-    if(!full&&right>left&&bottom>top){
-      for(let pass=0;pass<128;pass++){
-        let expanded=false;
-        for(const p of this.circles){
-          const edge=p.size+1/this.dpr;
-          if(p.x+edge<=left||p.x-edge>=right||p.y+edge<=top||p.y-edge>=bottom)continue;
-          const l=Math.max(0,floorPixel(p.x-edge-1)),t=Math.max(0,floorPixel(p.y-edge-1));
-          const r=Math.min(this.width,ceilPixel(p.x+edge+1)),b=Math.min(this.height,ceilPixel(p.y+edge+1));
-          if(l<left||t<top||r>right||b>bottom){left=Math.min(left,l);top=Math.min(top,t);right=Math.max(right,r);bottom=Math.max(bottom,b);expanded=true;}
-        }
-        if(!expanded)break;
-        if(pass===127){full=true;left=0;top=0;right=this.width;bottom=this.height;}
-      }
-    }
-    if(right>left&&bottom>top){
-      // The untouched canvas retains its exact pixels. Repaint every intersecting
-      // dot in its original order inside a pixel-aligned clip, including static dots.
-      ctx.clearRect(left,top,right-left,bottom-top);ctx.save();
-      if(!full){ctx.beginPath();ctx.rect(left,top,right-left,bottom-top);ctx.clip();}
+    if(right>left&&bottom>top&&this.scratchContext){
+      // Draw complete shapes on a same-size scratch surface. Copy only the dirty
+      // pixels afterward: clipping circle geometry changes its antialias coverage.
+      const paint=full?ctx:this.scratchContext;
+      paint.setTransform(this.dpr,0,0,this.dpr,0,0);
+      paint.clearRect(left,top,right-left,bottom-top);
       let fillColor:string|undefined;
-      for(const p of this.points){
+      const dot=(p:Point)=>{
         const margin=Math.max(1,p.size)+2;
-        if(!full&&(p.x+margin<left||p.x-margin>right||p.y+margin<top||p.y-margin>bottom))continue;
-        ctx.globalAlpha=p.alpha;
-        if(p.color!==fillColor){ctx.fillStyle=p.color;fillColor=p.color;}
-        if(p.size<=1){const offset=o.sharpSquares?0:-.5;ctx.fillRect(p.x+offset,p.y+offset,1,1);}
-        else{ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();}
+        if(!full&&(p.x+margin<left||p.x-margin>right||p.y+margin<top||p.y-margin>bottom))return;
+        paint.globalAlpha=p.alpha;
+        if(p.color!==fillColor){paint.fillStyle=p.color;fillColor=p.color;}
+        if(p.size<=1){const offset=o.sharpSquares?0:-.5;paint.fillRect(p.x+offset,p.y+offset,1,1);}
+        else{paint.beginPath();paint.arc(p.x,p.y,p.size,0,Math.PI*2);paint.fill();}
+      };
+      if(full)this.points.forEach(dot);
+      else{
+        // Every displaced point stays within force of its home coordinate.
+        // Row-major iteration preserves the original translucent overlap order.
+        const reach=o.force+this.maxDotRadius+2;
+        this.pointIndex.forEach(left-reach,top-reach,right+reach,bottom+reach,dot);
+        const x=Math.round(left*this.dpr),y=Math.round(top*this.dpr);
+        const width=Math.round(right*this.dpr)-x,height=Math.round(bottom*this.dpr)-y;
+        ctx.setTransform(1,0,0,1,0,0);ctx.globalAlpha=1;
+        ctx.clearRect(x,y,width,height);
+        ctx.drawImage(this.scratch,x,y,width,height,x,y,width,height);
+        ctx.setTransform(this.dpr,0,0,this.dpr,0,0);
       }
-      ctx.restore();
+      paint.globalAlpha=1;
     }
     this.needsFullDraw=false;
     ctx.globalAlpha=1;this.frames++;this.host.dataset['frames']=String(this.frames);
@@ -213,6 +223,6 @@ export class HalftonePortrait {
   }
   destroy(){
     this.destroyed=true;this.generation++;this.cancelRebuild();this.stop();this.listeners?.forEach(remove=>remove());
-    this.resizeObserver?.disconnect();this.intersectionObserver?.disconnect();this.canvas.remove();this.status.remove();this.points=[];this.circles=[];this.pendingDirty=null;
+    this.resizeObserver?.disconnect();this.intersectionObserver?.disconnect();this.canvas.remove();this.status.remove();this.points=[];this.pointIndex.rebuild([],1);this.displaced.clear();this.scratch.width=this.scratch.height=0;this.pendingDirty=null;
   }
 }
