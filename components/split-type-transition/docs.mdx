@@ -94,3 +94,17 @@ Logo pixels are used as an alpha mask: their original colours are replaced by **
 ```
 
 Without a receiving title in custom children, the configured wordmark or logo assembles at the centre of the cover and leaves when the cover clears. A receiving element marked `data-pt-title` stays consumer-owned; its content and colour determine the final resting presentation. The demo's branding controls do not replace consumer-owned HTML.
+
+## Motion-only integration
+
+The default import keeps the complete hero demo and existing API. For your own page, use the motion-only React entry. It keeps the same transition settings and lifecycle without importing the demo artwork, fonts or replay button.
+
+```tsx
+import { SplitTypeTransition } from './components/split-type-transition/src/react/motion';
+
+<SplitTypeTransition routeKey={pathname}>
+  <main>{children}</main>
+</SplitTypeTransition>
+```
+
+For framework-neutral integration, import `createSplitTypeTransition` from `./components/split-type-transition/src/motion`. This entry includes the transition's scoped motion CSS. Mark the content inside your host with `data-pt-content`; call `destroy()` when the host is removed. The package retains the optional hero assets so the default demo continues to work. Your bundler can exclude those assets when you use the motion-only entry.

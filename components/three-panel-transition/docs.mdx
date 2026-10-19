@@ -71,3 +71,17 @@ The demo replay control is a native, keyboard-accessible editorial button. Its h
 ## Responsive artwork
 
 The demo ships 640px card, 960px mobile and full-resolution desktop WebP sources. Native `srcset` selects an image for the receiving viewport and display density; `sizes` also accounts for the height of a covered background so tall previews stay sharp. High-density phones may correctly select the desktop source. All variants preserve the original composition and use the same CSS focal point. The desktop file is `assets/reveal-hero.webp`; smaller derivatives are `assets/hero-card.webp` and `assets/hero-mobile.webp`. Images decode asynchronously. No remote image service or runtime processing is required.
+
+## Motion-only integration
+
+The default import keeps the complete hero demo and existing API. For your own page, use the motion-only React entry. It keeps the same transition settings and lifecycle without importing the demo artwork, fonts or replay button.
+
+```tsx
+import { ThreePanelTransition } from './components/three-panel-transition/src/react/motion';
+
+<ThreePanelTransition routeKey={pathname}>
+  <main>{children}</main>
+</ThreePanelTransition>
+```
+
+For framework-neutral integration, import `createThreePanelTransition` from `./components/three-panel-transition/src/motion`. This entry includes the transition's scoped motion CSS. Mark the content inside your host with `data-pt-content`; call `destroy()` when the host is removed. The package retains the optional hero assets so the default demo continues to work. Your bundler can exclude those assets when you use the motion-only entry.

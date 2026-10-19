@@ -1,6 +1,6 @@
 {
   "id": "three-panel-transition",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "tier": "free",
   "name": "Three Panel Transition",
   "category": "Transitions",
@@ -270,24 +270,6 @@
         "attribution": "Arclen wordmark, used at the brand owner’s request for this demo.",
         "license": "Arclen brand asset. Demo use only; trademark rights reserved."
       }
-    },
-    {
-      "path": "assets/GeistMono-Regular.woff2",
-      "rights": {
-        "kind": "licensed",
-        "license": "OFL-1.1",
-        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
-      },
-      "contentType": "font/woff2"
-    },
-    {
-      "path": "assets/OFL-GeistMono.txt",
-      "rights": {
-        "kind": "licensed",
-        "license": "OFL-1.1",
-        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
-      },
-      "contentType": "text/plain"
     },
     {
       "path": "assets/hero-card.webp",
