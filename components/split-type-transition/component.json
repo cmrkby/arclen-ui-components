@@ -1,0 +1,422 @@
+{
+  "id": "split-type-transition",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Split Type Transition",
+  "category": "Transitions",
+  "description": "A sliced-letter entrance with a fitted title and adjustable assembly timing.",
+  "keywords": [
+    "page",
+    "transition",
+    "split-type-transition",
+    "split-type"
+  ],
+  "settings": [
+    {
+      "key": "autoplay",
+      "kind": "boolean",
+      "label": "Play on entry",
+      "default": true,
+      "group": "Playback",
+      "description": "Replay the entrance on mount and settings changes. Disable for manually triggered navigation."
+    },
+    {
+      "key": "titleKind",
+      "kind": "select",
+      "label": "Reveal content",
+      "default": "wordmark",
+      "group": "Content",
+      "options": [
+        {
+          "label": "Arclen wordmark",
+          "value": "wordmark"
+        },
+        {
+          "label": "Custom text",
+          "value": "text"
+        },
+        {
+          "label": "Custom logo",
+          "value": "logo"
+        }
+      ],
+      "description": "Choose the bundled wordmark, editable text or a monochrome custom logo. Each keeps the sliced entrance and cover-to-text color handoff."
+    },
+    {
+      "key": "logo",
+      "kind": "image",
+      "label": "Custom logo",
+      "default": "",
+      "group": "Content",
+      "description": "For Custom logo: transparent PNG/WebP or a same-origin/CORS-enabled SVG URL. The alpha silhouette is tinted by Cover label and Text colors. Empty input falls back to Transition label."
+    },
+    {
+      "key": "logoAspect",
+      "kind": "number",
+      "label": "Logo aspect ratio",
+      "default": 4,
+      "min": 0.5,
+      "max": 10,
+      "step": 0.1,
+      "group": "Geometry",
+      "description": "Custom logo width divided by height. Set the original ratio to preserve proportions; e.g. 800 × 200 = 4."
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Transition label",
+      "default": "ARCLEN",
+      "group": "Content",
+      "maxLength": 12,
+      "description": "Used for Custom text and when Custom logo is empty. Up to 12 characters."
+    },
+    {
+      "key": "heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "Ideas with presence.",
+      "group": "Content",
+      "maxLength": 100,
+      "description": "Demo headline. Line breaks are preserved; custom React children own their own copy."
+    },
+    {
+      "key": "caption",
+      "kind": "text",
+      "label": "Caption",
+      "default": "Distinctive by design. Built to leave an impression.",
+      "group": "Content",
+      "maxLength": 180,
+      "description": "Demo supporting copy. Custom React children own their own copy."
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Canvas",
+      "default": "#f4f3ef",
+      "group": "Palette",
+      "description": "Receiving canvas behind the demo image. Visible while the image loads or wherever content leaves the canvas uncovered."
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#111111",
+      "group": "Palette",
+      "description": "Base color for the demo headline, supporting copy and credit. The replay action and overlay labels use their own colors."
+    },
+    {
+      "key": "overlayColor",
+      "kind": "color",
+      "label": "Cover",
+      "default": "#0a0a0a",
+      "group": "Palette",
+      "description": "Opaque cover and reveal layer color."
+    },
+    {
+      "key": "overlayText",
+      "kind": "color",
+      "label": "Cover label",
+      "default": "#eeeae1",
+      "group": "Palette",
+      "description": "Color of the assembled title and its animated letter slices."
+    },
+    {
+      "key": "minHeight",
+      "kind": "number",
+      "label": "Minimum height",
+      "default": 520,
+      "group": "Geometry",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "description": "Minimum receiving area height in pixels. The layout follows its container width."
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Content settle",
+      "default": 1200,
+      "group": "Motion",
+      "min": 20,
+      "max": 5000,
+      "step": 10,
+      "description": "Time in milliseconds for the underlying content to settle from Content starting scale to normal size. Letter assembly and title settling have separate duration controls."
+    },
+    {
+      "key": "coverDuration",
+      "kind": "number",
+      "label": "Navigation cover",
+      "default": 500,
+      "group": "Motion",
+      "min": 100,
+      "max": 2000,
+      "step": 10,
+      "description": "Outgoing cover duration in milliseconds. Applies to Next scene, cover() and navigate(), not Replay reveal."
+    },
+    {
+      "key": "hold",
+      "kind": "number",
+      "label": "Covered hold",
+      "default": 0,
+      "group": "Motion",
+      "min": 0,
+      "max": 2000,
+      "step": 10,
+      "description": "Additional delay in milliseconds before background clearing and title settling. Added to Title delay; letter assembly keeps its own timing."
+    },
+    {
+      "key": "leadIn",
+      "kind": "number",
+      "label": "Entry delay",
+      "default": 100,
+      "group": "Motion",
+      "min": 0,
+      "max": 3000,
+      "step": 10,
+      "description": "Delay in milliseconds before letter-band assembly starts. Title delay independently sets when the background clears and title settles."
+    },
+    {
+      "key": "sliceDuration",
+      "kind": "number",
+      "label": "Slice assembly",
+      "default": 700,
+      "group": "Motion",
+      "min": 100,
+      "max": 1500,
+      "step": 10,
+      "description": "Time in milliseconds for each horizontal letter band to assemble."
+    },
+    {
+      "key": "sliceStagger",
+      "kind": "number",
+      "label": "Slice stagger",
+      "default": 25,
+      "group": "Motion",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "description": "Delay in milliseconds between the six bands within each letter."
+    },
+    {
+      "key": "glyphStagger",
+      "kind": "number",
+      "label": "Letter stagger",
+      "default": 50,
+      "group": "Motion",
+      "min": 0,
+      "max": 150,
+      "step": 5,
+      "description": "Additional delay in milliseconds between successive letters."
+    },
+    {
+      "key": "settleDuration",
+      "kind": "number",
+      "label": "Title settle",
+      "default": 1100,
+      "group": "Motion",
+      "min": 100,
+      "max": 2000,
+      "step": 10,
+      "description": "Desktop title settling duration in milliseconds. Below 1200px the title assembles in place."
+    },
+    {
+      "key": "scale",
+      "kind": "number",
+      "label": "Content starting scale",
+      "default": 1.35,
+      "group": "Motion",
+      "min": 1,
+      "max": 1.5,
+      "step": 0.01,
+      "description": "Initial content scale during the reveal; 1 keeps the content size unchanged."
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Motion curve",
+      "default": "expressive",
+      "group": "Motion",
+      "options": [
+        {
+          "label": "Expressive",
+          "value": "expressive"
+        },
+        {
+          "label": "Smooth",
+          "value": "smooth"
+        },
+        {
+          "label": "Linear",
+          "value": "linear"
+        },
+        {
+          "label": "Symmetric ease",
+          "value": "split"
+        }
+      ],
+      "description": "Curve for letter-band assembly, desktop title settling and content scaling. The 400ms background and content fades use this curve too."
+    },
+    {
+      "key": "titleDelay",
+      "kind": "number",
+      "label": "Title settle delay",
+      "default": 1300,
+      "min": 0,
+      "max": 3000,
+      "step": 10,
+      "group": "Motion",
+      "description": "Time in milliseconds before the background clears and desktop title settles. Hold adds to this offset."
+    },
+    {
+      "key": "titleTravel",
+      "kind": "number",
+      "label": "Title settle travel",
+      "default": 0,
+      "min": 0,
+      "max": 400,
+      "step": 1,
+      "group": "Motion",
+      "description": "Desktop title starting offset in pixels. Below 1200px the title assembles in place."
+    },
+    {
+      "key": "titleScale",
+      "kind": "number",
+      "label": "Title starting scale",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 0.05,
+      "group": "Motion",
+      "description": "Desktop title starting scale. Below 1200px the title assembles in place."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/reveal-hero.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/arclen-wordmark.svg",
+      "rights": {
+        "kind": "licensed",
+        "attribution": "Arclen wordmark, used at the brand owner’s request for this demo.",
+        "license": "Arclen brand asset. Demo use only; trademark rights reserved."
+      }
+    },
+    {
+      "path": "assets/GeistMono-Regular.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-GeistMono.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/hero-card.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    },
+    {
+      "path": "assets/hero-mobile.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Reveal usable content immediately. Active motion settles when the preference changes.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Original pace",
+      "settings": {
+        "duration": 1200,
+        "coverDuration": 500,
+        "hold": 0,
+        "leadIn": 100,
+        "sliceDuration": 700,
+        "sliceStagger": 25,
+        "glyphStagger": 50,
+        "settleDuration": 1100,
+        "easing": "expressive",
+        "titleDelay": 1300
+      }
+    },
+    {
+      "name": "Swift entrance",
+      "settings": {
+        "duration": 864,
+        "coverDuration": 360,
+        "hold": 0,
+        "leadIn": 72,
+        "sliceDuration": 504,
+        "sliceStagger": 18,
+        "glyphStagger": 36,
+        "settleDuration": 792,
+        "easing": "expressive",
+        "titleDelay": 936
+      }
+    },
+    {
+      "name": "Slow reveal",
+      "settings": {
+        "duration": 1500,
+        "coverDuration": 625,
+        "hold": 0,
+        "leadIn": 125,
+        "sliceDuration": 875,
+        "sliceStagger": 31,
+        "glyphStagger": 62,
+        "settleDuration": 1375,
+        "easing": "expressive",
+        "titleDelay": 1625
+      }
+    }
+  ]
+}
