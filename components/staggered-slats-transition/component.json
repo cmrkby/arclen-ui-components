@@ -1,0 +1,338 @@
+{
+  "id": "staggered-slats-transition",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Staggered Slats Transition",
+  "category": "Transitions",
+  "description": "Staggered strips reveal the scene with a long, smooth decay.",
+  "keywords": [
+    "page",
+    "transition",
+    "staggered-slats-transition",
+    "slats"
+  ],
+  "settings": [
+    {
+      "key": "autoplay",
+      "kind": "boolean",
+      "label": "Play on entry",
+      "default": true,
+      "group": "Playback",
+      "description": "Replay the entrance on mount and settings changes. Disable for manually triggered navigation."
+    },
+    {
+      "key": "heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "Make an\nentrance.",
+      "group": "Content",
+      "maxLength": 100,
+      "description": "Demo headline. Line breaks are preserved; custom React children own their own copy."
+    },
+    {
+      "key": "caption",
+      "kind": "text",
+      "label": "Caption",
+      "default": "Set the tone before the first scroll.\nMake every arrival feel considered.",
+      "group": "Content",
+      "maxLength": 180,
+      "description": "Demo supporting copy. Custom React children own their own copy."
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Canvas",
+      "default": "#090909",
+      "group": "Palette",
+      "description": "Receiving canvas behind the demo image. Visible while the image loads or wherever content leaves the canvas uncovered."
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#f4f4f0",
+      "group": "Palette",
+      "description": "Base color for the demo headline, supporting copy and credit. The replay action and overlay labels use their own colors."
+    },
+    {
+      "key": "overlayColor",
+      "kind": "color",
+      "label": "Cover",
+      "default": "#0a0a0a",
+      "group": "Palette",
+      "description": "Opaque cover and reveal layer color."
+    },
+    {
+      "key": "minHeight",
+      "kind": "number",
+      "label": "Minimum height",
+      "default": 520,
+      "group": "Geometry",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "description": "Minimum receiving area height in pixels. The layout follows its container width."
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Desktop reveal",
+      "default": 2600,
+      "group": "Motion",
+      "min": 20,
+      "max": 5000,
+      "step": 10,
+      "description": "Incoming strip travel in milliseconds at desktop widths. Below 1200px, Responsive slats replaces this with Compact duration; disable it to use this value everywhere."
+    },
+    {
+      "key": "coverDuration",
+      "kind": "number",
+      "label": "Navigation cover",
+      "default": 500,
+      "group": "Motion",
+      "min": 100,
+      "max": 2000,
+      "step": 10,
+      "description": "Outgoing cover duration in milliseconds. Applies to Next scene, cover() and navigate(), not Replay reveal."
+    },
+    {
+      "key": "stagger",
+      "kind": "number",
+      "label": "Desktop stagger",
+      "default": 60,
+      "group": "Motion",
+      "min": 0,
+      "max": 150,
+      "step": 1,
+      "description": "Incoming delay in milliseconds between adjacent strips at desktop widths. Below 1200px, Responsive slats replaces this with Compact stagger."
+    },
+    {
+      "key": "hold",
+      "kind": "number",
+      "label": "Covered hold",
+      "default": 0,
+      "group": "Motion",
+      "min": 0,
+      "max": 2000,
+      "step": 10,
+      "description": "Covered pause in milliseconds after Entry delay, before the first strip moves."
+    },
+    {
+      "key": "leadIn",
+      "kind": "number",
+      "label": "Entry delay",
+      "default": 0,
+      "group": "Motion",
+      "min": 0,
+      "max": 3000,
+      "step": 10,
+      "description": "Initial reveal delay in milliseconds. Navigation cover uses its separate duration."
+    },
+    {
+      "key": "slatCount",
+      "kind": "number",
+      "label": "Number of slats",
+      "default": 10,
+      "group": "Geometry",
+      "min": 4,
+      "max": 20,
+      "step": 1,
+      "description": "Incoming strip count at desktop widths. Below 1200px, Responsive slats overrides this with six strips; disable it to use your chosen count everywhere."
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Motion curve",
+      "default": "decay",
+      "group": "Motion",
+      "options": [
+        {
+          "label": "Expressive",
+          "value": "expressive"
+        },
+        {
+          "label": "Smooth",
+          "value": "smooth"
+        },
+        {
+          "label": "Linear",
+          "value": "linear"
+        },
+        {
+          "label": "Symmetric ease",
+          "value": "split"
+        },
+        {
+          "label": "Long decay",
+          "value": "decay"
+        }
+      ],
+      "description": "Incoming strip movement curve. Long decay starts quickly and settles gradually; navigation cover keeps its own smooth curve when Long decay is selected."
+    },
+    {
+      "key": "slatDirection",
+      "kind": "select",
+      "label": "Slat direction",
+      "default": "up",
+      "group": "Geometry",
+      "options": [
+        "up",
+        "down"
+      ],
+      "description": "Incoming movement direction at desktop widths. Below 1200px, Responsive slats overrides this with downward motion; disable it to use your chosen direction everywhere."
+    },
+    {
+      "key": "responsiveSlats",
+      "kind": "boolean",
+      "label": "Responsive slats",
+      "default": true,
+      "group": "Geometry",
+      "description": "At receiving widths below 1200px, use six downward strips and Compact duration/stagger instead of desktop count, direction and timing. Disable for identical settings at every width."
+    },
+    {
+      "key": "compactDuration",
+      "kind": "number",
+      "label": "Compact slat duration",
+      "default": 3500,
+      "min": 100,
+      "max": 5000,
+      "step": 10,
+      "group": "Motion",
+      "description": "Reveal duration in milliseconds below 1200px, only when responsive slats is enabled."
+    },
+    {
+      "key": "compactStagger",
+      "kind": "number",
+      "label": "Compact slat stagger",
+      "default": 90,
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "group": "Motion",
+      "description": "Strip delay in milliseconds below 1200px, only when responsive slats is enabled."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/reveal-hero.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/arclen-wordmark.svg",
+      "rights": {
+        "kind": "licensed",
+        "attribution": "Arclen wordmark, used at the brand owner’s request for this demo.",
+        "license": "Arclen brand asset. Demo use only; trademark rights reserved."
+      }
+    },
+    {
+      "path": "assets/GeistMono-Regular.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-GeistMono.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/hero-card.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    },
+    {
+      "path": "assets/hero-mobile.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Reveal usable content immediately. Active motion settles when the preference changes.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Original pace",
+      "settings": {
+        "duration": 2600,
+        "coverDuration": 500,
+        "stagger": 60,
+        "hold": 0,
+        "leadIn": 0,
+        "easing": "decay",
+        "compactDuration": 3500,
+        "compactStagger": 90
+      }
+    },
+    {
+      "name": "Swift entrance",
+      "settings": {
+        "duration": 1872,
+        "coverDuration": 360,
+        "stagger": 43,
+        "hold": 0,
+        "leadIn": 0,
+        "easing": "decay",
+        "compactDuration": 2520,
+        "compactStagger": 65
+      }
+    },
+    {
+      "name": "Slow reveal",
+      "settings": {
+        "duration": 3250,
+        "coverDuration": 625,
+        "stagger": 75,
+        "hold": 0,
+        "leadIn": 0,
+        "easing": "decay",
+        "compactDuration": 4375,
+        "compactStagger": 112
+      }
+    }
+  ]
+}

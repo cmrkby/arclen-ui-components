@@ -1,0 +1,43 @@
+/* Demo presentation only. Consumer-owned children keep their own layout. */
+:is([data-pt-demo="three-panel"][data-page-transitions],[data-pt-demo="three-panel"] [data-page-transitions]) {
+ --pt-inset:clamp(24px,6cqw,72px);--pt-detail-fill:rgb(28 29 26 / .055);--pt-detail-line:rgb(28 29 26 / .3);
+}
+[data-pt-demo="three-panel"] .pt-editorial .pt-hero {
+ box-sizing:border-box;inset:16% 7% auto auto;width:32%;height:75%;padding:8px;
+ border:1px solid rgb(28 29 26 / .1);border-radius:24px;background:#fff;
+ box-shadow:0 14px 36px -20px rgb(26 28 24 / .25),0 2px 5px rgb(26 28 24 / .04);
+ object-fit:cover;object-position:50% 45%;
+}
+[data-pt-demo="three-panel"] .pt-editorial .pt-story {top:54%;bottom:auto;transform:translateY(-50%);width:49%;gap:26px}
+[data-pt-demo="three-panel"] .pt-copy h2 {font-family:Georgia,'Times New Roman',serif;font-style:italic;font-weight:400;font-size:clamp(44px,6.9cqw,94px);line-height:1.03;letter-spacing:-.055em;text-wrap:initial}
+[data-pt-demo="three-panel"] .pt-copy h2::first-line {font-family:'Arclen Reveal',Arial,sans-serif;font-style:normal;font-weight:500}
+[data-pt-demo="three-panel"] .pt-copy .pt-headline-mask:first-child .pt-headline-line {font-family:'Arclen Reveal',Arial,sans-serif;font-style:normal;font-weight:500}
+[data-pt-demo="three-panel"] .pt-copy p {max-width:32ch;margin-top:22px;font-size:clamp(14px,1.35cqw,17px);line-height:1.6;white-space:normal;color:color-mix(in srgb,currentColor 70%,transparent)}
+[data-pt-demo="three-panel"] .pt-editorial .pt-eyebrow {color:var(--pt-fg);font-size:10px;letter-spacing:.12em;margin-bottom:22px}
+[data-pt-demo="three-panel"] .pt-editorial .pt-brand img {filter:brightness(0);width:88px;height:auto}
+[data-pt-demo="three-panel"] [data-pt-navigate] {color:var(--pt-fg);border-bottom-color:color-mix(in srgb,var(--pt-fg) 24%,transparent)}
+[data-pt-demo="three-panel"] [data-pt-replay],
+[data-pt-demo="three-panel"] [data-pt-replay] .tb-label {color:var(--pt-fg)}
+[data-pt-demo="three-panel"] [data-pt-replay]:focus-visible {outline-color:var(--pt-fg)}
+[data-pt-demo="three-panel"] .pt-editorial .pt-credit {display:none}
+@container(max-width:600px) {
+ [data-pt-demo="three-panel"] .pt-editorial .pt-story {top:88px;bottom:auto;transform:none;width:calc(100% - var(--pt-inset)*2);gap:17px}
+ [data-pt-demo="three-panel"] .pt-copy h2 {font-size:clamp(36px,10cqw,58px);line-height:1.02}
+ [data-pt-demo="three-panel"] .pt-copy p {font-size:13px;line-height:1.5;max-width:32ch;margin-top:12px}
+ [data-pt-demo="three-panel"] .pt-editorial .pt-eyebrow {display:none}
+ [data-pt-demo="three-panel"] .pt-editorial .pt-hero {inset:66% auto auto 27.5%;width:45%;height:30%;padding:6px;border-radius:16px;object-position:50% 40%}
+ [data-pt-demo="three-panel"] [data-pt-replay] {font-size:11px;min-height:40px}
+}
+/* Compact catalogue cards retain both the headline and the portrait. */
+html[data-thumbnail] [data-pt-demo="three-panel"] .pt-editorial .pt-story {left:8%;top:50%;bottom:auto;transform:translateY(-50%);width:49%}
+html[data-thumbnail] [data-pt-demo="three-panel"] .pt-editorial .pt-hero {inset:16% 6% auto auto;width:32%;height:75%;padding:5px;border-radius:16px}
+html[data-thumbnail] [data-pt-demo="three-panel"] .pt-copy h2 {font-size:clamp(25px,7.3cqw,48px);line-height:1.04}
+
+/* The replay control follows this hero's editorial language. */
+[data-pt-demo="three-panel"] .pt-editorial-button {display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:48px;padding:0 22px;box-sizing:border-box;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--pt-fg);font:500 13px/1.2 'Arclen Reveal',Arial,sans-serif;letter-spacing:-.01em;cursor:pointer;white-space:nowrap}
+[data-pt-demo="three-panel"] .pt-editorial-button svg {flex:none}
+[data-pt-demo="three-panel"] .pt-editorial-button:hover {background:var(--pt-fg);color:var(--pt-bg)}
+[data-pt-demo="three-panel"] .pt-editorial-button:focus-visible {outline:2px solid var(--pt-fg);outline-offset:5px}
+[data-pt-demo="three-panel"] .pt-editorial-button:disabled {opacity:.45;cursor:default}
+[data-pt-demo="three-panel"] .pt-editorial-button {background:var(--pt-fg);color:var(--pt-bg);border-color:var(--pt-fg)}
+[data-pt-demo="three-panel"] .pt-editorial-button:hover {background:transparent;color:var(--pt-fg)}

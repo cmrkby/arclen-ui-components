@@ -1,0 +1,357 @@
+{
+  "id": "three-panel-transition",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Three Panel Transition",
+  "category": "Transitions",
+  "description": "Three rising shutters with staggered timing and an independent image entrance.",
+  "keywords": [
+    "page",
+    "transition",
+    "three-panel-transition",
+    "three-panels"
+  ],
+  "settings": [
+    {
+      "key": "autoplay",
+      "kind": "boolean",
+      "label": "Play on entry",
+      "default": true,
+      "group": "Playback",
+      "description": "Replay the entrance on mount and settings changes. Disable for manually triggered navigation."
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Transition label",
+      "default": "FRAME",
+      "group": "Content",
+      "maxLength": 12,
+      "description": "Overlay word, limited to 12 characters. Use a short word for a clean fit."
+    },
+    {
+      "key": "heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "Made to\nmove you.",
+      "group": "Content",
+      "maxLength": 100,
+      "description": "Demo headline. Line breaks are preserved; custom React children own their own copy."
+    },
+    {
+      "key": "caption",
+      "kind": "text",
+      "label": "Caption",
+      "default": "Good things begin with a little movement.\nGive your next idea a memorable entrance.",
+      "group": "Content",
+      "maxLength": 180,
+      "description": "Demo supporting copy. Custom React children own their own copy."
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Canvas",
+      "default": "#eeebe5",
+      "group": "Palette",
+      "description": "Receiving canvas behind the demo image. Visible while the image loads or wherever content leaves the canvas uncovered."
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#1c1d1a",
+      "group": "Palette",
+      "description": "Base color for the demo headline, supporting copy and credit. The replay action and overlay labels use their own colors."
+    },
+    {
+      "key": "minHeight",
+      "kind": "number",
+      "label": "Minimum height",
+      "default": 520,
+      "group": "Geometry",
+      "min": 200,
+      "max": 1000,
+      "step": 10,
+      "description": "Minimum receiving area height in pixels. The layout follows its container width."
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Shutter travel",
+      "default": 1470,
+      "group": "Motion",
+      "min": 20,
+      "max": 5000,
+      "step": 10,
+      "description": "Travel time in milliseconds for each shutter and the centered label. Entry delay, Covered hold and Panel stagger add to the complete sequence."
+    },
+    {
+      "key": "coverDuration",
+      "kind": "number",
+      "label": "Navigation cover",
+      "default": 500,
+      "group": "Motion",
+      "min": 100,
+      "max": 2000,
+      "step": 10,
+      "description": "Outgoing cover duration in milliseconds. Applies to Next scene, cover() and navigate(), not Replay reveal."
+    },
+    {
+      "key": "stagger",
+      "kind": "number",
+      "label": "Panel stagger",
+      "default": 60,
+      "group": "Motion",
+      "min": 0,
+      "max": 150,
+      "step": 1,
+      "description": "Delay in milliseconds between successive shutters starting their upward travel. The label starts with the first shutter."
+    },
+    {
+      "key": "hold",
+      "kind": "number",
+      "label": "Covered hold",
+      "default": 0,
+      "group": "Motion",
+      "min": 0,
+      "max": 2000,
+      "step": 10,
+      "description": "Covered pause in milliseconds after Entry delay, before the first shutter and label move."
+    },
+    {
+      "key": "leadIn",
+      "kind": "number",
+      "label": "Entry delay",
+      "default": 1600,
+      "group": "Motion",
+      "min": 0,
+      "max": 3000,
+      "step": 10,
+      "description": "Initial reveal delay in milliseconds. Navigation cover uses its separate duration."
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Motion curve",
+      "default": "shutter",
+      "group": "Motion",
+      "options": [
+        {
+          "label": "Expressive",
+          "value": "expressive"
+        },
+        {
+          "label": "Smooth",
+          "value": "smooth"
+        },
+        {
+          "label": "Linear",
+          "value": "linear"
+        },
+        {
+          "label": "Symmetric ease",
+          "value": "split"
+        },
+        {
+          "label": "Smooth shutter",
+          "value": "shutter"
+        }
+      ],
+      "description": "Curve shared by the three shutters and centered label. Image rise retains its independently tuned curve."
+    },
+    {
+      "key": "panelColor",
+      "kind": "color",
+      "label": "Shutter cover",
+      "default": "#d8d4cb",
+      "group": "Palette",
+      "description": "Fill shared by all three shutters and their seam strips."
+    },
+    {
+      "key": "panelText",
+      "kind": "color",
+      "label": "Shutter mark",
+      "default": "#171310",
+      "group": "Palette",
+      "description": "Color of the centered label on the shutters."
+    },
+    {
+      "key": "panelRadius",
+      "kind": "number",
+      "label": "Shutter corner radius",
+      "default": 6,
+      "min": 0,
+      "max": 30,
+      "step": 1,
+      "group": "Geometry",
+      "description": "Shutter corner radius in pixels."
+    },
+    {
+      "key": "labelTravel",
+      "kind": "number",
+      "label": "Shutter mark travel",
+      "default": 112,
+      "min": 0,
+      "max": 240,
+      "step": 1,
+      "group": "Geometry",
+      "description": "Distance in pixels travelled by the label as the first shutter opens."
+    },
+    {
+      "key": "imageRise",
+      "kind": "number",
+      "label": "Image rise",
+      "default": 120,
+      "group": "Motion",
+      "min": 0,
+      "max": 240,
+      "step": 1,
+      "description": "Image starts this many pixels lower. Set to 0 to disable. Custom media opts in with data-pt-image."
+    },
+    {
+      "key": "imageDuration",
+      "kind": "number",
+      "label": "Image settle duration",
+      "default": 850,
+      "group": "Motion",
+      "min": 100,
+      "max": 2500,
+      "step": 10,
+      "description": "Image entrance duration in milliseconds; active when Image rise is greater than 0."
+    },
+    {
+      "key": "imageDelay",
+      "kind": "number",
+      "label": "Image start offset",
+      "default": 450,
+      "group": "Motion",
+      "min": 0,
+      "max": 2000,
+      "step": 10,
+      "description": "Image start offset in milliseconds after the first panel; active when Image rise is greater than 0."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/reveal-hero.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt"
+      }
+    },
+    {
+      "path": "assets/arclen-wordmark.svg",
+      "rights": {
+        "kind": "licensed",
+        "attribution": "Arclen wordmark, used at the brand owner’s request for this demo.",
+        "license": "Arclen brand asset. Demo use only; trademark rights reserved."
+      }
+    },
+    {
+      "path": "assets/GeistMono-Regular.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-GeistMono.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/hero-card.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    },
+    {
+      "path": "assets/hero-mobile.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen original generated editorial artwork",
+        "license": "Included with the Arclen component and generated website."
+      },
+      "gallery": false
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Reveal usable content immediately. Active motion settles when the preference changes.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Original pace",
+      "settings": {
+        "duration": 1470,
+        "coverDuration": 500,
+        "stagger": 60,
+        "hold": 0,
+        "leadIn": 1600,
+        "easing": "shutter",
+        "imageDuration": 850,
+        "imageDelay": 450
+      }
+    },
+    {
+      "name": "Swift entrance",
+      "settings": {
+        "duration": 1058,
+        "coverDuration": 360,
+        "stagger": 43,
+        "hold": 0,
+        "leadIn": 1152,
+        "easing": "shutter",
+        "imageDuration": 612,
+        "imageDelay": 324
+      }
+    },
+    {
+      "name": "Slow reveal",
+      "settings": {
+        "duration": 1838,
+        "coverDuration": 625,
+        "stagger": 75,
+        "hold": 0,
+        "leadIn": 2000,
+        "easing": "shutter",
+        "imageDuration": 1062,
+        "imageDelay": 562
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+/* Demo art direction. Consumer-owned children keep their own layout. */
+[data-pt-demo="pixel-sweep"] .pt-editorial::after {
+ content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+ background:linear-gradient(90deg, rgb(10 26 41 / .64), rgb(10 26 41 / .24) 43%, transparent 68%);
+}
+[data-pt-demo="pixel-sweep"] .pt-hero {object-position:68% 50%}
+[data-pt-demo="pixel-sweep"] .pt-story {top:46%;width:46%;gap:28px}
+[data-pt-demo="pixel-sweep"] .pt-copy h2 {font-size:clamp(44px,6.8cqw,96px);letter-spacing:-.055em;line-height:1.02;text-wrap:initial}
+[data-pt-demo="pixel-sweep"] .pt-copy p {max-width:29ch;color:color-mix(in srgb,currentColor 90%,transparent)}
+[data-pt-demo="pixel-sweep"] .pt-credit {color:color-mix(in srgb,currentColor 84%,transparent)}
+@container(max-width:600px) {
+ [data-pt-demo="pixel-sweep"] .pt-editorial::after {background:linear-gradient(180deg,rgb(10 26 41 / .58),rgb(10 26 41 / .16) 58%,transparent 80%)}
+ [data-pt-demo="pixel-sweep"] .pt-story {top:100px;bottom:auto;transform:none;width:calc(100% - var(--pt-inset)*2);gap:22px}
+ [data-pt-demo="pixel-sweep"] .pt-copy h2 {font-size:clamp(38px,10.5cqw,60px)}
+ [data-pt-demo="pixel-sweep"] .pt-copy p {max-width:27ch;margin-top:18px;font-size:15px}
+}
+
+/* The clipped fill and its dark label share exactly the same pixel frontier. */
+[data-pt-demo="pixel-sweep"] .pt-pixel-button {position:relative;isolation:isolate;display:grid;place-items:center;box-sizing:border-box;min-width:173px;min-height:50px;padding:0 24px;border:0;border-radius:0;background:var(--pt-detail-fill);color:#eeeae1;font:500 14px/1.2 'Arclen Reveal',Arial,sans-serif;letter-spacing:-.01em;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+[data-pt-demo="pixel-sweep"] .pt-pixel-label {position:relative;pointer-events:none}
+[data-pt-demo="pixel-sweep"] .pt-pixel-fill {position:absolute;inset:0;display:grid;place-items:center;clip-path:inset(0 100% 0 0);background:#ffd75e;color:#17212b;pointer-events:none}
+[data-pt-demo="pixel-sweep"] .pt-pixel-corner {position:absolute;width:5px;height:5px;border-color:#ffd75e;border-style:solid;border-width:0;pointer-events:none}
+[data-pt-demo="pixel-sweep"] .pt-pixel-tl {left:-1px;top:-1px;border-top-width:2px;border-left-width:2px}
+[data-pt-demo="pixel-sweep"] .pt-pixel-tr {right:-1px;top:-1px;border-top-width:2px;border-right-width:2px}
+[data-pt-demo="pixel-sweep"] .pt-pixel-bl {left:-1px;bottom:-1px;border-bottom-width:2px;border-left-width:2px}
+[data-pt-demo="pixel-sweep"] .pt-pixel-br {right:-1px;bottom:-1px;border-bottom-width:2px;border-right-width:2px}
+[data-pt-demo="pixel-sweep"] .pt-pixel-button:focus-visible {outline:2px solid #ffd75e;outline-offset:5px}
+[data-pt-demo="pixel-sweep"] .pt-pixel-button:disabled {opacity:.5;cursor:default}
+@container(max-width:600px) {
+ [data-pt-demo="pixel-sweep"] .pt-pixel-button {min-width:157px;min-height:46px;padding-inline:20px;font-size:13px}
+}
+@media(forced-colors:active) {
+ [data-pt-demo="pixel-sweep"] .pt-pixel-button {border:1px solid ButtonText;color:ButtonText;background:ButtonFace}
+ [data-pt-demo="pixel-sweep"] .pt-pixel-fill {background:Highlight;color:HighlightText}
+ [data-pt-demo="pixel-sweep"] .pt-pixel-corner {border-color:ButtonText}
+}

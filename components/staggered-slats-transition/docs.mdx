@@ -1,0 +1,71 @@
+# Staggered Slats Transition
+
+Staggered strips reveal the scene with a long, smooth decay. This component has one fixed motion. Theme Reveal handles appearance changes separately; the existing Page Transitions collection remains compatible.
+
+## React
+
+```tsx
+import { StaggeredSlatsTransition } from './components/staggered-slats-transition/src/react';
+
+<StaggeredSlatsTransition routeKey={pathname}>
+  <main>{children}</main>
+</StaggeredSlatsTransition>
+```
+
+Without children, the component renders its full-bleed editorial demo. With children, React owns your content and the controller owns only temporary overlays. A changed `routeKey` plays the incoming reveal after React commits; it does not delay navigation or wait for assets. `paused` settles active motion into usable content. Resume enables the next explicit trigger without replaying unexpectedly.
+
+## Pacing presets
+
+- **Original pace:** the default choreography, including each phase's authored timing.
+- **Swift entrance:** durations and delay offsets are approximately 72% of the default, for a quicker arrival.
+- **Slow reveal:** durations and delay offsets are approximately 125% of the default, giving each phase more space.
+
+Presets change timing and easing only. Content, palette, geometry and receiving dimensions stay as you set them. Timing bounds still apply. The exported `presetSettings` contains these named patches; apply a patch through `update()` or React settings. `resolveSettings({})` returns this package's defaults for reset. The motion cannot be changed by passing a `preset` field.
+
+## Motion and detailed tweaks
+
+Ten full-height strips translate upward by 101%, clearing the content with a long decay. Desktop timing is 2600ms with 60ms stagger. When Responsive slats is enabled, receiving widths below 1200px use six downward strips with independent 3500ms duration and 90ms stagger. In that compact mode, the desktop count, direction, duration and stagger are overridden. Disable Responsive slats to use the desktop settings at every width. A narrow detail preview can therefore appear unchanged when you adjust a desktop control: use Compact duration/stagger there, or disable Responsive slats.
+
+All timing controls use milliseconds and distance controls use pixels unless labelled as scale or count. The settings table describes each bound and conditional setting. Entry delay, covered hold and stagger add to sequence time. Reveal duration describes one traversal, not the whole sequence. Navigation cover affects `cover()` and `navigate()`; use **Next scene** to inspect it. **Replay reveal** plays the incoming motion only. Covered hold is aesthetic, never a readiness estimate.
+
+The headline and caption are presentation-only defaults specific to this standalone demo. Motion, geometry, palette and engine styling retain the existing choreography. Demo controls do not rewrite custom React children; mark appropriate media/content elements as described above to opt into their motion.
+
+## Framework-neutral use and navigation
+
+```ts
+import { createStaggeredSlatsTransition, presetSettings } from './components/staggered-slats-transition/src/core';
+import './components/staggered-slats-transition/src/styles.css';
+
+const transition = createStaggeredSlatsTransition(container, {
+  ...presetSettings['Original pace'],
+});
+const result = await transition.navigate({
+  ready: signal => fetch('/article.json', { signal }).then(response => response.json()),
+  commit: signal => {
+    if (!signal.aborted) renderAlreadyPreparedContent();
+  },
+  timeout: 5000,
+});
+// result.status is finished, cancelled, timeout or error.
+transition.destroy();
+```
+
+Put content in a direct child with `data-pt-content`. For the CSS receiving area, add `data-page-transitions` and `data-pt-preset="slats"` to your container. The factory does not replace consumer content, intercept links, change focus, set themes or fetch data. Prepare resources in `ready`, then apply them synchronously in `commit`. Do not commit from an asynchronous continuation after its signal was aborted.
+
+`cover()` and `uncover()` are available individually. A cover has an eight-second safety limit; navigation timeout is bounded to 100–8000ms. Cancellation, failed readiness, failed commit or timeout removes the cover. A newer trigger supersedes old work. The controller also exposes `phase`, `cancel`, `update`, `pause`, `resume` and `destroy`. The compatibility alias `createPageTransition` attaches this same fixed motion.
+
+`mount(host, settings)` creates the editorial demo and returns that controller. Its `update` merges validated settings and replays when autoplay is enabled. The custom-content factory updates without replaying. Use `autoplay: false` for a stable card, then call `replay()` on hover entry. Changes to unsupported settings are ignored; every supported number is bounded. `render(settings)` produces usable server-rendered markup with no initial cover.
+
+## Accessibility and cleanup
+
+No-JavaScript content stays visible. Reduced motion or missing Web Animations skips the spatial effects. Changing reduced-motion preference mid-flight settles immediately. Offscreen entry, document hiding, pause and cancellation reveal usable content; they do not freeze an opaque cover. Temporary layers are pointer-transparent and hidden from assistive technology. Native replay and next-scene buttons support keyboard activation and visible focus. Your app owns focus placement and announcements for real navigation.
+
+Motion is instance-scoped and bounded. Multiple controllers keep separate overlays and cancellation. Destroy removes animations, observers, listeners and safety timers. Receiving-area resize recalculates relevant geometry; retrigger uses the latest size.
+
+## Assets and installation
+
+React, standalone HTML and framework-neutral packages include their own engine, styles and assets. No sibling component or router is required. The demo includes generated editorial artwork, Geist and Geist Mono under the SIL Open Font License. Complete notices are retained in `assets/` and `NOTICE`. The Arclen wordmark is for demonstration only; trademark rights are reserved. Replace it with your own branding in your application.
+
+## Responsive artwork
+
+The demo ships 640px card, 960px mobile and full-resolution desktop WebP sources. Native `srcset` selects an image for the receiving viewport and display density; `sizes` also accounts for the height of a covered background so tall previews stay sharp. High-density phones may correctly select the desktop source. All variants preserve the original composition and use the same CSS focal point. The desktop file is `assets/reveal-hero.webp`; smaller derivatives are `assets/hero-card.webp` and `assets/hero-mobile.webp`. Images decode asynchronously. No remote image service or runtime processing is required.

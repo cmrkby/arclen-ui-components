@@ -1,0 +1,96 @@
+# Split Type Transition
+
+A sliced wordmark entrance with custom text or logo support and adjustable assembly timing. This component has one fixed motion. Theme Reveal handles appearance changes separately; the existing Page Transitions collection remains compatible.
+
+## React
+
+```tsx
+import { SplitTypeTransition } from './components/split-type-transition/src/react';
+
+<SplitTypeTransition routeKey={pathname}>
+  <main>{children}</main>
+</SplitTypeTransition>
+```
+
+Without children, the component renders a calm architectural canvas with the Arclen wordmark. Its scoped demo styling does not apply to custom children. With children, React owns your content and the controller owns only temporary overlays. A changed `routeKey` plays the incoming reveal after React commits; it does not delay navigation or wait for assets. `paused` settles active motion into usable content. Resume enables the next explicit trigger without replaying unexpectedly.
+
+## Pacing presets
+
+- **Original pace:** the default choreography, including each phase's authored timing.
+- **Swift entrance:** durations and delay offsets are approximately 72% of the default, for a quicker arrival.
+- **Slow reveal:** durations and delay offsets are approximately 125% of the default, giving each phase more space.
+
+Presets change timing and easing only. Content, palette, geometry and receiving dimensions stay as you set them. Timing bounds still apply. The exported `presetSettings` contains these named patches; apply a patch through `update()` or React settings. `resolveSettings({})` returns this package's defaults for reset. The motion cannot be changed by passing a `preset` field.
+
+## Motion and detailed tweaks
+
+Each glyph assembles from six horizontal bands, alternating direction by letter and band. Slices take 700ms, with 25ms between bands and 50ms between letters. At desktop widths, the centered title starts at 2× scale without a vertical offset, then settles after 1300ms over 1100ms. Content scales from 1.35 to 1 over 1200ms. Below 1200px, the title assembles in place. Its font fits the receiving width. Custom content can supply a final title marked `data-pt-title`; without one, the temporary label leaves when the reveal finishes.
+
+All timing controls use milliseconds and distance controls use pixels unless labelled as scale or count. The settings table describes each bound and conditional setting. Entry delay, covered hold and stagger add to sequence time. Reveal duration describes one traversal, not the whole sequence. Navigation cover affects `cover()` and `navigate()`; use **Next scene** to inspect it. **Replay reveal** plays the incoming motion only. Covered hold is aesthetic, never a readiness estimate.
+
+The artwork, copy, palette and layout are presentation-only defaults specific to this standalone demo. The transition engine and its timing retain the existing choreography. Demo controls do not rewrite custom React children; mark appropriate media/content elements as described above to opt into their motion.
+
+## Framework-neutral use and navigation
+
+```ts
+import { createSplitTypeTransition, presetSettings } from './components/split-type-transition/src/core';
+import './components/split-type-transition/src/styles.css';
+
+const transition = createSplitTypeTransition(container, {
+  ...presetSettings['Original pace'],
+});
+const result = await transition.navigate({
+  ready: signal => fetch('/article.json', { signal }).then(response => response.json()),
+  commit: signal => {
+    if (!signal.aborted) renderAlreadyPreparedContent();
+  },
+  timeout: 5000,
+});
+// result.status is finished, cancelled, timeout or error.
+transition.destroy();
+```
+
+Put content in a direct child with `data-pt-content`. For the CSS receiving area, add `data-page-transitions` and `data-pt-preset="split-type"` to your container. The factory does not replace consumer content, intercept links, change focus, set themes or fetch data. Prepare resources in `ready`, then apply them synchronously in `commit`. Do not commit from an asynchronous continuation after its signal was aborted.
+
+`cover()` and `uncover()` are available individually. A cover has an eight-second safety limit; navigation timeout is bounded to 100–8000ms. Cancellation, failed readiness, failed commit or timeout removes the cover. A newer trigger supersedes old work. The controller also exposes `phase`, `cancel`, `update`, `pause`, `resume` and `destroy`. The compatibility alias `createPageTransition` attaches this same fixed motion.
+
+`mount(host, settings)` creates the editorial demo and returns that controller. Its `update` merges validated settings and replays when autoplay is enabled. The custom-content factory updates without replaying. Use `autoplay: false` for a stable card, then call `replay()` on hover entry. Changes to unsupported settings are ignored; every supported number is bounded. `render(settings)` produces usable server-rendered markup with no initial cover.
+
+## Accessibility and cleanup
+
+No-JavaScript content stays visible. Reduced motion or missing Web Animations skips the spatial effects. Changing reduced-motion preference mid-flight settles immediately. Offscreen entry, document hiding, pause and cancellation reveal usable content; they do not freeze an opaque cover. Temporary layers are pointer-transparent and hidden from assistive technology. Native replay and next-scene buttons support keyboard activation and visible focus. Your app owns focus placement and announcements for real navigation.
+
+Motion is instance-scoped and bounded. Multiple controllers keep separate overlays and cancellation. Destroy removes animations, observers, listeners and safety timers. Receiving-area resize recalculates relevant geometry; retrigger uses the latest size.
+
+## Assets and installation
+
+React, standalone HTML and framework-neutral packages include their own engine, styles and assets. No sibling component or router is required. The demo includes generated editorial artwork, Geist and Geist Mono under the SIL Open Font License. Complete notices are retained in `assets/` and `NOTICE`. The Arclen wordmark is for demonstration only; trademark rights are reserved. Replace it with your own branding in your application.
+
+The demo replay control is a native, keyboard-accessible editorial button. Its hover changes contrast without scatter, brackets, or continuous animation. Staggered Slats and Pixel Sweep retain their own demo controls.
+
+The default hero uses original pale architectural artwork with soft daylight and quiet space behind the title. The sliced title scales about its center in this demo; custom content retains the controller’s existing layout behavior.
+
+When a receiving title is present, the temporary letter slices blend from the cover label color to that title’s computed color during the 400ms cover fade. The title keeps the same color when the temporary layer is removed.
+
+## Responsive artwork
+
+The demo ships 640px card, 960px mobile and full-resolution desktop WebP sources. Native `srcset` selects an image for the receiving viewport and display density; `sizes` also accounts for the height of a covered background so tall previews stay sharp. High-density phones may correctly select the desktop source. All variants preserve the original composition and use the same CSS focal point. The desktop file is `assets/reveal-hero.webp`; smaller derivatives are `assets/hero-card.webp` and `assets/hero-mobile.webp`. Images decode asynchronously. No remote image service or runtime processing is required.
+
+## Your text or logo
+
+**Reveal content** selects Arclen wordmark (default), Custom text or Custom logo. All three use the same sliced assembly. **Transition label** supplies custom text, with a 12-character limit; it also supplies the fallback when the logo setting is empty or invalid. **Custom logo** accepts a transparent PNG/WebP upload, a local image path, or an HTTPS image URL. Transparent SVGs work through same-origin or CORS-enabled URLs; raw SVG markup and SVG data URLs are not accepted.
+
+Logo pixels are used as an alpha mask: their original colours are replaced by **Cover label** during assembly and the receiving title's colour during the 400ms handoff. The demo's receiving colour is **Text** (black by default). Use a transparent logo with a tight canvas, and set **Logo aspect ratio** to its width divided by its height to avoid distortion. For reliable production delivery, serve the logo from your own origin. An unreachable URL cannot produce a visible mask.
+
+```tsx
+<SplitTypeTransition titleKind="text" label="YOUR BRAND" />
+<SplitTypeTransition
+  titleKind="logo"
+  logo="/brand-mark.svg"
+  logoAspect={4}
+  overlayText="#eeeae1"
+  foreground="#111111"
+/>
+```
+
+Without a receiving title in custom children, the configured wordmark or logo assembles at the centre of the cover and leaves when the cover clears. A receiving element marked `data-pt-title` stays consumer-owned; its content and colour determine the final resting presentation. The demo's branding controls do not replace consumer-owned HTML.
