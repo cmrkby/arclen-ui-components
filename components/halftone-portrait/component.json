@@ -1,6 +1,6 @@
 {
   "id": "halftone-portrait",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "tier": "free",
   "name": "Halftone Portrait",
   "category": "Image effects",
@@ -13,20 +13,20 @@
   ],
   "previews": [
     {
-      "name": "Ronin",
-      "settings": {
-        "src": "ronin",
-        "alt": "Silver ronin with engraved samurai armor",
-        "fit": "contain"
-      }
-    },
-    {
       "name": "Eclipse",
       "settings": {
         "src": "eclipse",
         "alt": "Astronaut in front of an eclipse",
         "scale": 1.08,
         "focalY": 0.08,
+        "fit": "contain"
+      }
+    },
+    {
+      "name": "Ronin",
+      "settings": {
+        "src": "ronin",
+        "alt": "Silver ronin with engraved samurai armor",
         "fit": "contain"
       }
     },
@@ -45,14 +45,14 @@
       "key": "src",
       "label": "Artwork or image",
       "kind": "image",
-      "default": "ronin",
+      "default": "eclipse",
       "group": "Appearance"
     },
     {
       "key": "alt",
       "label": "Image description",
       "kind": "text",
-      "default": "Interactive halftone portrait",
+      "default": "Astronaut in front of an eclipse",
       "group": "Appearance"
     },
     {
