@@ -1,5 +1,7 @@
 # Arclen UI Components
 
+React and HTML components with live controls. Tune each one to your brand, then install the code or copy one prompt into any coding agent.
+
 Source for the free components in the [Arclen UI library](https://arclenui.dev/components). Each package includes its React wrapper, standalone HTML core, CSS, settings manifest, usage notes, tests, and any assets needed to run it.
 
 | Component | Package |
