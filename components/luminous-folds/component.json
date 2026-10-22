@@ -1,0 +1,245 @@
+{
+  "id": "luminous-folds",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Luminous Folds",
+  "category": "Backgrounds",
+  "description": "Luminous blue and ember folds drift around a dark, finely grained centre.",
+  "keywords": [
+    "folds",
+    "blue",
+    "ember",
+    "grain",
+    "background",
+    "shader"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Composition",
+      "default": "perimeter",
+      "group": "Structure",
+      "options": [
+        {
+          "label": "Perimeter folds",
+          "value": "perimeter"
+        },
+        {
+          "label": "Diagonal sweep",
+          "value": "sweep"
+        },
+        {
+          "label": "Counterflow",
+          "value": "counterflow"
+        }
+      ],
+      "description": "Changes fold placement and movement; Perimeter follows the supplied composition most closely."
+    },
+    {
+      "key": "blueColor",
+      "kind": "color",
+      "label": "Blue light",
+      "default": "#087EFF",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "emberColor",
+      "kind": "color",
+      "label": "Ember light",
+      "default": "#FF6308",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "backgroundColor",
+      "kind": "color",
+      "label": "Background",
+      "default": "#010409",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "blueStrength",
+      "kind": "number",
+      "label": "Blue strength",
+      "default": 1,
+      "group": "Colors",
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "emberStrength",
+      "kind": "number",
+      "label": "Ember strength",
+      "default": 1,
+      "group": "Colors",
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "spread",
+      "kind": "number",
+      "label": "Fold spread",
+      "default": 1,
+      "group": "Appearance",
+      "min": 0.65,
+      "max": 1.35,
+      "step": 0.01,
+      "description": "Moves the fold groups toward or away from the centre."
+    },
+    {
+      "key": "softness",
+      "kind": "number",
+      "label": "Light softness",
+      "default": 0.55,
+      "group": "Appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "grain",
+      "kind": "number",
+      "label": "Grain amount",
+      "default": 0.16,
+      "group": "Appearance",
+      "min": 0,
+      "max": 0.4,
+      "step": 0.01
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Speed",
+      "default": 1,
+      "group": "Motion",
+      "min": 0,
+      "max": 3,
+      "step": 0.05,
+      "description": "0 holds the current phase; 1 is the authored slow default."
+    },
+    {
+      "key": "layout",
+      "kind": "select",
+      "label": "Layout",
+      "default": "fixed",
+      "group": "Container",
+      "options": [
+        {
+          "label": "Fixed height",
+          "value": "fixed"
+        },
+        {
+          "label": "Fill parent",
+          "value": "fill"
+        }
+      ]
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Height",
+      "default": 600,
+      "group": "Container",
+      "min": 160,
+      "max": 1600,
+      "step": 10,
+      "description": "CSS pixels in fixed mode. Fill uses a parent with an explicit height."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original procedural Luminous Folds artwork by Arclen, captured from this component."
+      }
+    }
+  ],
+  "poster": "assets/poster.webp",
+  "motion": {
+    "reducedMotion": "Render the configured procedural artwork at a held phase and schedule no animation. No JavaScript or unavailable WebGL retains a static fallback; no source-motion parity is claimed.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Perimeter folds",
+      "settings": {
+        "variant": "perimeter",
+        "blueColor": "#087EFF",
+        "emberColor": "#FF6308",
+        "backgroundColor": "#010409",
+        "blueStrength": 1,
+        "emberStrength": 1,
+        "spread": 1,
+        "softness": 0.55,
+        "grain": 0.16,
+        "speed": 1,
+        "layout": "fixed",
+        "height": 600
+      }
+    },
+    {
+      "name": "Fill receiving container",
+      "settings": {
+        "variant": "perimeter",
+        "blueColor": "#087EFF",
+        "emberColor": "#FF6308",
+        "backgroundColor": "#010409",
+        "blueStrength": 1,
+        "emberStrength": 1,
+        "spread": 1,
+        "softness": 0.55,
+        "grain": 0.16,
+        "speed": 1,
+        "layout": "fill",
+        "height": 600
+      }
+    },
+    {
+      "name": "Diagonal sweep",
+      "settings": {
+        "variant": "sweep",
+        "blueColor": "#087EFF",
+        "emberColor": "#FF6308",
+        "backgroundColor": "#010409",
+        "blueStrength": 1,
+        "emberStrength": 1,
+        "spread": 1,
+        "softness": 0.55,
+        "grain": 0.16,
+        "speed": 1,
+        "layout": "fixed",
+        "height": 600
+      }
+    },
+    {
+      "name": "Counterflow",
+      "settings": {
+        "variant": "counterflow",
+        "blueColor": "#087EFF",
+        "emberColor": "#FF6308",
+        "backgroundColor": "#010409",
+        "blueStrength": 1,
+        "emberStrength": 1,
+        "spread": 1,
+        "softness": 0.55,
+        "grain": 0.16,
+        "speed": 1,
+        "layout": "fixed",
+        "height": 600
+      }
+    }
+  ]
+}

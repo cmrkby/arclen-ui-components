@@ -1,0 +1,166 @@
+# Luminous Folds
+
+Blue and ember light moves through procedural folds around a dark, finely grained centre. Perimeter is the default composition. Diagonal sweep groups long oblique sheets; Counterflow nests opposing corner crests. All three share the same settings and lifecycle.
+
+## Install
+
+Luminous Folds is Free. From your React project's root, download the Arclen UI installer and install the complete package:
+
+```bash
+curl -fsS https://arclenui.dev/arclen-ui.mjs -o arclen-ui.mjs
+node arclen-ui.mjs add luminous-folds
+```
+
+The installer writes `components/luminous-folds`, including its CSS, manifest and poster. Keep these files together. The React entry imports its CSS and uses your application's React installation; the renderer adds no third-party runtime dependency. React, the native TypeScript core and the standalone HTML bundle are supported. The examples below use relative paths from the project root.
+
+## Basic React
+
+This complete component uses the default Perimeter composition and fixed height of 600 pixels:
+
+```tsx
+import {LuminousFolds} from './components/luminous-folds';
+
+export default function Example() {
+  return <LuminousFolds />;
+}
+```
+
+## A page background
+
+Give `layout="fill"` an explicitly sized receiving container. This complete page keeps its heading and link outside the decorative component:
+
+```tsx
+import {LuminousFolds} from './components/luminous-folds';
+
+export default function BackgroundPage() {
+  return (
+    <main style={{position: 'relative', height: '100svh', background: '#010409'}}>
+      <LuminousFolds
+        layout="fill"
+        variant="perimeter"
+        blueColor="#3366FF"
+        emberColor="#FF7A32"
+        speed={0.7}
+        grain={0.1}
+        style={{position: 'absolute', inset: 0, height: '100%'}}
+      />
+      <section style={{position: 'relative', padding: 'clamp(24px, 6vw, 80px)', color: '#FFFFFF'}}>
+        <h1>Room to think.</h1>
+        <a href="#details" style={{color: 'inherit'}}>Explore the details</a>
+      </section>
+      <p id="details" style={{position: 'relative', padding: 24, color: '#FFFFFF'}}>
+        Your content stays in the receiving page.
+      </p>
+    </main>
+  );
+}
+```
+
+Fixed layout accepts `height` from 160 to 1600 pixels. The default 600 is not a maximum. Fill layout uses the receiving height and ignores `height`; width always follows the receiving container. The catalogue preview deliberately fills its frame, while exported sizing follows your settings.
+
+## Native TypeScript core
+
+The core works without React in a TypeScript bundler that handles CSS and image imports. Use this complete `index.html` with the following `main.ts`. The artwork host is dedicated to the component; controls are separate.
+
+```html
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Luminous Folds controls</title></head>
+<body>
+  <div id="artwork" style="width:100%;max-width:900px"></div>
+  <button id="change" type="button">Change ember light</button>
+  <button id="pause" type="button">Pause</button>
+  <button id="resume" type="button">Resume</button>
+  <button id="remove" type="button">Remove artwork</button>
+  <p id="status" role="status">Ready</p>
+  <script type="module" src="./main.ts"></script>
+</body>
+</html>
+```
+
+```ts
+import {mount} from './components/luminous-folds/src/core';
+import './components/luminous-folds/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#artwork');
+const status = document.querySelector<HTMLElement>('#status');
+if (!host || !status) throw new Error('The example needs its artwork and status elements.');
+
+const scene = mount(host, {height: 480, speed: 0.7});
+let removed = false;
+const change = () => {scene.update({emberColor: '#F94664'}); status.textContent = 'Ember light changed';};
+const pause = () => {scene.pause(); status.textContent = 'Paused';};
+const resume = () => {scene.resume(); status.textContent = 'Resumed';};
+const destroy = () => {
+  if (removed) return;
+  removed = true;
+  scene.destroy();
+  host.replaceChildren();
+  for (const [id, action] of actions) document.getElementById(id)?.removeEventListener('click', action);
+  window.removeEventListener('pagehide', leave);
+  status.textContent = 'Artwork removed';
+};
+const actions: Array<[string, () => void]> = [
+  ['change', change], ['pause', pause], ['resume', resume], ['remove', destroy],
+];
+for (const [id, action] of actions) document.getElementById(id)?.addEventListener('click', action);
+const leave = (event: PageTransitionEvent) => {if (!event.persisted) destroy();};
+window.addEventListener('pagehide', leave);
+```
+
+`mount` accepts an empty dedicated host or this component's server markup. `update` validates the entire patch before changing anything, keeps the canvas and preserves phase. Call `destroy` when the host is no longer used. It is safe to call twice; later `update` calls throw. Destroy releases owned resources and leaves the poster unless your application removes the markup, as this example does. React unmount handles cleanup automatically. React also accepts `className`, `style` and a boolean `paused` prop.
+
+## Standalone HTML
+
+Open `/api/download/luminous-folds` on the Arclen UI site to download the HTML ZIP, then unpack it beside your page as `luminous-folds/`. It contains `component.html`, `component.css`, `component.js`, `manifest.json` and the local poster assets. You can embed the supplied `component.html`, keeping its relative asset paths intact. Alternatively, this complete receiving page mounts the same bundle with configured settings:
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luminous Folds background</title>
+  <link rel="stylesheet" href="./luminous-folds/component.css">
+  <style>
+    body { margin: 0; }
+    .hero { position: relative; height: 480px; background: #010409; }
+    .art { position: absolute; inset: 0; height: 100%; }
+    .content { position: relative; padding: 32px; color: white; }
+    .content a { color: inherit; }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <div class="art" data-arclen-ui="luminous-folds"
+      data-settings='{"layout":"fill","variant":"perimeter","speed":0.7,"grain":0.1}'>
+      <noscript><img src="./luminous-folds/poster.webp" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></noscript>
+    </div>
+    <section class="content">
+      <h1>Room to think.</h1>
+      <a href="#details">Explore the details</a>
+    </section>
+  </main>
+  <p id="details">Your content stays in the receiving page.</p>
+  <script src="./luminous-folds/component.js" defer></script>
+</body>
+</html>
+```
+
+Copy HTML in the catalogue produces an inline snippet with its styles, script and local artwork included. The ZIP uses relative files and has been checked at root and subpath locations. Keep your content outside the decorative host.
+
+## Settings and motion
+
+The API reference on this page is generated from the package manifest. It lists all 12 settings, defaults, bounds and composition options. There is no separate handwritten defaults table.
+
+Use opaque six-digit HEX colours such as `#087EFF`; transparent, alpha HEX and CSS colour functions are unsupported. Blue and ember strengths independently control each light; zero removes that light. `spread` changes how far folds reach into the centre, `softness` changes the light shoulders, and `grain` changes the stationary texture. `speed=0` holds the current frame. Switching composition or changing settings preserves phase.
+
+The canvas is decorative, hidden from assistive technology and has no focus targets. It does not intercept pointer input. Place readable text, links and controls in your receiving page and test their contrast over your chosen palette. This background adds no keyboard or touch gestures; the example buttons use native button behavior.
+
+Reduced-motion preference, the React `paused` prop and speed zero hold the current procedural frame. Animation stops offscreen or while the document is hidden and resumes without advancing the hidden interval. Hardware WebGL remains animated. Positively identified software renderers (SwiftShader, llvmpipe, softpipe, Software Rasterizer and Microsoft Basic Render Driver) hold the current configured shader frame still; valid setting changes redraw that frame. This uses the shader, not the default poster. Unknown renderer names, or unavailable renderer information, retain animation. The backing store is bounded to 1.25 million pixels and an effective pixel ratio no greater than 1.5; CSS layout dimensions are preserved. Large receiving areas can therefore render at a lower backing resolution.
+
+Server-rendered React markup and the supplied HTML show the captured default Perimeter poster before JavaScript. A client-only React app needs JavaScript to mount. If usable WebGL or high-precision shader support is unavailable, a mounted component keeps that poster. That poster retains the default blue/ember appearance; configured colours require working WebGL, including the static reduced-motion path. The poster is an earlier approved phase-zero capture and is not a promise of pixel identity with every later shader evaluation. Clean React/Vite and Next hosts and standalone Chromium/WebGL delivery have been checked; this is not a claim that every browser/GPU combination has been measured.
+
+## Rights and assets
+
+The fold equations, motion and grain are originally authored. Two supplied stills informed composition only and establish no original motion timing or direction. Those study images are not distributed as textures or package assets. The bundled poster is an actual rendered capture with its hash and conversion provenance in `assets/PROVENANCE.md`. Keep that notice and the package `PROVENANCE.md` with redistributed assets. This Free package is MIT licensed.
