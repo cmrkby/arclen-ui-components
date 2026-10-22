@@ -34,7 +34,7 @@
           "value": "counterflow"
         }
       ],
-      "description": "Changes fold placement and movement; Perimeter follows the supplied composition most closely."
+      "description": "Changes fold placement and movement."
     },
     {
       "key": "blueColor",

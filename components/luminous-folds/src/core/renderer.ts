@@ -6,7 +6,7 @@ export function backingSize(width: number, height: number, dpr: number, limit = 
   const scale = Math.min(Math.max(1, dpr), 1.5, Math.sqrt(1250000/(w*h)), limit/w, limit/h);
   return {width: Math.max(1, Math.floor(w*scale)), height: Math.max(1, Math.floor(h*scale))};
 }
-/** Document-scoped lifecycle follows Arclen's admitted Grain controller architecture. */
+/** Document-scoped lifecycle follows Arclen's Grain Gradient controller architecture. */
 export function createRenderer(canvas: HTMLCanvasElement, initial: Settings, initiallyPaused = false) {
   const doc = canvas.ownerDocument, view = doc.defaultView;
   if (!view || !(canvas instanceof view.HTMLCanvasElement)) throw new TypeError('A canvas with an owner window is required.');
