@@ -11,6 +11,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Editorial FAQ | [`components/editorial-faq`](components/editorial-faq) |
 | Halftone Portrait | [`components/halftone-portrait`](components/halftone-portrait) |
 | Signal Field | [`components/signal-field`](components/signal-field) |
+| Grain Gradient | [`components/grain-gradient`](components/grain-gradient) |
 | Split FAQ | [`components/split-faq`](components/split-faq) |
 | Status Swap | [`components/status-swap`](components/status-swap) |
 | Text Reel | [`components/text-reel`](components/text-reel) |

@@ -1,0 +1,97 @@
+# Grain Gradient
+
+Original warm opposing fields, flowing ribbons and a flowing blanket share fine, static grain on a black background. The artwork is decorative and does not intercept clicks or enter the keyboard tab order. Place meaningful content and controls beside or above it, with suitable contrast. Use labelled native buttons for any animation controls you add; keyboard and touch activation can call the same pause and resume methods.
+
+```tsx
+import { GrainGradient } from './components/grain-gradient';
+
+<GrainGradient height={600} />
+```
+
+`Component` is an alias of `GrainGradient`. The wrapper accepts each setting as a prop, plus `className`, `style` and `paused`.
+
+## Installation and targets
+
+Use **Install** above the preview to copy the installation command for your project. The **Code** tab and **Copy all** provide the complete files for the selected target. Keep the generated source, styles and assets at their supplied relative paths.
+
+React, HTML and vanilla JavaScript are supported. The React adapter uses your application’s React installation; the core and HTML renderer have no runtime dependencies. Import the stylesheet when using the vanilla core directly, as in the example below. React imports it through the adapter. The HTML target can run as supplied; its Code → Copy all output is self-contained.
+
+The React examples below are fragments to place in your own component. The vanilla example requires an existing empty receiving element named `host`; keep its returned controller for later updates and cleanup.
+
+## Receiving container
+
+Fixed layout uses the available width and the Height setting, which defaults to 600 CSS pixels. Fill layout needs a definite height on the receiving wrapper:
+
+```tsx
+<GrainGradient layout="fill" style={{ height: 420 }} paused />
+```
+
+Height is retained but ignored in Fill layout. The renderer measures its own surface, including when embedded inside a narrow panel. It does not size itself to the page viewport.
+
+For a page background, give the component a fixed viewport-sized wrapper and place page content above it:
+
+```tsx
+<div style={{ position: 'relative', isolation: 'isolate', minHeight: '100dvh' }}>
+  <GrainGradient
+    layout="fill"
+    style={{ position: 'fixed', inset: 0, height: '100dvh', pointerEvents: 'none', zIndex: 0 }}
+  />
+  <main style={{ position: 'relative', zIndex: 1 }}>Your page content</main>
+</div>
+```
+
+The background covers the visible viewport as content scrolls. Place it near the page root; a transformed ancestor can change fixed positioning. The default 600px embed height is not a maximum for Fill layout.
+
+## Structures
+
+Choose **Original warm**, **Flowing ribbons** or **Flowing blanket** using the three image tiles at the top of the tweaks panel. The portable `variant` values are `original`, `ribbons` and `blanket`. Original warm remains the default. Ribbons use traveling waves; the blanket uses a broad, diffuse ember glow that drifts around the edges of the frame. Colors and the other settings apply to every structure.
+
+For example, render the ribbons through the same React component:
+
+```tsx
+import { GrainGradient } from './components/grain-gradient';
+
+<GrainGradient variant="ribbons" height={600} />
+```
+
+Or switch an existing vanilla controller: `controller.update({ variant: 'blanket' })`. Switching preserves the current phase and pause state and reuses the canvas and WebGL context. A shader replacement failure exposes the selected structure’s static CSS fallback.
+
+## Settings and updates
+
+Core, glow, edge and rim colors accept opaque six-digit hex values such as `#FFA504`. Letters normalize to uppercase. Transparent, alpha, shorthand and named colors are unsupported. Numeric values must stay within the generated reference bounds. Seed must be an integer. Slider steps are UI increments; valid fractional values are not rounded.
+
+```ts
+import { defaults, mount } from './components/grain-gradient/src/core';
+import './components/grain-gradient/src/styles.css';
+
+const controller = mount(host, { height: 420, grain: 0.18 }, 'background');
+controller.update({ speed: 0.5, coreColor: '#FFA504' });
+controller.pause();
+controller.resume();
+controller.update(defaults);
+controller.destroy();
+```
+
+Updates merge into current settings and preserve animation phase. Invalid patches throw before changing the scene. Resetting settings also preserves phase. React props resolve from defaults on every render, so removing a prop restores its default. A host can have only one mounted instance. Destroy before moving it into another document, then mount again there.
+
+For an initially paused vanilla instance, use the fourth argument: `mount(host, settings, id, { paused: true })`. Pause and resume are independent for each instance. Repeated destroy calls are harmless; updates after destroy throw.
+
+## Static and reduced-motion behavior
+
+Hidden documents, offscreen surfaces, reduced motion, explicit pause and zero speed stop animation. Returning to view preserves phase without catching up through the paused interval. Reduced motion renders the current settings at a static phase. Missing IntersectionObserver uses owner-window scroll and resize checks; missing ResizeObserver uses owner-window resize. If motion preference cannot be queried, the renderer assumes no preference.
+
+Hardware WebGL animates normally. Known software renderers (SwiftShader, llvmpipe, softpipe, Software Rasterizer and Microsoft Basic Render Driver) render the same configured shader held still, with no animation callbacks. Resizing and setting changes redraw it. This avoids continuous software-rendering cost while retaining the shader's grain and colors. Detection reads the local WebGL renderer string; an unavailable or unrecognized string keeps the existing animation behavior. No renderer information is sent anywhere.
+
+Server rendering includes a static CSS scene. Missing WebGL, insufficient precision or a lost context exposes that configured scene, which has less detail than the shader. Restoration retains the settings and phase. No remote assets, fonts or runtime dependencies are required.
+
+The HTML download includes the selected structure’s captured warm poster for browsers with JavaScript disabled. These posters represent default colors, not custom colors. Ribbons’ CSS fallback uses horizontal bands, including in portrait hosts; it is a reduced-detail composition rather than the shader’s portrait rotation. Serialized layout dimensions still apply; configured shader and CSS fallback colors require JavaScript. The poster is separate from the static shader used for reduced motion.
+
+## Colour balance
+
+Core strength, Glow strength, Edge strength and Rim strength are relative color weights shared by all three structures. Each ranges from 0 to 2: 0 removes that color, 1 keeps its normal contribution and 2 increases its share where colors overlap. Remaining weights are normalized, so these controls do not simply darken the field. A region containing only a disabled stop uses its nearest enabled color. Setting all four to 0 gives an opaque black field. Shape, grain and motion remain unchanged.
+
+All four default to 1. The same `coreStrength`, `glowStrength`, `edgeStrength` and `rimStrength` values travel through React props, vanilla updates and configured downloads. The static CSS fallback also honors them. Captured no-JavaScript posters show the default warm palette and default strengths; they do not recolor themselves.
+
+## Provenance
+
+The shader code and generated artwork are independently authored by Arclen. No third-party shader, font, texture or runtime service is included. The package’s `PROVENANCE.md` describes the artwork and poster origins.
