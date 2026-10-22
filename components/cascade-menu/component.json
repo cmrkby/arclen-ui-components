@@ -47,7 +47,7 @@
   "targets": ["react", "html", "vanilla"],
   "dependencies": {},
   "assets": [
-    {"path":"assets/arclen-favicon.svg","rights":{"kind":"original","attribution":"Arclen logo supplied by its owner."},"contentType":"image/svg+xml"},
+    {"path":"assets/arclen-favicon.svg","rights":{"kind":"original","attribution":"Original Arclen logo."},"contentType":"image/svg+xml"},
     {"path":"assets/NOTICE.md","rights":{"kind":"original","attribution":"Arclen UI implementation and provenance notice."},"contentType":"text/markdown"}
   ],
   "poster":"poster.webp",
