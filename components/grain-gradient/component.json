@@ -1,0 +1,332 @@
+{
+  "id": "grain-gradient",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Grain Gradient",
+  "category": "Backgrounds",
+  "description": "Warm grain fields in opposing, flowing-ribbon or soft perimeter compositions with direct color controls.",
+  "keywords": [
+    "gradient",
+    "background",
+    "grain",
+    "shader",
+    "warm"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Variant",
+      "group": "Structure",
+      "default": "original",
+      "options": [
+        {
+          "label": "Original warm",
+          "value": "original"
+        },
+        {
+          "label": "Flowing ribbons",
+          "value": "ribbons"
+        },
+        {
+          "label": "Flowing blanket",
+          "value": "blanket"
+        }
+      ],
+      "description": "Changes the field arrangement and motion. Original warm is the default."
+    },
+    {
+      "key": "coreColor",
+      "kind": "color",
+      "label": "Core color",
+      "group": "Colors",
+      "default": "#FFA504",
+      "description": "Opaque six-digit hex color. The component normalizes letters to uppercase; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "glowColor",
+      "kind": "color",
+      "label": "Glow color",
+      "group": "Colors",
+      "default": "#FF6414",
+      "description": "Opaque six-digit hex color. The component normalizes letters to uppercase; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "edgeColor",
+      "kind": "color",
+      "label": "Edge color",
+      "group": "Colors",
+      "default": "#E14236",
+      "description": "Opaque six-digit hex color. The component normalizes letters to uppercase; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "rimColor",
+      "kind": "color",
+      "label": "Rim color",
+      "group": "Colors",
+      "default": "#8C214C",
+      "description": "Opaque six-digit hex color. The component normalizes letters to uppercase; alpha and transparent values are unsupported."
+    },
+    {
+      "key": "coreStrength",
+      "kind": "number",
+      "label": "Core strength",
+      "group": "Colour balance",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "description": "0 removes this colour, 1 is normal, 2 gives it a stronger relative contribution."
+    },
+    {
+      "key": "glowStrength",
+      "kind": "number",
+      "label": "Glow strength",
+      "group": "Colour balance",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "description": "0 removes this colour, 1 is normal, 2 gives it a stronger relative contribution."
+    },
+    {
+      "key": "edgeStrength",
+      "kind": "number",
+      "label": "Edge strength",
+      "group": "Colour balance",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "description": "0 removes this colour, 1 is normal, 2 gives it a stronger relative contribution."
+    },
+    {
+      "key": "rimStrength",
+      "kind": "number",
+      "label": "Rim strength",
+      "group": "Colour balance",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "description": "0 removes this colour, 1 is normal, 2 gives it a stronger relative contribution."
+    },
+    {
+      "key": "size",
+      "kind": "number",
+      "label": "Size",
+      "group": "Appearance",
+      "default": 0.69,
+      "min": 0.35,
+      "max": 1.05,
+      "step": 0.01
+    },
+    {
+      "key": "softness",
+      "kind": "number",
+      "label": "Softness",
+      "group": "Appearance",
+      "default": 0.56,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "grain",
+      "kind": "number",
+      "label": "Grain amount",
+      "group": "Appearance",
+      "default": 0.24,
+      "min": 0,
+      "max": 0.45,
+      "step": 0.01
+    },
+    {
+      "key": "grainScale",
+      "kind": "number",
+      "label": "Grain scale",
+      "group": "Appearance",
+      "default": 1,
+      "min": 0.65,
+      "max": 4,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Speed",
+      "group": "Motion",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 0.05
+    },
+    {
+      "key": "seed",
+      "kind": "number",
+      "label": "Seed",
+      "group": "Motion",
+      "default": 12,
+      "min": 0,
+      "max": 9999,
+      "step": 1,
+      "description": "Integer only. Changes the existing deterministic field phase and grain."
+    },
+    {
+      "key": "layout",
+      "kind": "select",
+      "label": "Layout",
+      "group": "Container",
+      "default": "fixed",
+      "options": [
+        {
+          "label": "Fixed height",
+          "value": "fixed"
+        },
+        {
+          "label": "Fill parent",
+          "value": "fill"
+        }
+      ],
+      "description": "Fixed height makes a standalone embed. Fill parent uses the receiving container height; its owner must provide that height."
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Height",
+      "group": "Container",
+      "default": 600,
+      "min": 160,
+      "max": 1600,
+      "step": 10,
+      "description": "Height in CSS pixels in Fixed height mode. Retained but ignored by Fill parent."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original procedural Grain Gradient artwork by Arclen."
+      }
+    },
+    {
+      "path": "assets/poster-ribbons.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original procedural Grain Gradient flowing ribbons artwork by Arclen."
+      }
+    },
+    {
+      "path": "assets/poster-blanket.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original procedural Grain Gradient flowing blanket artwork by Arclen."
+      }
+    }
+  ],
+  "poster": "assets/poster.webp",
+  "motion": {
+    "reducedMotion": "With JavaScript, render the selected structure and settings at a static phase and stop animation; live changes retain phase. Without JavaScript, HTML downloads show the selected structure\u2019s captured warm poster.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Original warm",
+      "settings": {
+        "variant": "original",
+        "coreColor": "#FFA504",
+        "glowColor": "#FF6414",
+        "edgeColor": "#E14236",
+        "rimColor": "#8C214C",
+        "size": 0.69,
+        "softness": 0.56,
+        "grain": 0.24,
+        "grainScale": 1,
+        "speed": 1,
+        "seed": 12,
+        "layout": "fixed",
+        "height": 600,
+        "coreStrength": 1,
+        "glowStrength": 1,
+        "edgeStrength": 1,
+        "rimStrength": 1
+      }
+    },
+    {
+      "name": "Fill receiving container",
+      "settings": {
+        "variant": "original",
+        "coreColor": "#FFA504",
+        "glowColor": "#FF6414",
+        "edgeColor": "#E14236",
+        "rimColor": "#8C214C",
+        "size": 0.69,
+        "softness": 0.56,
+        "grain": 0.24,
+        "grainScale": 1,
+        "speed": 1,
+        "seed": 12,
+        "layout": "fill",
+        "height": 600,
+        "coreStrength": 1,
+        "glowStrength": 1,
+        "edgeStrength": 1,
+        "rimStrength": 1
+      }
+    },
+    {
+      "name": "Flowing ribbons",
+      "settings": {
+        "variant": "ribbons",
+        "coreColor": "#FFA504",
+        "glowColor": "#FF6414",
+        "edgeColor": "#E14236",
+        "rimColor": "#8C214C",
+        "size": 0.69,
+        "softness": 0.56,
+        "grain": 0.24,
+        "grainScale": 1,
+        "speed": 1,
+        "seed": 12,
+        "layout": "fixed",
+        "height": 600,
+        "coreStrength": 1,
+        "glowStrength": 1,
+        "edgeStrength": 1,
+        "rimStrength": 1
+      }
+    },
+    {
+      "name": "Flowing blanket",
+      "settings": {
+        "variant": "blanket",
+        "coreColor": "#FFA504",
+        "glowColor": "#FF6414",
+        "edgeColor": "#E14236",
+        "rimColor": "#8C214C",
+        "size": 0.69,
+        "softness": 0.56,
+        "grain": 0.24,
+        "grainScale": 1,
+        "speed": 1,
+        "seed": 12,
+        "layout": "fixed",
+        "height": 600,
+        "coreStrength": 1,
+        "glowStrength": 1,
+        "edgeStrength": 1,
+        "rimStrength": 1
+      }
+    }
+  ]
+}
