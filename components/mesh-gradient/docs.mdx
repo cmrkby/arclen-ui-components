@@ -1,0 +1,159 @@
+# Mesh Gradient
+
+An animated WebGL colour field with adjustable distortion, swirl and grain. Original is the default composition, with Glacier as its default palette. Use it as a section or page background, with meaningful headings and controls in your surrounding page.
+
+## Install
+
+Mesh Gradient is Free. From your React project's root, download the Arclen UI installer and install the complete package:
+
+```bash
+curl -fsS https://arclenui.dev/arclen-ui.mjs -o arclen-ui.mjs
+node arclen-ui.mjs add mesh-gradient
+```
+
+The installer writes `components/mesh-gradient`, including its CSS, manifest, poster and local fonts. Keep those files together. The React entry imports its stylesheet and uses your application's React installation. The renderer has no third-party runtime dependencies or remote font requests. React, a native TypeScript core and standalone HTML are supported.
+
+## Basic React
+
+This complete component uses the default settings. Save it at your project root; adjust the relative import if you put the example elsewhere.
+
+```tsx
+import { MeshGradient } from './components/mesh-gradient';
+
+export default function Example() {
+  return <MeshGradient />;
+}
+```
+
+The installed root exports both `MeshGradient` and its `Component` alias. In Next.js, this wrapper is already a client component and can be imported into an App Router page. Add `"use client"` to your own file only when it uses client state or event handlers.
+
+## A page background
+
+This complete page fills a viewport-sized parent. Its semantic heading and link sit outside the decorative artwork, on an opaque panel for consistent text contrast.
+
+```tsx
+import { MeshGradient } from './components/mesh-gradient';
+
+export default function BackgroundPage() {
+  return (
+    <main style={{ position: 'relative', height: '100svh', background: '#E0EAFF' }}>
+      <MeshGradient
+        layout="fill"
+        headline=""
+        colors={['#F0F5F4', '#94C4D8', '#335E9C', '#9BA5DD']}
+        distortion={0.5}
+        swirl={0.3}
+        grainOverlay={0.12}
+        speed={0.6}
+        style={{ position: 'absolute', inset: 0, height: '100%', pointerEvents: 'none' }}
+      />
+      <section style={{ position: 'relative', padding: 32 }}>
+        <div style={{ maxWidth: 480, padding: 24, color: '#101B31', background: '#FFFFFF' }}>
+          <h1>Make room for ideas.</h1>
+          <a href="#details" style={{ color: 'inherit' }}>Explore the details</a>
+          <p id="details">Your content stays in the receiving page.</p>
+        </div>
+      </section>
+    </main>
+  );
+}
+```
+
+Standalone layout accepts `height` from 120 to 2000 CSS pixels. Its default 600 pixels is not a maximum. Fill layout takes the receiving parent's defined height and ignores `height`; the React wrapper also needs `height: '100%'`, as above. A parent without a definite height can collapse to zero. Width follows the receiving container. The catalogue preview fills its frame separately from exported sizing.
+
+## Shape and colour blending
+
+The catalogue offers Glacier, Iris & mint, and Arclen UI palette shortcuts. Each applies an ordered `colors` array; you can still edit, add or remove individual colours. The component accepts 2–10 six- or eight-digit HEX colours.
+
+Use these portable controls alongside distortion and swirl:
+
+| Control | Range | Default | Effect |
+| --- | --- | --- | --- |
+| `scale` | 0.5–2 | 1 | Zoom into or out of the colour pattern. Container size is unchanged. |
+| `stretch` | 0.5–2 | 1 | Widen or compress the pattern horizontally. |
+| `rotation` | 0–360 degrees | 0 | Rotate the pattern around its centre. |
+| `colorBlend` | 0–1 | 0.5 | Lower values separate colour pools; higher values soften transitions. |
+| `motionSpread` | 0–1.5 | 1 | Change how widely the colour centres move. Zero collapses them to one blended colour. |
+
+These defaults retain the original composition. Settings update the existing shader in place. Paused, reduced-motion and identified software-rendered instances redraw the selected settings at their held phase. Motion spread changes the colour trajectories; speed still controls how quickly time advances.
+
+```tsx
+import { MeshGradient } from './components/mesh-gradient';
+
+export default function SoftMesh() {
+  return <MeshGradient scale={1.4} stretch={0.8} rotation={35} colorBlend={0.8} motionSpread={0.6} />;
+}
+```
+
+## Standalone HTML
+
+Choose Download HTML on the component page, or open `/api/download/mesh-gradient` on the Arclen UI site. Unpack the complete ZIP directly beside your receiving page. Keep `component.js`, `component.css`, `manifest.json`, the poster and the `assets` directory together. The supplied `component.html` already includes the component's server markup and default poster. Serve the files over HTTP.
+
+This complete receiving page uses the same bundle with configured settings. Keep the local fallback image for visitors without JavaScript. The paths work at a nested location too when all bundle files and the `assets/` directory stay beside this page. Do not load `component.js` from a different directory: its poster path is relative to the receiving document.
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mesh Gradient background</title>
+  <link rel="stylesheet" href="./component.css">
+  <style>
+    body { margin: 0; }
+    .hero { position: relative; height: 480px; background: #E0EAFF; }
+    .art { position: absolute; inset: 0; height: 100%; pointer-events: none; }
+    .poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .content { position: relative; padding: 32px; }
+    .panel { max-width: 480px; padding: 24px; color: #101B31; background: white; }
+    .panel a { color: inherit; }
+  </style>
+</head>
+<body>
+  <main class="hero">
+    <div class="art" data-arclen-ui="mesh-gradient"
+      data-settings='{"layout":"fill","headline":"","distortion":0.5,"swirl":0.3,"grainOverlay":0.12,"speed":0.6}'>
+      <img class="poster" src="./assets/poster.webp" alt="">
+    </div>
+    <section class="content">
+      <div class="panel">
+        <h1>Make room for ideas.</h1>
+        <a href="#details">Explore the details</a>
+        <p id="details">Your content stays in the receiving page.</p>
+      </div>
+    </section>
+  </main>
+  <script src="./component.js" defer></script>
+</body>
+</html>
+```
+
+Copy HTML on the component page produces an inline snippet containing its styles, script and local artwork. The ZIP uses relative files. Essential content belongs outside the dedicated artwork host because mounting replaces its children.
+
+## Settings and lifecycle
+
+The API reference on this page is generated from the package manifest and lists all ten settings, defaults, bounds and options. There is no separate handwritten defaults table.
+
+`colors` accepts an ordered list of two to ten six-digit or eight-digit HEX colours, including alpha, such as `#335E9C` or `#335E9C80`. CSS colour names and functions are unsupported. Palette order changes the field. Authored colours stay the same in light and dark themes. `grainMixer` changes the colour mixing texture; `grainOverlay` adds visible grain. Settings changes preserve animation phase.
+
+The optional `headline` is decorative. An empty string removes it. Readable mode places dark serif text on an opaque white backplate; overlay mode is transparent and blends with the artwork, so its contrast can be weak. Headline fitting stays between 32 and 96 pixels. Very long text in a small host can still overflow at the 32-pixel minimum; keep essential text in your page's own semantic heading.
+
+The React wrapper also accepts `className`, `style` and a boolean `paused` prop. Unmounting releases the instance automatically. The native core exports `defaults`, `resolveSettings`, `render` and `mount` from `src/core/index.ts` for TypeScript bundlers that handle CSS and image imports; include `src/styles.css`. `render(settings, id)` is server safe; supply a stable unique ID on the server. `mount(host, settings, id)` owns a dedicated host's children and returns `update(settings)`, `pause()`, `resume()` and `destroy()`. Updates validate settings before changing them, apply defaults to omitted values and preserve phase. Always destroy an instance when removing its host. Destroy removes the component root and releases its owned resources; repeated destroy and later updates are harmless no-ops.
+
+## Accessibility and motion
+
+The canvas is decorative, hidden from assistive technology and has no focus targets. The poster has an empty alternative. The artwork does not intercept pointer input or add keyboard or touch gestures. Keep readable headings, links and controls in your surrounding page and check contrast against your chosen palette. The optional headline is ordinary text, not a semantic page heading.
+
+With working WebGL2, reduced motion on mount draws shader time zero. Enabling reduced motion later freezes the current phase. `paused` and speed zero also hold the current frame. Animation pauses offscreen or while the document is hidden, then resumes without advancing the hidden interval. Resume does not override reduced motion, a hidden document or an offscreen host.
+
+Hardware-accelerated WebGL animates. Identified software renderers, including SwiftShader, llvmpipe, softpipe, Software Rasterizer and Microsoft Basic Render Driver, show the configured shader held still; valid colour, grain and size changes redraw it. Unknown renderer names or unavailable renderer information retain animation. Large receiving areas can use a lower backing resolution because the canvas is capped at 8,294,400 backing pixels. CSS layout dimensions are preserved.
+
+Server-rendered React markup and the supplied HTML show the default Glacier poster before JavaScript. A client-only React application needs JavaScript to mount. If WebGL2 is unavailable, the mounted component keeps that poster. Context loss returns to the poster; automatic context restoration is unsupported, so remount the instance to retry. The poster retains its default colours; configured colours need working WebGL, including the static reduced-motion path. If the poster cannot load, the local CSS background remains.
+
+Clean React/Vite and Next.js hosts and standalone HTML have been checked. Browser measurements cover desktop Chromium with Metal and software rendering, and desktop WebKit; desktop WebKit is not a physical iPhone test. Startup measurements exceeded the paired baseline by 21.6 ms on the tested Metal Chromium DPR 1 run. The software Chromium DPR 2 run added 0.6 ms startup and 3 ms of startup long tasks. These environment-specific measurements are not maximums or a promise for every browser and GPU.
+
+## Rights and assets
+
+This Free package is MIT licensed. It is an original Arclen implementation. The default poster is a capture from the package's renderer with the Glacier palette.
+
+Instrument Serif is distributed under the SIL Open Font License 1.1. Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif). Keep both font subsets and the complete licence and copyright notice at `assets/instrument-serif-OFL-1.1.txt` with redistributed assets. Times New Roman is only a local fallback when available.
