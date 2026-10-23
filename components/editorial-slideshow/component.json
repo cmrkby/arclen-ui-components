@@ -1,0 +1,412 @@
+{
+  "id": "editorial-slideshow",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Editorial Slideshow",
+  "category": "Image Slideshows",
+  "description": "A split image and story slideshow with a separate editorial column, coordinated captions and eight transitions.",
+  "keywords": [
+    "slideshow",
+    "carousel",
+    "images",
+    "gallery",
+    "react",
+    "editorial",
+    "split layout"
+  ],
+  "settings": [
+    {
+      "key": "transition",
+      "kind": "select",
+      "label": "Transition",
+      "default": "blur",
+      "group": "Motion",
+      "options": [
+        {
+          "label": "Blur",
+          "value": "blur"
+        },
+        {
+          "label": "Fade",
+          "value": "fade"
+        },
+        {
+          "label": "Slide",
+          "value": "slide"
+        },
+        {
+          "label": "Slide Up",
+          "value": "slideUp"
+        },
+        {
+          "label": "Cover",
+          "value": "cover"
+        },
+        {
+          "label": "Wipe",
+          "value": "wipe"
+        },
+        {
+          "label": "Zoom",
+          "value": "zoom"
+        },
+        {
+          "label": "None",
+          "value": "none"
+        }
+      ]
+    },
+    {
+      "key": "images",
+      "kind": "string-list",
+      "label": "Image URLs or bundled artwork",
+      "default": [
+        "soft-horizons",
+        "research-workspace",
+        "glass-in-bloom"
+      ],
+      "group": "Content",
+      "minItems": 1,
+      "maxItems": 12,
+      "maxItemLength": 2048
+    },
+    {
+      "key": "titles",
+      "kind": "string-list",
+      "label": "Slide titles",
+      "default": [
+        "A place to explore",
+        "Ideas, connected",
+        "Room to think"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 100
+    },
+    {
+      "key": "descriptions",
+      "kind": "string-list",
+      "label": "Slide descriptions",
+      "default": [
+        "A simple place to ask, research and plan.",
+        "Bring sources together and turn research into a brief.",
+        "Clear glass above a meadow in soft morning light."
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 240
+    },
+    {
+      "key": "alts",
+      "kind": "string-list",
+      "label": "Image descriptions",
+      "default": [
+        "AI prompt composer with Research and Plan controls above a pastel wildflower meadow under peach clouds",
+        "Ivory research workspace with source cards and a connected synthesis diagram above a flowering meadow",
+        "A clear floating glass orb above sage grass and pastel wildflowers in soft morning light"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 200
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Region label",
+      "default": "Soft horizons",
+      "group": "Content",
+      "maxLength": 100
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Height",
+      "default": 500,
+      "group": "Geometry",
+      "min": 300,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 0,
+      "group": "Geometry",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Transition duration",
+      "default": 650,
+      "group": "Motion",
+      "min": 0,
+      "max": 1200,
+      "step": 10
+    },
+    {
+      "key": "interval",
+      "kind": "number",
+      "label": "Autoplay interval",
+      "default": 5000,
+      "group": "Motion",
+      "min": 2000,
+      "max": 15000,
+      "step": 500
+    },
+    {
+      "key": "autoplay",
+      "kind": "boolean",
+      "label": "Autoplay",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Accent",
+      "default": "#748366",
+      "group": "Appearance"
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#171717",
+      "group": "Appearance"
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#ffffff",
+      "group": "Appearance"
+    },
+    {
+      "key": "heightMode",
+      "kind": "select",
+      "label": "Height mode",
+      "default": "fill",
+      "options": [
+        "fixed",
+        "fill"
+      ],
+      "group": "Geometry"
+    },
+    {
+      "key": "imageFit",
+      "kind": "select",
+      "label": "Image fit",
+      "default": "cover",
+      "options": [
+        "cover",
+        "contain"
+      ],
+      "group": "Image"
+    },
+    {
+      "key": "focalX",
+      "kind": "number",
+      "label": "Horizontal focal point",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Image"
+    },
+    {
+      "key": "focalY",
+      "kind": "number",
+      "label": "Vertical focal point",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Image"
+    },
+    {
+      "key": "imageScale",
+      "kind": "number",
+      "label": "Image scale",
+      "default": 1,
+      "min": 1,
+      "max": 1.5,
+      "step": 0.05,
+      "group": "Image"
+    },
+    {
+      "key": "blurAmount",
+      "kind": "number",
+      "label": "Blur strength",
+      "default": 16,
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "group": "Motion"
+    },
+    {
+      "key": "zoomAmount",
+      "kind": "number",
+      "label": "Zoom strength",
+      "default": 0.18,
+      "min": 0.02,
+      "max": 0.5,
+      "step": 0.01,
+      "group": "Motion"
+    },
+    {
+      "key": "showNavigation",
+      "kind": "boolean",
+      "label": "Navigation arrows",
+      "default": true,
+      "group": "Visibility"
+    },
+    {
+      "key": "showIndicators",
+      "kind": "boolean",
+      "label": "Slide indicators",
+      "default": true,
+      "group": "Visibility"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/canyon.svg",
+      "contentType": "image/svg+xml",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original vector landscape drawn for Image Slideshow, Cameron Rickerby 2026."
+      }
+    },
+    {
+      "path": "assets/coast.svg",
+      "contentType": "image/svg+xml",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original vector landscape drawn for Image Slideshow, Cameron Rickerby 2026."
+      }
+    },
+    {
+      "path": "assets/alpine.svg",
+      "contentType": "image/svg+xml",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original vector landscape drawn for Image Slideshow, Cameron Rickerby 2026."
+      }
+    },
+    {
+      "path": "assets/instrument-sans-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2022 The Instrument Sans Project Authors. See assets/OFL-InstrumentSans.txt."
+      }
+    },
+    {
+      "path": "assets/instrument-sans-latin-ext.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2022 The Instrument Sans Project Authors. See assets/OFL-InstrumentSans.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-InstrumentSans.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Instrument Sans Project Authors"
+      }
+    },
+    {
+      "path": "assets/NOTICE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "attribution": "Cameron Rickerby 2026"
+      }
+    },
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    },
+    {
+      "path": "poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from the working Editorial Slideshow component."
+      }
+    },
+    {
+      "path": "assets/ICONSAX-LICENSE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "licensed",
+        "license": "Iconsax-Proprietary",
+        "attribution": "Navigation icons by Iconsax (https://iconsax.io). Integrated use only; see assets/ICONSAX-LICENSE.md."
+      }
+    },
+    {
+      "path": "assets/warm-composer-v1.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original fictional AI-product campaign artwork generated with OpenAI image generation, October 2026. Interfaces are static illustrations."
+      }
+    },
+    {
+      "path": "assets/warm-research-v1.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original fictional AI-product campaign artwork generated with OpenAI image generation, October 2026. Interfaces are static illustrations."
+      }
+    },
+    {
+      "path": "assets/warm-orb-v1.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Original fictional AI-product campaign artwork generated with OpenAI image generation, October 2026. Interfaces are static illustrations."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Decorative transitions and automatic progression stop. Manual navigation remains immediate.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Default",
+      "settings": {}
+    }
+  ]
+}

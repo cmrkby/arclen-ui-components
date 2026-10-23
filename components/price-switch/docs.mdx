@@ -1,0 +1,77 @@
+# Price Switch
+
+Choose a free, monthly or annual plan with a nested-pill control. While Free is selected, the control shows only Free and Premium. Selecting Premium reveals Monthly and Annual as the active surface slides right. Premium selects Monthly on first use, then remembers the last committed paid period within that instance. Selecting Free collapses the paid choices again. Size, spacing, type, colours and spring timing are configurable. The component selects a plan; it does not calculate prices or submit payments.
+
+## React
+
+```tsx
+import { PriceSwitch } from './price-switch/src/react';
+
+<PriceSwitch
+  defaultValue="monthly"
+  height={64}
+  textSize={20}
+  onValueChange={(value) => console.log(value)}
+/>
+```
+
+For controlled state, pass `value` and update it in `onValueChange`. `defaultValue` applies only on first mount. Controlled clicks request a value through `onValueChange`; displayed selection and paid memory change only when the parent supplies that value. `paused` settles the current selection without decorative motion.
+
+## HTML and vanilla JavaScript
+
+Import the standalone stylesheet, render settled markup for server output, then mount it in a host element:
+
+```ts
+import { render, mount } from './price-switch/src/core';
+import './price-switch/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#billing')!;
+const settings = { value: 'annual', height: 64, textSize: 20 } as const;
+host.innerHTML = render(settings);
+const control = mount(host, settings);
+host.addEventListener('pricechange', (event) => {
+  console.log((event as CustomEvent).detail.value);
+});
+control.update({ value: 'monthly' });
+control.destroy();
+```
+
+Mount replaces the host's contents. Each instance is independent. `update` merges partial settings; pass `defaults` to reset. Programmatic updates do not emit a user change. Paid updates also set the remembered period; updating to Free preserves that memory. Resetting with `defaults` commits Monthly, so the next Premium activation returns to Monthly. Remounting starts new instance memory. `pause()` settles to the selected endpoint and `resume()` permits future interaction animations; neither starts continuous motion.
+
+## Size and spacing
+
+| Setting | Default | Allowed range | Effect |
+| --- | --- | --- | --- |
+| Width | 492px | 280–720px | Requested width, shrinking with the host. |
+| Control height | 56px | 52–88px | Total height, including outer padding. |
+| Outer padding | 4px | 2–10px | Inset around the two sections. |
+| Section gap | 4px | 0–12px | Space between Free and the right section. |
+| Corner radius | 40px | 0–48px | Outer corners; inner surfaces use 75% of this radius. |
+| Text size | 18px | 14–24px | Size of all visible button labels. |
+| Shadow strength | 0.15 | 0–0.30, step 0.01 | Shadow opacity; zero removes it. |
+| Motion duration | 400ms | 160–800ms, step 10ms | Duration of the original finite spring. |
+
+Button targets stay at least 44px high. Effective outer padding is the smaller of the requested value and `(height − 44) / 2`. For example, a 52px control with 10px requested padding renders 4px padding. The saved setting remains 10px, so increasing height restores it. The inner selected pill also reduces its inset when needed to contain the selected text line with 4px clearance. These adjustments preserve the exact default geometry.
+
+At viewport widths up to 420px, main text is 2px smaller, with a 14px minimum. Premium, Monthly and Annual retain full-height button targets. Use a host at least 280px wide to preserve the minimum horizontal targets at every allowed spacing combination; narrower hosts shrink the control without horizontal overflow.
+
+## Content and colour
+
+`value` selects Free, Monthly or Annual. `accessibleName` names the control for assistive technology and accepts 80 characters. `freeLabel`, `premiumLabel`, `monthlyLabel` and `annualLabel` accept 24 characters each. Use concise labels in narrow hosts. `premiumLabel` names the full-width paid entry button visible while Free is selected. Monthly and Annual are hidden and inert in this state, including in server-rendered output. When paid choices appear, Premium becomes hidden and inert. Changing Premium does not rename Monthly or Annual.
+
+| Colour | Default | Visible effect |
+| --- | --- | --- |
+| Track | `#ebebeb` | Outer shell in every state. |
+| Active surface | `#000000` | Large pill under Free or the paid section. |
+| Selected surface | `#ebebeb` | Inner paid selection, visible only while Monthly or Annual is selected. |
+| Text | `#000000` | Selected Monthly or Annual label. |
+| Active text | `#ffffff` | Selected Free label; also mixed into the inactive paid label while a paid plan is selected. |
+| Muted text | `#666666` | Inactive Free, Premium button and shell border; mixed with Active text for the inactive paid period. |
+
+Choose contrasting label and surface colours. The colour controls accept six-digit hex values. Text is escaped before rendering; invalid inputs use manifest defaults. Numbers clamp and round to their declared bounds and steps.
+
+## Accessibility and motion
+
+Native buttons support Tab, Enter and Space and expose the selected plan with `aria-pressed`. Visible focus remains independent of the palette. Premium is a native button; activating it moves focus to the chosen paid period. A programmatic collapse while a paid button is focused moves focus to Free. Hidden controls are absent from the tab order and accessibility tree. Decorative surfaces are hidden from assistive technology; no live region repeats intermediate animation frames.
+
+Reduced motion, hidden pages, offscreen instances and paused controls settle immediately. Active surface travel uses the original spring. Newly revealed labels fade in with a restrained 4px movement. Both effects are finite and stop requesting frames at rest; settling or destroying cancels the same animation frame work. Without JavaScript, the selected plan remains visible; interactive changes require mounting. Fonts are bundled locally under SIL OFL 1.1, with the complete notice in `assets/Inter-OFL-1.1.txt`. No network font requests are needed.

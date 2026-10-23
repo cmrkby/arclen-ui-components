@@ -1,0 +1,48 @@
+# Filter Popover
+
+A compact glass pill opens into a category chooser. Liquid glass unfurls into two columns: its far edge broadens while its neck stays close to the pill, bending the labels with the surface. Prism tiles uses three columns of icon tiles, and Ribbon list uses a single column. All three share the same tapered opening and closing fold. The twelve line icons are original SVG drawings; the component uses the system font and makes no network requests.
+
+```tsx
+import {FilterPopover} from './components/filter-popover/src/react';
+
+<FilterPopover
+  selected="Dining"
+  cuisines={['All cuisines', 'Italian', 'Japanese']}
+  selectedCuisine="Italian"
+  onValueChange={value => console.log('Category', value)}
+  onCuisineChange={value => console.log('Cuisine', value)}
+/>
+```
+
+Selecting **Dining** reveals a cuisine pill beside the category pill. Its menu has two columns of plain-text choices. `showCuisine={false}` disables this secondary chooser. Both lists accept up to twelve unique plain-text values. Switching category retains the chosen cuisine for the next Dining selection. Custom categories receive repeating original icons.
+
+Choose **Layout** to switch compositions. **Surface**, **Text**, and **Accent** control the translucent glass, labels, and selection marker. The default dark glass and light labels require a dark backdrop, such as `#101010`. Transparency blends with the host, so contrast depends on that host. For a light page, use an opaque light surface and dark text: Place the component over content to see the backdrop blur; browsers without blur use a solid surface. **Width** sets the category menu width; the cuisine menu is at least 346px before viewport clamping. **Fold duration** controls opening; closing takes 78% of that time.
+
+```tsx
+<FilterPopover background="#ffffff" foreground="#202020" surfaceOpacity={100} />
+```
+
+Custom translucent palettes need a contrast check against the actual backdrop. The default glass palette does not guarantee contrast over light or changing imagery.
+
+The extra controls preserve each layout's proportions at their defaults:
+
+| Control | Range / default | Effect |
+|---|---|---|
+| Text size | 14–22 / 18 | Scales all text and line heights together. At 18, A labels are 18px, B labels 12px, C labels 15px, and cuisine labels 17px. |
+| Icon size | 16–28 / 20 | Category icon size; B's icons remain 1.15 times larger. |
+| Menu radius | 8–40 / 28 | A and cuisine menu radius; B uses 26/28 of this value and C uses 22/28. Pill corners retain their layout's shape. |
+| Item spacing | 0–10 / 3 | A and cuisine row gap. B tile gaps add 2px; C row gaps subtract 1px with a floor of zero. |
+| Surface opacity | 30–100 / 58 | A and cuisine tint opacity in percent. B/C use 78/58 times this value, capped at 100%. |
+| Backdrop blur | 0–30 / 10 | A and cuisine blur in pixels. B/C use 2.4 times this value. Zero removes blur. |
+| Show category icons | On / off; on | Hides category icons while retaining labels and selection markers. Cuisine menus have no icons. |
+| Preferred placement | Auto / above / below; auto | Auto prefers above and falls back to available room. A requested side is used when at least one 44px row fits; otherwise the menu switches sides. Mobile Ribbon list remains a bottom sheet. |
+
+Rows retain a minimum 44px interaction height. Larger text can wrap and increase menu height; constrained menus scroll. All visual controls also apply during the fold. Browsers without backdrop-filter support use a solid surface, so opacity and blur have no visible effect there.
+
+Enter or Space opens the focused pill. Arrow keys move through visual rows and columns; Home and End jump to the first and last options. Escape closes and returns focus to the relevant pill. Tab closes and continues normal navigation. Category selection emits `filterchange` with `detail.value`; cuisine selection emits `cuisinechange` with `detail.value`. React exposes `onValueChange` and `onCuisineChange` respectively.
+
+The vanilla core exports `defaults`, `resolveSettings`, `render` and `mount`. Its controller supports `update`, `pause`, `resume` and `destroy`. Partial updates preserve unspecified settings. Supply a distinct ID to `render` for each server-rendered instance. Before JavaScript starts, the selected value remains readable; opening requires JavaScript.
+
+Menus prefer to open above their pills and stay inside the viewport. Long menus scroll. Ribbon list becomes a bottom sheet on narrow screens. All layouts use temporary inert visual strips during the fold; the semantic options remain singular. Closing during opening reverses from the current shape. Reduced motion shows and hides immediately. Pausing, hiding, updating and destroying remove temporary strips and cancel owned animations. Destroy releases listeners and observation. Empty lists disable their triggers.
+
+<!-- settings-table -->

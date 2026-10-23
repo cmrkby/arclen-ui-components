@@ -27,7 +27,12 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Center Split Transition | [`components/center-split-transition`](components/center-split-transition) |
 | Staggered Slats Transition | [`components/staggered-slats-transition`](components/staggered-slats-transition) |
 | Pixel Sweep Transition | [`components/pixel-sweep-transition`](components/pixel-sweep-transition) |
+| Price Switch | [`components/price-switch`](components/price-switch) |
+| Filter Popover | [`components/filter-popover`](components/filter-popover) |
+| Image Slideshow | [`components/image-slideshow`](components/image-slideshow) |
+| Editorial Slideshow | [`components/editorial-slideshow`](components/editorial-slideshow) |
+| Cinema Reel | [`components/cinema-reel`](components/cinema-reel) |
 
 Open a package's `docs.mdx` for its usage and settings. `src/react/index.tsx` is the React entry point. `src/core/index.ts` provides the framework-neutral renderer and mount lifecycle, and `src/styles.css` supplies its styles. Keep the package's assets with the source when copying it. The component and HTML bundle schemas live in [`packages/spec`](packages/spec).
 
-Run `pnpm install --frozen-lockfile` and `pnpm check` to validate the source. The code is MIT licensed; bundled fonts retain their listed licenses.
+Run `pnpm install --frozen-lockfile` and `pnpm check` to validate the source. The code is MIT licensed; bundled fonts and icons retain their listed licenses.
