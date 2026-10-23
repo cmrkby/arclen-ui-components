@@ -14,7 +14,7 @@ const items = [
   {label:'Phone',x:200,y:60,w:100,h:60,px:252,py:85,angle:-304,delay:700,path:'M4 3 9 8 7 11q2 4 6 6l3-2 5 5q-2 4-6 1C8 19 3 14 2 7q-1-3 2-4Z'}
 ];
 const svg = path => `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
-// Rounded annular sector generated from radii/angles; does not embed reference asset paths.
+// Rounded annular sector generated from radii/angles.
 function annulus(start=-48,end=228) {
   const outer=150,inner=94.5,round=6.7;
   const p=(r,a)=>[150+r*Math.cos(a*Math.PI/180),150+r*Math.sin(a*Math.PI/180)].map(n=>n.toFixed(3)).join(' ');
