@@ -13,6 +13,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Signal Field | [`components/signal-field`](components/signal-field) |
 | Grain Gradient | [`components/grain-gradient`](components/grain-gradient) |
 | Luminous Folds | [`components/luminous-folds`](components/luminous-folds) |
+| Mesh Gradient | [`components/mesh-gradient`](components/mesh-gradient) |
 | Split FAQ | [`components/split-faq`](components/split-faq) |
 | Status Swap | [`components/status-swap`](components/status-swap) |
 | Text Reel | [`components/text-reel`](components/text-reel) |
