@@ -1,0 +1,294 @@
+{
+  "id": "filter-popover",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Filter Popover",
+  "category": "Menus",
+  "description": "A compact glass category chooser with a tapered opening and an optional Dining cuisine menu.",
+  "keywords": [
+    "filter",
+    "popover",
+    "dropdown",
+    "category",
+    "menu",
+    "react"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Layout",
+      "group": "Composition",
+      "default": "panel",
+      "options": [
+        {
+          "label": "A \u00b7 Liquid glass",
+          "value": "panel"
+        },
+        {
+          "label": "B \u00b7 Prism tiles",
+          "value": "grid"
+        },
+        {
+          "label": "C \u00b7 Ribbon list",
+          "value": "sheet"
+        }
+      ]
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Label",
+      "group": "Content",
+      "default": "Category",
+      "maxLength": 80
+    },
+    {
+      "key": "options",
+      "kind": "string-list",
+      "label": "Categories",
+      "group": "Content",
+      "default": [
+        "All",
+        "Airport",
+        "Apartments",
+        "Bar",
+        "Cafe",
+        "Cinema",
+        "Dining",
+        "Museum",
+        "Office",
+        "Shop",
+        "Stay",
+        "Venue"
+      ],
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 60
+    },
+    {
+      "key": "selected",
+      "kind": "text",
+      "label": "Selected category",
+      "group": "Content",
+      "default": "All",
+      "maxLength": 60
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Width",
+      "group": "Geometry",
+      "default": 336,
+      "min": 224,
+      "max": 420,
+      "step": 8
+    },
+    {
+      "key": "showCuisine",
+      "kind": "boolean",
+      "label": "Dining cuisine chooser",
+      "group": "Content",
+      "default": true
+    },
+    {
+      "key": "cuisines",
+      "kind": "string-list",
+      "label": "Cuisines",
+      "group": "Content",
+      "default": [
+        "All cuisines",
+        "American",
+        "Chinese",
+        "French",
+        "Indian",
+        "Italian",
+        "Japanese",
+        "Korean",
+        "Latin American",
+        "Middle Eastern",
+        "Southeast Asian"
+      ],
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 60
+    },
+    {
+      "key": "selectedCuisine",
+      "kind": "text",
+      "label": "Selected cuisine",
+      "group": "Content",
+      "default": "All cuisines",
+      "maxLength": 60
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Surface",
+      "group": "Appearance",
+      "default": "#2a2a2a"
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "group": "Appearance",
+      "default": "#f4f3f0"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Accent",
+      "group": "Appearance",
+      "default": "#ffb52e"
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Fold duration",
+      "group": "Motion",
+      "default": 360,
+      "min": 0,
+      "max": 400,
+      "step": 10
+    },
+    {
+      "key": "textSize",
+      "kind": "number",
+      "label": "Text size",
+      "group": "Typography",
+      "default": 18,
+      "min": 14,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "iconSize",
+      "kind": "number",
+      "label": "Icon size",
+      "group": "Geometry",
+      "default": 20,
+      "min": 16,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Menu radius",
+      "group": "Geometry",
+      "default": 28,
+      "min": 8,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "itemSpacing",
+      "kind": "number",
+      "label": "Item spacing",
+      "group": "Geometry",
+      "default": 3,
+      "min": 0,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "surfaceOpacity",
+      "kind": "number",
+      "label": "Surface opacity",
+      "group": "Appearance",
+      "default": 58,
+      "min": 30,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "blur",
+      "kind": "number",
+      "label": "Backdrop blur",
+      "group": "Appearance",
+      "default": 10,
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "showIcons",
+      "kind": "boolean",
+      "label": "Show category icons",
+      "group": "Appearance",
+      "default": true
+    },
+    {
+      "key": "placement",
+      "kind": "select",
+      "label": "Preferred placement",
+      "group": "Geometry",
+      "default": "auto",
+      "options": [
+        {
+          "label": "Auto",
+          "value": "auto"
+        },
+        {
+          "label": "Above",
+          "value": "above"
+        },
+        {
+          "label": "Below",
+          "value": "below"
+        }
+      ]
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    },
+    {
+      "path": "poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from the working Filter Popover component."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Opening and closing folds are removed; selection and focus continue immediately.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Liquid glass",
+      "settings": {
+        "variant": "panel"
+      }
+    },
+    {
+      "name": "Prism tiles",
+      "settings": {
+        "variant": "grid"
+      }
+    },
+    {
+      "name": "Ribbon list",
+      "settings": {
+        "variant": "sheet"
+      }
+    }
+  ]
+}

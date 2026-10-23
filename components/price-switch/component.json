@@ -1,0 +1,284 @@
+{
+  "id": "price-switch",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Price Switch",
+  "category": "Controls",
+  "description": "A responsive nested-pill billing selector with configurable size, spacing, type, colour and spring timing.",
+  "keywords": [
+    "pricing",
+    "billing",
+    "switch",
+    "segmented control",
+    "plans"
+  ],
+  "settings": [
+    {
+      "key": "value",
+      "kind": "select",
+      "label": "Selected plan",
+      "default": "monthly",
+      "group": "State",
+      "options": [
+        {
+          "value": "free",
+          "label": "Free"
+        },
+        {
+          "value": "monthly",
+          "label": "Monthly"
+        },
+        {
+          "value": "annual",
+          "label": "Annual"
+        }
+      ]
+    },
+    {
+      "key": "accessibleName",
+      "kind": "text",
+      "label": "Accessible name",
+      "default": "Billing plan",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "freeLabel",
+      "kind": "text",
+      "label": "Free label",
+      "default": "Free",
+      "group": "Content",
+      "maxLength": 24
+    },
+    {
+      "key": "premiumLabel",
+      "kind": "text",
+      "label": "Premium label",
+      "default": "Premium",
+      "group": "Content",
+      "maxLength": 24
+    },
+    {
+      "key": "monthlyLabel",
+      "kind": "text",
+      "label": "Monthly label",
+      "default": "Monthly",
+      "group": "Content",
+      "maxLength": 24
+    },
+    {
+      "key": "annualLabel",
+      "kind": "text",
+      "label": "Annual label",
+      "default": "Annual",
+      "group": "Content",
+      "maxLength": 24
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Width",
+      "default": 492,
+      "group": "Geometry",
+      "min": 280,
+      "max": 720,
+      "step": 1
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Control height",
+      "default": 56,
+      "group": "Geometry",
+      "min": 52,
+      "max": 88,
+      "step": 1
+    },
+    {
+      "key": "outerPadding",
+      "kind": "number",
+      "label": "Outer padding",
+      "default": 4,
+      "group": "Geometry",
+      "min": 2,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "sectionGap",
+      "kind": "number",
+      "label": "Section gap",
+      "default": 4,
+      "group": "Geometry",
+      "min": 0,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "key": "textSize",
+      "kind": "number",
+      "label": "Text size",
+      "default": 18,
+      "group": "Typography",
+      "min": 14,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "shadowStrength",
+      "kind": "number",
+      "label": "Shadow strength",
+      "default": 0.15,
+      "group": "Appearance",
+      "min": 0,
+      "max": 0.3,
+      "step": 0.01
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 40,
+      "group": "Geometry",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Motion duration",
+      "default": 400,
+      "group": "Motion",
+      "min": 160,
+      "max": 800,
+      "step": 10
+    },
+    {
+      "key": "trackColor",
+      "kind": "color",
+      "label": "Track",
+      "default": "#ebebeb",
+      "group": "Colors"
+    },
+    {
+      "key": "activeColor",
+      "kind": "color",
+      "label": "Active surface",
+      "default": "#000000",
+      "group": "Colors"
+    },
+    {
+      "key": "selectedColor",
+      "kind": "color",
+      "label": "Selected surface",
+      "default": "#ebebeb",
+      "group": "Colors"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Selected text",
+      "default": "#000000",
+      "group": "Colors"
+    },
+    {
+      "key": "activeTextColor",
+      "kind": "color",
+      "label": "Active text",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "mutedColor",
+      "kind": "color",
+      "label": "Idle text",
+      "default": "#666666",
+      "group": "Colors"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/inter-latin-400-normal.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors; see assets/Inter-OFL-1.1.txt"
+      }
+    },
+    {
+      "path": "assets/inter-latin-ext-400-normal.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors; see assets/Inter-OFL-1.1.txt"
+      }
+    },
+    {
+      "path": "assets/Inter-OFL-1.1.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Copyright 2016 The Inter Project Authors (https://github.com/rsms/inter)"
+      }
+    },
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    },
+    {
+      "path": "poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Rendered Price Switch component by Cameron Rickerby."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settle immediately to the selected plan without decorative travel.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Nested pills",
+      "settings": {
+        "value": "monthly",
+        "accessibleName": "Billing plan",
+        "freeLabel": "Free",
+        "premiumLabel": "Premium",
+        "monthlyLabel": "Monthly",
+        "annualLabel": "Annual",
+        "width": 492,
+        "height": 56,
+        "outerPadding": 4,
+        "sectionGap": 4,
+        "textSize": 18,
+        "shadowStrength": 0.15,
+        "radius": 40,
+        "duration": 400,
+        "trackColor": "#ebebeb",
+        "activeColor": "#000000",
+        "selectedColor": "#ebebeb",
+        "textColor": "#000000",
+        "activeTextColor": "#ffffff",
+        "mutedColor": "#666666"
+      }
+    }
+  ]
+}

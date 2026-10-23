@@ -1,0 +1,24 @@
+# Cinema Reel
+
+A large photograph with a caption and clickable photographic thumbnails over a soft bottom gradient. The default coastal series follows misty cliffs, forested ridges and a dark tidal shore. There are no arrow buttons. Thumbnails remain visible during transitions; narrow hosts scroll the row horizontally. `showIndicators` controls thumbnail navigation. Hidden thumbnails do not disable keyboard or swipe navigation. Keep captions concise in short hosts.
+
+Choose Overlay (default) or Solid under Footer style. `reelFooter="solid"` moves the caption and thumbnails into a separate footer below the image. Its default light ivory surface is `reelSurface="#f6f3ed"`, with `reelText="#252b25"`. Both colours are tweakable and apply only to Solid. Thumbnails use consistent cover crops; framing settings control the main image.
+
+```tsx
+import {CinemaReel} from './components/cinema-reel';
+<CinemaReel heightMode="fixed" height={560} transition="blur" autoplay={true} />
+```
+
+Default bundled image keys: `cinema-coast`, `cinema-ridge`, `cinema-tide`.
+
+The component fills its parent width. `heightMode="fill"` fills a parent with an explicit height; an unsized host uses a 16:10 aspect-ratio fallback. `heightMode="fixed"` uses the pixel `height`. `imageFit`, `focalX`, `focalY` and `imageScale` control the main image crop. Image, title, description and alt lists correspond by index. Use an empty alt for a decorative image. Lists support up to twelve slides.
+
+`images` accepts the bundled keys listed above, the original vector keys `canyon`, `coast`, `alpine`, HTTP/HTTPS URLs and relative paths. Invalid or empty image lists fall back to the default images. Remote URLs make ordinary requests to their hosts. Failed images show a readable unavailable message. Generated images depict fictional scenes; no claim of a real building, place or product is implied.
+
+Choose one of eight transitions: `blur`, `fade`, `slide`, `slideUp`, `cover`, `wipe`, `zoom` or `none`. `duration` controls finite motion; zero makes changes immediate. `blurAmount` controls blur strength and `zoomAmount` controls zoom distance. Rapid changes retarget owned image layers and settle to one slide.
+
+ArrowLeft/Right, Home/End and horizontal swipes navigate. Manual changes are announced; automatic announcements are disabled during playback. Autoplay is on by default at five seconds. There is no on-image playback button. Disable Autoplay in Tweaks or set `autoplay={false}`. Hover, keyboard focus, hidden documents, offscreen placement and reduced motion stop automatic progression. Reduced motion makes manual navigation immediate.
+
+The vanilla core exports `defaults`, `resolveSettings`, `render` and `mount`. `mount(host, settings)` returns `update`, `goTo`, `pause`, `resume` and `destroy`. `update` merges validated settings and preserves the current slide where possible. `pause` stops autoplay and settles finite transitions; `resume` allows animation without enabling autoplay. `destroy` removes owned DOM, listeners, observer and animation frames. Multiple instances have independent state. The React wrapper accepts `className`, `style` and `paused` in addition to the generated settings below.
+
+Server/no-JavaScript markup shows the first image and readable captions where present. Navigation requires JavaScript. Configured React and HTML delivery retain settings. Every install includes its local engine, CSS, photographs, vectors, Instrument Sans font and licences; there are no runtime npm dependencies or imports from sibling components. Font rights are OFL-1.1 under `assets/OFL-InstrumentSans.txt`.
