@@ -6,6 +6,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Growing Navigation | [`components/growing-navigation`](components/growing-navigation) |
 | Cascade Menu | [`components/cascade-menu`](components/cascade-menu) |
 | Connected FAQ | [`components/connected-faq`](components/connected-faq) |
 | Editorial FAQ | [`components/editorial-faq`](components/editorial-faq) |
@@ -35,4 +36,4 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 Open a package's `docs.mdx` for its usage and settings. `src/react/index.tsx` is the React entry point. `src/core/index.ts` provides the framework-neutral renderer and mount lifecycle, and `src/styles.css` supplies its styles. Keep the package's assets with the source when copying it. The component and HTML bundle schemas live in [`packages/spec`](packages/spec).
 
-Run `pnpm install --frozen-lockfile` and `pnpm check` to validate the source. The code is MIT licensed; bundled fonts and icons retain their listed licenses.
+Run `pnpm install --frozen-lockfile` and `pnpm check` to validate the source. The code is MIT licensed; bundled fonts and icons retain their listed licenses. Arclen UI logo artwork is excluded from MIT; see each package’s NOTICE.md.
