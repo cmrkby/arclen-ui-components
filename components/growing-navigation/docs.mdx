@@ -1,0 +1,125 @@
+# Growing Navigation
+
+A compact neutral glass bar grows into primary links and a secondary column. The Arclen UI wordmark, unequal toggle bars, staggered labels and hover arrows are included. On narrow placements the menu becomes a sheet. The component has no runtime dependencies; React is needed only for its optional wrapper.
+
+Choose React or HTML in the delivery panel after adjusting the controls. The generated settings reference below comes from the same manifest that validates the component.
+
+## React
+
+Install the complete component with the Arclen UI installer, or copy its complete React source package. Import the named `GrowingNavigation` export or its `Component` alias. The wrapper imports its stylesheet; preserve `component.json`, `src`, `assets`, `LICENSE` and `NOTICE.md` together. In Next.js, use an application client component when passing callbacks.
+
+```tsx
+import { GrowingNavigation } from './components/growing-navigation';
+
+export default function Example() {
+  return <GrowingNavigation />;
+}
+```
+
+Customize labels and destinations together. This example uses the text identity option, a smaller stage and an opaque surface. The page supplies its own destination sections.
+
+```tsx
+'use client';
+
+import { GrowingNavigation } from './components/growing-navigation';
+
+export default function StudioNavigation() {
+  return (
+    <GrowingNavigation
+      logoMode="text"
+      logoText="Studio"
+      logoHref="/"
+      primaryLabels={['Work', 'Studio', 'Contact']}
+      primaryUrls={['/work', '/studio', 'mailto:hello@example.com']}
+      secondaryLabels={['Read the journal']}
+      secondaryUrls={['/journal']}
+      tagline="Independent design and development."
+      height={480}
+      openWidth={720}
+      surface="#fafafa"
+      surfaceOpacity={1}
+      motionScale={0.8}
+      closeOnSelect={true}
+      onOpenChange={open => console.log('Menu open:', open)}
+    />
+  );
+}
+```
+
+`className` and `style` apply to the outer React host. `paused` settles active motion and prevents further animation until resumed; it does not disable navigation. Settings update through the shared core without remounting the component. `initialOpen` sets the starting state; changing it requests a new open state. Other setting changes preserve the current open state. `onOpenChange` reports open-state changes.
+
+## HTML and vanilla JavaScript
+
+Extract the HTML download and serve the complete folder. Use `component.html` as the supplied markup, with `component.css`, `component.js`, `poster.webp` and the bundled assets at their supplied relative paths. The download already contains your current control values. `component.js` is a standalone script that mounts elements marked `data-arclen-ui="growing-navigation"`; it is not an ES module export.
+
+For a minimal page using the extracted files, this markup mounts the same core. Retain the supplied `component.html` instead when you want its generated static navigation and preview fallback.
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Navigation</title>
+    <link rel="stylesheet" href="./component.css">
+  </head>
+  <body>
+    <div data-arclen-ui="growing-navigation"
+      data-settings='{"logoMode":"text","logoText":"Studio","logoHref":"/","initialOpen":true}'></div>
+    <noscript><p><a href="/">Studio home</a></p></noscript>
+    <script src="./component.js" defer></script>
+  </body>
+</html>
+```
+
+For manual lifecycle control in a bundler, import the framework-neutral source directly. Do not load the automatic HTML script for the same host.
+
+```ts
+import { mount } from './components/growing-navigation/src/core';
+import './components/growing-navigation/src/styles.css';
+
+const host = document.createElement('div');
+document.body.append(host);
+const navigation = mount(host, { logoMode: 'text', logoText: 'Studio' }, 'studio-navigation');
+
+host.addEventListener('growing-navigation-change', event => {
+  console.log((event as CustomEvent<{ open: boolean }>).detail.open);
+});
+
+navigation.update({ surface: '#fafafa', surfaceOpacity: 1 });
+navigation.setOpen(true);
+navigation.pause();
+navigation.resume();
+
+// When removing this instance:
+navigation.destroy();
+host.remove();
+```
+
+The core also exports `defaults`, `resolveSettings` and `render`. Partial controller updates retain unspecified settings. For server-rendered markup, pass the same distinct instance ID to `render(settings, id)` and `mount(host, settings, id)`. React supplies hydration-stable IDs automatically. Each instance owns its state and resources; call `destroy` before removing a manually mounted host.
+
+## Layout, content and links
+
+`layout="embedded"` reserves a stage using `height`; its scrim and narrow sheet stay within that stage. `layout="fixed"` positions the navigation over the page. Its narrow sheet fills the viewport and locks body scrolling while open. Use fixed layout for page navigation and embedded layout for contained demonstrations. Widths are constrained by available space. Provide enough stage height for longer content; overflowing navigation content can scroll.
+
+The surrounding page controls its background. The Arclen UI preview uses `#f5f5f5` in light mode and `#0f0f0f` in dark mode. These frame colours are not portable component settings. The default Arclen palette uses surface `#fafafa`, foreground and toggle `#0d0d0d`, and dividers `#000000`. The surface opacity stays at 0.75 and divider opacity at 0.1; keyboard focus uses Arclen Ember `#F54E00`. The approved wordmark keeps its gradient. The menu keeps its configured palette in both themes. Transparent surfaces blend with the host, so check text and focus contrast against the actual background after changing colours or opacity. Browsers without backdrop blur still show the tinted surface.
+
+Primary lists accept up to eight links and secondary lists up to five. Each labels list must have the same length as its destinations list. Empty pairs remove that set of links; nonempty entries require readable labels and destinations. `showSecondary={false}` hides the secondary column. Text is rendered as plain text. Invalid settings, including unknown keys, mismatched lists and out-of-range values, throw an error rather than silently changing the configuration.
+
+Destinations accept hashes, relative paths, root-relative paths and `http:`, `https:`, `mailto:` or `tel:` URLs. Protocol-relative URLs, control characters and executable schemes are rejected. Default hash links are demonstration destinations; add matching sections or replace them with your own URLs. Links use native browser navigation, including modifier-key behavior. `closeOnSelect` closes the menu for an ordinary link selection.
+
+`logoMode="text"` displays `logoText`. `logoMode="custom"` uses `logoImage`, with `logoText` as its accessible name; an empty image uses the text fallback. Custom image URLs accept HTTPS or safe relative paths up to 2,048 characters. Portable copied HTML may embed PNG, JPEG, WebP, GIF or AVIF as a strictly formed base64 image data URI up to 262,144 characters. Inline SVG is accepted only when it exactly matches the bundled, admitted Arclen UI logo; arbitrary SVG and executable data URLs are rejected. The caller hosts and licenses any replacement image. The included Arclen UI logo retains its own colours.
+
+## Keyboard, motion and fallback
+
+Enter or Space activates the focused toggle. Tab follows normal navigation order. Escape and the scrim close the menu; Escape returns focus to the toggle. Closed content is inert and unavailable to keyboard focus. An open narrow sheet contains focus; embedded instances contain it within their stage and fixed instances contain it within the viewport sheet. Keep the accessible logo text meaningful when replacing the identity.
+
+Opening and closing can reverse during motion. Reduced-motion preferences, including preference changes while mounted, settle the animation immediately. `motionScale={0}` also disables transition time. Pausing settles the current target; changes made while paused remain usable without animation. The core observes offscreen and page visibility, and releases its animation frames, observers and event listeners on `destroy`.
+
+Interactive expansion requires JavaScript. Server-rendered markup and the generated HTML delivery include readable logo, primary and visible secondary links inside a no-JavaScript fallback. The inactive toggle is hidden in that state. The HTML download also includes a static poster preview; keep `poster.webp` beside it. A manually created empty host, like the minimal HTML example above, needs its own `noscript` navigation.
+
+## Fonts and artwork
+
+Inter Regular Latin and Latin Extended are bundled locally under SIL Open Font License 1.1. Preserve the unmodified `assets/OFL-Inter.txt` with those font files. Code and original component artwork use the included MIT `LICENSE`. The Arclen UI wordmark is included with its owner's authorization for this package and is excluded from MIT; it grants no general trademark or logo redistribution licence. See `NOTICE.md`. Use the text or custom logo option for your own identity.
+
+<!-- settings-table -->
