@@ -1,0 +1,52 @@
+# Border Tooltip
+
+Three information buttons with fine outlined descriptive labels. Direction A keeps all three buttons equal; its third label uses double scale. B and C also enlarge the third button. Hover, focus or tap to read; Escape dismisses. Labels contain text only.
+
+## React
+
+Keep the complete component folder, including its assets. React 19 is a peer supplied by your application.
+
+```tsx
+import { BorderTooltip } from './components/border-tooltip/src/react';
+
+export default function Example() {
+  return <BorderTooltip direction="A" theme="dark"
+    labels={['Made for focus', 'Details stay close', 'A little more room']}
+    placement="top" duration={400} />;
+}
+```
+
+The wrapper loads the component stylesheet. `className` and `style` apply to the outer host. Set `paused` to suspend the floating descriptions without removing the triggers.
+
+## HTML and vanilla
+
+Include the complete generated HTML bundle and its local assets. Load `component.css`, paste `component.html`, and retain `component.js`. Use relative paths when deploying under a subdirectory.
+
+For direct core use in a bundler:
+
+```ts
+import { mount } from './components/border-tooltip/src/core';
+import './components/border-tooltip/src/styles.css';
+const tooltip = mount(document.querySelector<HTMLElement>('#tooltip')!, {
+  labels: ['Made for focus', 'Details stay close', 'A little more room'],
+  placement: 'right', theme: 'light'
+});
+tooltip.update({ placement: 'bottom', duration: 250 });
+tooltip.pause();
+tooltip.resume();
+tooltip.destroy();
+```
+
+`update` accepts a complete or partial configuration resolved against defaults, not the previous configuration. Invalid input throws before changing the active component. Labels require three nonempty strings, each at most 180 characters. No-JavaScript rendered markup leaves descriptions visible beside their buttons.
+
+## Behavior
+
+Tab focuses each information button and opens its description. Enter, Space or tap toggles a pinned description. Escape or an outside press dismisses it. Focus keeps a label open during pointer departure. Direction A keeps pointer travel inside the region joining the trigger and label; departure elsewhere starts exit immediately. B and C use a short grace period. The persistent accessible description remains linked even while the floating visual is hidden.
+
+Placement prefers the selected side, chooses another side when needed and reserves 20 pixels around the visual viewport where space permits. Long labels wrap. Overlays attach to the document body to avoid clipping by ordinary transformed or scrolling component ancestors. Avoid applying transforms to the document body or root element.
+
+Reduced motion removes translation and scaling, retaining a short opacity change. Offscreen or hidden-document descriptions hide. Pause hides immediately and stops transitions; resume restores the current interaction state. Destroy removes owned overlays, observers, listeners and timers, then restores the host's original HTML. Multiple mounts are independent.
+
+## Settings
+
+The manifest defines the complete settings reference. Direction selects the pill, folded-note or margin-rule form. Theme can follow the system or be explicit. Scale ranges from 0.75 to 1.5; pointer distance from 8 to 24 pixels; duration from 0 to 700 milliseconds. Accent controls the keyboard focus outline.

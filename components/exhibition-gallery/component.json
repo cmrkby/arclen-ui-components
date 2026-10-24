@@ -1,0 +1,746 @@
+{
+  "id": "exhibition-gallery",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Exhibition Gallery",
+  "category": "Galleries",
+  "description": "A landscape exhibition with spacious image frames, glass captions, category transitions and a full-screen crossfade viewer.",
+  "keywords": [
+    "exhibition",
+    "gallery",
+    "masonry",
+    "filter",
+    "lightbox"
+  ],
+  "settings": [
+    {
+      "key": "heading",
+      "kind": "text",
+      "label": "Gallery title",
+      "default": "A sense of place",
+      "group": "Content",
+      "maxLength": 100
+    },
+    {
+      "key": "captions",
+      "kind": "string-list",
+      "label": "Image captions",
+      "default": [
+        "Atlantic edge \u00b7 Iceland",
+        "Wind lines \u00b7 Namibia",
+        "A break in the cloud \u00b7 Italian Dolomites",
+        "After the rain \u00b7 Japan",
+        "Quiet water \u00b7 Norway",
+        "Mineral country \u00b7 Chile \u00b7 Atacama",
+        "Southern weather \u00b7 Argentina \u00b7 Patagonia",
+        "Under the canopy \u00b7 Canada \u00b7 Pacific coast",
+        "Tide marks \u00b7 New Zealand",
+        "Stone and silence \u00b7 United States \u00b7 Southwest",
+        "The still interval \u00b7 Canada \u00b7 Rockies",
+        "Cloud forest \u00b7 Costa Rica"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 24,
+      "maxItemLength": 160
+    },
+    {
+      "key": "categories",
+      "kind": "string-list",
+      "label": "Display tags",
+      "default": [
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest",
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest",
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 24,
+      "maxItemLength": 40,
+      "description": "One displayed tag per image. Filter memberships can be separate."
+    },
+    {
+      "key": "memberships",
+      "kind": "string-list",
+      "label": "Filter memberships",
+      "description": "One comma-separated list per image. A photo may appear under several filters, but only once in the viewer.",
+      "default": [
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest",
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest",
+        "Coast",
+        "Desert",
+        "Mountains",
+        "Forest"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 24,
+      "maxItemLength": 200
+    },
+    {
+      "key": "imageUrls",
+      "kind": "string-list",
+      "label": "Custom image URLs",
+      "default": [],
+      "group": "Content",
+      "description": "Empty uses the twelve included worldwide landscape images. Supply matching captions and categories for custom images.",
+      "minItems": 0,
+      "maxItems": 24,
+      "maxItemLength": 2048
+    },
+    {
+      "key": "initialCategory",
+      "kind": "text",
+      "label": "Initial category",
+      "default": "All",
+      "group": "Content",
+      "maxLength": 40
+    },
+    {
+      "key": "columns",
+      "kind": "number",
+      "label": "Desktop columns",
+      "default": 2,
+      "group": "Layout",
+      "min": 2,
+      "max": 6,
+      "step": 1
+    },
+    {
+      "key": "gap",
+      "kind": "number",
+      "label": "Image gap",
+      "default": 24,
+      "group": "Layout",
+      "min": 4,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 10,
+      "group": "Layout",
+      "min": 0,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "captionMode",
+      "kind": "select",
+      "label": "Captions",
+      "default": "hover",
+      "group": "Content",
+      "options": [
+        "hover",
+        "always",
+        "hidden"
+      ]
+    },
+    {
+      "key": "viewer",
+      "kind": "boolean",
+      "label": "Image viewer",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "thumbnails",
+      "kind": "boolean",
+      "label": "Viewer thumbnails",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "zoom",
+      "kind": "number",
+      "label": "Viewer zoom",
+      "default": 1.7,
+      "group": "Behavior",
+      "min": 1.2,
+      "max": 3,
+      "step": 0.1
+    },
+    {
+      "key": "motion",
+      "kind": "boolean",
+      "label": "Animate changes",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#f5f5f5",
+      "group": "Palette"
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#242424",
+      "group": "Palette"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Active filter",
+      "default": "#242424",
+      "group": "Palette"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/inter-400-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Inter, Copyright 2016 The Inter Project Authors. See assets/OFL-Inter.txt."
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-Inter.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Inter SIL Open Font License notice."
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/exhibition-01-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-01-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-01-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-01-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-01-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-02-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-02-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-02-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-02-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-02-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-03-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-03-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-03-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-03-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-03-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-04-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-04-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-04-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-04-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-04-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-05-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-05-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-05-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-05-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-05-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-06-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-06-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-06-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-06-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-06-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-07-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-07-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-07-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-07-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-07-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-08-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-08-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-08-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-08-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-08-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-09-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-09-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-09-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-09-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-09-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-10-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-10-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-10-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-10-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-10-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-11-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-11-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-11-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-11-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-11-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/exhibition-12-160.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-12-480.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-12-960.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-12-1600.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      }
+    },
+    {
+      "path": "assets/exhibition-12-2400.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+      },
+      "gallery": true
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "All travel, scaling and transitions stop when reduced motion is requested. Filtering and viewer controls remain available.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Exhibition Gallery",
+      "settings": {}
+    },
+    {
+      "name": "Dark",
+      "settings": {
+        "background": "#111111",
+        "foreground": "#eeeeee",
+        "accent": "#eeeeee"
+      }
+    }
+  ]
+}

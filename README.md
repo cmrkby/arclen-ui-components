@@ -6,6 +6,8 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Exhibition Gallery | [`components/exhibition-gallery`](components/exhibition-gallery) |
+| Border Tooltip | [`components/border-tooltip`](components/border-tooltip) |
 | Growing Navigation | [`components/growing-navigation`](components/growing-navigation) |
 | Cascade Menu | [`components/cascade-menu`](components/cascade-menu) |
 | Connected FAQ | [`components/connected-faq`](components/connected-faq) |
