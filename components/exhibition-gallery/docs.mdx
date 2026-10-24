@@ -1,0 +1,81 @@
+# Exhibition Gallery
+
+The twelve included landscapes are divided equally across Coast, Desert, Mountains and Forest. A centered title, spacious frames and smoked-glass captions form the exhibition. The full-screen viewer places thumbnails above the photograph.
+
+## React
+
+Import the named component from the installed folder. Its wrapper imports the stylesheet. Keep `assets/` beside the source.
+
+```tsx
+import { ExhibitionGallery } from './components/exhibition-gallery/src/react';
+
+export default function Gallery() {
+  return <ExhibitionGallery gap={16} thumbnails={true} />;
+}
+```
+
+`ExhibitionGallery` and `Component` are aliases. They accept every manifest setting plus `className`, `style` and `paused`. The server renders real image links before hydration. Settings changes update the framework-neutral engine. The title is displayed above the centered filter rail.
+
+## Vanilla JavaScript
+
+```ts
+import { mount } from './components/exhibition-gallery/src/core';
+import './components/exhibition-gallery/src/styles.css';
+
+const gallery = mount(document.querySelector('#gallery'), {
+  heading: 'A sense of place',
+  gap: 16,
+});
+
+gallery.pause();
+gallery.resume();
+gallery.update({ heading: 'Field notes', gap: 12 });
+// Remove the containing view:
+gallery.destroy();
+```
+
+`update()` replaces the configuration using manifest defaults; it does not patch the previous configuration. Invalid settings throw before changing the live gallery. `pause()` settles animation and retains controls. Offscreen galleries also suppress motion. `destroy()` removes owned listeners, observers, markup and viewer scroll locking. Instances own their markup and CSS namespace.
+
+## Images and filters
+
+Leave `imageUrls` empty for the included twelve-photo collection. Manifest defaults provide its title, captions, display tags and memberships. Explicit caption or category overrides also work with included images.
+
+```tsx
+<ExhibitionGallery
+  imageUrls={['./images/coast.webp', './images/studio.webp']}
+  captions={['Waves beneath a rocky headland', 'A sunlit ceramics studio']}
+  categories={['Coast', 'Studio']}
+  memberships={['Coast, Quiet', 'Studio']}
+  initialCategory="Quiet"
+/>
+```
+
+Supply matching lists when using custom images. `categories` sets the visible tag; `memberships` sets optional comma-separated filter names for each image. When memberships are omitted for custom images, each display tag is its filter membership. A photo can belong to multiple filters and still appears once in the grid or viewer. “All” is reserved for the complete collection. Unknown initial categories fall back to All; clicking the selected category again returns to All.
+
+Up to 24 custom image URLs are supported. HTTPS, relative file paths and raster base 64 data URLs are accepted; other protocols are rejected. There are no remote requests unless explicitly configured. Caption text supplies custom image alternative text. Omitted lists retain manifest defaults, so supply captions and categories or pass empty lists for numbered/Uncategorized fallbacks. Caption positions beyond the supplied list receive numbered labels. Blank categories become Uncategorized. Failed images keep their frame and display “Image unavailable.”
+
+The twelve 3504 × 2336 landscapes use centered 1.35:1 presentation crops. The complete 3:2 image remains visible in the viewer. The bundled derivatives use proportional resizing and WebP encoding only. Production PNG masters are not included. These generated images are creative artwork rather than verified documentary locations or products.
+
+## Layout and appearance
+
+`columns` is the actual desktop maximum. Small inner grids use two columns; tablet widths use at most three. `gap` changes spacing, `radius` changes image corners, and the palette controls surface, text and active filter tint. Colors accept six- or eight-digit hex values or `transparent`. `captionMode` controls caption visibility. Hover captions also appear on keyboard focus and devices without hover.
+
+Exhibition uses a 24px default gap. The gap control is the actual spacing in pixels. Glass captions have a dark readable fallback when backdrop filtering is unavailable.
+
+## Viewer and keyboard
+
+With the viewer disabled or JavaScript unavailable, images remain ordinary links to the largest included file. Custom image links use their configured URL. The viewer follows the active category. Previous/next wrap; thumbnails select an image. Arrow and thumbnail navigation reset zoom. Home and End select the first or last photo while preserving zoom. Clicking the large image or zoom button toggles zoom. Zoomed photographs can be scrolled or panned. On touch devices, swipe horizontally over an unzoomed photograph to navigate.
+
+Tab reaches filters, image links and viewer controls. Enter or Space opens an image; Escape closes it. Left/right navigate inside the modal. Focus stays inside the native dialog and returns to the opening image on close. Updating while the viewer is open closes it and focuses the selected filter. Results and viewer position use polite status announcements. Filter exits immediately leave keyboard navigation and become inert.
+
+## Motion and lifecycle
+
+400ms category moves and arrivals,250ms exits, with a 40ms entry stagger capped at 120ms. The viewer uses a 250ms directional crossfade and retains the outgoing photograph until the next loads and decodes. Rapid filter changes cancel superseded movement. The `motion` toggle, `paused` prop, pause API, offscreen visibility and system reduced-motion preference stop motion while filtering and viewing remain available. Reduced motion also disables hover scaling.
+
+The core has no framework, service or account dependency. It owns listeners, observers, animations and any pending image presentation until update or destroy. The React wrapper renders server markup once and preserves the live engine through unrelated React rerenders.
+
+## Responsive delivery and rights
+
+Grid images have 480/960/1600px candidates; the masonry engine sets `sizes` to the actual column width. Viewer 960/1600/largest candidates are attached only after opening or navigating. Thumbnails use 160px files. The largest derivative is up to 2400px wide, without enlargement. Explicit dimensions preserve layout before image loading. All assets are local and each gallery includes only its own collection.
+
+Original Arclen artwork was generated using Higgsfield GPT Image 2.5 in October 2026. Inter is bundled under the SIL Open Font License. Keep `LICENSE.md`, `NOTICE.md`, `PROVENANCE.md` and `assets/OFL-Inter.txt` with redistributed files according to their licences.
