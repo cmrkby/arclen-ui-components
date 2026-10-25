@@ -1,10 +1,10 @@
 {
   "id": "border-tooltip",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "tier": "free",
   "name": "Border Tooltip",
   "category": "Feedback",
-  "description": "Fine outlined tooltips with curved, angular and oversized treatments.",
+  "description": "Fine outlined tooltips with curved and angular pointers, above or below their triggers.",
   "keywords": [
     "tooltip",
     "border",
@@ -12,18 +12,6 @@
     "accessible"
   ],
   "settings": [
-    {
-      "key": "direction",
-      "kind": "select",
-      "label": "Design direction",
-      "default": "A",
-      "options": [
-        "A",
-        "B",
-        "C"
-      ],
-      "group": "Design"
-    },
     {
       "key": "labels",
       "kind": "string-list",
@@ -57,9 +45,7 @@
       "default": "top",
       "options": [
         "top",
-        "bottom",
-        "left",
-        "right"
+        "bottom"
       ],
       "group": "Layout"
     },
@@ -150,21 +136,15 @@
   },
   "previews": [
     {
-      "name": "Quiet contour",
+      "name": "Top",
       "settings": {
-        "direction": "A"
+        "placement": "top"
       }
     },
     {
-      "name": "Folded note",
+      "name": "Bottom",
       "settings": {
-        "direction": "B"
-      }
-    },
-    {
-      "name": "Margin mark",
-      "settings": {
-        "direction": "C"
+        "placement": "bottom"
       }
     }
   ]
