@@ -1,0 +1,43 @@
+@font-face{font-family:ArclenLineMono;src:url('../assets/geist-mono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+.lm-menu{box-sizing:border-box;color:var(--lm-text);font:400 var(--lm-size)/1.35 var(--lm-font);width:max-content;max-width:100%;min-width:0}
+.lm-menu *{box-sizing:border-box}.lm-list{padding:0;margin:0;list-style:none;display:flex;flex-direction:column;gap:var(--lm-gap)}
+.lm-list>li{min-width:0}.lm-link{display:grid;grid-template-columns:max(var(--lm-rest),var(--lm-length),var(--lm-near)) minmax(0,1fr);gap:var(--lm-space);align-items:center;min-height:30px;padding:3px 0;color:inherit;text-decoration:none;outline-offset:5px;border-radius:2px;max-width:100%}
+.lm-link:focus-visible{outline:2px solid var(--lm-active)}
+.lm-mark{display:block;width:var(--lm-rest);height:var(--lm-thickness);border-radius:var(--lm-radius);background:var(--lm-line);transition:width var(--lm-duration) var(--lm-ease),background-color var(--lm-duration) ease;max-width:100%}
+.lm-label{text-transform:var(--lm-case);letter-spacing:calc(.055em + var(--lm-tracking));overflow-wrap:anywhere;transition:opacity var(--lm-duration) ease,transform var(--lm-duration) var(--lm-ease)}
+.lm-number{display:none}.lm-menu[data-enhanced=true] .lm-label{opacity:0;transform:translateX(-5px)}
+.lm-link[data-state=active] .lm-mark{width:var(--lm-length);background:var(--lm-active)}
+.lm-link[data-state=neighbor] .lm-mark{width:var(--lm-near)}
+.lm-menu[data-enhanced=true] .lm-link[data-state=active] .lm-label,.lm-menu[data-enhanced=true] .lm-link:focus .lm-label{opacity:1;transform:none}
+.lm-menu[data-direction=horizon]{width:100%;max-width:600px}.lm-menu[data-direction=horizon] .lm-list{flex-direction:row;gap:calc(14px + var(--lm-gap));flex-wrap:wrap}
+.lm-menu[data-direction=horizon] .lm-list>li{flex:1 1 70px}.lm-menu[data-direction=horizon] .lm-link{display:flex;align-items:flex-start;flex-direction:column;gap:var(--lm-space);min-height:86px;padding-block:8px}
+.lm-menu[data-direction=horizon] .lm-number{display:block;font-size:10px;letter-spacing:.04em;opacity:.45;order:-1}
+.lm-menu[data-direction=horizon] .lm-label{font-size:calc(var(--lm-size) - 1px);transform:translateY(-5px)}
+.lm-menu[data-direction=directory]{width:100%;max-width:480px}.lm-menu[data-direction=directory] .lm-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:28px;row-gap:var(--lm-gap)}
+.lm-menu[data-direction=directory] .lm-link{min-height:64px;grid-template-columns:20px minmax(0,1fr);gap:5px var(--lm-space);padding-block:10px;border-bottom:1px solid color-mix(in srgb,var(--lm-line) 45%,transparent)}
+.lm-menu[data-direction=directory] .lm-number{display:block;font-size:10px;opacity:.45;grid-row:1/3}
+.lm-menu[data-direction=directory] .lm-mark{grid-column:2;grid-row:1}
+.lm-menu[data-direction=directory] .lm-label{grid-column:2;font-size:calc(var(--lm-size) + 1px);text-transform:var(--lm-case);letter-spacing:var(--lm-tracking);transform:none;opacity:.5}
+.lm-menu[data-paused=true] .lm-mark,.lm-menu[data-paused=true] .lm-label{transition:none}
+.lm-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+@media(hover:none),(pointer:coarse){.lm-menu[data-enhanced=true] .lm-label{opacity:1;transform:none}.lm-link{min-height:44px}.lm-menu[data-direction=horizon] .lm-link{min-height:100px}}
+@media(prefers-reduced-motion:reduce){.lm-menu .lm-mark,.lm-menu .lm-label{transition:none!important;transform:none!important}}
+
+/* Signal labels follow their line ends. */
+.lm-menu[data-direction=signal]{font-size:var(--lm-size);line-height:1}
+.lm-menu[data-direction=signal] .lm-link{display:flex;gap:var(--lm-space);min-height:var(--lm-row);padding:0;width:max-content;max-width:100%}
+.lm-menu[data-direction=signal] .lm-mark{flex:none}
+.lm-menu[data-direction=signal] .lm-label{letter-spacing:calc(-.02em + var(--lm-tracking));line-height:1;transform:none;min-width:0}
+@media(hover:none),(pointer:coarse){.lm-menu[data-direction=signal] .lm-link{min-height:44px}}
+
+.lm-menu[data-direction=signal][data-enhanced=true][data-engaged=false] .lm-link{min-height:var(--lm-collapsed)}
+@media(hover:none),(pointer:coarse){.lm-menu[data-direction=signal][data-enhanced=true][data-engaged=false] .lm-link{min-height:44px}}
+
+/* Signal owns one finite spring, with independent mark lengths and a shared row rhythm. */
+.lm-menu[data-direction=signal][data-enhanced=true] .lm-mark,.lm-menu[data-direction=signal][data-enhanced=true] .lm-label{transition:none}
+
+.lm-menu[data-direction=signal][data-moving=true] .lm-link{max-width:none}
+
+.lm-menu[data-labels-visible=true] .lm-label{opacity:1!important;transform:none!important}
+
+.lm-menu[data-direction=signal][data-constrained=true] .lm-link{max-width:100%}

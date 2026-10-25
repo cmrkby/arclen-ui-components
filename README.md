@@ -6,6 +6,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Line Reveal Menu | [`components/line-reveal-menu`](components/line-reveal-menu) |
 | Exhibition Gallery | [`components/exhibition-gallery`](components/exhibition-gallery) |
 | Border Tooltip | [`components/border-tooltip`](components/border-tooltip) |
 | Growing Navigation | [`components/growing-navigation`](components/growing-navigation) |
