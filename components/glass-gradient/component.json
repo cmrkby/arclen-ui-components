@@ -1,0 +1,219 @@
+{
+  "version": "1.0.0",
+  "tier": "free",
+  "category": "Backgrounds",
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "NOTICE",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen CSS artwork and implementation. No third-party media or fonts."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen MIT license and copyright notice."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settles immediately to the complete decorative composition without entry or continuous animation.",
+    "pauseOffscreen": true
+  },
+  "id": "glass-gradient",
+  "name": "Glass Gradient",
+  "description": "A softly diffused color field with a drifting wash or opposing bands.",
+  "keywords": [
+    "gradient",
+    "glass",
+    "background",
+    "css",
+    "motion"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Direction",
+      "default": "wash",
+      "options": [
+        {
+          "value": "wash",
+          "label": "A \u00b7 Diagonal wash"
+        },
+        {
+          "value": "bands",
+          "label": "C \u00b7 Opposing bands"
+        }
+      ],
+      "group": "Composition"
+    },
+    {
+      "key": "axis",
+      "kind": "select",
+      "label": "Motion axis",
+      "default": "diagonal",
+      "options": [
+        {
+          "value": "diagonal",
+          "label": "Diagonal"
+        },
+        {
+          "value": "horizontal",
+          "label": "Horizontal"
+        },
+        {
+          "value": "vertical",
+          "label": "Vertical"
+        }
+      ],
+      "group": "Composition"
+    },
+    {
+      "key": "colorA",
+      "kind": "color",
+      "label": "First color",
+      "default": "#ffea00",
+      "group": "Palette"
+    },
+    {
+      "key": "colorB",
+      "kind": "color",
+      "label": "Second color",
+      "default": "#8400ff",
+      "group": "Palette"
+    },
+    {
+      "key": "colorC",
+      "kind": "color",
+      "label": "Third color",
+      "default": "#005eff",
+      "group": "Palette"
+    },
+    {
+      "key": "colorD",
+      "kind": "color",
+      "label": "Fourth color",
+      "default": "#00fa79",
+      "group": "Palette"
+    },
+    {
+      "key": "tintColor",
+      "kind": "color",
+      "label": "Glass tint",
+      "default": "#ffffff",
+      "group": "Palette"
+    },
+    {
+      "key": "tint",
+      "kind": "number",
+      "label": "Tint opacity",
+      "default": 0.7,
+      "min": 0,
+      "max": 0.95,
+      "step": 0.01,
+      "group": "Glass",
+      "description": "Blends the tint color into the gradient using overlay compositing."
+    },
+    {
+      "key": "diffusion",
+      "kind": "number",
+      "label": "Color diffusion",
+      "default": 20,
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "group": "Glass",
+      "description": "Sets the wash color-field scale and backdrop blur; opposing bands also soften their layers."
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Motion speed",
+      "default": 1,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "group": "Motion"
+    },
+    {
+      "key": "reverse",
+      "kind": "boolean",
+      "label": "Reverse motion",
+      "default": false,
+      "group": "Motion"
+    },
+    {
+      "key": "animate",
+      "kind": "boolean",
+      "label": "Animate",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "heightMode",
+      "kind": "select",
+      "label": "Height mode",
+      "default": "fill",
+      "options": [
+        {
+          "value": "fill",
+          "label": "Fill container"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        }
+      ],
+      "group": "Sizing"
+    },
+    {
+      "key": "fixedHeight",
+      "kind": "number",
+      "label": "Fixed height",
+      "default": 560,
+      "min": 160,
+      "max": 1200,
+      "step": 10,
+      "group": "Sizing",
+      "description": "Applies when Height mode is Fixed height."
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 0,
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "group": "Sizing"
+    }
+  ],
+  "previews": [
+    {
+      "name": "A \u00b7 Diagonal wash",
+      "settings": {
+        "variant": "wash"
+      }
+    },
+    {
+      "name": "C \u00b7 Opposing bands",
+      "settings": {
+        "variant": "bands",
+        "tint": 0.67,
+        "diffusion": 30,
+        "axis": "horizontal",
+        "speed": 0.75
+      }
+    }
+  ]
+}

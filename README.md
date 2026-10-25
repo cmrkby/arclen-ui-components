@@ -6,6 +6,8 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Glass Gradient | [`components/glass-gradient`](components/glass-gradient) |
+| Gradient Bars | [`components/gradient-bars`](components/gradient-bars) |
 | Line Reveal Menu | [`components/line-reveal-menu`](components/line-reveal-menu) |
 | Exhibition Gallery | [`components/exhibition-gallery`](components/exhibition-gallery) |
 | Border Tooltip | [`components/border-tooltip`](components/border-tooltip) |
