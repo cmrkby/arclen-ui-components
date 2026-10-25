@@ -1,0 +1,402 @@
+{
+  "id": "line-reveal-menu",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Line Reveal Menu",
+  "category": "Navigation",
+  "description": "Fine-line navigation with a quiet reveal and a responsive rhythm.",
+  "keywords": [
+    "menu",
+    "navigation",
+    "lines",
+    "reveal"
+  ],
+  "settings": [
+    {
+      "key": "direction",
+      "kind": "select",
+      "label": "Direction",
+      "default": "signal",
+      "group": "Layout",
+      "options": [
+        {
+          "label": "A \u00b7 Signal",
+          "value": "signal"
+        },
+        {
+          "label": "B \u00b7 Horizon",
+          "value": "horizon"
+        },
+        {
+          "label": "C \u00b7 Directory",
+          "value": "directory"
+        }
+      ]
+    },
+    {
+      "key": "labels",
+      "kind": "string-list",
+      "label": "Link labels",
+      "default": [
+        "Main",
+        "Practice",
+        "Selected",
+        "Notebook",
+        "Connect"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 80
+    },
+    {
+      "key": "destinations",
+      "kind": "string-list",
+      "label": "Link destinations",
+      "default": [
+        "#main",
+        "#practice",
+        "#selected",
+        "#notebook",
+        "#connect"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 12,
+      "maxItemLength": 2048
+    },
+    {
+      "key": "navigationLabel",
+      "kind": "text",
+      "label": "Accessible navigation name",
+      "default": "Studio navigation",
+      "group": "Content",
+      "maxLength": 100,
+      "description": "Accessible name for the navigation landmark."
+    },
+    {
+      "key": "newTab",
+      "kind": "boolean",
+      "label": "Open in new tab",
+      "default": false,
+      "group": "Content"
+    },
+    {
+      "key": "initialIndex",
+      "kind": "number",
+      "label": "Initially revealed item (\u22121 hides)",
+      "default": 1,
+      "group": "Behavior",
+      "min": -1,
+      "max": 11,
+      "step": 1
+    },
+    {
+      "key": "lineLength",
+      "kind": "number",
+      "label": "Resting line",
+      "default": 12,
+      "group": "Layout",
+      "min": 8,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "activeLength",
+      "kind": "number",
+      "label": "Active line",
+      "default": 24,
+      "group": "Layout",
+      "min": 16,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "neighborLength",
+      "kind": "number",
+      "label": "Neighbor line",
+      "default": 18,
+      "group": "Layout",
+      "min": 8,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "thickness",
+      "kind": "number",
+      "label": "Line thickness",
+      "default": 3,
+      "group": "Layout",
+      "min": 1,
+      "max": 5,
+      "step": 0.5
+    },
+    {
+      "key": "gap",
+      "kind": "number",
+      "label": "Row gap",
+      "default": 0,
+      "group": "Layout",
+      "min": 0,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Line rounding",
+      "default": 2,
+      "group": "Layout",
+      "min": 0,
+      "max": 3,
+      "step": 0.5
+    },
+    {
+      "key": "labelSize",
+      "kind": "number",
+      "label": "Label size",
+      "default": 14,
+      "group": "Typography",
+      "min": 10,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "labelGap",
+      "kind": "number",
+      "label": "Label spacing",
+      "default": 8,
+      "group": "Layout",
+      "min": 4,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "lineColor",
+      "kind": "color",
+      "label": "Resting line",
+      "default": "#454545",
+      "group": "Color"
+    },
+    {
+      "key": "activeColor",
+      "kind": "color",
+      "label": "Active line",
+      "default": "#a0a0a0",
+      "group": "Color"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text",
+      "default": "#ededed",
+      "group": "Color"
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Response duration",
+      "default": 400,
+      "group": "Motion",
+      "min": 0,
+      "max": 800,
+      "step": 10
+    },
+    {
+      "key": "bounce",
+      "kind": "number",
+      "label": "Response overshoot",
+      "default": 0.2,
+      "group": "Motion",
+      "min": 0,
+      "max": 0.4,
+      "step": 0.05
+    },
+    {
+      "key": "fontFamily",
+      "kind": "select",
+      "label": "Label font",
+      "default": "mono",
+      "group": "Typography",
+      "options": [
+        {
+          "label": "Geist Mono",
+          "value": "mono"
+        },
+        {
+          "label": "System sans",
+          "value": "sans"
+        },
+        {
+          "label": "System serif",
+          "value": "serif"
+        }
+      ]
+    },
+    {
+      "key": "labelCase",
+      "kind": "select",
+      "label": "Letter case",
+      "default": "layout",
+      "group": "Typography",
+      "options": [
+        {
+          "label": "Layout default",
+          "value": "layout"
+        },
+        {
+          "label": "As written",
+          "value": "none"
+        },
+        {
+          "label": "Uppercase",
+          "value": "uppercase"
+        },
+        {
+          "label": "Lowercase",
+          "value": "lowercase"
+        }
+      ]
+    },
+    {
+      "key": "tracking",
+      "kind": "number",
+      "label": "Tracking adjustment (em)",
+      "description": "Adds to each layout\u2019s normal letter spacing. Zero preserves its typography.",
+      "default": 0,
+      "group": "Typography",
+      "min": -0.05,
+      "max": 0.2,
+      "step": 0.01
+    },
+    {
+      "key": "rowHeight",
+      "kind": "number",
+      "label": "Signal row height",
+      "description": "Fine-pointer minimum height while engaged. Touch targets stay at least 44px.",
+      "default": 22,
+      "group": "Layout",
+      "min": 16,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "collapsedHeight",
+      "kind": "number",
+      "label": "Signal resting row height",
+      "description": "Fine-pointer minimum height after exit when labels are hidden.",
+      "default": 16,
+      "group": "Layout",
+      "min": 12,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "showLabels",
+      "kind": "boolean",
+      "label": "Always show labels",
+      "description": "Keeps names visible while line emphasis still follows interaction.",
+      "default": false,
+      "group": "Behavior"
+    },
+    {
+      "key": "motion",
+      "kind": "boolean",
+      "label": "Animate response",
+      "description": "Turn off to apply states immediately. Reduced motion always takes priority.",
+      "default": true,
+      "group": "Motion"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/geist-mono-400.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Geist Mono \u00a9 2024 The Geist Project Authors. See assets/Geist-Mono-OFL.txt."
+      }
+    },
+    {
+      "path": "assets/Geist-Mono-OFL.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Geist Mono \u00a9 2024 The Geist Project Authors. See assets/Geist-Mono-OFL.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Labels and lines change immediately without travel or spring response.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "A \u00b7 Signal",
+      "settings": {
+        "direction": "signal"
+      }
+    },
+    {
+      "name": "B \u00b7 Horizon",
+      "settings": {
+        "direction": "horizon",
+        "lineLength": 16,
+        "radius": 0,
+        "labelSize": 12,
+        "labelGap": 14,
+        "lineColor": "#555555",
+        "activeColor": "#ffffff",
+        "textColor": "#e8e8e8",
+        "labels": [
+          "Index",
+          "Work",
+          "Studio",
+          "Journal",
+          "Contact"
+        ],
+        "destinations": [
+          "#index",
+          "#work",
+          "#studio",
+          "#journal",
+          "#contact"
+        ]
+      }
+    },
+    {
+      "name": "C \u00b7 Directory",
+      "settings": {
+        "direction": "directory",
+        "lineLength": 16,
+        "radius": 0,
+        "labelSize": 12,
+        "labelGap": 14,
+        "lineColor": "#555555",
+        "activeColor": "#ffffff",
+        "textColor": "#e8e8e8",
+        "labels": [
+          "Index",
+          "Work",
+          "Studio",
+          "Journal",
+          "Contact"
+        ],
+        "destinations": [
+          "#index",
+          "#work",
+          "#studio",
+          "#journal",
+          "#contact"
+        ]
+      }
+    }
+  ]
+}
