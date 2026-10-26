@@ -1,0 +1,305 @@
+{
+  "id": "reveal-lens",
+  "version": "2.0.0",
+  "tier": "free",
+  "name": "Reveal Lens",
+  "category": "Hover effects",
+  "description": "Explore paired imagery through a soft organic lens that follows pointer, touch and keyboard input.",
+  "keywords": [
+    "image",
+    "reveal",
+    "hover",
+    "comparison"
+  ],
+  "settings": [
+    {
+      "key": "baseImage",
+      "kind": "image",
+      "label": "Base image",
+      "default": "assets/ember-base.webp",
+      "maxLength": 2000000,
+      "group": "Images"
+    },
+    {
+      "key": "revealImage",
+      "kind": "image",
+      "label": "Reveal image",
+      "default": "assets/ember-growth.webp",
+      "maxLength": 2000000,
+      "group": "Images"
+    },
+    {
+      "key": "imageAlt",
+      "kind": "text",
+      "label": "Scene description",
+      "default": "Ember-lit charcoal rock revealing moss, ferns and tiny wildflowers",
+      "maxLength": 240,
+      "group": "Images"
+    },
+    {
+      "key": "imageFit",
+      "kind": "select",
+      "label": "Image fit",
+      "default": "cover",
+      "group": "Images",
+      "options": [
+        "cover",
+        "contain"
+      ],
+      "description": "Both images share this fit, crop, and framing."
+    },
+    {
+      "key": "imageScale",
+      "kind": "number",
+      "label": "Image crop",
+      "default": 1,
+      "min": 1,
+      "max": 4,
+      "step": 0.05,
+      "group": "Images"
+    },
+    {
+      "key": "imageOffsetX",
+      "kind": "number",
+      "label": "Horizontal framing",
+      "default": 0,
+      "group": "Images",
+      "min": -40,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "imageOffsetY",
+      "kind": "number",
+      "label": "Vertical framing",
+      "default": 0,
+      "min": -40,
+      "max": 40,
+      "step": 1,
+      "group": "Images"
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Reveal size",
+      "default": 600,
+      "min": 60,
+      "max": 1000,
+      "step": 10,
+      "group": "Reveal",
+      "description": "Relative reveal size. 600 preserves the full-size lens; it scales with the shorter stage edge."
+    },
+    {
+      "key": "softness",
+      "kind": "number",
+      "label": "Edge softness",
+      "default": 65,
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "group": "Reveal"
+    },
+    {
+      "key": "response",
+      "kind": "number",
+      "label": "Follow response",
+      "default": 0.1,
+      "min": 0.04,
+      "max": 1,
+      "step": 0.02,
+      "group": "Motion",
+      "description": "Higher values follow input faster. Reduced motion always follows input directly."
+    },
+    {
+      "key": "restPosition",
+      "kind": "select",
+      "label": "Resting reveal",
+      "default": "center",
+      "options": [
+        "center",
+        "hidden"
+      ],
+      "group": "Reveal"
+    },
+    {
+      "key": "restScale",
+      "kind": "number",
+      "label": "Resting size",
+      "default": 0.3,
+      "group": "Reveal",
+      "min": 0.05,
+      "max": 1,
+      "step": 0.05,
+      "description": "Resting size as a fraction of the full reveal. Applies when Resting reveal is center."
+    },
+    {
+      "key": "restOpacity",
+      "kind": "number",
+      "label": "Resting opacity",
+      "default": 0.22,
+      "group": "Reveal",
+      "min": 0,
+      "max": 1,
+      "step": 0.02
+    },
+    {
+      "key": "showHint",
+      "kind": "boolean",
+      "label": "Show interaction hint",
+      "default": false,
+      "group": "Content"
+    },
+    {
+      "key": "hint",
+      "kind": "text",
+      "label": "Hint",
+      "default": "Move to discover",
+      "maxLength": 80,
+      "group": "Hint"
+    },
+    {
+      "key": "hintColor",
+      "kind": "color",
+      "label": "Hint text",
+      "default": "#252b23",
+      "group": "Hint"
+    },
+    {
+      "key": "hintBackground",
+      "kind": "color",
+      "label": "Hint background",
+      "default": "#ffffff",
+      "group": "Hint"
+    },
+    {
+      "key": "hintOpacity",
+      "kind": "number",
+      "label": "Hint surface opacity",
+      "default": 0.6,
+      "group": "Hint",
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "hintFontSize",
+      "kind": "number",
+      "label": "Hint text size",
+      "default": 12,
+      "group": "Hint",
+      "min": 10,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "hintInset",
+      "kind": "number",
+      "label": "Hint bottom inset",
+      "default": 28,
+      "group": "Hint",
+      "min": 8,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Stage background",
+      "default": "#000000",
+      "group": "Appearance",
+      "description": "Visible around contained images, transparent images, and failed images."
+    },
+    {
+      "key": "cornerRadius",
+      "kind": "number",
+      "label": "Stage corners",
+      "default": 0,
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "focusColor",
+      "kind": "color",
+      "label": "Focus ring",
+      "default": "#3454f1",
+      "group": "Appearance"
+    },
+    {
+      "key": "sizing",
+      "kind": "select",
+      "label": "Height mode",
+      "default": "fill",
+      "options": [
+        "fill",
+        "fixed"
+      ],
+      "group": "Sizing"
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Fixed height",
+      "default": 640,
+      "min": 240,
+      "max": 1200,
+      "step": 10,
+      "group": "Sizing",
+      "description": "Used only when Height mode is fixed."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/ember-base.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen paired botanical artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/ember-growth.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen paired botanical artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "NOTICE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen photographic artwork and component, 2026."
+      }
+    },
+    {
+      "path": "PROVENANCE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen photographic artwork and component, 2026."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "The reveal moves directly with input; no trailing animation.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Living surface",
+      "settings": {}
+    }
+  ]
+}

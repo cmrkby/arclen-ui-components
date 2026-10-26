@@ -1,0 +1,98 @@
+# Reveal Lens
+
+Explore two aligned images through a soft organic lens. Pointer, touch and keyboard input move the reveal; the image pair shares one crop so details stay aligned.
+
+## Install and use
+
+Install the complete Reveal Lens package using the component's Install action. Keep its `src`, `assets`, `component.json` and notices together. React requires React and React DOM in the host application. The component has no additional npm runtime dependencies and supports React, HTML and vanilla JavaScript.
+
+The installed entry exports `RevealLens` and `Component`. It imports its own stylesheet. Give a fill-sized instance a container with a definite height, or choose fixed sizing:
+
+```tsx
+import { RevealLens } from './components/reveal-lens';
+
+export function BotanicalReveal() {
+  return <RevealLens sizing="fixed" height={640} />;
+}
+```
+
+## Configure
+
+Use regular props for the settings shown in the generated settings table. The image controls accept HTTPS URLs, raster data URLs and relative image paths. Local uploads can use a temporary same-origin blob URL for preview. Include a durable image URL or a bundled asset for exported delivery. An empty image value restores that image's bundled artwork. Local replacements must be included in your own deployment; the bundled pair works without an image service.
+
+The bundled 3840 × 2160 artwork uses a 1× crop to retain its fine surface detail. For replacement artwork, use two images with the same composition and dimensions; allow for the display pixel ratio when choosing image resolution. Fit, crop and horizontal/vertical framing apply to both images. Large framing offsets can expose the stage background when crop is low; use Image fit and Stage background together for a deliberate border.
+
+```tsx
+import { RevealLens } from './components/reveal-lens';
+
+export function FramedReveal() {
+  return (
+    <RevealLens
+      sizing="fixed"
+      height={480}
+      imageFit="contain"
+      imageScale={1}
+      imageOffsetX={0}
+      imageOffsetY={0}
+      background="#18201b"
+      cornerRadius={24}
+      radius={420}
+      softness={45}
+      response={0.16}
+      restPosition="hidden"
+      showHint
+      hint="Explore the living surface"
+      hintColor="#f5f6f2"
+      hintBackground="#18201b"
+      hintOpacity={0.85}
+      hintFontSize={14}
+      hintInset={24}
+      focusColor="#a5d5b2"
+    />
+  );
+}
+```
+
+Reveal size is relative to the available stage. `radius={600}` uses 72% of the shorter stage edge, capped at 600px; other values multiply that size by `radius / 600`. It is a mask radius before the feathered edge. Higher Follow response values track input faster. Resting size is a fraction of the active reveal; Resting opacity controls its faint appearance. `restPosition="center"` starts the resting reveal at the center and leaves it at the last explored position. Hidden removes the resting reveal. Hint styling applies when Show interaction hint is enabled. Fixed height applies when Height mode is fixed.
+
+The wrapper also accepts `className`, `style` and `paused`. Set `paused` to suspend pending animation while retaining the current image and reveal state. Unmount releases the controller's resources.
+
+## HTML and vanilla
+
+Copy the complete HTML download, including `component.html`, `component.css`, `component.js` and its assets, to your static host. Preserve the relative file layout. Configure it with the generated settings before downloading.
+
+For a custom integration with a TypeScript-capable bundler, import the core and stylesheet directly. `mount` owns the supplied host's children until `destroy()` restores them. Call `destroy()` before removing that host.
+
+```ts
+import { mount } from './components/reveal-lens/src/core';
+import './components/reveal-lens/src/styles.css';
+
+export function attachReveal(host: HTMLElement) {
+  const settings = { sizing: 'fixed' as const, height: 480, showHint: true };
+  const controller = mount(host, settings);
+  return {
+    useHiddenRest() {
+      controller.update({ ...settings, restPosition: 'hidden' });
+    },
+    pause() { controller.pause(); },
+    resume() { controller.resume(); },
+    destroy() { controller.destroy(); }
+  };
+}
+```
+
+`update(settings)` resolves a complete configuration from defaults each time. Include prior custom values when changing a single setting. Updates preserve the scene and image elements, keyboard focus, and current reveal position. Invalid settings throw before the current configuration changes. `render(settings)` returns escaped static HTML for server rendering; include the stylesheet when using it directly.
+
+## Interaction and fallback
+
+Move a mouse over the image to explore. On touch, drag horizontally; vertical page scrolling remains available. Focus the image and use the arrow keys to move the reveal. Enter or Space toggles a sustained reveal. Escape clears the toggle and returns to rest. The optional hint is a separate native button with the same toggle action and a pressed state. Hiding the focused hint moves focus to the image.
+
+Write Scene description to describe the meaningful content across both images. The base image provides that alternative text; the decorative reveal does not repeat it. The stage and button use a configurable focus-ring color. Long hint text wraps inside the stage.
+
+Reduced motion applies input directly without trailing animation. Hidden documents, offscreen instances and explicit pause stop pending animation frames. If IntersectionObserver is unavailable, document visibility and explicit pause still work. Without ResizeObserver, window resize updates the measurements. Without matchMedia, the regular trailing response applies.
+
+Without JavaScript, the base image and a static resting reveal remain visible, with no inactive controls in the tab order. Browsers without CSS masking display only the base image. A failed image displays a status message after enhancement; replacing that image clears the failure once it loads. A fill stage has a minimum height of 240px. For shorter layouts, place another component outside this stage.
+
+## Artwork and rights
+
+The bundled botanical pair is original Arclen AI-generated artwork created through Higgsfield with GPT Image 2.5. The growth image used the generated bare scene as its image input to preserve the composition. These are synthetic creative images. The source is an original Arclen implementation. Keep `NOTICE.md` and `PROVENANCE.md` with the package; they record the image identities and hashes.
