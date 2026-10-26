@@ -67,7 +67,7 @@
 @container aui-testimonial (max-width:700px){.aui-ts .aui-ts-autoplay [data-play-label]{display:none}.aui-ts .aui-ts-autoplay{width:32px;padding:6px;flex:none}.aui-ts .aui-ts-hint{margin-left:auto}.aui-ts .aui-ts-footer .aui-ts-autoplay{margin-left:0}}
 
 /* Split deck: a fluid two-column scene, with type sized to the story measure. */
-.aui-ts .aui-ts-stage[data-direction=split]{min-height:min-content;padding:36px min(4.5%,64px)}
+.aui-ts .aui-ts-stage[data-direction=split]{height:auto;min-height:100%;padding:36px min(4.5%,64px)}
 .aui-ts [data-direction=split] .aui-ts-panel{container:aui-ts-split-panel/inline-size;display:grid;grid-template-columns:49% 45%;column-gap:6%;row-gap:0;min-height:0;max-width:var(--aui-ts-panel-max);padding:var(--aui-ts-panel-padding);border-radius:var(--aui-ts-radius);box-shadow:0 40px 120px #34200e2e}
 .aui-ts [data-direction=split] .aui-ts-story{container:aui-ts-split-story/inline-size;position:static;width:auto;--aui-ts-heading-size:clamp(31px,9.6154cqw,48.6231px);--aui-ts-quote-size:clamp(16.12px,5cqw,25.284px)}
 .aui-ts [data-direction=split] .aui-ts-counter{height:15.6px;margin-bottom:calc(var(--aui-ts-quote-size) * var(--aui-ts-spacing));font-size:13px;line-height:1.2;letter-spacing:0;gap:14px;color:color-mix(in srgb,var(--aui-ts-muted) 80%,var(--aui-ts-panel))}
@@ -104,7 +104,7 @@
 .aui-ts [data-direction=split] .aui-ts-hint{font-size:10px;letter-spacing:.14em}
 .aui-ts [data-direction=split] .aui-ts-autoplay{top:8px;right:10px}
 }
-@container aui-testimonial (max-width:340px){.aui-ts [data-direction=split] .aui-ts-hint{font-size:8px;letter-spacing:.08em}.aui-ts [data-direction=split] .aui-ts-panel{padding:calc(var(--aui-ts-phone-padding) - 4px)}.aui-ts [data-direction=split] .aui-ts-story{--aui-ts-heading-size:26px;--aui-ts-quote-size:14px}}
+@container aui-testimonial (max-width:340px){.aui-ts [data-direction=split] .aui-ts-hint{display:none;font-size:8px;letter-spacing:.08em}.aui-ts [data-direction=split] .aui-ts-panel{padding:calc(var(--aui-ts-phone-padding) - 4px)}.aui-ts [data-direction=split] .aui-ts-story{--aui-ts-heading-size:26px;--aui-ts-quote-size:14px}}
 @media(pointer:coarse){.aui-ts [data-direction=split] .aui-ts-navigation button:after,.aui-ts [data-direction=split] .aui-ts-autoplay:after{content:"";position:absolute;left:50%;top:50%;width:max(44px,100%);height:max(44px,100%);transform:translate(-50%,-50%);border-radius:50%}}
 .aui-ts .aui-ts-card-surface{width:100%;height:100%}
 .aui-ts [data-direction=split] .aui-ts-counter [data-current]{display:inline-block;margin-left:0;opacity:1}
