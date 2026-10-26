@@ -1,0 +1,505 @@
+{
+  "id": "testimonial-swipe",
+  "version": "2.0.0",
+  "tier": "free",
+  "name": "Testimonial Swipe",
+  "category": "Image & motion",
+  "description": "Paired stories and portraits in a fanned deck with swipe navigation and timed progress.",
+  "keywords": [
+    "testimonials",
+    "portraits",
+    "stories",
+    "swipe",
+    "carousel"
+  ],
+  "settings": [
+    {
+      "key": "sizing",
+      "kind": "select",
+      "label": "Stage sizing",
+      "group": "Presentation",
+      "default": "fill",
+      "options": [
+        {
+          "value": "fill",
+          "label": "Fill parent"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        }
+      ],
+      "description": "Fill a caller with a defined height, or choose a fixed height. Short stages scroll within the component."
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Fixed height (px)",
+      "group": "Presentation",
+      "default": 720,
+      "min": 480,
+      "max": 1200,
+      "step": 10,
+      "description": "Used when Stage sizing is Fixed height."
+    },
+    {
+      "key": "initialStory",
+      "kind": "number",
+      "label": "Starting story",
+      "group": "Stories",
+      "default": 1,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "key": "headings",
+      "kind": "string-list",
+      "label": "Story headings",
+      "group": "Stories",
+      "default": [
+        "A clearer start",
+        "One shared rhythm",
+        "Room for the details",
+        "A better handoff",
+        "Built to keep moving"
+      ],
+      "minItems": 1,
+      "maxItems": 5,
+      "maxItemLength": 80,
+      "description": "Entries pair by position. The quotation list sets the number of stories; missing companion entries use the matching example."
+    },
+    {
+      "key": "quotes",
+      "kind": "string-list",
+      "label": "Quotations",
+      "group": "Stories",
+      "default": [
+        "There is more room for the work when the next step is clear.",
+        "The best change was a quieter Monday. Everyone already knew where to begin.",
+        "Our ideas stayed ambitious. Getting them into the world became much simpler.",
+        "There is a little more care in every handoff, and you can see it in the result.",
+        "We spend less time finding the next step and more time making it count."
+      ],
+      "minItems": 1,
+      "maxItems": 5,
+      "maxItemLength": 360,
+      "description": "Entries pair by position. The quotation list sets the number of stories; missing companion entries use the matching example."
+    },
+    {
+      "key": "names",
+      "kind": "string-list",
+      "label": "Names",
+      "group": "Stories",
+      "default": [
+        "Mara Ellis",
+        "Theo Park",
+        "Nia Solis",
+        "Jules Rowan",
+        "Ada Chen"
+      ],
+      "minItems": 1,
+      "maxItems": 5,
+      "maxItemLength": 80,
+      "description": "Entries pair by position. The quotation list sets the number of stories; missing companion entries use the matching example."
+    },
+    {
+      "key": "roles",
+      "kind": "string-list",
+      "label": "Roles",
+      "group": "Stories",
+      "default": [
+        "Design director",
+        "Studio partner",
+        "Creative producer",
+        "Product designer",
+        "Independent founder"
+      ],
+      "minItems": 1,
+      "maxItems": 5,
+      "maxItemLength": 100,
+      "description": "Entries pair by position. The quotation list sets the number of stories; missing companion entries use the matching example."
+    },
+    {
+      "key": "portrait1",
+      "kind": "image",
+      "label": "Portrait 1",
+      "group": "Portraits",
+      "default": "",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled fictional AI-generated portrait photograph."
+    },
+    {
+      "key": "portrait2",
+      "kind": "image",
+      "label": "Portrait 2",
+      "group": "Portraits",
+      "default": "",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled fictional AI-generated portrait photograph."
+    },
+    {
+      "key": "portrait3",
+      "kind": "image",
+      "label": "Portrait 3",
+      "group": "Portraits",
+      "default": "",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled fictional AI-generated portrait photograph."
+    },
+    {
+      "key": "portrait4",
+      "kind": "image",
+      "label": "Portrait 4",
+      "group": "Portraits",
+      "default": "",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled fictional AI-generated portrait photograph."
+    },
+    {
+      "key": "portrait5",
+      "kind": "image",
+      "label": "Portrait 5",
+      "group": "Portraits",
+      "default": "",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled fictional AI-generated portrait photograph."
+    },
+    {
+      "key": "stageColor",
+      "kind": "color",
+      "label": "Stage",
+      "group": "Colour",
+      "default": "#FFA600"
+    },
+    {
+      "key": "panelColor",
+      "kind": "color",
+      "label": "Panel",
+      "group": "Colour",
+      "default": "#FBF8F4"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text",
+      "group": "Colour",
+      "default": "#1A140F"
+    },
+    {
+      "key": "mutedColor",
+      "kind": "color",
+      "label": "Secondary text",
+      "group": "Colour",
+      "default": "#7A6E64"
+    },
+    {
+      "key": "cornerRadius",
+      "kind": "number",
+      "label": "Panel corners",
+      "group": "Presentation",
+      "default": 36,
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "portraitScale",
+      "kind": "number",
+      "label": "Portrait size",
+      "group": "Presentation",
+      "default": 1,
+      "min": 0.8,
+      "max": 1.12,
+      "step": 0.02,
+      "description": "Scales all portrait cards together while keeping their fan arrangement."
+    },
+    {
+      "key": "showProgress",
+      "kind": "boolean",
+      "label": "Show autoplay progress",
+      "group": "Motion",
+      "default": true,
+      "description": "Show the decorative timer ring around Next. Autoplay timing also works with the ring hidden."
+    },
+    {
+      "key": "progressColor",
+      "kind": "color",
+      "label": "Progress ring",
+      "group": "Colour",
+      "default": "#C8793A",
+      "description": "Accent colour of the autoplay progress arc."
+    },
+    {
+      "key": "autoPlay",
+      "kind": "boolean",
+      "label": "Autoplay",
+      "group": "Motion",
+      "default": true
+    },
+    {
+      "key": "interval",
+      "kind": "number",
+      "label": "Autoplay dwell (ms)",
+      "group": "Motion",
+      "default": 6000,
+      "min": 4000,
+      "max": 15000,
+      "step": 500,
+      "description": "The dwell starts after the main card settles. Focus, drag and resume begin a fresh dwell."
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Transition duration (ms)",
+      "group": "Motion",
+      "default": 620,
+      "min": 180,
+      "max": 900,
+      "step": 20
+    },
+    {
+      "key": "typeface",
+      "kind": "select",
+      "label": "Typeface",
+      "group": "Typography",
+      "default": "geist",
+      "options": [
+        {
+          "value": "geist",
+          "label": "Bundled Geist"
+        },
+        {
+          "value": "system",
+          "label": "System sans"
+        },
+        {
+          "value": "serif",
+          "label": "System serif"
+        }
+      ]
+    },
+    {
+      "key": "headingScale",
+      "kind": "number",
+      "label": "Heading scale",
+      "group": "Typography",
+      "default": 1,
+      "min": 0.8,
+      "max": 1.25,
+      "step": 0.05
+    },
+    {
+      "key": "quoteScale",
+      "kind": "number",
+      "label": "Quotation scale",
+      "group": "Typography",
+      "default": 1,
+      "min": 0.85,
+      "max": 1.25,
+      "step": 0.05
+    },
+    {
+      "key": "contentSpacing",
+      "kind": "number",
+      "label": "Content spacing",
+      "group": "Layout",
+      "default": 1,
+      "min": 0.75,
+      "max": 1.5,
+      "step": 0.05,
+      "description": "Scales the story gaps and the space between portraits and text on small screens."
+    },
+    {
+      "key": "panelMaxWidth",
+      "kind": "number",
+      "label": "Panel maximum width (px)",
+      "group": "Layout",
+      "default": 1120,
+      "min": 800,
+      "max": 1440,
+      "step": 20
+    },
+    {
+      "key": "panelPadding",
+      "kind": "number",
+      "label": "Panel padding (px)",
+      "group": "Layout",
+      "default": 44,
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "description": "Used above 700px container width."
+    },
+    {
+      "key": "phonePadding",
+      "kind": "number",
+      "label": "Small panel padding (px)",
+      "group": "Layout",
+      "default": 22,
+      "min": 14,
+      "max": 36,
+      "step": 2,
+      "description": "Used at 700px and below. Very narrow containers reduce this by 4px."
+    },
+    {
+      "key": "frameWidth",
+      "kind": "number",
+      "label": "Portrait frame (px)",
+      "group": "Portraits",
+      "default": 8,
+      "min": 0,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "key": "portraitRadius",
+      "kind": "number",
+      "label": "Portrait corners (px)",
+      "group": "Portraits",
+      "default": 28,
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "frameColor",
+      "kind": "color",
+      "label": "Portrait frame",
+      "group": "Colour",
+      "default": "#FFFFFF"
+    },
+    {
+      "key": "portraitX",
+      "kind": "number",
+      "label": "Portrait focal X (%)",
+      "group": "Portraits",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "description": "Horizontal crop position for every portrait and avatar."
+    },
+    {
+      "key": "portraitY",
+      "kind": "number",
+      "label": "Portrait focal Y (%)",
+      "group": "Portraits",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "description": "Vertical crop position for every portrait and avatar."
+    },
+    {
+      "key": "showAvatar",
+      "kind": "boolean",
+      "label": "Show identity portrait",
+      "group": "Stories",
+      "default": true
+    },
+    {
+      "key": "showDragHint",
+      "kind": "boolean",
+      "label": "Show drag hint",
+      "group": "Interaction",
+      "default": true
+    },
+    {
+      "key": "dragHint",
+      "kind": "text",
+      "label": "Drag hint",
+      "group": "Interaction",
+      "default": "DRAG THE CARD",
+      "maxLength": 40
+    },
+    {
+      "key": "swipeEnabled",
+      "kind": "boolean",
+      "label": "Enable swipe",
+      "group": "Interaction",
+      "default": true,
+      "description": "Disable pointer dragging while keeping arrow buttons and keyboard navigation available."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/portrait-01.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen fictional portrait artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/portrait-02.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen fictional portrait artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/portrait-03.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen fictional portrait artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/portrait-04.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen fictional portrait artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/portrait-05.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen fictional portrait artwork generated with Higgsfield GPT Image 2.5, 2026. See PROVENANCE.md."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist authors; see assets/OFL-Geist.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Autoplay stops. Manual navigation changes stories immediately without spatial animation.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Split deck",
+      "settings": {}
+    }
+  ]
+}

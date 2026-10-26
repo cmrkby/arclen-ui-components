@@ -1,0 +1,16 @@
+.aui-reveal-lens{position:relative;width:100%;height:var(--rl-height,100%);min-height:240px;overflow:hidden;background:var(--rl-bg,#f4f3ef);border-radius:var(--rl-radius,0);isolation:isolate}
+.aui-reveal-lens *{box-sizing:border-box}
+.aui-reveal-lens__scene{position:absolute;inset:0;overflow:hidden;touch-action:pan-y;outline:none}
+.aui-reveal-lens[data-live=true] .aui-reveal-lens__scene{cursor:crosshair}
+.aui-reveal-lens__scene:focus-visible{outline:2px solid var(--rl-focus,#3454f1);outline-offset:-4px}
+.aui-reveal-lens img{position:absolute;inset:0;width:100%;height:100%;object-fit:var(--rl-image-fit,cover);transform:translate(var(--rl-image-x,0%),var(--rl-image-y,0%)) scale(var(--rl-image-scale,1));transform-origin:center;user-select:none;pointer-events:none}
+.aui-reveal-lens__reveal{position:absolute;inset:0;pointer-events:none;opacity:var(--rl-strength,.22);-webkit-mask-image:var(--rl-mask);mask-image:var(--rl-mask);-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:var(--rl-diameter) var(--rl-diameter);mask-size:var(--rl-diameter) var(--rl-diameter);-webkit-mask-position:var(--rl-left) var(--rl-top);mask-position:var(--rl-left) var(--rl-top)}
+.aui-reveal-lens__hint{position:absolute;left:50%;bottom:var(--rl-hint-inset,28px);max-width:calc(100% - 24px);min-height:44px;transform:translateX(-50%);border:1px solid color-mix(in srgb,var(--rl-hint-bg,#fff) var(--rl-hint-opacity,60%),transparent);border-radius:99px;padding:11px 17px;background:color-mix(in srgb,var(--rl-hint-bg,#fff) var(--rl-hint-opacity,60%),transparent);backdrop-filter:blur(18px);color:var(--rl-hint-color,#252b23);font:var(--rl-hint-size,12px)/1.3 system-ui,sans-serif;letter-spacing:.02em;cursor:pointer;overflow-wrap:anywhere}
+.aui-reveal-lens__hint>span:first-child{margin-right:6px}
+@media(hover:hover) and (pointer:fine){.aui-reveal-lens__hint:hover{background:var(--rl-hint-bg,#fff)}}
+.aui-reveal-lens__hint:focus-visible{outline:2px solid var(--rl-focus,#3454f1);outline-offset:4px}
+.aui-reveal-lens__hint:disabled{display:none}
+.aui-reveal-lens [hidden]{display:none!important}
+.aui-reveal-lens__error{position:absolute;inset:0;display:grid;place-content:center;padding:32px;text-align:center;background:var(--rl-bg);color:#555;font:14px/1.5 system-ui,sans-serif}
+@supports not ((mask-image:radial-gradient(black,transparent)) or (-webkit-mask-image:radial-gradient(black,transparent))){.aui-reveal-lens__reveal{display:none}}
+@media(prefers-reduced-motion:reduce){.aui-reveal-lens *{scroll-behavior:auto}}
