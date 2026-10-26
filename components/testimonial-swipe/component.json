@@ -170,7 +170,7 @@
       "kind": "color",
       "label": "Stage",
       "group": "Colour",
-      "default": "#FFA600"
+      "default": "#F0EDE7"
     },
     {
       "key": "panelColor",

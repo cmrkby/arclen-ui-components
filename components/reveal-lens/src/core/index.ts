@@ -1,6 +1,6 @@
 import manifest from '../../component.json';
-import branchBase from '../../assets/branch-base.webp';
-import branchGrowth from '../../assets/branch-growth.webp';
+import branchBase from '../../assets/ember-base.webp';
+import branchGrowth from '../../assets/ember-growth.webp';
 
 export interface Settings {
   baseImage: string;

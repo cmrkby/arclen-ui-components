@@ -2,13 +2,9 @@
 
 Reveal Lens source is an original Arclen implementation, 2026.
 
-Original paired botanical artwork created for Arclen through Higgsfield with OpenAI GPT Image 2.5 on 2026-10-26 UTC. Settings requested Flare, maximum quality, 4K resolution and 3:2 composition. The service returned 3504×2336 PNG masters. The first image is a newly generated bare driftwood scene. The second uses that generated image as its only image input and adds moss, leaves, ferns and flowers while preserving its framing. No external photographs were supplied.
+Original paired mineral and botanical artwork created for Arclen through Higgsfield with OpenAI GPT Image 2.5 on 2026-10-26 UTC. Maximum-quality 4K PNG masters and bundled WebP images are 3840 × 2160. WebP encoding uses quality 94 without resizing. These are synthetic creative artwork.
 
-The bundled WebP files preserve the complete compositions at 2560px wide and quality 88. Actual master dimensions and exact hashes are recorded below. These are synthetic creative artwork, not documentary imagery.
-
-| Bundled file | Generation job | Master dimensions | Master SHA-256 | Bundled SHA-256 |
-|---|---|---|---|---|
-| `assets/branch-base.webp` | `76a9ec3c-4844-495f-801f-e5c01937becc` | 3504×2336 | `2c27c92068a9231419e775bf8ac97f21a77a21e105076c3996379d8c94137289` | `b900a660de25707576736d9cdd6ded0dd7d5579a5c3e80fababbdeede44726ee` |
-| `assets/branch-growth.webp` | `54b036a0-6831-4094-9918-7a9267e59bc2` | 3504×2336 | `391ef95500539149df2ace032e7dfa53313bc937b07b10f06f5684f20adcedc0` | `f7e622191ecdd400eafa5189445c4fe8790355021a3c0d4c08c459babbf2d00e` |
-
-Growth input generation: `76a9ec3c-4844-495f-801f-e5c01937becc`.
+| Bundled file | Generation job | Master SHA-256 | Bundled SHA-256 |
+|---|---|---|---|
+| `assets/ember-base.webp` | `1cdd1590-018d-4f45-a31c-7433d5259013` | `d2251d33858013a7cbe99179c0bcd52ed3dcb335f9752dee4313b862f6fb61dc` | `7cb70d70b2a120b4ef5f0c84faa0416a44acbb693799cd9d90b3a87ffed3eb22` |
+| `assets/ember-growth.webp` | `446e757d-7ac1-4322-8412-ec0508ecde6a` | `875ef66b015e42cc6f9b2ebb4abc2cb84162d99319ca9d1bdac601886c6497e1` | `b4009feadfb138e2614dbb7dfad2f1bb193c6080837a6fc301dea241462d71b6` |

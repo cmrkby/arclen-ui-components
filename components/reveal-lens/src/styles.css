@@ -11,6 +11,6 @@
 .aui-reveal-lens__hint:focus-visible{outline:2px solid var(--rl-focus,#3454f1);outline-offset:4px}
 .aui-reveal-lens__hint:disabled{display:none}
 .aui-reveal-lens [hidden]{display:none!important}
-.aui-reveal-lens__error{position:absolute;inset:0;display:grid;place-content:center;padding:32px;text-align:center;background:var(--rl-bg);color:#555;font:14px/1.5 system-ui,sans-serif}
+.aui-reveal-lens__error{position:absolute;inset:0;display:grid;place-content:center;padding:32px;text-align:center;background:#111;color:#ddd;font:14px/1.5 system-ui,sans-serif}
 @supports not ((mask-image:radial-gradient(black,transparent)) or (-webkit-mask-image:radial-gradient(black,transparent))){.aui-reveal-lens__reveal{display:none}}
 @media(prefers-reduced-motion:reduce){.aui-reveal-lens *{scroll-behavior:auto}}

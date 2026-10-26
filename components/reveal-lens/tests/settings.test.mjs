@@ -19,7 +19,7 @@ test('manifest validates and keeps the approved defaults with one composition', 
   assert.equal(validate(manifest), true, JSON.stringify(validate.errors));
   assert.deepEqual(core.resolveSettings(), Object.fromEntries(manifest.settings.map(setting => [setting.key, setting.default])));
   assert.deepEqual(manifest.previews, [{name: 'Living surface', settings: {}}]);
-  assert.deepEqual(Object.fromEntries(['imageScale', 'imageOffsetY', 'radius', 'softness', 'response', 'restScale', 'restOpacity'].map(key => [key, core.defaults[key]])), {imageScale: 2.3, imageOffsetY: -14, radius: 600, softness: 65, response: .1, restScale: .3, restOpacity: .22});
+  assert.deepEqual(Object.fromEntries(['imageScale', 'imageOffsetY', 'radius', 'softness', 'response', 'restScale', 'restOpacity'].map(key => [key, core.defaults[key]])), {imageScale: 1, imageOffsetY: 0, radius: 600, softness: 65, response: .1, restScale: .3, restOpacity: .22});
   for (const input of [{variant: 'curtain'}, {variant: 'window'}, {zoom: 1.2}]) assert.throws(() => core.resolveSettings(input));
 });
 

@@ -16,7 +16,7 @@
       "key": "baseImage",
       "kind": "image",
       "label": "Base image",
-      "default": "assets/branch-base.webp",
+      "default": "assets/ember-base.webp",
       "maxLength": 2000000,
       "group": "Images"
     },
@@ -24,7 +24,7 @@
       "key": "revealImage",
       "kind": "image",
       "label": "Reveal image",
-      "default": "assets/branch-growth.webp",
+      "default": "assets/ember-growth.webp",
       "maxLength": 2000000,
       "group": "Images"
     },
@@ -32,7 +32,7 @@
       "key": "imageAlt",
       "kind": "text",
       "label": "Scene description",
-      "default": "Weathered driftwood revealing green moss, ferns and small wildflowers",
+      "default": "Ember-lit charcoal rock revealing moss, ferns and tiny wildflowers",
       "maxLength": 240,
       "group": "Images"
     },
@@ -52,7 +52,7 @@
       "key": "imageScale",
       "kind": "number",
       "label": "Image crop",
-      "default": 2.3,
+      "default": 1,
       "min": 1,
       "max": 4,
       "step": 0.05,
@@ -72,7 +72,7 @@
       "key": "imageOffsetY",
       "kind": "number",
       "label": "Vertical framing",
-      "default": -14,
+      "default": 0,
       "min": -40,
       "max": 40,
       "step": 1,
@@ -205,7 +205,7 @@
       "key": "background",
       "kind": "color",
       "label": "Stage background",
-      "default": "#f4f3ef",
+      "default": "#000000",
       "group": "Appearance",
       "description": "Visible around contained images, transparent images, and failed images."
     },
@@ -257,7 +257,7 @@
   "dependencies": {},
   "assets": [
     {
-      "path": "assets/branch-base.webp",
+      "path": "assets/ember-base.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
@@ -266,7 +266,7 @@
       "gallery": true
     },
     {
-      "path": "assets/branch-growth.webp",
+      "path": "assets/ember-growth.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
