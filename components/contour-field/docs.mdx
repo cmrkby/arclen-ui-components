@@ -1,0 +1,51 @@
+Contour Field draws fine elevation contours over a dark ground. Basin forms nested irregular islands and broad saddles. The default palette uses muted ivory and sage contours over charcoal. Defaults use 10 elevation levels, 0.85 field scale, 1.1 line weight, 0.8 intensity and 0.25 speed for a quiet, slow field.
+
+## Use
+
+```tsx
+import {ContourField} from './contour-field/src/react';
+
+<div style={{height: 560}}>
+  <ContourField variant="basin" />
+</div>
+```
+
+Fill parent is the default. Give the receiving parent an explicit height. For a self-sized section use `layout="fixed" height={560}`. Keep text, buttons and other content in a separate positioned sibling: this component is decorative and never receives keyboard focus. Fine-pointer movement bends and highlights nearby contours. Set `pointerInteraction={false}` to let pointer events pass through the field. Touch does not trigger the response.
+
+The framework-neutral core exports `defaults`, `resolveSettings`, `render` and `mount`. `render(settings)` returns static SVG terrain plus its canvas. `mount(host, settings)` accepts an empty element or that server-rendered markup. It returns `update(patch)`, `pause()`, `resume()` and `destroy()`.
+
+```ts
+import {mount} from './contour-field/src/core';
+import './contour-field/src/styles.css';
+
+const terrain = mount(element, {variant: 'basin', layout: 'fixed', height: 480});
+terrain.update({density: 30, seed: 84});
+terrain.pause();
+terrain.resume();
+// Release observers, listeners and scheduled animation when the host leaves.
+terrain.destroy();
+```
+
+## Appearance and motion
+
+Density sets the elevation count. Basin spaces its elevations unequally: wider steps through the middle slopes and closer steps near high and low interiors. Small receivers automatically use fewer levels so lines remain separated. Scale changes how much terrain fits in the frame; line weight and intensity change stroke width and opacity. Quiet, primary and highlight contour colors are independent, opaque six-digit hex values.
+
+The seed produces a deterministic composition. Fractional seeds are floored internally. Speed zero holds the current phase. Basin moves through a continuous volumetric field with a local domain warp. Basin uses irregular lobes and broad saddles, with primary color families around the middle elevations and highlight color continuing onto both neighboring contours near the peaks. Contour families use the configured colors directly, preserving muted saturation. Stroke weight and opacity distinguish major accents from neighboring contours; neutral contours have their own color. They do not use randomized per-frame displacement.
+
+Pointer response follows movement with a short eased lag and fades when the pointer leaves. It works at speed zero while the terrain phase stays held. Explicit pause and reduced motion freeze pointer animation as well as the terrain.
+
+The clock advances only while animated, visible and on screen. Pause/resume, document visibility, offscreen suspension and the operating system's reduced-motion preference preserve the phase. Setting `paused` on the React wrapper delegates to the same core. Explicit settings updates and resizes may draw a new static composition while paused.
+
+## Fallback and validation
+
+Server-rendered HTML includes original static contour SVG. It remains visible without JavaScript or Canvas2D. The fallback uses a 720 by 450 composition cropped to the receiving box; the live canvas recomputes the field for the actual aspect ratio. Reduced motion retains a useful static canvas and schedules no continuous frames.
+
+Settings come from the manifest. Invalid, unknown or out-of-bounds values throw before a live instance is changed. An invalid update leaves its previous state intact. Multiple instances have separate clocks, settings, canvases and observers. No IDs, network resources or document-wide selectors are needed.
+
+The canvas and SVG are hidden from assistive technology because they are decorative. Put meaningful headings and interactive controls in the host page with their own accessible names and visible focus styles.
+
+## Rendering limits
+
+Canvas work is capped at 30 paints per second. The terrain sampling grid is capped at 192 by 120 cells, reduced to 160 by 100 above density 24; contour elevations are interpolated within those cells. The canvas uses at most DPR 2 and approximately 3.2 million backing-store pixels. These limits bound work; they are not measured frame-rate claims. Dense contours and multiple active instances need testing on the intended device.
+
+There are no required media files, runtime dependencies, remote fonts or service requests. The asset notice records procedural authorship.

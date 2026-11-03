@@ -6,6 +6,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Contour Field | [`components/contour-field`](components/contour-field) |
 | Reveal Lens | [`components/reveal-lens`](components/reveal-lens) |
 | Testimonial Swipe | [`components/testimonial-swipe`](components/testimonial-swipe) |
 | Glass Gradient | [`components/glass-gradient`](components/glass-gradient) |

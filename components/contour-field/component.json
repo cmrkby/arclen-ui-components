@@ -1,0 +1,205 @@
+{
+  "id": "contour-field",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Contour Field",
+  "category": "Backgrounds",
+  "description": "Fine ivory and sage topographic lines trace irregular basins over charcoal.",
+  "keywords": [
+    "contours",
+    "terrain",
+    "topography",
+    "procedural",
+    "background"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Composition",
+      "default": "basin",
+      "group": "Structure",
+      "options": [
+        {
+          "label": "Basin",
+          "value": "basin"
+        }
+      ],
+      "description": "Nested, irregular Basin terrain."
+    },
+    {
+      "key": "density",
+      "kind": "number",
+      "label": "Contour density",
+      "default": 10,
+      "min": 8,
+      "max": 36,
+      "step": 1,
+      "group": "Structure",
+      "description": "Elevation levels. Small containers reduce the count to preserve readable separation."
+    },
+    {
+      "key": "scale",
+      "kind": "number",
+      "label": "Field scale",
+      "default": 0.85,
+      "min": 0.6,
+      "max": 1.8,
+      "step": 0.05,
+      "group": "Structure",
+      "description": "Larger values show more terrain in the same area."
+    },
+    {
+      "key": "seed",
+      "kind": "number",
+      "label": "Terrain seed",
+      "default": 19,
+      "min": 0,
+      "max": 9999,
+      "step": 1,
+      "group": "Structure",
+      "description": "Deterministic terrain. Fractional seeds are rounded down."
+    },
+    {
+      "key": "lineWeight",
+      "kind": "number",
+      "label": "Line weight",
+      "default": 1.1,
+      "min": 0.5,
+      "max": 1.8,
+      "step": 0.05,
+      "group": "Appearance"
+    },
+    {
+      "key": "intensity",
+      "kind": "number",
+      "label": "Line intensity",
+      "default": 0.8,
+      "min": 0.3,
+      "max": 1.8,
+      "step": 0.05,
+      "group": "Appearance"
+    },
+    {
+      "key": "backgroundColor",
+      "kind": "color",
+      "label": "Background",
+      "default": "#111310",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color."
+    },
+    {
+      "key": "lineColor",
+      "kind": "color",
+      "label": "Quiet contours",
+      "default": "#50554D",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color."
+    },
+    {
+      "key": "accentColor",
+      "kind": "color",
+      "label": "Primary contours",
+      "default": "#7C8975",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color."
+    },
+    {
+      "key": "warmColor",
+      "kind": "color",
+      "label": "Highlight contours",
+      "default": "#B6B2A5",
+      "group": "Colors",
+      "description": "Opaque six-digit hex color."
+    },
+    {
+      "key": "pointerInteraction",
+      "kind": "boolean",
+      "label": "Pointer response",
+      "default": true,
+      "group": "Motion",
+      "description": "Fine-pointer movement bends and highlights nearby contours. Touch does not trigger it. Pause and reduced motion freeze the response."
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Speed",
+      "default": 0.25,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "group": "Motion",
+      "description": "0 holds the current terrain. Motion resumes from that phase."
+    },
+    {
+      "key": "layout",
+      "kind": "select",
+      "label": "Sizing",
+      "default": "fill",
+      "group": "Container",
+      "options": [
+        {
+          "label": "Fill parent",
+          "value": "fill"
+        },
+        {
+          "label": "Fixed height",
+          "value": "fixed"
+        }
+      ]
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Height",
+      "default": 600,
+      "min": 160,
+      "max": 1600,
+      "step": 10,
+      "group": "Container",
+      "description": "CSS pixels for Fixed height. Fill parent needs a parent with an explicit height."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/NOTICE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Contour Field procedural artwork and implementation by Arclen."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Hold the current terrain and schedule no animation. Server-rendered contour SVG remains visible without JavaScript or Canvas2D.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Basin",
+      "settings": {
+        "variant": "basin",
+        "density": 10,
+        "scale": 0.85,
+        "seed": 19,
+        "lineWeight": 1.1,
+        "intensity": 0.8,
+        "backgroundColor": "#111310",
+        "lineColor": "#50554D",
+        "accentColor": "#7C8975",
+        "warmColor": "#B6B2A5",
+        "speed": 0.25,
+        "layout": "fill",
+        "height": 600,
+        "pointerInteraction": true
+      }
+    }
+  ]
+}
