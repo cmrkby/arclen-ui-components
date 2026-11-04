@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "sun-passage",
+      "width": 1586,
+      "height": 992,
+      "title": "Sun passage",
+      "alt": "A figure in blue crosses a diagonal band of sunlight in a limestone passage.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "8ccc160997c0016784821332b72cb86ebc002b9d3a6b7245a255483716d4cdbf",
+      "bytes": 135738
+    },
+    {
+      "asset": "assets/hero-card.webp",
+      "key": "sun-passage",
+      "width": 640,
+      "height": 400,
+      "title": "Sun passage",
+      "alt": "A figure in blue crosses a diagonal band of sunlight in a limestone passage.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "f15af2259b00bfb38464cbdda8c20d14cbf62987160f20fc4cb60f8570633e0d",
+      "bytes": 36936
+    },
+    {
+      "asset": "assets/hero-mobile.webp",
+      "key": "sun-passage",
+      "width": 960,
+      "height": 600,
+      "title": "Sun passage",
+      "alt": "A figure in blue crosses a diagonal band of sunlight in a limestone passage.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "3654f7a99ec795f43e15e1bba8a86aa7d63cdb345e9d3e8c51a6f5501391c036",
+      "bytes": 72242
+    }
+  ]
+}

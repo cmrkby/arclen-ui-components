@@ -1,6 +1,6 @@
 {
   "id": "exhibition-gallery",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tier": "free",
   "name": "Exhibition Gallery",
   "category": "Galleries",
@@ -17,7 +17,7 @@
       "key": "heading",
       "kind": "text",
       "label": "Gallery title",
-      "default": "A sense of place",
+      "default": "Light in Motion",
       "group": "Content",
       "maxLength": 100
     },
@@ -26,18 +26,18 @@
       "kind": "string-list",
       "label": "Image captions",
       "default": [
-        "Atlantic edge \u00b7 Iceland",
-        "Wind lines \u00b7 Namibia",
-        "A break in the cloud \u00b7 Italian Dolomites",
-        "After the rain \u00b7 Japan",
-        "Quiet water \u00b7 Norway",
-        "Mineral country \u00b7 Chile \u00b7 Atacama",
-        "Southern weather \u00b7 Argentina \u00b7 Patagonia",
-        "Under the canopy \u00b7 Canada \u00b7 Pacific coast",
-        "Tide marks \u00b7 New Zealand",
-        "Stone and silence \u00b7 United States \u00b7 Southwest",
-        "The still interval \u00b7 Canada \u00b7 Rockies",
-        "Cloud forest \u00b7 Costa Rica"
+        "Sun passage",
+        "Coastal light",
+        "Blue petals",
+        "Warm interval",
+        "Rose dunes",
+        "Silver grass",
+        "Blue hour",
+        "City echo",
+        "Apricot bloom",
+        "Quiet hills",
+        "Rose window",
+        "Passing light"
       ],
       "group": "Content",
       "minItems": 0,
@@ -49,18 +49,18 @@
       "kind": "string-list",
       "label": "Display tags",
       "default": [
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest",
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest",
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest"
+        "Places",
+        "Nature",
+        "Nature",
+        "People",
+        "Nature",
+        "Nature",
+        "People",
+        "People",
+        "Nature",
+        "Nature",
+        "People",
+        "Places"
       ],
       "group": "Content",
       "minItems": 0,
@@ -74,18 +74,18 @@
       "label": "Filter memberships",
       "description": "One comma-separated list per image. A photo may appear under several filters, but only once in the viewer.",
       "default": [
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest",
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest",
-        "Coast",
-        "Desert",
-        "Mountains",
-        "Forest"
+        "Places",
+        "Nature",
+        "Nature",
+        "People",
+        "Nature",
+        "Nature",
+        "People",
+        "People",
+        "Nature",
+        "Nature",
+        "People",
+        "Places"
       ],
       "group": "Content",
       "minItems": 0,
@@ -236,39 +236,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-01-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-01-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-01-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-01-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -277,39 +281,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-02-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-02-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-02-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-02-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -318,39 +326,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-03-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-03-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-03-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-03-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -359,39 +371,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-04-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-04-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-04-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-04-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -400,39 +416,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-05-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-05-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-05-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-05-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -441,39 +461,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-06-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-06-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-06-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-06-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -482,39 +506,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-07-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-07-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-07-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-07-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -523,39 +551,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-08-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-08-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-08-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-08-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -564,39 +596,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-09-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-09-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-09-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-09-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -605,39 +641,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-10-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-10-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-10-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-10-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -646,39 +686,43 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-11-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-11-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-11-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-11-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
     },
@@ -687,41 +731,54 @@
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-12-480.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-12-960.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-12-1600.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
-      }
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
+      },
+      "gallery": true
     },
     {
       "path": "assets/exhibition-12-2400.webp",
       "contentType": "image/webp",
       "rights": {
         "kind": "original",
-        "attribution": "Original Arclen landscape artwork generated with Higgsfield using GPT Image 2.5, October 2026. Proportional WebP resize and encoding only."
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026."
       },
       "gallery": true
+    },
+    {
+      "path": "assets/light-in-motion.json",
+      "rights": {
+        "kind": "original",
+        "license": "Arclen original artwork",
+        "attribution": "Arclen Light in Motion export inventory."
+      },
+      "contentType": "application/json"
     }
   ],
   "poster": "poster.webp",

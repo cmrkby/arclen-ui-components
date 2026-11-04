@@ -1,6 +1,6 @@
 {
   "id": "staggered-slats-transition",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "tier": "free",
   "name": "Staggered Slats Transition",
   "category": "Transitions",
@@ -223,7 +223,7 @@
       "path": "assets/reveal-hero.webp",
       "rights": {
         "kind": "original",
-        "attribution": "Arclen original generated editorial artwork",
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026.",
         "license": "Included with the Arclen component and generated website."
       },
       "gallery": true
@@ -248,7 +248,7 @@
       "path": "assets/arclen-wordmark.svg",
       "rights": {
         "kind": "licensed",
-        "attribution": "Arclen wordmark, used at the brand owner’s request for this demo.",
+        "attribution": "Arclen wordmark, used at the brand owner\u2019s request for this demo.",
         "license": "Arclen brand asset. Demo use only; trademark rights reserved."
       }
     },
@@ -274,7 +274,7 @@
       "path": "assets/hero-card.webp",
       "rights": {
         "kind": "original",
-        "attribution": "Arclen original generated editorial artwork",
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026.",
         "license": "Included with the Arclen component and generated website."
       },
       "gallery": false
@@ -283,10 +283,19 @@
       "path": "assets/hero-mobile.webp",
       "rights": {
         "kind": "original",
-        "attribution": "Arclen original generated editorial artwork",
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026.",
         "license": "Included with the Arclen component and generated website."
       },
       "gallery": false
+    },
+    {
+      "path": "assets/light-in-motion.json",
+      "rights": {
+        "kind": "original",
+        "license": "Arclen original artwork",
+        "attribution": "Arclen Light in Motion export inventory."
+      },
+      "contentType": "application/json"
     }
   ],
   "poster": "poster.webp",

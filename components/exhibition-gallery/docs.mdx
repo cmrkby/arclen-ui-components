@@ -1,6 +1,6 @@
 # Exhibition Gallery
 
-The twelve included landscapes are divided equally across Coast, Desert, Mountains and Forest. A centered title, spacious frames and smoked-glass captions form the exhibition. The full-screen viewer places thumbnails above the photograph.
+Twelve Light in Motion photographs span People, Places and Nature. A centered title, spacious frames and smoked-glass captions form the exhibition. The full-screen viewer places thumbnails above the photograph.
 
 ## React
 
@@ -54,7 +54,7 @@ Supply matching lists when using custom images. `categories` sets the visible ta
 
 Up to 24 custom image URLs are supported. HTTPS, relative file paths and raster base 64 data URLs are accepted; other protocols are rejected. There are no remote requests unless explicitly configured. Caption text supplies custom image alternative text. Omitted lists retain manifest defaults, so supply captions and categories or pass empty lists for numbered/Uncategorized fallbacks. Caption positions beyond the supplied list receive numbered labels. Blank categories become Uncategorized. Failed images keep their frame and display “Image unavailable.”
 
-The twelve 3504 × 2336 landscapes use centered 1.35:1 presentation crops. The complete 3:2 image remains visible in the viewer. The bundled derivatives use proportional resizing and WebP encoding only. Production PNG masters are not included. These generated images are creative artwork rather than verified documentary locations or products.
+Bundled still images use original Arclen Light in Motion photography generated through Codex. The available tool did not expose a model name or quality tier. Exports use centre cover crops in the existing delivery dimensions and WebP quality 82. Some large derivatives are interpolated from smaller masters; these are not native 4K files. Per-file source dimensions, crop choices and export details are in `assets/light-in-motion.json`. Retained prompts and attached-reference records remain in the private generation archive. Exact historical prompts are unavailable for three reused pilot images. Public image keys are retained for compatibility. Generated scenes are creative artwork rather than verified documentary locations.
 
 ## Layout and appearance
 
@@ -76,6 +76,6 @@ The core has no framework, service or account dependency. It owns listeners, obs
 
 ## Responsive delivery and rights
 
-Grid images have 480/960/1600px candidates; the masonry engine sets `sizes` to the actual column width. Viewer 960/1600/largest candidates are attached only after opening or navigating. Thumbnails use 160px files. The largest derivative is up to 2400px wide, without enlargement. Explicit dimensions preserve layout before image loading. All assets are local and each gallery includes only its own collection.
+Grid images have 480/960/1600px candidates; the masonry engine sets `sizes` to the actual column width. Viewer 960/1600/largest candidates are attached only after opening or navigating. Thumbnails use 160px files. The largest derivative is up to 2400px wide; larger exports may be interpolated. Explicit dimensions preserve layout before image loading. All assets are local and each gallery includes only its own collection.
 
-Original Arclen artwork was generated using Higgsfield GPT Image 2.5 in October 2026. Inter is bundled under the SIL Open Font License. Keep `LICENSE.md`, `NOTICE.md`, `PROVENANCE.md` and `assets/OFL-Inter.txt` with redistributed files according to their licences.
+Original Arclen still artwork uses the Codex Light in Motion collection. Inter is bundled under the SIL Open Font License. Keep `LICENSE.md`, `NOTICE.md`, `PROVENANCE.md` and `assets/OFL-Inter.txt` with redistributed files according to their licences.

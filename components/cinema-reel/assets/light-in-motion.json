@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/cinema-coast-v1.webp",
+      "key": "coastal-light",
+      "width": 1536,
+      "height": 1024,
+      "title": "Coastal light",
+      "alt": "A walker above an emerald sea, pale cliffs and sunlit coastal grass.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "775d4541c4d7efdaf1b5a9f045ef0580d3e379131d38534e5194e79e8a9b08ac",
+      "bytes": 227342
+    },
+    {
+      "asset": "assets/cinema-ridge-v1.webp",
+      "key": "rose-dunes",
+      "width": 1536,
+      "height": 1024,
+      "title": "Rose dunes",
+      "alt": "A small walker crosses blush sand dunes beneath a lavender dawn sky.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "aae484574b0f6184bb18e4ec16e75dca186eaafc6afe7534d31fc1551bc9b428",
+      "bytes": 61268
+    },
+    {
+      "asset": "assets/cinema-tide-v1.webp",
+      "key": "sage-hills",
+      "width": 1536,
+      "height": 1024,
+      "title": "Quiet hills",
+      "alt": "A small walker in golden light crosses rolling sage-green hills.",
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "crop": "centre / cover",
+      "sha256": "439bf12c1ca6be779b95605e94af76118525c4ac3cfbfcd910ac88a3c3f157dd",
+      "bytes": 150848
+    }
+  ]
+}

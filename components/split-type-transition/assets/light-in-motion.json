@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "city-portrait",
+      "width": 1672,
+      "height": 941,
+      "title": "City echo",
+      "alt": "A woman in an ivory coat beside blue city glass and warm streaks of light.",
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "crop": "centre / cover",
+      "sha256": "92da8990774a043d84273af308563dced3cfa8cfc5fd991b7443548d53b3b522",
+      "bytes": 88516
+    },
+    {
+      "asset": "assets/hero-card.webp",
+      "key": "city-portrait",
+      "width": 640,
+      "height": 360,
+      "title": "City echo",
+      "alt": "A woman in an ivory coat beside blue city glass and warm streaks of light.",
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "crop": "centre / cover",
+      "sha256": "4d982ef9855c66003166c6fcb813e8158df8d7e1e2ff053f1e821cee1827e30c",
+      "bytes": 27422
+    },
+    {
+      "asset": "assets/hero-mobile.webp",
+      "key": "city-portrait",
+      "width": 960,
+      "height": 540,
+      "title": "City echo",
+      "alt": "A woman in an ivory coat beside blue city glass and warm streaks of light.",
+      "sourceWidth": 1024,
+      "sourceHeight": 1536,
+      "crop": "centre / cover",
+      "sha256": "8fa95c3ed20a84426420ba486f566331e68f8089dc297ecc756ddf33f4df9fdc",
+      "bytes": 46882
+    }
+  ]
+}

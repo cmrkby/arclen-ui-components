@@ -5,7 +5,7 @@ describe('Exhibition Gallery portable settings and output',()=>{
  it('renders all twelve photographs without browser globals',()=>{
   const html=render();
   expect((html.match(/class="eg-tile"/g)||[])).toHaveLength(12);
-  expect(html).toContain('Atlantic edge');
+  expect(html).toContain('Sun passage');
   expect(html).not.toContain('automotive-');
   expect(html).not.toContain('low-weather-');
  });

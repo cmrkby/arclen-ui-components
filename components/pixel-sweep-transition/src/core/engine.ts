@@ -1,4 +1,5 @@
 import { resolveSettings } from "./settings";
+import { mountThumbnailMosaic } from "./thumbnail-mosaic";
 export type Phase = "idle" | "covering" | "covered" | "revealing" | "destroyed";
 export type TransitionResult = {
   status: "finished" | "cancelled" | "error" | "timeout";
@@ -35,6 +36,7 @@ export function createPageTransition(
     overlay: HTMLElement | null = null,
     safety: ReturnType<typeof setTimeout> | undefined;
   let resizeLayout: (() => void) | null = null;
+  let releaseImage: (() => void) | null = null;
   const animations = new Set<Animation>(),
     view = host.ownerDocument.defaultView,
     media = view?.matchMedia?.("(prefers-reduced-motion: reduce)");
@@ -46,6 +48,8 @@ export function createPageTransition(
     host.dataset.ptPhase = p;
   };
   const settle = () => {
+    releaseImage?.();
+    releaseImage = null;
     resizeLayout = null;
     clearTimeout(safety);
     for (const a of animations) a.cancel();
@@ -94,7 +98,6 @@ export function createPageTransition(
     overlay.style.setProperty("--pt-label-color", "#eeeae1");
     overlay.style.cssText = `position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:10;color:${"#eeeae1"};`;
     overlay.style.setProperty("--pt-label-color", "#eeeae1");
-    host.append(overlay);
     return overlay;
   }
   function cells() {
@@ -119,34 +122,57 @@ export function createPageTransition(
     if (!canMove()) return;
     const image = host.querySelector<HTMLImageElement>("[data-pt-image]");
     const { root, nodes, cols, rows } = cells();
+    let targets: Element[] = nodes;
     const imageMode = Boolean(image);
     if (image) {
       root.style.zIndex = "0";
       root.style.background = s.pixelBackdrop;
-      const fragments: HTMLImageElement[] = [];
-      for (const tile of nodes) {
-        tile.style.overflow = "hidden";
-        tile.style.background = "transparent";
-        tile.style.opacity = "0";
-        const fragment = image.cloneNode(false) as HTMLImageElement;
-        fragment.removeAttribute("data-pt-image");
-        fragment.style.cssText =
-          "position:absolute;max-width:none;object-fit:cover;object-position:50% 50%;";
-        tile.append(fragment);
-        fragments.push(fragment);
+      const mosaic = mountThumbnailMosaic(host, root, image, cols, rows);
+      if (mosaic) {
+        for (const tile of nodes) tile.remove();
+        targets = mosaic.targets;
+        const layout = () => {
+          // Unsupported crop/source changes settle to the real image immediately.
+          if (!mosaic.resize()) cancel();
+        };
+        resizeLayout = layout;
+        image.addEventListener("load", layout);
+        releaseImage = () => {
+          image.removeEventListener("load", layout);
+          mosaic.destroy();
+        };
+      } else {
+        // Portable/custom hosts keep native image fragments, including alpha.
+        const fragments: HTMLImageElement[] = [];
+        for (const tile of nodes) {
+          tile.style.overflow = "hidden";
+          tile.style.background = "transparent";
+          tile.style.opacity = "0";
+          const fragment = image.cloneNode(false) as HTMLImageElement;
+          fragment.removeAttribute("data-pt-image");
+          fragment.style.cssText = "position:absolute;max-width:none;object-fit:cover;object-position:50% 50%;";
+          tile.append(fragment);
+          fragments.push(fragment);
+        }
+        resizeLayout = () => {
+          const rect = host.getBoundingClientRect();
+          // Read shared geometry once before writing to any of the image tiles.
+          const objectPosition = view!.getComputedStyle(image).objectPosition;
+          fragments.forEach((fragment, i) => {
+            fragment.style.objectPosition = objectPosition;
+            fragment.style.left = `${(-(i % cols) * rect.width) / cols}px`;
+            fragment.style.top = `${(-Math.floor(i / cols) * rect.height) / rows}px`;
+            fragment.style.width = `${rect.width}px`;
+            fragment.style.height = `${rect.height}px`;
+          });
+        };
+        resizeLayout();
       }
-      resizeLayout = () => {
-        const rect = host.getBoundingClientRect();
-        fragments.forEach((fragment, i) => {
-          fragment.style.objectPosition =
-            view!.getComputedStyle(image).objectPosition;
-          fragment.style.left = `${(-(i % cols) * rect.width) / cols}px`;
-          fragment.style.top = `${(-Math.floor(i / cols) * rect.height) / rows}px`;
-          fragment.style.width = `${rect.width}px`;
-          fragment.style.height = `${rect.height}px`;
-        });
-      };
-      resizeLayout();
+    }
+    // Assemble the complete mosaic off-DOM so initial sizing does not repeatedly
+    // invalidate the receiving page's style and layout.
+    host.append(root);
+    if (image) {
       // Keep the accessible demo's real image in place; only its paint is hidden while the mosaic runs.
       void animate(
         image,
@@ -159,7 +185,7 @@ export function createPageTransition(
       button = host.querySelector("[data-pt-replay]"),
       credit = host.querySelector(".pt-credit");
     await Promise.all([
-      ...nodes.map((el, i) => {
+      ...targets.map((el, i) => {
         let x = i % cols,
           y = Math.floor(i / cols);
         if (s.origin.endsWith("right")) x = cols - 1 - x;
@@ -236,7 +262,8 @@ export function createPageTransition(
     active = new AbortController();
     setPhase("covering");
     if (canMove()) {
-      const { nodes } = cells();
+      const { root, nodes } = cells();
+      host.append(root);
       await Promise.all(
         nodes.map((n, i) =>
           animate(
