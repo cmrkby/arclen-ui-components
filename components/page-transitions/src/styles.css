@@ -38,7 +38,7 @@
 @container(max-width:600px){
  .pt-brand{top:26px;font-size:19px}
  [data-pt-navigate]{top:14px}
- .pt-hero{object-position:78% 50%}
+ .pt-hero{object-position:50% 50%}
  .pt-story{top:auto;bottom:90px;transform:none;width:calc(100% - var(--pt-inset)*2);gap:24px}
  .pt-eyebrow{margin-bottom:18px}
  .pt-copy h2{font-size:clamp(48px,12cqw,70px);line-height:1.02;letter-spacing:-.06em}

@@ -12,7 +12,7 @@ import { PixelSweepTransition } from './components/pixel-sweep-transition/src/re
 </PixelSweepTransition>
 ```
 
-Without children, the component renders an original coastal meadow and retro-terminal scene under an open sky, with readable copy on the left. Its scoped demo styling does not apply to custom children. With children, React owns your content and the controller owns only temporary overlays. A changed `routeKey` plays the incoming reveal after React commits; it does not delay navigation or wait for assets. `paused` settles active motion into usable content. Resume enables the next explicit trigger without replaying unexpectedly.
+Without children, the component renders a blue-hour city photograph, with readable copy on the left. Its scoped demo styling does not apply to custom children. With children, React owns your content and the controller owns only temporary overlays. A changed `routeKey` plays the incoming reveal after React commits; it does not delay navigation or wait for assets. `paused` settles active motion into usable content. Resume enables the next explicit trigger without replaying unexpectedly.
 
 ## Pacing presets
 
@@ -70,6 +70,8 @@ The demo replay button uses a warm yellow radial pixel fill that grows from the 
 
 ## Responsive artwork
 
+Catalogue thumbnails can render the bundled opaque hero once through an SVG tile mask. This preserves every tile's opacity animation, crop and 1px overlap without a separate full-size image per tile. The optimization requires a finite `data-arclen-render-scale` ancestor value greater than zero and at most one, plus `data-pt-opaque="true"` on the image. Only mark imagery with this attribute when all source pixels are opaque; translucent artwork needs native fragments to preserve overlapping alpha. Normal installations, unmarked custom images, unloaded images and complex object-position expressions retain native fragments. If an active mask loses supported geometry, the controller cancels the reveal and restores the real image.
+
 The demo ships 640px card, 960px mobile and full-resolution desktop WebP sources. Native `srcset` selects an image for the receiving viewport and display density; `sizes` also accounts for the height of a covered background so tall previews stay sharp. High-density phones may correctly select the desktop source. All variants preserve the original composition and use the same CSS focal point. The desktop file is `assets/reveal-hero.webp`; smaller derivatives are `assets/hero-card.webp` and `assets/hero-mobile.webp`. Images decode asynchronously. No remote image service or runtime processing is required.
 
 ## Motion-only integration
@@ -85,3 +87,7 @@ import { PixelSweepTransition } from './components/pixel-sweep-transition/src/re
 ```
 
 For framework-neutral integration, import `createPixelSweepTransition` from `./components/pixel-sweep-transition/src/motion`. This entry includes the transition's scoped motion CSS. Mark the content inside your host with `data-pt-content`; call `destroy()` when the host is removed. The package retains the optional hero assets so the default demo continues to work. Your bundler can exclude those assets when you use the motion-only entry.
+
+## Still image collection
+
+Bundled still images use original Arclen Light in Motion photography generated through Codex. The available tool did not expose a model name or quality tier. Exports use centre cover crops in the existing delivery dimensions and WebP quality 82. Some large derivatives are interpolated from smaller masters; these are not native 4K files. Per-file source dimensions, crop choices and export details are in `assets/light-in-motion.json`. Retained prompts and attached-reference records remain in the private generation archive. Exact historical prompts are unavailable for three reused pilot images. Public image keys are retained for compatibility. Generated scenes are creative artwork rather than verified documentary locations.

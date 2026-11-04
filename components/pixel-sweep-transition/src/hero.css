@@ -3,7 +3,7 @@
  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
  background:linear-gradient(90deg, rgb(10 26 41 / .64), rgb(10 26 41 / .24) 43%, transparent 68%);
 }
-[data-pt-demo="pixel-sweep"] .pt-hero {object-position:68% 50%}
+[data-pt-demo="pixel-sweep"] .pt-hero {object-position:50% 50%}
 [data-pt-demo="pixel-sweep"] .pt-story {top:46%;width:46%;gap:28px}
 [data-pt-demo="pixel-sweep"] .pt-copy h2 {font-size:clamp(44px,6.8cqw,96px);letter-spacing:-.055em;line-height:1.02;text-wrap:initial}
 [data-pt-demo="pixel-sweep"] .pt-copy p {max-width:29ch;color:color-mix(in srgb,currentColor 90%,transparent)}

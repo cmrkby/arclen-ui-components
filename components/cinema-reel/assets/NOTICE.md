@@ -6,6 +6,6 @@ Canyon, Coast and Alpine are original SVG artwork by Cameron Rickerby, 2026. Rel
 
 Instrument Sans Latin and Latin-ext are exact verified @fontsource-variable/instrument-sans 5.3.0 bytes under OFL-1.1. The unedited applicable notice is OFL-InstrumentSans.txt. These font rights are separate from the component code license.
 
-## Generated Along the coast images
+## Light in Motion photographs
 
-`cinema-coast-v1.webp`, `cinema-ridge-v1.webp`, `cinema-tide-v1.webp` are original artwork generated with OpenAI image generation, October 2026. They depict fictional coastal landscapes. No third-party logos are included. Bundled keys: `cinema-coast`, `cinema-ridge`, `cinema-tide`.
+The bundled WebP photographs are original Arclen artwork generated with Codex, November 2026. The tool did not expose a model or quality tier. Scenes are creative artwork, not documentary records. Existing filenames remain for compatibility. See light-in-motion.json for crop, dimensions and export hashes.

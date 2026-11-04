@@ -1,0 +1,21 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "rose-dunes",
+      "width": 1586,
+      "height": 992,
+      "title": "Rose dunes",
+      "alt": "A small walker crosses blush sand dunes beneath a lavender dawn sky.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "243e48417d2bdacbd1fcacbdb64464d3105b4eba42a79b08234ab25eb5d76f54",
+      "bytes": 56876
+    }
+  ]
+}

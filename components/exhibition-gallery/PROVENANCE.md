@@ -70,3 +70,8 @@ Each entry records the release WebP hash and its original PNG master hash.
 - `assets/exhibition-12-960.webp`: `bae40c9fc3b2a8c7a99b6194add6b3e6511712e598af65707a4ebf9f17d56498`. Master: `439986f421bfb78cc57c3a8dad4bd74055b0f2568dce09d941faae093420e2e7`. Dimensions: 960 × 640. WebP quality: 82; effort 6; smart subsampling.
 - `assets/exhibition-12-1600.webp`: `76558d5c60b165b18fb6c9e8701918f6e2f101191aedb67e6d1e0a6007a9fda7`. Master: `439986f421bfb78cc57c3a8dad4bd74055b0f2568dce09d941faae093420e2e7`. Dimensions: 1600 × 1067. WebP quality: 74; effort 6; smart subsampling.
 - `assets/exhibition-12-2400.webp`: `439a8a9100727c08bdf7575d17fa4028e52b906f30a5fe1ca45b5af9e73106c8`. Master: `439986f421bfb78cc57c3a8dad4bd74055b0f2568dce09d941faae093420e2e7`. Dimensions: 2400 × 1600. WebP quality: 64; effort 6; smart subsampling.
+
+
+## Light in Motion image refresh — 2026-11-03
+
+The still images listed in `assets/light-in-motion.json` now use original Arclen photography generated through Codex. That inventory supersedes earlier subjects and generation claims for those files. Earlier notes describe the previous artwork. Private inspiration references are not distributed. Existing public image keys remain compatible.

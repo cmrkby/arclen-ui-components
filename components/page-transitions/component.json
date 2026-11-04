@@ -1,6 +1,6 @@
 {
   "id": "page-transitions",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tier": "free",
   "name": "Page Transitions",
   "category": "Transitions",
@@ -532,7 +532,7 @@
       "path": "assets/reveal-hero.webp",
       "rights": {
         "kind": "original",
-        "attribution": "Arclen original generated editorial artwork",
+        "attribution": "Arclen Light in Motion. Original imagery generated with Codex, November 2026.",
         "license": "Included with the Arclen component and generated website."
       },
       "gallery": true
@@ -578,6 +578,15 @@
         "attribution": "Copyright 2024 The Geist Project Authors; https://github.com/vercel/geist-font"
       },
       "contentType": "text/plain"
+    },
+    {
+      "path": "assets/light-in-motion.json",
+      "rights": {
+        "kind": "original",
+        "license": "Arclen original artwork",
+        "attribution": "Arclen Light in Motion export inventory."
+      },
+      "contentType": "application/json"
     }
   ],
   "poster": "poster.webp",
