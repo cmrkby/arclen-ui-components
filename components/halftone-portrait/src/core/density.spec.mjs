@@ -26,7 +26,7 @@ for(const variant of variants){
    return {contents,loader:'ts',resolveDir:directory};
   });
  }}];
- const built=await build({stdin:{contents:`import {HalftonePortrait} from './engine';import {defaults} from './index';import {artwork} from './assets';window.start=(name,settings={})=>{window.engine?.destroy();window.engine=new HalftonePortrait(document.querySelector('#root'),{...defaults,fit:'contain',...settings,src:artwork[name]});};window.start('ronin');`,resolveDir:directory,loader:'ts'},bundle:true,write:false,format:'iife',plugins});
+ const built=await build({stdin:{contents:`import {HalftonePortrait} from './engine';import {defaults} from './index';import {artwork} from './assets';window.start=(name,settings={})=>{window.engine?.destroy();window.engine=new HalftonePortrait(document.querySelector('#root'),{...defaults,fit:'contain',...settings,src:artwork[name]});};window.start('ronin');`,resolveDir:directory,loader:'ts'},bundle:true,write:false,format:'iife',loader:{'.webp':'dataurl'},plugins});
  bundles[variant]=built.outputFiles[0].text;
 }
 const html=variant=>'<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#0a0a0a}#root{position:relative;width:100vw;height:var(--height);outline:none}.portrait-status[hidden]{display:none}</style><div id="root"></div><script>document.documentElement.style.setProperty("--height",new URLSearchParams(location.search).get("height")+"px")</script><script src="/'+variant+'.js"></script>';

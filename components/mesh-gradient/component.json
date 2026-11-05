@@ -1,0 +1,235 @@
+{
+  "id": "mesh-gradient",
+  "version": "1.1.0",
+  "tier": "free",
+  "name": "Mesh Gradient",
+  "category": "Backgrounds",
+  "description": "An animated color field with adjustable distortion, swirl and grain.",
+  "keywords": [
+    "gradient",
+    "background",
+    "webgl",
+    "shader"
+  ],
+  "settings": [
+    {
+      "key": "colors",
+      "kind": "string-list",
+      "label": "Colors",
+      "default": [
+        "#F0F5F4",
+        "#94C4D8",
+        "#335E9C",
+        "#9BA5DD"
+      ],
+      "minItems": 2,
+      "maxItems": 10,
+      "maxItemLength": 9,
+      "description": "Ordered #rrggbb or #rrggbbaa colors. resolveSettings additionally validates each hex string."
+    },
+    {
+      "key": "scale",
+      "kind": "number",
+      "label": "Scale",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.01,
+      "description": "Larger values zoom into the colour field."
+    },
+    {
+      "key": "stretch",
+      "kind": "number",
+      "label": "Horizontal stretch",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.01,
+      "description": "Stretches the pattern horizontally without changing the container."
+    },
+    {
+      "key": "rotation",
+      "kind": "number",
+      "label": "Rotation",
+      "default": 0,
+      "min": 0,
+      "max": 360,
+      "step": 1,
+      "description": "Pattern rotation in degrees."
+    },
+    {
+      "key": "colorBlend",
+      "kind": "number",
+      "label": "Colour blending",
+      "default": 0.5,
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "description": "Lower values create distinct colour pools; higher values soften their transitions."
+    },
+    {
+      "key": "motionSpread",
+      "kind": "number",
+      "label": "Motion spread",
+      "default": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.01,
+      "description": "Radius of the moving colour centres. Zero collapses them to one blended colour."
+    },
+    {
+      "key": "distortion",
+      "kind": "number",
+      "label": "Distortion",
+      "default": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "swirl",
+      "kind": "number",
+      "label": "Swirl",
+      "default": 0.1,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "grainMixer",
+      "kind": "number",
+      "label": "Grain mixer",
+      "default": 0,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "grainOverlay",
+      "kind": "number",
+      "label": "Grain overlay",
+      "default": 0,
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Speed",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "headline",
+      "kind": "text",
+      "label": "Headline",
+      "default": "",
+      "maxLength": 160,
+      "description": "Optional decorative demo text. Essential page headings belong in surrounding semantic content."
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Standalone height",
+      "default": 600,
+      "min": 120,
+      "max": 2000,
+      "step": 1,
+      "description": "CSS pixels in standalone layout."
+    },
+    {
+      "key": "layout",
+      "kind": "select",
+      "label": "Layout",
+      "default": "standalone",
+      "options": [
+        "standalone",
+        "fill"
+      ]
+    },
+    {
+      "key": "headlineMode",
+      "kind": "select",
+      "label": "Headline treatment",
+      "default": "readable",
+      "options": [
+        "readable",
+        "overlay"
+      ],
+      "description": "Readable uses an opaque light backplate; overlay preserves the decorative captured treatment."
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/instrument-serif-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL OFL 1.1",
+        "attribution": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/instrument-serif-latin-ext.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL OFL 1.1",
+        "attribution": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)"
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/instrument-serif-OFL-1.1.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL OFL 1.1",
+        "attribution": "Copyright 2022 The Instrument Serif Project Authors (https://github.com/Instrument/instrument-serif)"
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Still captured from the original Mesh Gradient renderer with the chosen Glacier palette at shader time0;1440\u00d7600,DPR1."
+      },
+      "contentType": "image/webp"
+    }
+  ],
+  "poster": "assets/poster.webp",
+  "motion": {
+    "reducedMotion": "Draw shader time zero on reduced-motion mount; freeze current phase when reduction becomes active. Resume from held phase without hidden elapsed time.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Color field",
+      "settings": {}
+    },
+    {
+      "name": "Mesh Gradient",
+      "settings": {
+        "headline": "Mesh Gradient",
+        "headlineMode": "overlay"
+      }
+    },
+    {
+      "name": "Quiet color",
+      "settings": {
+        "headline": "Make room for ideas.",
+        "headlineMode": "readable",
+        "speed": 0,
+        "height": 600
+      }
+    }
+  ]
+}

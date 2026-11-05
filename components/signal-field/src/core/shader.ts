@@ -88,7 +88,7 @@ vec3 fieldColor(vec2 uv) {
   mat2 flowTurn = mat2(flowCos, -flowSin, flowSin, flowCos);
   vec2 flowP = flowTurn * p;
 
-  // The reference field behaves like a slowly folding sheet of pigment rather
+  // The field behaves like a slowly folding sheet of pigment rather
   // than a texture sliding across the screen. Two looping orbits push the
   // noise domain in different directions, so large pools continually open,
   // curl and close without exposing an obvious travel axis.

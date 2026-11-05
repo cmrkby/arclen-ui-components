@@ -4,7 +4,7 @@ import {chromium} from '@playwright/test';
 import {fileURLToPath} from 'node:url';
 import {readFile} from 'node:fs/promises';
 const entry=fileURLToPath(new URL('./index.ts',import.meta.url));
-const {outputFiles}=await build({stdin:{contents:`import {mount} from ${JSON.stringify(entry)};window.field=mount(document.querySelector('#root'),{showText:false});`,resolveDir:fileURLToPath(new URL('.',import.meta.url)),loader:'ts'},bundle:true,write:false,format:'iife'});
+const {outputFiles}=await build({stdin:{contents:`import {mount} from ${JSON.stringify(entry)};window.field=mount(document.querySelector('#root'),{showText:false});`,resolveDir:fileURLToPath(new URL('.',import.meta.url)),loader:'ts'},bundle:true,write:false,format:'iife',loader:{'.webp':'dataurl'}});
 const browser=await chromium.launch({headless:true});
 try{
  const page=await browser.newPage({viewport:{width:800,height:500}});

@@ -1,0 +1,46 @@
+@import "./hero.css";
+@import "./motion.css";
+@font-face{font-family:'Arclen Reveal';font-style:normal;font-weight:100 900;font-display:swap;src:url('../assets/geist-latin.woff2') format('woff2')}
+.pt-editorial{position:relative;box-sizing:border-box;min-height:inherit;height:100%}
+.pt-hero{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%}
+.pt-brand{position:absolute;z-index:2;top:32px;left:var(--pt-inset);font-size:21px;font-weight:600;letter-spacing:-.065em;line-height:1}
+.pt-story{position:absolute;z-index:2;left:var(--pt-inset);top:50%;transform:translateY(-45%);width:min(48%,560px);display:flex;flex-direction:column;align-items:flex-start;gap:32px}
+.pt-copy{width:100%;min-width:0}
+.pt-eyebrow{position:relative;display:inline-flex;align-items:center;box-sizing:border-box;width:fit-content;min-height:24px;gap:0;margin:0 0 24px;padding:6px 10px;border:0;border-radius:0;background:var(--pt-detail-fill);color:#fff;font-family:'Arclen Reveal',Arial,sans-serif;font-size:12px;font-weight:500;line-height:12px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.pt-eyebrow::after{content:"";position:absolute;top:0;bottom:0;left:0;width:2px;background:var(--pt-detail-line)}
+.pt-eyebrow-a11y{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.pt-copy h2{margin:0;font-size:clamp(52px,7.5cqw,108px);font-weight:500;line-height:.98;letter-spacing:-.065em;white-space:pre-line;overflow-wrap:break-word;text-wrap:balance}
+.pt-copy p{max-width:34ch;font-size:clamp(16px,1.3cqw,18px);font-weight:400;line-height:1.55;letter-spacing:-.015em;margin:24px 0 0;white-space:pre-line;color:color-mix(in srgb,currentColor 76%,transparent)}
+.pt-credit{position:absolute;z-index:2;left:var(--pt-inset);right:var(--pt-inset);bottom:30px;display:flex;justify-content:space-between;gap:20px;font-size:11px;line-height:1.5;letter-spacing:.01em;color:color-mix(in srgb,currentColor 65%,transparent)}
+[data-pt-navigate]:focus-visible{outline:2px solid currentColor;outline-offset:4px}
+[data-pt-navigate]{position:absolute;top:20px;right:var(--pt-inset);z-index:4;display:flex;align-items:center;gap:24px;min-height:44px;padding:0;border:0;border-bottom:1px solid #ffffff40;background:transparent;color:#f4f4f0;font:500 12px/1.4 'Arclen Reveal',Arial,sans-serif;letter-spacing:-.01em;cursor:pointer}
+[data-pt-navigate]:hover{border-bottom-color:currentColor}
+.pt-title{display:none;position:absolute;z-index:3;left:40px;top:28.3156%;font:700 13.7419cqw/0.81891508 Arial,sans-serif;letter-spacing:-.02em;color:var(--pt-title-color,#eeeae1);white-space:nowrap;transform-origin:left bottom}
+[data-pt-preset="split-type"] .pt-title{display:block}
+[data-pt-preset="split-type"] .pt-hero{filter:brightness(.6)}
+[data-pt-preset="split-type"] .pt-story{top:auto;bottom:48px;transform:none;width:calc(100% - var(--pt-inset)*2);flex-direction:row;align-items:flex-end;justify-content:space-between}
+[data-pt-preset="split-type"] .pt-copy{width:min(65%,520px);color:var(--pt-title-color,#eeeae1)}
+[data-pt-preset="split-type"] .pt-copy h2{font-size:32px;line-height:1.1;white-space:normal;letter-spacing:-.04em;text-wrap:initial}
+[data-pt-preset="split-type"] .pt-copy p{font-size:16px;margin-top:12px;white-space:normal}
+[data-pt-preset="split-type"] :is(.pt-credit,.pt-eyebrow){display:none}
+[data-pt-preset="split-type"] [data-pt-replay]{flex-shrink:0}
+@container(max-width:1199px){.pt-title{left:24px;top:auto;bottom:35%;font-size:25cqw}}
+@container(max-width:600px){
+ .pt-brand{top:26px;font-size:19px}
+ [data-pt-navigate]{top:14px}
+ .pt-hero{object-position:78% 50%}
+ .pt-story{top:auto;bottom:90px;transform:none;width:calc(100% - var(--pt-inset)*2);gap:24px}
+ .pt-eyebrow{margin-bottom:18px}
+ .pt-copy h2{font-size:clamp(48px,12cqw,70px);line-height:1.02;letter-spacing:-.06em}
+ .pt-copy p{font-size:16px;line-height:1.5;max-width:29ch;margin-top:20px;white-space:normal}
+ .pt-credit{bottom:24px;font-size:10px}
+ .pt-title{left:16px;font-size:24cqw;bottom:38%}
+ [data-pt-preset="split-type"] .pt-story{bottom:30px;flex-direction:column;align-items:flex-start;gap:20px}
+ [data-pt-preset="split-type"] .pt-copy{width:100%}
+ [data-pt-preset="split-type"] .pt-copy h2{font-size:28px}
+ [data-pt-preset="split-type"] .pt-copy p{font-size:14px;max-width:32ch;margin-top:8px}
+}
+
+.pt-brand img{display:block;width:94px;height:24px;object-fit:contain}
+
+[data-pt-replay]{--tb-scramble:#de4912}

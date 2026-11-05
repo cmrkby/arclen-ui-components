@@ -1,0 +1,24 @@
+# Image Slideshow
+
+An edge-to-edge photographic slideshow with 5px progress bars and frosted glass circular arrow controls. Its default forest-residence series pairs charcoal stone, walnut interiors and tall forest windows. `showCaptions` enables an optional text overlay; `showNavigation` and `showIndicators` control arrows and progress bars. Hidden controls do not disable keyboard or swipe navigation.
+
+```tsx
+import {ImageSlideshow} from './components/image-slideshow';
+<ImageSlideshow heightMode="fixed" height={560} transition="blur" autoplay={true} />
+```
+
+Default bundled image keys: `forest-lounge`, `forest-stair`, `forest-retreat`.
+
+The component fills its parent width. `heightMode="fill"` fills a parent with an explicit height; an unsized host uses a 16:10 aspect-ratio fallback. `heightMode="fixed"` uses the pixel `height`. `imageFit`, `focalX`, `focalY` and `imageScale` control the main image crop. Image, title, description and alt lists correspond by index. Use an empty alt for a decorative image. Lists support up to twelve slides.
+
+`images` accepts the bundled keys listed above, the original vector keys `canyon`, `coast`, `alpine`, HTTP/HTTPS URLs and relative paths. Invalid or empty image lists fall back to the default images. Remote URLs make ordinary requests to their hosts. Failed images show a readable unavailable message. Generated images depict fictional scenes; no claim of a real building, place or product is implied.
+
+Choose one of eight transitions: `blur`, `fade`, `slide`, `slideUp`, `cover`, `wipe`, `zoom` or `none`. `duration` controls finite motion; zero makes changes immediate. `blurAmount` controls blur strength and `zoomAmount` controls zoom distance. Rapid changes retarget owned image layers and settle to one slide.
+
+ArrowLeft/Right, Home/End and horizontal swipes navigate. Manual changes are announced; automatic announcements are disabled during playback. Autoplay is on by default at five seconds. There is no on-image playback button. Disable Autoplay in Tweaks or set `autoplay={false}`. Hover, keyboard focus, hidden documents, offscreen placement and reduced motion stop automatic progression. Reduced motion makes manual navigation immediate.
+
+The vanilla core exports `defaults`, `resolveSettings`, `render` and `mount`. `mount(host, settings)` returns `update`, `goTo`, `pause`, `resume` and `destroy`. `update` merges validated settings and preserves the current slide where possible. `pause` stops autoplay and settles finite transitions; `resume` allows animation without enabling autoplay. `destroy` removes owned DOM, listeners, observer and animation frames. Multiple instances have independent state. The React wrapper accepts `className`, `style` and `paused` in addition to the generated settings below.
+
+Server/no-JavaScript markup shows the first image and readable captions where present. Navigation requires JavaScript. Configured React and HTML delivery retain settings. Every install includes its local engine, CSS, photographs, vectors, Instrument Sans font and licences; there are no runtime npm dependencies or imports from sibling components. Font rights are OFL-1.1 under `assets/OFL-InstrumentSans.txt`.
+
+Navigation chevrons are by [Iconsax](https://iconsax.io), integrated under its proprietary terms. The included icons are for integrated use within this component; obtain your own licence for other uses. See `assets/ICONSAX-LICENSE.md`.

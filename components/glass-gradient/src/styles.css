@@ -1,0 +1,74 @@
+.aui-glass-gradient {
+ position: relative;
+ isolation: isolate;
+ display: block;
+ box-sizing: border-box;
+ width: 100%;
+ height: var(--gg-height, 100%);
+ min-width: 0;
+ overflow: hidden;
+ border-radius: var(--gg-radius, 0px);
+ background: var(--gg-c, #005eff);
+ contain: layout paint;
+}
+.aui-glass-gradient > div { position: absolute; pointer-events: none; }
+.aui-glass-gradient .aui-glass-gradient__field {
+ inset: -55%;
+ background: linear-gradient(135deg, var(--gg-a) 0%, var(--gg-b) 33%, var(--gg-c) 66%, var(--gg-d) 100%);
+ filter: blur(var(--gg-blur));
+ transform: translate(-3%, 2%);
+}
+/* The wash moves its color image within a fixed, full-size surface. */
+.aui-glass-gradient[data-variant="wash"] .aui-glass-gradient__field {
+ inset: 0;
+ background-color: color-mix(in srgb, var(--gg-tint) calc(var(--gg-opacity) * 100%), transparent);
+ background-blend-mode: overlay;
+ background-size: var(--gg-field-size) var(--gg-field-size);
+ background-position: var(--gg-start-x) var(--gg-start-y);
+ backdrop-filter: blur(var(--gg-blur));
+ filter: none;
+ transform: none;
+}
+.aui-glass-gradient .aui-glass-gradient__tint { inset: 0; background: var(--gg-tint); opacity: var(--gg-opacity); }
+.aui-glass-gradient .aui-glass-gradient__band {
+ width: 180%;
+ height: 86%;
+ left: -40%;
+ top: -30%;
+ border-radius: 45%;
+ background: linear-gradient(90deg, var(--gg-a), var(--gg-b) 60%, var(--gg-c));
+ filter: blur(var(--gg-blur));
+ transform: rotate(-22deg);
+}
+.aui-glass-gradient .aui-glass-gradient__band--two {
+ top: 48%;
+ left: -35%;
+ background: linear-gradient(90deg, var(--gg-b), var(--gg-c) 45%, var(--gg-d));
+ transform: rotate(-22deg) translateX(5%);
+}
+.aui-glass-gradient[data-live="true"] .aui-glass-gradient__field { animation: aui-gg-field-travel var(--gg-duration) ease-in-out infinite alternate; }
+.aui-glass-gradient[data-live="true"][data-variant="wash"] .aui-glass-gradient__field { animation-name: aui-gg-wash; }
+.aui-glass-gradient[data-live="true"] .aui-glass-gradient__band { animation: aui-gg-band var(--gg-duration) linear infinite alternate; }
+.aui-glass-gradient[data-live="true"] .aui-glass-gradient__band--two { animation-name: aui-gg-band-two; }
+.aui-glass-gradient[data-live="true"][data-running] > div { animation-direction: var(--gg-direction); animation-play-state: paused; }
+.aui-glass-gradient[data-live="true"][data-running="true"] > div { animation-play-state: running; }
+.aui-glass-gradient[data-live="true"][data-still="true"] > div { animation: none; }
+@keyframes aui-gg-field-travel {
+ from { transform: translate(calc(var(--gg-x) * -.7), calc(var(--gg-y) * -.7)) scale(1); }
+ to { transform: translate(var(--gg-x), var(--gg-y)) scale(1.08); }
+}
+@keyframes aui-gg-wash {
+ 0%, 100% { background-position: var(--gg-start-x) var(--gg-start-y); }
+ 50% { background-position: var(--gg-position-x) var(--gg-position-y); }
+}
+@keyframes aui-gg-band {
+ from { transform: translate(calc(var(--gg-x) * -1), calc(var(--gg-y) * -1)) rotate(-22deg); }
+ to { transform: translate(var(--gg-x), var(--gg-y)) rotate(-22deg); }
+}
+@keyframes aui-gg-band-two {
+ from { transform: translate(var(--gg-x), var(--gg-y)) rotate(-22deg); }
+ to { transform: translate(calc(var(--gg-x) * -1), calc(var(--gg-y) * -1)) rotate(-22deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+ .aui-glass-gradient[data-live="true"][data-running] > div { animation: none; }
+}

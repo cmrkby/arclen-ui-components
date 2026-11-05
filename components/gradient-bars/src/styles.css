@@ -1,0 +1,60 @@
+.aui-gradient-bars {
+ position: relative;
+ isolation: isolate;
+ display: block;
+ box-sizing: border-box;
+ width: 100%;
+ height: var(--gb-height, 100%);
+ min-width: 0;
+ overflow: hidden;
+ border-radius: var(--gb-radius, 0px);
+ background: var(--gb-base, #020612);
+ contain: layout paint;
+}
+.aui-gradient-bars .aui-gradient-bars__field {
+ position: absolute;
+ inset: 0 -1px;
+ display: flex;
+ align-items: end;
+ gap: min(var(--gb-gap), calc(40% / var(--gb-count)));
+ pointer-events: none;
+}
+.aui-gradient-bars[data-anchor="top"] .aui-gradient-bars__field { transform: scaleY(-1); }
+.aui-gradient-bars .aui-gradient-bars__bar {
+ position: relative;
+ flex: 1 1 0;
+ min-width: 0;
+ height: var(--gb-peak);
+ transform: scaleY(var(--gb-level));
+ transform-origin: center bottom;
+}
+.aui-gradient-bars .aui-gradient-bars__bar:not(:last-child) { margin-right: calc(var(--gb-overlap) * -1); }
+.aui-gradient-bars .aui-gradient-bars__ink {
+ position: absolute;
+ inset: 0;
+ background-image: linear-gradient(calc(var(--gb-angle) + var(--gb-position) * var(--gb-spread)), var(--gb-stops));
+ background-image: linear-gradient(calc(var(--gb-angle) + var(--gb-position) * var(--gb-spread)) in oklch, var(--gb-stops));
+}
+.aui-gradient-bars[data-live="true"] .aui-gradient-bars__bar {
+ animation-name: aui-gb-rise, aui-gb-pulse;
+ animation-duration: var(--gb-entry), var(--gb-pulse-time);
+ animation-timing-function: cubic-bezier(.22,1,.36,1), ease-in-out;
+ animation-delay: calc(var(--gb-rank) * var(--gb-stagger)), calc(var(--gb-rank) * var(--gb-stagger) + var(--gb-entry));
+ animation-iteration-count: 1, infinite;
+ animation-direction: normal, alternate;
+ animation-fill-mode: both, none;
+ animation-play-state: paused;
+}
+.aui-gradient-bars[data-running="true"] .aui-gradient-bars__bar { animation-play-state: running; }
+.aui-gradient-bars[data-still="true"] .aui-gradient-bars__bar { animation: none; }
+@keyframes aui-gb-rise {
+ from { transform: scaleY(0); }
+ to { transform: scaleY(var(--gb-level)); }
+}
+@keyframes aui-gb-pulse {
+ from { transform: scaleY(var(--gb-level)); }
+ to { transform: scaleY(calc(var(--gb-level) * var(--gb-pulse))); }
+}
+@media (prefers-reduced-motion: reduce) {
+ .aui-gradient-bars[data-live="true"] .aui-gradient-bars__bar { animation: none; }
+}

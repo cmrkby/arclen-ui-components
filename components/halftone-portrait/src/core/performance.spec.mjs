@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {readFile,mkdir,writeFile} from 'node:fs/promises';
 import {createServer} from 'node:http';
 const entry=fileURLToPath(new URL('./index.ts',import.meta.url));
-const {outputFiles}=await build({stdin:{contents:`import {mount} from ${JSON.stringify(entry)};window.baseSettings=new URLSearchParams(location.search).get('site')?{fit:'contain'}:{};window.portrait=mount(document.querySelector('#root'),window.baseSettings);`,resolveDir:fileURLToPath(new URL('.',import.meta.url)),loader:'ts'},bundle:true,write:false,format:'iife'});
+const {outputFiles}=await build({stdin:{contents:`import {mount} from ${JSON.stringify(entry)};window.baseSettings=new URLSearchParams(location.search).get('site')?{fit:'contain'}:{};window.portrait=mount(document.querySelector('#root'),window.baseSettings);`,resolveDir:fileURLToPath(new URL('.',import.meta.url)),loader:'ts'},bundle:true,write:false,format:'iife',loader:{'.webp':'dataurl'}});
 const css=await readFile(new URL('../styles.css',import.meta.url),'utf8');
 const html='<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;background:#0a0a0a}*{box-sizing:border-box}#root{width:100%;min-height:480px;position:relative}img{max-width:100%}'+css+'</style><div id="root"></div><script src="/component.js"></script>';
 const server=createServer((req,res)=>{res.setHeader('Content-Type',req.url==='/component.js'?'application/javascript':'text/html');res.end(req.url==='/component.js'?outputFiles[0].text:html);});await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));

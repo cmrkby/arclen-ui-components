@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "cyan-cyclist",
+      "width": 1672,
+      "height": 941,
+      "title": "Passing light",
+      "alt": "A cyclist in an apricot jacket crosses a cyan city plaza with gentle horizontal motion.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "e0c1a37f07383a4c4aec46b6c6fd14f35beea4713d54e80e7a73ef1336e1e85a",
+      "bytes": 89324
+    },
+    {
+      "asset": "assets/hero-card.webp",
+      "key": "cyan-cyclist",
+      "width": 640,
+      "height": 360,
+      "title": "Passing light",
+      "alt": "A cyclist in an apricot jacket crosses a cyan city plaza with gentle horizontal motion.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "ada81afe9b5f76d5b194b0414cc8a08c3cf39266f98604195c2086d6c4217094",
+      "bytes": 28386
+    },
+    {
+      "asset": "assets/hero-mobile.webp",
+      "key": "cyan-cyclist",
+      "width": 960,
+      "height": 540,
+      "title": "Passing light",
+      "alt": "A cyclist in an apricot jacket crosses a cyan city plaza with gentle horizontal motion.",
+      "sourceWidth": 1086,
+      "sourceHeight": 1448,
+      "crop": "centre / cover",
+      "sha256": "91361cbf0b2d0b80e575711e835e9a5a44905c3c676a09f00c68d635bcd5fb64",
+      "bytes": 49866
+    }
+  ]
+}

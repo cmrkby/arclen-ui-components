@@ -1,0 +1,4 @@
+.lf-scene,.lf-scene *{box-sizing:border-box}
+.lf-scene{isolation:isolate;contain:layout paint;pointer-events:none}
+/* Generated no-JS poster is positioned within this reserved scene host. */
+[data-arclen-ui="luminous-folds"]{position:relative}

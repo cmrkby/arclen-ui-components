@@ -1,0 +1,52 @@
+# Hold Switch
+
+An ivory and graphite liquid switch with a pressure gesture and an optional progress ring. It changes a boolean value; your application decides what the value means.
+
+## React
+
+```tsx
+import { useState } from 'react';
+import { HoldSwitch } from './components/hold-switch';
+
+export function Example() {
+  const [checked, setChecked] = useState(false);
+  return <HoldSwitch checked={checked} onCheckedChange={setChecked}
+    accessibleName="Quiet mode" interaction="hold" showProgress />;
+}
+```
+
+Omit `checked` for local state. `defaultChecked` initializes that state; otherwise the configured manifest default applies. `Component` aliases `HoldSwitch`. Settings are individual props. `className`, `style`, and `paused` configure the wrapper and lifecycle. Controlled ownership can change without replacing the focused button. Controlled requests leave the displayed checked state unchanged until the parent supplies its next value.
+
+## Vanilla JavaScript
+
+```ts
+import { defaults, mount } from './components/hold-switch/src/core';
+import './components/hold-switch/src/styles.css';
+
+const controller = mount(document.querySelector('#switch')!, defaults, undefined, {
+  onCheckedChange(checked, detail) { console.log(checked, detail); },
+});
+controller.update({ width: 180 });
+controller.pause();
+controller.resume();
+// When removing the host:
+controller.destroy();
+```
+
+`update` accepts partial settings and preserves omitted values. It never emits a user change. Invalid settings throw before mutation. Pass `controlled: true` in the mount options for external state ownership, then accept requests with `update({ checked })`. The option can be a live getter. The bubbling `hold-switch-change` event and callback both receive `{ checked, source, activation }`. Source is `pointer`, `keyboard`, or `assistive`; activation is `click` or `hold`. Subscribe to one channel for each application action.
+
+## Presets and controls
+
+Pressure supports a quick tap, a full hold, or release after the partial-hold threshold. Its defaults are a 220 ms quick-tap window, 1000 ms full hold, and 50% release threshold. A release between the quick-tap window and partial threshold cancels. Deliberate hold requires 1400 ms and shows the ring. Compact hold uses a 160 px drawing and a 650 ms hold. Both strict hold presets cancel early releases. All presets contain the complete settings vector.
+
+`holdDuration` controls commitment timing. `quickTapWindow` and `releaseThreshold` apply only to Pressure. `pressureAmount` controls thumb compression; `stretchAmount` controls travel deformation. `motionDuration` changes decorative settling without changing hold timing; `springDamping` controls recoil. The default grey liquid (#74767D), silver progress ring (#BEC3CB), and graphite track are shared across all presets. The ring has independent visibility, color, and width. Track, thumb, ink, dot, and shadow controls change the material. Width scales the drawing at a 2:1 aspect ratio and respects a narrower container.
+
+## Input and accessibility
+
+The native button has switch semantics, an accessible name, and a generated description of keyboard timing. Hold Space or Enter using the same duration as pointer input. Repeated keydown events do not repeat commitment. Each physical gesture commits at most once. Releasing early in strict hold mode, moving outside, losing pointer capture, pressing Escape, or blurring cancels pending commitment. Touch long-press selection and the context menu are suppressed only on the control.
+
+Assistive activation without a physical press toggles directly, including in strict hold mode. This is an accessibility fallback, so this component must not be used as a security or safety confirmation barrier.
+
+Reduced motion keeps timed progress usable while removing decorative travel and deformation. Missing animation or observation APIs retain functional hold input. Offscreen controls remain keyboard focusable. Explicit pause disables interaction; resume restores the configured disabled state without reviving a gesture. Hidden/offscreen suspension stops decorative work. There is no idle animation loop.
+
+Static server rendering retains the name and checked semantics on a native disabled button. Mount activates it. Destroy removes listeners, observers, timers, and frame work and leaves a disabled static endpoint. Destruction is idempotent. Instances have isolated IDs and state; the component uses no storage, remote scripts, or page-level theme mutation.

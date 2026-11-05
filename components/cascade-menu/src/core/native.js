@@ -14,7 +14,7 @@ const items = [
   {label:'Phone',x:200,y:60,w:100,h:60,px:252,py:85,angle:-304,delay:700,path:'M4 3 9 8 7 11q2 4 6 6l3-2 5 5q-2 4-6 1C8 19 3 14 2 7q-1-3 2-4Z'}
 ];
 const svg = path => `<svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${path}"/></svg>`;
-// Rounded annular sector generated from radii/angles; does not embed reference asset paths.
+// Rounded annular sector generated from radii/angles.
 function annulus(start=-48,end=228) {
   const outer=150,inner=94.5,round=6.7;
   const p=(r,a)=>[150+r*Math.cos(a*Math.PI/180),150+r*Math.sin(a*Math.PI/180)].map(n=>n.toFixed(3)).join(' ');
@@ -105,10 +105,14 @@ class RadialMenu extends HTMLElement {
     this._on(this._center,'click',event=>this.setOpen(!this._open,{instant:event.detail===0}));
     this._links.forEach((link,i)=>{
       this._on(link,'pointerenter',event=>{if(this._open&&event.pointerType!=='touch'&&matchMedia('(hover:hover) and (pointer:fine)').matches){this.select(i);this._showCaption(i);}});
-      this._on(link,'pointerleave',()=>{if(!link.matches(':focus-visible'))this._hideCaption();});
+      this._on(link,'pointerleave',event=>{if(event.pointerType!=='touch'&&!link.matches(':focus-visible'))this._hideCaption();});
       this._on(link,'focus',()=>{if(this._open){this.select(i,{instant:link.matches(':focus-visible')});this._showCaption(i,true);}});
       this._on(link,'blur',()=>this._hideCaption());
       this._on(link,'click',event=>{
+        // Touch has no hover state, and mobile browsers do not reliably focus links on tap.
+        // Make every activation update the light and label before emitting the action.
+        this.select(i,{instant:event.detail===0});
+        this._showCaption(i,true);
         const destination=this._destinations?.[i];
         const accepted=this.dispatchEvent(new CustomEvent('radial-select',{detail:{index:i,label:destination?.label||items[i].label,href:destination?.href||'',newTab:destination?.newTab||false},bubbles:true,composed:true,cancelable:true}));
         if(!destination?.href||!accepted)event.preventDefault();

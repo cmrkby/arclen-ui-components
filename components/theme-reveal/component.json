@@ -1,0 +1,370 @@
+{
+  "id": "theme-reveal",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Theme Reveal",
+  "category": "Transitions",
+  "description": "Soft Circle, Dissolve and upward Curtain appearance transitions with an independent full-page theme API.",
+  "keywords": [
+    "theme",
+    "reveal",
+    "toggle",
+    "moon",
+    "sun"
+  ],
+  "settings": [
+    {
+      "key": "initialTheme",
+      "kind": "select",
+      "label": "Initial theme",
+      "default": "dark",
+      "group": "State",
+      "description": "Initial canvas appearance. Explicit core updates set the endpoint; changing this React prop requests the new endpoint.",
+      "options": [
+        {
+          "label": "Light",
+          "value": "light"
+        },
+        {
+          "label": "Dark",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "key": "disabled",
+      "kind": "boolean",
+      "label": "Disabled",
+      "default": false,
+      "group": "State",
+      "description": "Disable the centered toggle. Independent full-page controllers remain application-owned."
+    },
+    {
+      "key": "accessibleName",
+      "kind": "text",
+      "label": "Accessible name",
+      "default": "Change appearance",
+      "group": "State",
+      "description": "Stable nonblank accessible name for the native toggle button.",
+      "maxLength": 120
+    },
+    {
+      "key": "toggleWidth",
+      "kind": "number",
+      "label": "Pill width",
+      "default": 72,
+      "group": "Geometry",
+      "description": "Width of the visible pill in CSS pixels.",
+      "min": 72,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "toggleHeight",
+      "kind": "number",
+      "label": "Pill height",
+      "default": 36,
+      "group": "Geometry",
+      "description": "Visible pill height; native hit area remains at least 44px high.",
+      "min": 28,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "thumbInset",
+      "kind": "number",
+      "label": "Thumb inset",
+      "default": 3,
+      "group": "Geometry",
+      "description": "Gap between the selected circular thumb and track edge.",
+      "min": 2,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "key": "iconSize",
+      "kind": "number",
+      "label": "Icon size",
+      "default": 16,
+      "group": "Geometry",
+      "description": "Moon and sun icon size, bounded by the thumb interior.",
+      "min": 12,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "iconStroke",
+      "kind": "number",
+      "label": "Icon stroke",
+      "default": 1.6,
+      "group": "Geometry",
+      "description": "Line weight of the original moon and sun marks.",
+      "min": 1,
+      "max": 2.5,
+      "step": 0.1
+    },
+    {
+      "key": "canvasMinHeight",
+      "kind": "number",
+      "label": "Canvas minimum height",
+      "default": 320,
+      "group": "Geometry",
+      "description": "Minimum standalone canvas height; fills a taller receiving host.",
+      "min": 100,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "lightBackground",
+      "kind": "color",
+      "label": "Light canvas",
+      "default": "#ffffff",
+      "group": "Palette",
+      "description": "Flat receiving canvas in light appearance."
+    },
+    {
+      "key": "darkBackground",
+      "kind": "color",
+      "label": "Dark canvas",
+      "default": "#0a0a0a",
+      "group": "Palette",
+      "description": "Flat receiving canvas in dark appearance."
+    },
+    {
+      "key": "lightTrack",
+      "kind": "color",
+      "label": "Light track",
+      "default": "#ffffff",
+      "group": "Palette",
+      "description": "Pill track in light appearance."
+    },
+    {
+      "key": "darkTrack",
+      "kind": "color",
+      "label": "Dark track",
+      "default": "#111111",
+      "group": "Palette",
+      "description": "Pill track in dark appearance."
+    },
+    {
+      "key": "lightThumb",
+      "kind": "color",
+      "label": "Light thumb",
+      "default": "#eeeeee",
+      "group": "Palette",
+      "description": "Selected circular thumb in light appearance."
+    },
+    {
+      "key": "darkThumb",
+      "kind": "color",
+      "label": "Dark thumb",
+      "default": "#2b2b2b",
+      "group": "Palette",
+      "description": "Selected circular thumb in dark appearance."
+    },
+    {
+      "key": "lightIcon",
+      "kind": "color",
+      "label": "Light icons",
+      "default": "#282828",
+      "group": "Palette",
+      "description": "Moon and sun line color in light appearance."
+    },
+    {
+      "key": "darkIcon",
+      "kind": "color",
+      "label": "Dark icons",
+      "default": "#e7e7e7",
+      "group": "Palette",
+      "description": "Moon and sun line color in dark appearance."
+    },
+    {
+      "key": "lightBorder",
+      "kind": "color",
+      "label": "Light border",
+      "default": "#d8d8d8",
+      "group": "Palette",
+      "description": "Fine pill outline in light appearance."
+    },
+    {
+      "key": "darkBorder",
+      "kind": "color",
+      "label": "Dark border",
+      "default": "#363636",
+      "group": "Palette",
+      "description": "Fine pill outline in dark appearance."
+    },
+    {
+      "key": "accentColor",
+      "kind": "color",
+      "label": "Focus accent",
+      "default": "#007aff",
+      "group": "Palette",
+      "description": "Visible keyboard focus ring; blue is optional and does not tint the canvas."
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Reveal duration",
+      "default": 900,
+      "group": "Motion",
+      "description": "Traversal duration in milliseconds. Soft Circle uses 900; Dissolve 500; Curtain 760.",
+      "min": 240,
+      "max": 2000,
+      "step": 20
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Easing",
+      "default": "gentle",
+      "group": "Motion",
+      "description": "Shared timing curve used by panel and full-page snapshots.",
+      "options": [
+        {
+          "label": "Gentle",
+          "value": "gentle"
+        },
+        {
+          "label": "Smooth",
+          "value": "smooth"
+        },
+        {
+          "label": "Linear",
+          "value": "linear"
+        },
+        {
+          "label": "Curtain",
+          "value": "curtain"
+        }
+      ]
+    },
+    {
+      "key": "revealStyle",
+      "kind": "select",
+      "label": "Reveal style",
+      "default": "circle",
+      "group": "Motion",
+      "description": "Soft Circle grows from the trigger; Dissolve fades; Curtain lifts the outgoing appearance upward.",
+      "options": [
+        {
+          "label": "Soft circle",
+          "value": "circle"
+        },
+        {
+          "label": "Dissolve",
+          "value": "fade"
+        },
+        {
+          "label": "Curtain",
+          "value": "curtain"
+        }
+      ]
+    },
+    {
+      "key": "revealOrigin",
+      "kind": "select",
+      "label": "Origin",
+      "default": "trigger",
+      "group": "Motion",
+      "description": "Circle origin: pointer/element center, panel/page center, or custom percentage coordinates.",
+      "options": [
+        {
+          "label": "Trigger",
+          "value": "trigger"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "key": "originX",
+      "kind": "number",
+      "label": "Horizontal origin",
+      "default": 50,
+      "group": "Motion",
+      "description": "Used only when Origin is Custom; percentage of receiving surface.",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "originY",
+      "kind": "number",
+      "label": "Vertical origin",
+      "default": 50,
+      "group": "Motion",
+      "description": "Used only when Origin is Custom; percentage of receiving surface.",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "edgeSoftness",
+      "kind": "number",
+      "label": "Edge softness",
+      "default": 0.16,
+      "group": "Motion",
+      "description": "Soft Circle feather width as a fraction of the mask. Zero gives a sharp edge.",
+      "min": 0,
+      "max": 0.4,
+      "step": 0.01
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Commit the requested endpoint without spatial movement; active transitions settle when preference changes.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Soft circle",
+      "settings": {
+        "duration": 900,
+        "easing": "gentle",
+        "revealStyle": "circle",
+        "revealOrigin": "trigger",
+        "originX": 50,
+        "originY": 50,
+        "edgeSoftness": 0.16
+      }
+    },
+    {
+      "name": "Dissolve",
+      "settings": {
+        "duration": 500,
+        "easing": "smooth",
+        "revealStyle": "fade",
+        "revealOrigin": "trigger",
+        "originX": 50,
+        "originY": 50,
+        "edgeSoftness": 0.16
+      }
+    },
+    {
+      "name": "Curtain",
+      "settings": {
+        "duration": 760,
+        "easing": "curtain",
+        "revealStyle": "curtain",
+        "revealOrigin": "trigger",
+        "originX": 50,
+        "originY": 50,
+        "edgeSoftness": 0.16
+      }
+    }
+  ]
+}

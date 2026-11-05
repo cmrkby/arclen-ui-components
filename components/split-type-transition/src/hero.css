@@ -1,0 +1,44 @@
+/* Centered typography over quiet architectural artwork, scoped to the demo. */
+[data-pt-demo="split-type"] [data-page-transitions],
+[data-page-transitions][data-pt-demo="split-type"] {container-type:size;--pt-detail-fill:#242424;--pt-detail-line:#3157f6}
+[data-pt-demo="split-type"] .pt-editorial .pt-hero {display:block;filter:none;object-position:50% 50%}
+[data-pt-demo="split-type"] .pt-brand img {filter:invert(1)}
+[data-pt-demo="split-type"] [data-pt-navigate] {color:var(--pt-fg);border-color:currentColor}
+[data-pt-demo="split-type"] .pt-editorial::before {
+ content:"INDEPENDENT DESIGN STUDIO / 001";position:absolute;z-index:2;top:19%;left:0;right:0;text-align:center;
+ font:500 10px/1.5 'Arclen Reveal',Arial,sans-serif;letter-spacing:.14em;color:var(--pt-fg);
+}
+[data-pt-demo="split-type"] .pt-editorial::after {
+ content:"";position:absolute;inset:0;pointer-events:none;
+ background:linear-gradient(180deg,rgb(244 243 239 / .06),transparent 60%,rgb(244 243 239 / .4));
+}
+[data-pt-demo="split-type"] .pt-title {
+ top:44%;bottom:auto;left:50%;right:auto;translate:-50% -50%;max-width:none;
+ font-family:Arial,sans-serif;line-height:.85;letter-spacing:-.07em;color:var(--pt-fg);
+}
+/* The temporary sliced word shares the final title's horizontal center while scaling. */
+[data-pt-demo="split-type"] .pt-split {transform-origin:center center!important}
+[data-pt-demo="split-type"] .pt-editorial .pt-story {bottom:36px;gap:24px;padding-top:24px;border-top:1px solid rgb(17 17 17 / .16)}
+[data-pt-demo="split-type"] .pt-editorial .pt-copy {color:var(--pt-fg);width:min(60%,520px)}
+[data-pt-demo="split-type"] .pt-editorial .pt-copy h2 {font-size:clamp(20px,2.4cqw,30px);font-weight:500;line-height:1.12}
+[data-pt-demo="split-type"] .pt-editorial .pt-copy p {font-size:clamp(13px,1.4cqw,17px);max-width:36ch}
+@container(max-width:600px) {
+ [data-pt-demo="split-type"] .pt-editorial::before {top:22%;font-size:8px;letter-spacing:.1em}
+ [data-pt-demo="split-type"] .pt-title {top:40%}
+ [data-pt-demo="split-type"] .pt-editorial .pt-story {bottom:24px;gap:16px;padding-top:18px}
+ [data-pt-demo="split-type"] .pt-editorial .pt-copy {width:100%}
+ [data-pt-demo="split-type"] .pt-editorial .pt-copy h2 {font-size:22px}
+ [data-pt-demo="split-type"] .pt-editorial .pt-copy p {font-size:14px}
+}
+html[data-thumbnail] [data-pt-demo="split-type"] .pt-editorial::before {top:22%;font-size:8px}
+html[data-thumbnail] [data-pt-demo="split-type"] .pt-title {top:53%}
+html[data-thumbnail] [data-pt-demo="split-type"] .pt-editorial .pt-story {display:none}
+
+/* The replay control follows this hero's editorial language. */
+[data-pt-demo="split-type"] .pt-editorial-button {display:inline-flex;align-items:center;justify-content:center;gap:24px;min-height:48px;padding:0 22px;box-sizing:border-box;border:1px solid currentColor;border-radius:999px;background:transparent;color:var(--pt-fg);font:500 13px/1.2 'Arclen Reveal',Arial,sans-serif;letter-spacing:-.01em;cursor:pointer;white-space:nowrap}
+[data-pt-demo="split-type"] .pt-editorial-button svg {flex:none}
+[data-pt-demo="split-type"] .pt-editorial-button:hover {background:var(--pt-fg);color:var(--pt-bg)}
+[data-pt-demo="split-type"] .pt-editorial-button:focus-visible {outline:2px solid var(--pt-fg);outline-offset:5px}
+[data-pt-demo="split-type"] .pt-editorial-button:disabled {opacity:.45;cursor:default}
+[data-pt-demo="split-type"] .pt-editorial-button {border-radius:0;border-width:0 0 1px;padding:0;gap:32px}
+[data-pt-demo="split-type"] .pt-editorial-button:hover {background:transparent;color:var(--pt-fg);border-bottom-width:2px}

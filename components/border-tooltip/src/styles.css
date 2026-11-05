@@ -1,0 +1,32 @@
+@font-face{font-family:BT Inter;src:url('../assets/inter-400-latin.woff2') format('woff2');font-weight:400;font-display:swap}
+.bt,.bt-floating{--bt-surface:#fafafa;--bt-ink:#252525;--bt-line:#a5a5a5;--bt-scale:1;--bt-duration:400ms;font-family:BT Inter,Inter,system-ui,sans-serif;font-weight:400;box-sizing:border-box;color:var(--bt-ink)}
+.bt[data-theme=dark],.bt-floating[data-theme=dark]{--bt-surface:#232323;--bt-ink:#fff;--bt-line:#616161}
+@media(prefers-color-scheme:dark){.bt[data-theme=auto],.bt-floating[data-theme=auto]{--bt-surface:#232323;--bt-ink:#fff;--bt-line:#616161}}
+.bt{display:flex;align-items:center;justify-content:center;gap:clamp(12px,6vw,56px);flex-wrap:wrap;padding:32px 12px;max-width:100%;min-height:190px}
+.bt-item{--bt-unit:var(--bt-scale);display:grid;justify-items:center;gap:16px;min-width:0}
+.bt-floating[data-size=double]{--bt-unit:calc(var(--bt-scale)*2)}
+.bt-trigger{box-sizing:border-box;display:grid;place-items:center;width:calc(50px*var(--bt-unit));height:calc(50px*var(--bt-unit));max-width:100%;min-width:44px;min-height:44px;padding:0;border:1px solid transparent;border-radius:50%;background:transparent;color:inherit;cursor:pointer;opacity:.8;transition:opacity 200ms,background-color 200ms,border-color 200ms;-webkit-tap-highlight-color:transparent}
+.bt-trigger svg{width:calc(24px*var(--bt-unit));height:calc(24px*var(--bt-unit))}
+.bt-trigger:hover,.bt-trigger[data-open=true]{opacity:1}.bt-trigger:focus-visible{outline:2px solid var(--bt-accent);outline-offset:4px;opacity:1}
+.bt-description{font-size:12px;line-height:1.5;max-width:160px;text-align:center}.bt:has(.bt-trigger[data-open]) .bt-description{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bt-floating{--bt-unit:var(--bt-scale);position:fixed;z-index:10000;width:max-content;max-width:calc(100vw - 40px);opacity:0;visibility:hidden;pointer-events:none;transform:translateY(4px);transition:opacity var(--bt-duration) ease,transform var(--bt-duration) cubic-bezier(.2,1.4,.4,1),visibility 0s var(--bt-duration);overflow:visible}
+.bt-floating[data-open=true]{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition-delay:0s}
+.bt-bubble{box-sizing:border-box;position:relative;min-width:calc(74px*var(--bt-unit));max-width:100%;padding:calc(8px*var(--bt-unit)) calc(12px*var(--bt-unit));border:1px solid var(--bt-line);border-radius:calc(24px*var(--bt-unit));background:var(--bt-surface);font-size:calc(16px*var(--bt-unit));line-height:1.2;overflow-wrap:anywhere}
+.bt-label{position:relative;z-index:1}
+.bt[data-paused] *, .bt-floating[data-paused]{transition:none!important}
+@media(prefers-reduced-motion:reduce){.bt-trigger{transition:none}.bt-floating,.bt-floating[data-direction]{transform:none;transition:opacity 80ms linear,visibility 0s 80ms}.bt-floating[data-open=true]{transition-delay:0s}}
+/* Quiet contour: compact triggers and broad, open-top pointer drawings. */
+.bt-beak{display:none}
+.bt[data-direction=A]{--bt-trigger-size:max(44px,calc(50px*var(--bt-scale)));gap:clamp(8px,calc((100% - 3*var(--bt-trigger-size))/2),106px);flex-wrap:nowrap}
+.bt[data-direction=A] .bt-item{--bt-unit:var(--bt-scale);gap:0}
+.bt[data-direction=A] .bt-glyph-solid{display:block}
+.bt[data-direction=A]{--bt-mark:#fafafa}
+.bt[data-direction=A][data-theme=dark]{color:#ddd;--bt-mark:#232323}
+@media(prefers-color-scheme:dark){.bt[data-direction=A][data-theme=auto]{color:#ddd;--bt-mark:#232323}}
+.bt-floating[data-direction=A]{transition-timing-function:cubic-bezier(.22,1,.36,1),cubic-bezier(.22,1,.36,1.06),linear}
+.bt-floating[data-direction=A] .bt-bubble{border:0;border-radius:calc(40px*var(--bt-unit));box-shadow:inset 0 0 0 calc(1px*var(--bt-unit)) var(--bt-line)}
+.bt-floating[data-direction=A] .bt-beak{display:block;position:absolute;overflow:visible;width:calc(31px*var(--bt-unit));height:calc(11px*var(--bt-unit));transform-origin:0 0;pointer-events:none}
+.bt-floating[data-direction=A][data-pointer=angular] .bt-beak{width:calc(25px*var(--bt-unit));height:calc(9px*var(--bt-unit))}
+.bt-floating[data-direction=A][data-side=top] .bt-beak{left:var(--bt-pointer-position);top:calc(100% - 1px*var(--bt-unit));transform:translateX(-50%)}
+.bt-floating[data-direction=A][data-side=bottom] .bt-beak{left:var(--bt-pointer-position);top:calc(1px*var(--bt-unit));transform:rotate(180deg) translateX(-50%)}
+@media(prefers-reduced-motion:reduce){.bt-floating[data-direction=A]{transition-timing-function:linear}}

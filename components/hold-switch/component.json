@@ -1,0 +1,359 @@
+{
+  "id": "hold-switch",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Hold Switch",
+  "category": "Controls",
+  "description": "An ivory and graphite liquid switch with visible pressure and optional deliberate hold activation.",
+  "keywords": [
+    "switch",
+    "toggle",
+    "hold",
+    "pressure",
+    "liquid",
+    "input"
+  ],
+  "settings": [
+    {
+      "key": "accessibleName",
+      "kind": "text",
+      "label": "Accessible name",
+      "default": "Toggle setting",
+      "group": "State",
+      "description": "Name announced by assistive technology.",
+      "maxLength": 120
+    },
+    {
+      "key": "checked",
+      "kind": "boolean",
+      "label": "On",
+      "default": false,
+      "group": "State",
+      "description": "Logical endpoint; external updates do not emit a user change."
+    },
+    {
+      "key": "disabled",
+      "kind": "boolean",
+      "label": "Disabled",
+      "default": false,
+      "group": "State",
+      "description": "Blocks all activation and cancels a pending hold."
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Width",
+      "default": 260,
+      "group": "Geometry",
+      "description": "Pixels; height is half the width. Shrinks proportionally inside narrower hosts.",
+      "min": 120,
+      "max": 520,
+      "step": 2
+    },
+    {
+      "key": "trackTop",
+      "kind": "color",
+      "label": "Track top",
+      "default": "#35363a",
+      "group": "Surface",
+      "description": "Upper recessed track gradient stop."
+    },
+    {
+      "key": "trackBottom",
+      "kind": "color",
+      "label": "Track bottom",
+      "default": "#242529",
+      "group": "Surface",
+      "description": "Lower recessed track gradient stop."
+    },
+    {
+      "key": "trackEdge",
+      "kind": "color",
+      "label": "Track edge",
+      "default": "#4a4b50",
+      "group": "Surface",
+      "description": "Fine recessed track boundary."
+    },
+    {
+      "key": "inkColor",
+      "kind": "color",
+      "label": "Liquid",
+      "default": "#74767d",
+      "group": "Surface",
+      "description": "Grey liquid surface."
+    },
+    {
+      "key": "thumbTop",
+      "kind": "color",
+      "label": "Thumb top",
+      "default": "#fffffc",
+      "group": "Surface",
+      "description": "Upper ivory thumb gradient stop."
+    },
+    {
+      "key": "thumbBottom",
+      "kind": "color",
+      "label": "Thumb bottom",
+      "default": "#e8e5df",
+      "group": "Surface",
+      "description": "Lower ivory thumb gradient stop."
+    },
+    {
+      "key": "dotColor",
+      "kind": "color",
+      "label": "Thumb dot",
+      "default": "#878b94",
+      "group": "Surface",
+      "description": "Small center pressure marker."
+    },
+    {
+      "key": "shadowStrength",
+      "kind": "number",
+      "label": "Shadow strength",
+      "default": 1,
+      "group": "Surface",
+      "description": "Scales contact and ambient shadow; zero removes both.",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.1
+    },
+    {
+      "key": "interaction",
+      "kind": "select",
+      "label": "Interaction",
+      "default": "pressure",
+      "group": "Interaction",
+      "description": "Pressure preserves click activation. Hold only cancels early physical releases; assistive click activation remains supported.",
+      "options": [
+        {
+          "label": "Pressure",
+          "value": "pressure"
+        },
+        {
+          "label": "Hold only",
+          "value": "hold"
+        }
+      ]
+    },
+    {
+      "key": "holdDuration",
+      "kind": "number",
+      "label": "Hold duration",
+      "default": 1000,
+      "group": "Interaction",
+      "description": "Time in milliseconds to complete one held activation.",
+      "min": 400,
+      "max": 1800,
+      "step": 50
+    },
+    {
+      "key": "quickTapWindow",
+      "kind": "number",
+      "label": "Quick-tap window",
+      "default": 220,
+      "group": "Interaction",
+      "description": "Pressure only: releases within this window toggle as quick clicks.",
+      "min": 50,
+      "max": 240,
+      "step": 10
+    },
+    {
+      "key": "releaseThreshold",
+      "kind": "number",
+      "label": "Release commit point",
+      "default": 0.5,
+      "group": "Interaction",
+      "description": "Pressure only: reached hold fraction required to commit on release after the quick-tap window.",
+      "min": 0.25,
+      "max": 0.9,
+      "step": 0.01
+    },
+    {
+      "key": "pressureAmount",
+      "kind": "number",
+      "label": "Pressure deformation",
+      "default": 0.04,
+      "group": "Motion",
+      "description": "Maximum thumb compression while holding; zero removes deformation.",
+      "min": 0,
+      "max": 0.24,
+      "step": 0.01
+    },
+    {
+      "key": "showProgress",
+      "kind": "boolean",
+      "label": "Show progress ring",
+      "default": false,
+      "group": "Progress",
+      "description": "Show a progress ring around the thumb while holding."
+    },
+    {
+      "key": "progressColor",
+      "kind": "color",
+      "label": "Progress ring",
+      "default": "#bec3cb",
+      "group": "Progress",
+      "description": "Color of the hold progress ring."
+    },
+    {
+      "key": "progressWidth",
+      "kind": "number",
+      "label": "Progress weight",
+      "default": 2,
+      "group": "Progress",
+      "description": "Ring stroke in SVG units; scales with component width.",
+      "min": 1,
+      "max": 5,
+      "step": 0.5
+    },
+    {
+      "key": "motionDuration",
+      "kind": "number",
+      "label": "Liquid timing",
+      "default": 880,
+      "group": "Motion",
+      "description": "Scales post-commit liquid and thumb motion; hold duration is independent.",
+      "min": 440,
+      "max": 1400,
+      "step": 20
+    },
+    {
+      "key": "springDamping",
+      "kind": "number",
+      "label": "Spring damping",
+      "default": 27,
+      "group": "Motion",
+      "description": "Higher values suppress recoil after a committed toggle.",
+      "min": 20,
+      "max": 38,
+      "step": 0.5
+    },
+    {
+      "key": "stretchAmount",
+      "kind": "number",
+      "label": "Travel stretch",
+      "default": 0.035,
+      "group": "Motion",
+      "description": "Thumb stretch during committed travel; zero keeps its circle.",
+      "min": 0,
+      "max": 0.18,
+      "step": 0.005
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "NOTICE",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Gooey Switch material portions: Copyright (c) 2026 Cameron Rickerby."
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original procedural Hold Switch artwork, captured from the independently authored component."
+      },
+      "contentType": "image/webp"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Preserve hold duration and functional progress; snap decorative travel and remove deformation.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Pressure",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 260,
+        "trackTop": "#35363a",
+        "trackBottom": "#242529",
+        "trackEdge": "#4a4b50",
+        "inkColor": "#74767d",
+        "thumbTop": "#fffffc",
+        "thumbBottom": "#e8e5df",
+        "dotColor": "#878b94",
+        "shadowStrength": 1,
+        "interaction": "pressure",
+        "holdDuration": 1000,
+        "quickTapWindow": 220,
+        "releaseThreshold": 0.5,
+        "pressureAmount": 0.04,
+        "showProgress": false,
+        "progressColor": "#bec3cb",
+        "progressWidth": 2,
+        "motionDuration": 880,
+        "springDamping": 27,
+        "stretchAmount": 0.035
+      }
+    },
+    {
+      "name": "Deliberate hold",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 260,
+        "trackTop": "#35363a",
+        "trackBottom": "#242529",
+        "trackEdge": "#4a4b50",
+        "inkColor": "#74767d",
+        "thumbTop": "#fffffc",
+        "thumbBottom": "#e8e5df",
+        "dotColor": "#878b94",
+        "shadowStrength": 1,
+        "interaction": "hold",
+        "holdDuration": 1400,
+        "quickTapWindow": 220,
+        "releaseThreshold": 0.5,
+        "pressureAmount": 0.08,
+        "showProgress": true,
+        "progressColor": "#bec3cb",
+        "progressWidth": 2,
+        "motionDuration": 1040,
+        "springDamping": 29,
+        "stretchAmount": 0.025
+      }
+    },
+    {
+      "name": "Compact hold",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 160,
+        "trackTop": "#35363a",
+        "trackBottom": "#242529",
+        "trackEdge": "#4a4b50",
+        "inkColor": "#74767d",
+        "thumbTop": "#fffffc",
+        "thumbBottom": "#e8e5df",
+        "dotColor": "#878b94",
+        "shadowStrength": 1,
+        "interaction": "hold",
+        "holdDuration": 650,
+        "quickTapWindow": 220,
+        "releaseThreshold": 0.5,
+        "pressureAmount": 0.04,
+        "showProgress": true,
+        "progressColor": "#bec3cb",
+        "progressWidth": 2.5,
+        "motionDuration": 660,
+        "springDamping": 30,
+        "stretchAmount": 0.015
+      }
+    }
+  ]
+}

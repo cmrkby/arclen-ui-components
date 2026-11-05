@@ -1,0 +1,129 @@
+# Testimonial Swipe
+
+Paired stories beside a fanned portrait deck, with touch swipes, keyboard navigation and an autoplay progress ring. On small screens, the portraits sit above the story. The package includes its own Geist font and five fictional portrait photographs.
+
+All bundled names, roles and quotations are fictional examples. The AI-generated photographs depict fictional people. Replace the examples with your own approved content before presenting them as customer testimonials.
+
+## Install and use
+
+Add Testimonial Swipe from the catalogue’s install action, or copy its complete component directory into your project. Keep `component.json`, `src`, `assets` and the font licence together. The core has no runtime dependencies. The React wrapper uses your application’s React installation; it imports the component stylesheet itself.
+
+```tsx
+import { TestimonialSwipe } from './components/testimonial-swipe/src/react';
+
+export function Stories() {
+  return <TestimonialSwipe sizing="fixed" height={800} autoPlay={false} />;
+}
+```
+
+The React component accepts the manifest settings as regular props, plus `className`, `style` and `paused`. It renders the selected initial story on the server and enhances it after mount. `Component` is an alias for `TestimonialSwipe`.
+
+## Configure the deck
+
+Use paired arrays for your content, and a portrait control for each story. This complete React example uses two fictional stories, a different colour scheme and smaller, unframed portraits:
+
+```tsx
+import { TestimonialSwipe } from './components/testimonial-swipe/src/react';
+
+export function StudioStories() {
+  return (
+    <TestimonialSwipe
+      sizing="fixed"
+      height={800}
+      autoPlay={false}
+      headings={['A calmer Monday', 'A shared next step']}
+      quotes={[
+        'A fictional studio finding more time for the work.',
+        'A fictional team making its next decision together.',
+      ]}
+      names={['Mara Ellis', 'Theo Park']}
+      roles={['Studio partner', 'Design director']}
+      stageColor="#D8E4DC"
+      panelColor="#F8FAF7"
+      textColor="#213A32"
+      mutedColor="#536A60"
+      portraitScale={0.9}
+      frameWidth={0}
+      portraitRadius={18}
+      headingScale={0.95}
+      contentSpacing={1.1}
+      showAvatar={false}
+      dragHint="SWIPE TO EXPLORE"
+    />
+  );
+}
+```
+
+The quotation list sets the number of stories, from one to five. Headings, names and roles pair by position; missing companion entries use the matching bundled example. `initialStory` is one-based and clamps to the available story count. Navigation wraps in both directions.
+
+Each `portrait1` through `portrait5` control replaces one image. Empty values use the bundled WebP photographs, which are 960 × 1282. Supported replacements are HTTPS URLs, local relative paths, PNG/JPEG/WebP/GIF data URLs and application blob URLs. Keep blob URLs alive while the component uses them. Remote images are requested only when supplied by the application. The package makes no remote requests with its bundled defaults.
+
+`portraitX` and `portraitY` adjust the shared crop position for cards and identity portraits. `frameWidth`, `portraitRadius` and `frameColor` style the card frame. `portraitScale` scales the complete fan, including its frame. Choose portraits with enough space around the face for cropping.
+
+## Typography and layout
+
+`typeface` selects bundled Geist, system sans or system serif without downloading fonts. `headingScale` and `quoteScale` adjust the responsive text sizes independently. `contentSpacing` changes story spacing and the small-screen gap between the deck and copy. Long text expands the panel; check your actual copy at phone and desktop widths.
+
+`panelMaxWidth`, `panelPadding` and `phonePadding` control the panel’s dimensions and inner spacing. Desktop padding applies above 700px container width; small-screen padding applies below it, with a further 4px reduction at 340px and below. `cornerRadius` controls panel corners, capped at 28px on small screens. Portrait corners have their own control.
+
+The component responds to container width. `sizing="fill"` fills a parent with a defined height. Without a defined parent height, content supplies the natural height. `sizing="fixed"` uses `height` in pixels. Short containers scroll inside the component so content and controls remain reachable. For a fill layout, give the containing element a height such as `style={{ height: 800 }}`.
+
+Stage, panel, text, secondary text, portrait frame and progress accent colours are independent. Choose readable contrast. Transparent colours expose the underlying surface and may need an explicit host background.
+
+`showAvatar` hides the small identity portrait while retaining the person’s name and role. `showDragHint` hides the drag guidance; `dragHint` changes its text. Keep the hint short on narrow screens. Disabling `swipeEnabled` also hides the hint, removes the deck from the tab sequence and keeps navigation buttons and arrow keys available.
+
+## Interaction and motion
+
+Swipe left to advance or right to go back. The current portrait leaves toward the left, the next portrait settles at the front, and the departing portrait rejoins the hidden back of the stack. Going back rearranges the fan toward the preceding portrait. Count, heading, quotation and identity enter with a short stagger. Navigation during the main card transition is ignored; another action is accepted after it settles.
+
+Previous and Next wrap through every story. Left and Right arrow keys work while focus is inside the component. Touch dragging leaves vertical page scrolling available. Buttons provide the same navigation without dragging. Decorative portrait layers do not repeat announcements; manual changes announce the story number and name. Portraits are represented by their accompanying names rather than duplicate alternative text.
+
+`autoPlay`, `interval` and `duration` control automatic playback, dwell and transition time. The next dwell starts after the main card settles. At the default 6000ms dwell, story changes are roughly 6.6 seconds apart. The decorative ring around Next shows the dwell. `showProgress` hides it and `progressColor` changes its accent; hiding the ring does not affect the timer.
+
+Pause and Resume control autoplay while leaving manual navigation available. Hover alone does not pause it. Focus inside the component and active dragging suspend the dwell. Moving focus away starts a fresh dwell. Hidden documents, offscreen components and an externally paused controller suspend autoplay and active transitions. Resume starts a fresh dwell and resets the progress ring without replaying missed stories.
+
+With reduced motion enabled, autoplay stops and manual changes are immediate. When the Web Animations API is unavailable, navigation changes content immediately; autoplay still uses its configured dwell. If Intersection Observer is unavailable, scroll and resize events check visibility. No continuous polling loop is used.
+
+Server-rendered and unenhanced HTML contains the selected story and portrait deck with inactive controls. A single-story deck disables navigation and autoplay.
+
+## Vanilla lifecycle
+
+Provide a host element such as `<div id="stories"></div>`, then mount the core and import its CSS:
+
+```ts
+import { mount, type Settings } from './components/testimonial-swipe/src/core';
+import './components/testimonial-swipe/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#stories');
+if (!host) throw new Error('Missing stories host.');
+
+const settings: Partial<Settings> = {
+  sizing: 'fixed',
+  height: 800,
+  autoPlay: false,
+  headingScale: 0.95,
+  progressColor: '#486857',
+};
+const controller = mount(host, settings);
+controller.update({ ...settings, showAvatar: false });
+```
+
+The HTML download includes its own local script, stylesheet and assets. Keep that directory structure intact when serving it from a subpath. The vanilla core and React wrapper use the same settings and validation.
+
+`update` resolves a complete settings object against manifest defaults. To retain configured values, pass them again, as above. The current story is preserved where possible; changing `initialStory` selects that starting story. Invalid settings throw before changing a mounted component.
+
+Call these lifecycle methods from your application as needed (fragment using the controller above):
+
+```ts
+controller.pause();
+controller.resume();
+controller.destroy();
+```
+
+Destroy removes the instance’s markup, listeners, observers, timers and finite animations. It is safe to call more than once. Multiple mounts own independent state. The React wrapper destroys its controller when unmounted; its `paused` prop delegates to the same pause policy.
+
+## Settings and assets
+
+The settings table is generated from `component.json`, including each control’s default and bounds. Unknown controls, invalid selections, out-of-range numbers, malformed story arrays and unsafe image sources throw an error.
+
+The JavaScript, styles and fictional example copy are original Arclen UI work. The bundled synthetic photographs are original artwork generated for Arclen. Geist uses the SIL Open Font License 1.1. See `NOTICE.md`, `PROVENANCE.md` and `assets/OFL-Geist.txt` for asset details.

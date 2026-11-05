@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "blue-hour-walk",
+      "width": 1672,
+      "height": 941,
+      "title": "Blue hour",
+      "alt": "A woman in a cobalt coat walks past pale glass architecture and rose reflections.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "547adb01a46166cfc72947aa4d6bda5d417063a3ec8a30917cc2219edb76a9fe",
+      "bytes": 57068
+    },
+    {
+      "asset": "assets/hero-card.webp",
+      "key": "blue-hour-walk",
+      "width": 640,
+      "height": 360,
+      "title": "Blue hour",
+      "alt": "A woman in a cobalt coat walks past pale glass architecture and rose reflections.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "164d17ace5e0914ca077dbefa59c88b747fe904b92d2824e01e93302ddc77bcc",
+      "bytes": 16604
+    },
+    {
+      "asset": "assets/hero-mobile.webp",
+      "key": "blue-hour-walk",
+      "width": 960,
+      "height": 540,
+      "title": "Blue hour",
+      "alt": "A woman in a cobalt coat walks past pale glass architecture and rose reflections.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "02844ea2d9bd581ba63a6560513ec176d84ae170d3f0b2595e802e54d523ce8b",
+      "bytes": 28456
+    }
+  ]
+}

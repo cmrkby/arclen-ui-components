@@ -1,0 +1,24 @@
+# Gooey Switch
+
+A standalone binary switch with a recessed neutral track, liquid fill and an ivory thumb. Original keeps the thumb circular. Elastic pairs the same plain materials with an early thumb stretch and soft recoil. Compact elastic uses the same geometry at 160px.
+
+```tsx
+import { GooeySwitch } from './components/gooey-switch';
+<GooeySwitch accessibleName="Email notifications" defaultChecked={false} />
+```
+
+For controlled React state, provide `checked` and `onCheckedChange(next, detail)`. Without `checked`, the component owns its state; `defaultChecked` sets its initial value. Adding or removing `checked` transfers ownership without replacing the native control. The switch never changes page themes or stores a preference.
+
+```tsx
+<GooeySwitch checked={enabled} onCheckedChange={setEnabled} interaction="drag" motionDuration={1220} springDamping={22.5} stretchAmount={0.135} />
+```
+
+Vanilla: import `mount` from `src/core`, import `src/styles.css`, and call `mount(host, settings)`. It returns `update(partialSettings)`, `pause()`, `resume()`, and `destroy()`. Pass `{ controlled: true, onCheckedChange(next, detail) {} }` as the optional third argument for host-owned state. A user action also dispatches the noncancelable bubbling `gooey-switch-change` event with `{ checked, source }`, where source is `pointer`, `keyboard` or `drag`. Programmatic updates do not emit user actions. Uncontrolled state changes before the callback, then the DOM event fires. A callback can update state immediately.
+
+Space and Enter toggle; arrow keys set the corresponding direction. Drag mode scrubs after a short horizontal movement and commits at the midpoint. Cancellation restores the initial state; vertical touch scrolling remains available. The hit target does not stretch. A disabled switch still accepts external state updates.
+
+Reduced motion snaps decorative motion. Pausing, leaving the viewport or hiding the document settles the switch without replay. Explicitly paused controls still accept input and snap to their new state. Missing motion/visibility APIs conservatively disable animation. The SVG remains usable without its liquid filter. There is no idle animation. Destroy releases listeners, observers and animation work.
+
+Liquid timing scales the complete liquid and thumb motion. Spring damping controls recoil, elastic stretch controls the decorative thumb and shortens its initial wait as stretch increases, and edge resistance applies only to dragging beyond an endpoint. Width scales the whole 2:1 drawing and shrinks to fit narrow hosts. Palette and shadow controls do not affect focus visibility.
+
+The HTML bundle includes its styles and script. Without JavaScript, the exported poster is a static preview; it cannot change state. The pure `render` function also returns a static endpoint. Include the supplied MIT license when redistributing the package.

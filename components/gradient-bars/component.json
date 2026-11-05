@@ -1,0 +1,416 @@
+{
+  "version": "1.0.0",
+  "tier": "free",
+  "category": "Backgrounds",
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "NOTICE",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original Arclen CSS artwork and implementation. No third-party media or fonts."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen MIT license and copyright notice."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settles immediately to the complete decorative composition without entry or continuous animation.",
+    "pauseOffscreen": true
+  },
+  "id": "gradient-bars",
+  "name": "Gradient Bars",
+  "description": "An edge-anchored gradient field with a curved hill, flat fade or ascending ramp.",
+  "keywords": [
+    "bars",
+    "gradient",
+    "background",
+    "stagger",
+    "css"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Direction",
+      "default": "hill",
+      "options": [
+        {
+          "value": "hill",
+          "label": "A \u00b7 Curved hill"
+        },
+        {
+          "value": "flat",
+          "label": "B \u00b7 Flat field"
+        },
+        {
+          "value": "ramp",
+          "label": "C \u00b7 Ascending ramp"
+        }
+      ],
+      "group": "Composition"
+    },
+    {
+      "key": "shape",
+      "kind": "select",
+      "label": "Silhouette",
+      "default": "auto",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Follow direction"
+        },
+        {
+          "value": "hill",
+          "label": "Curved hill"
+        },
+        {
+          "value": "flat",
+          "label": "Full height"
+        },
+        {
+          "value": "ramp",
+          "label": "Ascending ramp"
+        }
+      ],
+      "group": "Composition"
+    },
+    {
+      "key": "barCount",
+      "kind": "number",
+      "label": "Bar count",
+      "default": 45,
+      "min": 3,
+      "max": 96,
+      "step": 1,
+      "group": "Composition"
+    },
+    {
+      "key": "peakHeight",
+      "kind": "number",
+      "label": "Peak height",
+      "default": 100,
+      "min": 20,
+      "max": 100,
+      "step": 1,
+      "group": "Composition"
+    },
+    {
+      "key": "gap",
+      "kind": "number",
+      "label": "Bar gap",
+      "default": 0,
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "group": "Composition"
+    },
+    {
+      "key": "spread",
+      "kind": "number",
+      "label": "Gradient spread",
+      "default": 32,
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "group": "Composition"
+    },
+    {
+      "key": "angle",
+      "kind": "number",
+      "label": "Gradient angle",
+      "default": 0,
+      "min": -90,
+      "max": 90,
+      "step": 1,
+      "group": "Composition"
+    },
+    {
+      "key": "anchor",
+      "kind": "select",
+      "label": "Anchor",
+      "default": "bottom",
+      "options": [
+        {
+          "value": "bottom",
+          "label": "Bottom"
+        },
+        {
+          "value": "top",
+          "label": "Top"
+        }
+      ],
+      "group": "Composition"
+    },
+    {
+      "key": "stops",
+      "kind": "select",
+      "label": "Gradient stops",
+      "default": "5",
+      "options": [
+        {
+          "value": "3",
+          "label": "Three stops"
+        },
+        {
+          "value": "4",
+          "label": "Four stops"
+        },
+        {
+          "value": "5",
+          "label": "Five stops"
+        }
+      ],
+      "group": "Palette",
+      "description": "Three uses First, Second and Gradient tip. Four adds Third. Five also adds Fourth."
+    },
+    {
+      "key": "baseColor",
+      "kind": "color",
+      "label": "Background",
+      "default": "#020612",
+      "group": "Palette"
+    },
+    {
+      "key": "colorA",
+      "kind": "color",
+      "label": "First color",
+      "default": "#ffe2a0",
+      "group": "Palette"
+    },
+    {
+      "key": "colorB",
+      "kind": "color",
+      "label": "Second color",
+      "default": "#ff985d",
+      "group": "Palette"
+    },
+    {
+      "key": "colorC",
+      "kind": "color",
+      "label": "Third color",
+      "default": "#e56286",
+      "group": "Palette",
+      "description": "Used by four- and five-stop gradients."
+    },
+    {
+      "key": "colorD",
+      "kind": "color",
+      "label": "Fourth color",
+      "default": "#6a5abb",
+      "group": "Palette",
+      "description": "Used by five-stop gradients."
+    },
+    {
+      "key": "tipColor",
+      "kind": "color",
+      "label": "Gradient tip",
+      "default": "#030817",
+      "group": "Palette"
+    },
+    {
+      "key": "entry",
+      "kind": "select",
+      "label": "Entry order",
+      "default": "auto",
+      "options": [
+        {
+          "value": "auto",
+          "label": "Follow direction"
+        },
+        {
+          "value": "center",
+          "label": "Center out"
+        },
+        {
+          "value": "forward",
+          "label": "Left to right"
+        },
+        {
+          "value": "reverse",
+          "label": "Right to left"
+        },
+        {
+          "value": "together",
+          "label": "Together"
+        }
+      ],
+      "group": "Motion"
+    },
+    {
+      "key": "entryDuration",
+      "kind": "number",
+      "label": "Entry duration",
+      "default": 0.8,
+      "min": 0.2,
+      "max": 1.5,
+      "step": 0.05,
+      "group": "Motion"
+    },
+    {
+      "key": "stagger",
+      "kind": "number",
+      "label": "Entry stagger",
+      "default": 0.08,
+      "min": 0,
+      "max": 0.16,
+      "step": 0.01,
+      "group": "Motion"
+    },
+    {
+      "key": "pulse",
+      "kind": "number",
+      "label": "Pulse strength",
+      "default": 0.3,
+      "min": 0,
+      "max": 0.5,
+      "step": 0.01,
+      "group": "Motion",
+      "description": "Fractional compression of the whole strip, including its color gradient."
+    },
+    {
+      "key": "pulseDuration",
+      "kind": "number",
+      "label": "Pulse duration",
+      "default": 2,
+      "min": 1,
+      "max": 8,
+      "step": 0.1,
+      "group": "Motion"
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Motion speed",
+      "default": 1,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "group": "Motion"
+    },
+    {
+      "key": "animate",
+      "kind": "boolean",
+      "label": "Animate",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "heightMode",
+      "kind": "select",
+      "label": "Height mode",
+      "default": "fill",
+      "options": [
+        {
+          "value": "fill",
+          "label": "Fill container"
+        },
+        {
+          "value": "fixed",
+          "label": "Fixed height"
+        }
+      ],
+      "group": "Sizing"
+    },
+    {
+      "key": "fixedHeight",
+      "kind": "number",
+      "label": "Fixed height",
+      "default": 560,
+      "min": 160,
+      "max": 1200,
+      "step": 10,
+      "group": "Sizing",
+      "description": "Applies when Height mode is Fixed height."
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 0,
+      "min": 0,
+      "max": 48,
+      "step": 1,
+      "group": "Sizing"
+    }
+  ],
+  "previews": [
+    {
+      "name": "A \u00b7 Curved hill",
+      "settings": {
+        "shape": "auto",
+        "entry": "auto",
+        "peakHeight": 100,
+        "gap": 0,
+        "angle": 0,
+        "speed": 1,
+        "baseColor": "#020612",
+        "variant": "hill",
+        "barCount": 45,
+        "stops": "5",
+        "spread": 32,
+        "colorA": "#ffe2a0",
+        "colorB": "#ff985d",
+        "colorC": "#e56286",
+        "colorD": "#6a5abb",
+        "tipColor": "#030817",
+        "pulse": 0.3
+      }
+    },
+    {
+      "name": "B \u00b7 Flat field",
+      "settings": {
+        "shape": "auto",
+        "entry": "auto",
+        "peakHeight": 100,
+        "gap": 0,
+        "angle": 0,
+        "speed": 1,
+        "baseColor": "#020612",
+        "variant": "flat",
+        "barCount": 24,
+        "stops": "4",
+        "spread": 32,
+        "colorA": "#23395d",
+        "colorB": "#3454f1",
+        "colorC": "#8fb9d2",
+        "colorD": "#3454f1",
+        "tipColor": "#eef4ed",
+        "pulse": 0.24
+      }
+    },
+    {
+      "name": "C \u00b7 Ascending ramp",
+      "settings": {
+        "shape": "auto",
+        "entry": "auto",
+        "peakHeight": 100,
+        "gap": 0,
+        "angle": 0,
+        "speed": 1,
+        "baseColor": "#020612",
+        "variant": "ramp",
+        "barCount": 7,
+        "stops": "3",
+        "spread": 0,
+        "colorA": "#baffc6",
+        "colorB": "#3454f1",
+        "colorC": "#121212",
+        "colorD": "#121212",
+        "tipColor": "#121212",
+        "pulse": 0.17
+      }
+    }
+  ]
+}

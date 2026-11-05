@@ -1,0 +1,47 @@
+{
+  "collection": "Light in Motion",
+  "date": "2026-11-03",
+  "provider": "Built-in Codex image generation. Model and quality controls not exposed.",
+  "note": "Legacy asset paths remain stable for saved settings. Responsive exports retain their existing dimensions; exports larger than masters are interpolated, not native 4K.",
+  "assets": [
+    {
+      "asset": "assets/reveal-hero.webp",
+      "key": "coastal-light",
+      "width": 1086,
+      "height": 1448,
+      "title": "Coastal light",
+      "alt": "A walker above an emerald sea, pale cliffs and sunlit coastal grass.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "91996e2d1fac547e772e3474f3354247cadb26000fad2bf276ab0642d735a253",
+      "bytes": 173274
+    },
+    {
+      "asset": "assets/hero-card.webp",
+      "key": "coastal-light",
+      "width": 640,
+      "height": 853,
+      "title": "Coastal light",
+      "alt": "A walker above an emerald sea, pale cliffs and sunlit coastal grass.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "44bbfad3a7309f17947bfdb9460cebb5e7ad3c8e18f2060f66aaec4a2aae967f",
+      "bytes": 88254
+    },
+    {
+      "asset": "assets/hero-mobile.webp",
+      "key": "coastal-light",
+      "width": 960,
+      "height": 1280,
+      "title": "Coastal light",
+      "alt": "A walker above an emerald sea, pale cliffs and sunlit coastal grass.",
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "crop": "centre / cover",
+      "sha256": "23d4809cb144a1fcae208cdaf6fb169ebb1f06d65ab03730b74db0b7ea1eecef",
+      "bytes": 146178
+    }
+  ]
+}

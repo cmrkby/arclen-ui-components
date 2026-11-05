@@ -1,0 +1,134 @@
+# Line Reveal Menu
+
+Fine-line navigation with three layouts. Signal places each name beside a growing line; its five default rows occupy 110px while engaged and 80px after exit. Horizon arranges numbered links in a wrapping row. Directory uses two columns with persistent muted names.
+
+## React
+
+Install the Free component with the catalogue’s install command. The wrapper imports its CSS and bundled Geist Mono font. Use the installed path in your project:
+
+```tsx
+import { LineRevealMenu } from './components/line-reveal-menu/src/react';
+
+export function Navigation() {
+  return (
+    <aside style={{ padding: 24, background: '#f5f5f5' }}>
+      <LineRevealMenu
+        labels={['Overview', 'Projects', 'Contact']}
+        destinations={['#overview', '#projects', '#contact']}
+        navigationLabel="Portfolio navigation"
+        initialIndex={0}
+        fontFamily="sans"
+        labelCase="none"
+        labelSize={16}
+        tracking={0.02}
+        rowHeight={32}
+        collapsedHeight={24}
+        gap={4}
+        lineLength={16}
+        activeLength={36}
+        neighborLength={24}
+        textColor="#202020"
+        activeColor="#111111"
+        lineColor="#777777"
+        duration={300}
+        bounce={0.1}
+        showLabels
+      />
+    </aside>
+  );
+}
+```
+
+Render corresponding destination sections on the page, or supply your own page URLs. The wrapper also accepts `className`, `style` and `paused`. In a Next.js App Router project, use it inside a client component when passing interactive state. Updates use the same core as the standalone version; no global stylesheet or site runtime is needed.
+
+## HTML download
+
+The complete HTML download includes `component.html`, `component.js`, `component.css`, local assets, a poster, manifest and notices. Keep those files together and serve the folder over HTTP. Relative asset paths support root or nested deployment. The generated markup already contains semantic links, so names remain available without JavaScript; the download also includes a poster fallback.
+
+For a small custom page, use the downloaded CSS and script and supply settings on the host. The plain links below provide useful content before enhancement:
+
+```html
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio</title>
+  <link rel="stylesheet" href="./component.css">
+  <body style="margin:24px;background:#111;color:#ededed">
+    <div data-arclen-ui="line-reveal-menu"
+      data-settings='{"labels":["Overview","Projects"],"destinations":["#overview","#projects"],"navigationLabel":"Portfolio navigation","fontFamily":"sans","labelCase":"none","showLabels":true,"rowHeight":32,"collapsedHeight":24,"duration":300,"bounce":0.1}'>
+      <nav aria-label="Portfolio navigation">
+        <a href="#overview">Overview</a>
+        <a href="#projects">Projects</a>
+      </nav>
+    </div>
+    <main>
+      <section id="overview"><h1>Overview</h1></section>
+      <section id="projects"><h2>Projects</h2></section>
+    </main>
+    <script src="./component.js" defer></script>
+  </body>
+</html>
+```
+
+## Vanilla lifecycle
+
+In a TypeScript-capable bundler such as Vite, import the installed core and stylesheet directly. Do not also load `component.js` on a host you mount yourself.
+
+```ts
+import { mount, render, type Settings } from './components/line-reveal-menu/src/core';
+import './components/line-reveal-menu/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#navigation');
+if (!host) throw new Error('Missing navigation host');
+
+const settings: Partial<Settings> = {
+  labels: ['Overview', 'Projects'],
+  destinations: ['#overview', '#projects'],
+  navigationLabel: 'Portfolio navigation',
+  labelCase: 'none',
+  showLabels: true,
+  rowHeight: 32,
+  collapsedHeight: 24,
+};
+host.innerHTML = render(settings);
+const menu = mount(host, settings);
+menu.update({ ...settings, gap: 6 });
+menu.pause(); // Settle current motion; links remain usable.
+menu.resume(); // Enable motion on the next interaction.
+
+// Call when the page or owning view is removed:
+menu.destroy();
+```
+
+`render(settings)` also works on the server without `document` or `window`. `mount` owns the host’s children and returns `update`, `pause`, `resume` and `destroy`. An update resolves a complete configuration from defaults; include the current settings when retaining other choices. Invalid updates throw before changing existing content. Destroy is idempotent and releases owned nodes, listeners and animation work.
+
+## Customization
+
+The generated settings table lists exact defaults and bounds. Controls use flat values:
+
+- Content: paired labels/destinations, accessible navigation name, safe new-tab links and initial item.
+- Layout and shape: direction, rest/active/neighbor line lengths, line thickness/rounding, row gap and label spacing. Signal’s engaged/resting row-height controls apply to fine pointers and never reduce a row below its label size. Horizon and Directory retain their own row structures.
+- Typography: bundled Geist Mono, system sans or system serif; label size and case. Layout-default case is uppercase in Signal/Horizon and as written in Directory. Tracking adds an em adjustment to each layout’s existing spacing; zero preserves it. System fonts vary with the operating system.
+- Palette: resting/active lines and text. Colors accept `#RRGGBB`, `#RRGGBBAA` or `transparent`. Choose combinations with sufficient contrast against your parent background.
+- Behavior: always-visible names, response duration, overshoot and an animation switch. Always-visible names keep Signal at its engaged row height after exit while line emphasis continues to respond. Reduced motion takes priority over the animation switch.
+
+The parent controls placement, available width and background. Signal uses its content width; Horizon and Directory fill their parent up to 600px and 480px respectively. Horizon wraps links; Directory retains two columns. Keep long names concise in very narrow parents. There is no fixed viewport positioning or arbitrary CSS setting.
+
+## Content and validation
+
+Labels and destinations pair by their original array index, with at most 12 items and 80 characters per label. Blank labels, missing destinations and unsafe destinations omit that pair without renumbering later items. Adjacent emphasis follows the visible links. Empty lists produce an empty navigation landmark; extra destinations are ignored.
+
+Use fragment links, root-relative paths, `./` or `../` paths, HTTP(S), or a simple `mailto:` address. Whitespace, protocol-relative URLs, credentials and other protocols are rejected. Use percent-encoded spaces in URLs. New-tab links include `noopener noreferrer` and an accessible announcement.
+
+Unknown settings, invalid types, sparse arrays, out-of-range numbers and numbers off their declared step throw. Missing settings use defaults. Exported defaults are immutable; each resolved configuration has independent editable arrays. `initialIndex` is an integer from −1 to 11; −1 hides initial emphasis. An index whose pair is omitted or absent reveals nothing. The initial reveal ends on pointer or keyboard interaction.
+
+## Accessibility and motion
+
+Tab and Shift+Tab reach native links. Keyboard focus reveals its name and always wins over pointer emphasis. Escape clears pointer emphasis while preserving focus. Touch/coarse-pointer devices show every name with at least 44px targets, and one tap follows the link. Names remain in the accessibility tree while visually hidden.
+
+Signal uses a finite analytic spring for line lengths, color, parent width and row height. Interruptions start from the current state. Horizon and Directory use finite CSS transitions. Reduced motion, `motion={false}`, pause, document hiding and offscreen state settle immediately. Resume enables future motion; it does not replay an interrupted response. There is no idle animation loop. Updates preserve the focused item’s original index when that item still exists.
+
+## Assets and licence
+
+Arclen authored the component, distributed under the MIT licence. Geist Mono is © 2024 The Geist Project Authors and is bundled under SIL Open Font License 1.1; keep `assets/Geist-Mono-OFL.txt` with the font. Its licence remains separate from the component’s. No external font request is needed.

@@ -1,0 +1,361 @@
+{
+  "id": "growing-navigation",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Growing Navigation",
+  "category": "Navigation",
+  "description": "A neutral glass navigation bar that grows into staggered primary and secondary links.",
+  "keywords": [
+    "navigation",
+    "menu",
+    "glass",
+    "responsive",
+    "react"
+  ],
+  "settings": [
+    {
+      "key": "layout",
+      "kind": "select",
+      "label": "Position",
+      "default": "embedded",
+      "group": "Layout",
+      "options": [
+        "embedded",
+        "fixed"
+      ]
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Stage height",
+      "default": 640,
+      "group": "Layout",
+      "min": 320,
+      "max": 1200,
+      "step": 1
+    },
+    {
+      "key": "closedWidth",
+      "kind": "number",
+      "label": "Closed width",
+      "default": 400,
+      "group": "Layout",
+      "min": 240,
+      "max": 600,
+      "step": 1
+    },
+    {
+      "key": "openWidth",
+      "kind": "number",
+      "label": "Open width",
+      "default": 780,
+      "group": "Layout",
+      "min": 400,
+      "max": 1200,
+      "step": 1
+    },
+    {
+      "key": "topOffset",
+      "kind": "number",
+      "label": "Top offset",
+      "default": 25,
+      "group": "Layout",
+      "min": 0,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "group": "Layout",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "mainLinkSize",
+      "kind": "number",
+      "label": "Primary link size",
+      "default": 32,
+      "group": "Layout",
+      "min": 20,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "logoMode",
+      "kind": "select",
+      "label": "Logo",
+      "default": "arclen",
+      "group": "Identity",
+      "options": [
+        "arclen",
+        "text",
+        "custom"
+      ]
+    },
+    {
+      "key": "logoText",
+      "kind": "text",
+      "label": "Logo accessible text",
+      "default": "Arclen UI",
+      "group": "Identity",
+      "maxLength": 80
+    },
+    {
+      "key": "logoImage",
+      "kind": "image",
+      "label": "Custom logo image",
+      "default": "",
+      "group": "Identity",
+      "maxLength": 262144
+    },
+    {
+      "key": "logoHref",
+      "kind": "text",
+      "label": "Logo destination",
+      "default": "#overview",
+      "group": "Identity",
+      "maxLength": 2048
+    },
+    {
+      "key": "primaryLabels",
+      "kind": "string-list",
+      "label": "Primary labels",
+      "default": [
+        "Overview",
+        "Examples",
+        "Guide",
+        "Support"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 80
+    },
+    {
+      "key": "primaryUrls",
+      "kind": "string-list",
+      "label": "Primary destinations",
+      "default": [
+        "#overview",
+        "#examples",
+        "#guide",
+        "#support"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 2048
+    },
+    {
+      "key": "secondaryLabels",
+      "kind": "string-list",
+      "label": "Secondary labels",
+      "default": [
+        "Start here",
+        "Browse examples",
+        "Using the menu"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 5,
+      "maxItemLength": 80
+    },
+    {
+      "key": "secondaryUrls",
+      "kind": "string-list",
+      "label": "Secondary destinations",
+      "default": [
+        "#overview",
+        "#examples",
+        "#guide"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 5,
+      "maxItemLength": 2048
+    },
+    {
+      "key": "tagline",
+      "kind": "text",
+      "label": "Tagline",
+      "default": "A little room to find your next step.",
+      "group": "Content",
+      "maxLength": 240
+    },
+    {
+      "key": "showSecondary",
+      "kind": "boolean",
+      "label": "Show secondary column",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "surface",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#fafafa",
+      "group": "Appearance"
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Text",
+      "default": "#0d0d0d",
+      "group": "Appearance"
+    },
+    {
+      "key": "toggleColor",
+      "kind": "color",
+      "label": "Toggle",
+      "default": "#0d0d0d",
+      "group": "Appearance"
+    },
+    {
+      "key": "ruleColor",
+      "kind": "color",
+      "label": "Dividers",
+      "default": "#000000",
+      "group": "Appearance"
+    },
+    {
+      "key": "surfaceOpacity",
+      "kind": "number",
+      "label": "Surface opacity",
+      "default": 0.75,
+      "group": "Appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "ruleOpacity",
+      "kind": "number",
+      "label": "Divider opacity",
+      "default": 0.1,
+      "group": "Appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "glassBlur",
+      "kind": "number",
+      "label": "Glass blur",
+      "default": 15,
+      "group": "Appearance",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "scrimOpacity",
+      "kind": "number",
+      "label": "Scrim opacity",
+      "default": 0.28,
+      "group": "Appearance",
+      "min": 0,
+      "max": 0.8,
+      "step": 0.01
+    },
+    {
+      "key": "motionScale",
+      "kind": "number",
+      "label": "Motion scale",
+      "default": 1,
+      "group": "Motion",
+      "min": 0,
+      "max": 2,
+      "step": 0.1
+    },
+    {
+      "key": "closeOnSelect",
+      "kind": "boolean",
+      "label": "Close on link selection",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "initialOpen",
+      "kind": "boolean",
+      "label": "Initially open",
+      "default": false,
+      "group": "Behavior"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/arclenui-logo.svg",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI brand artwork by Cameron Rickerby. Included with owner authorization for this package; excluded from MIT and no general trademark licence granted. See NOTICE.md."
+      }
+    },
+    {
+      "path": "assets/inter-400-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors. See assets/OFL-Inter.txt."
+      }
+    },
+    {
+      "path": "assets/inter-400-latin-ext.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors. See assets/OFL-Inter.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Inter.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors. See assets/OFL-Inter.txt."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    },
+    {
+      "path": "NOTICE.md",
+      "rights": {
+        "kind": "original",
+        "attribution": "Cameron Rickerby"
+      }
+    },
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from the working Growing Navigation component."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Open, close and hover changes settle immediately; navigation and focus remain available.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Growing Navigation",
+      "settings": {}
+    }
+  ]
+}

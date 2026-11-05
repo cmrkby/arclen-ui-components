@@ -1,0 +1,259 @@
+{
+  "id": "gooey-switch",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Gooey Switch",
+  "category": "Controls",
+  "description": "A neutral liquid switch with a circular ivory thumb and optional elastic dragging.",
+  "keywords": [
+    "switch",
+    "toggle",
+    "gooey",
+    "liquid",
+    "input",
+    "micro interaction"
+  ],
+  "settings": [
+    {
+      "key": "accessibleName",
+      "kind": "text",
+      "label": "Accessible name",
+      "default": "Toggle setting",
+      "group": "State",
+      "description": "Name announced by assistive technology. Whitespace-only names reset to Toggle setting.",
+      "maxLength": 120
+    },
+    {
+      "key": "checked",
+      "kind": "boolean",
+      "label": "On",
+      "default": false,
+      "group": "State",
+      "description": "Sets the logical switch state without emitting a user action."
+    },
+    {
+      "key": "disabled",
+      "kind": "boolean",
+      "label": "Disabled",
+      "default": false,
+      "group": "State",
+      "description": "Blocks pointer and keyboard activation while still accepting external state updates."
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Width",
+      "default": 260,
+      "group": "Geometry",
+      "description": "Requested width in pixels. Height stays half the width; narrow hosts scale the complete drawing.",
+      "min": 120,
+      "max": 520,
+      "step": 2
+    },
+    {
+      "key": "trackTop",
+      "kind": "color",
+      "label": "Track top",
+      "default": "#e8eaf0",
+      "group": "Surface",
+      "description": "Upper stop of the recessed track gradient."
+    },
+    {
+      "key": "trackBottom",
+      "kind": "color",
+      "label": "Track bottom",
+      "default": "#d9dce5",
+      "group": "Surface",
+      "description": "Lower stop of the recessed track gradient."
+    },
+    {
+      "key": "trackEdge",
+      "kind": "color",
+      "label": "Track edge",
+      "default": "#c9cdd7",
+      "group": "Surface",
+      "description": "Fine track edge; the focus outline remains independent."
+    },
+    {
+      "key": "inkColor",
+      "kind": "color",
+      "label": "Liquid",
+      "default": "#111111",
+      "group": "Surface",
+      "description": "Color of every liquid shape and settled fill."
+    },
+    {
+      "key": "thumbColor",
+      "kind": "color",
+      "label": "Thumb",
+      "default": "#f8f8f6",
+      "group": "Surface",
+      "description": "Ivory circular thumb surface."
+    },
+    {
+      "key": "shadowStrength",
+      "kind": "number",
+      "label": "Shadow strength",
+      "default": 1,
+      "group": "Surface",
+      "description": "Scales contact and ambient shadow opacity. Zero removes both.",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.1
+    },
+    {
+      "key": "interaction",
+      "kind": "select",
+      "label": "Interaction",
+      "default": "click",
+      "group": "Interaction",
+      "description": "Drag or click enables continuous thumb scrubbing. Keyboard remains available in both modes.",
+      "options": [
+        {
+          "label": "Click",
+          "value": "click"
+        },
+        {
+          "label": "Drag or click",
+          "value": "drag"
+        }
+      ]
+    },
+    {
+      "key": "motionDuration",
+      "kind": "number",
+      "label": "Liquid timing",
+      "default": 880,
+      "group": "Motion",
+      "description": "Scales the liquid and thumb motion together. The spring may finish slightly later.",
+      "min": 440,
+      "max": 1400,
+      "step": 20
+    },
+    {
+      "key": "springDamping",
+      "kind": "number",
+      "label": "Spring damping",
+      "default": 27,
+      "group": "Motion",
+      "description": "Higher values suppress recoil; lower values make the thumb more elastic.",
+      "min": 20,
+      "max": 38,
+      "step": 0.5
+    },
+    {
+      "key": "stretchAmount",
+      "kind": "number",
+      "label": "Elastic stretch",
+      "default": 0,
+      "group": "Motion",
+      "description": "Horizontal thumb stretch with gentle vertical compression. Higher stretch starts the thumb sooner; zero keeps the original circle and timing.",
+      "min": 0,
+      "max": 0.18,
+      "step": 0.005
+    },
+    {
+      "key": "dragResistance",
+      "kind": "number",
+      "label": "Edge resistance",
+      "default": 0.2,
+      "group": "Interaction",
+      "description": "Drag mode only. Smaller values admit less pointer travel beyond either end.",
+      "min": 0.1,
+      "max": 0.4,
+      "step": 0.05
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original rendered Gooey Switch artwork by Cameron Rickerby, independently authored procedural SVG; captured from the working component."
+      },
+      "contentType": "image/webp"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Snap to the current logical endpoint; no decorative travel or deformation.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Original",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 260,
+        "trackTop": "#e8eaf0",
+        "trackBottom": "#d9dce5",
+        "trackEdge": "#c9cdd7",
+        "inkColor": "#111111",
+        "thumbColor": "#f8f8f6",
+        "shadowStrength": 1,
+        "interaction": "click",
+        "motionDuration": 880,
+        "springDamping": 27,
+        "stretchAmount": 0,
+        "dragResistance": 0.2
+      }
+    },
+    {
+      "name": "Elastic",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 260,
+        "trackTop": "#e8eaf0",
+        "trackBottom": "#d9dce5",
+        "trackEdge": "#c9cdd7",
+        "inkColor": "#111111",
+        "thumbColor": "#f8f8f6",
+        "shadowStrength": 1,
+        "interaction": "drag",
+        "motionDuration": 1220,
+        "springDamping": 22.5,
+        "stretchAmount": 0.135,
+        "dragResistance": 0.25
+      }
+    },
+    {
+      "name": "Compact elastic",
+      "settings": {
+        "accessibleName": "Toggle setting",
+        "checked": false,
+        "disabled": false,
+        "width": 160,
+        "trackTop": "#e8eaf0",
+        "trackBottom": "#d9dce5",
+        "trackEdge": "#c9cdd7",
+        "inkColor": "#111111",
+        "thumbColor": "#f8f8f6",
+        "shadowStrength": 1,
+        "interaction": "drag",
+        "motionDuration": 660,
+        "springDamping": 25,
+        "stretchAmount": 0.025,
+        "dragResistance": 0.15
+      }
+    }
+  ]
+}
