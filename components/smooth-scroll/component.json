@@ -1,0 +1,318 @@
+{
+  "id": "smooth-scroll",
+  "version": "2.0.0",
+  "tier": "free",
+  "name": "Smooth Scroll",
+  "category": "interactions",
+  "description": "A smooth-scrolling surface with gentle inertia, a built-in progress bar and a return-to-top button. Scroll to explore the colour field, then return to the beginning with one click.",
+  "keywords": [
+    "scroll",
+    "inertia",
+    "progress",
+    "container",
+    "shader"
+  ],
+  "settings": [
+    {
+      "key": "palette",
+      "kind": "select",
+      "label": "Palette",
+      "default": "arclen",
+      "group": "Palette",
+      "options": [
+        {
+          "value": "arclen",
+          "label": "Arclen UI",
+          "swatches": [
+            "#090510",
+            "#492367",
+            "#a051e1",
+            "#dc7569",
+            "#ff9b52"
+          ]
+        },
+        {
+          "value": "twilight",
+          "label": "Twilight",
+          "swatches": [
+            "#040017",
+            "#0c2675",
+            "#2e63fb",
+            "#bd4ccb",
+            "#e55759"
+          ]
+        },
+        {
+          "value": "aurora",
+          "label": "Aurora",
+          "swatches": [
+            "#031514",
+            "#0b5349",
+            "#36a877",
+            "#9ce6d6",
+            "#d5f8f3"
+          ]
+        },
+        {
+          "value": "ember",
+          "label": "Ember",
+          "swatches": [
+            "#160907",
+            "#63240e",
+            "#bf5b16",
+            "#f6b45a",
+            "#ffe8b7"
+          ]
+        },
+        {
+          "value": "glacier",
+          "label": "Glacier",
+          "swatches": [
+            "#06111f",
+            "#174a69",
+            "#3999bb",
+            "#a0dfe8",
+            "#e4f9fa"
+          ]
+        },
+        {
+          "value": "custom",
+          "label": "Custom"
+        }
+      ]
+    },
+    {
+      "key": "enabled",
+      "kind": "boolean",
+      "label": "Smooth wheel scrolling",
+      "default": true,
+      "group": "Scrolling"
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Settle duration (seconds)",
+      "default": 1.43,
+      "min": 0.15,
+      "max": 1.8,
+      "step": 0.01,
+      "group": "Scrolling"
+    },
+    {
+      "key": "height",
+      "kind": "number",
+      "label": "Installed height",
+      "default": 640,
+      "min": 280,
+      "max": 1000,
+      "step": 10,
+      "group": "Layout"
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "01 \u00b7 Background",
+      "default": "#090510",
+      "group": "Custom palette"
+    },
+    {
+      "key": "navy",
+      "kind": "color",
+      "label": "02 \u00b7 Colour stop 2",
+      "default": "#180d2c",
+      "group": "Custom palette"
+    },
+    {
+      "key": "midnight",
+      "kind": "color",
+      "label": "03 \u00b7 Colour stop 3",
+      "default": "#2d1747",
+      "group": "Custom palette"
+    },
+    {
+      "key": "indigo",
+      "kind": "color",
+      "label": "04 \u00b7 Colour stop 4",
+      "default": "#492367",
+      "group": "Custom palette"
+    },
+    {
+      "key": "cobalt",
+      "kind": "color",
+      "label": "05 \u00b7 Colour stop 5",
+      "default": "#66328b",
+      "group": "Custom palette"
+    },
+    {
+      "key": "blue",
+      "kind": "color",
+      "label": "06 \u00b7 Colour stop 6",
+      "default": "#8443b2",
+      "group": "Custom palette"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "07 \u00b7 Colour stop 7",
+      "default": "#a051e1",
+      "group": "Custom palette"
+    },
+    {
+      "key": "lavender",
+      "kind": "color",
+      "label": "08 \u00b7 Colour stop 8",
+      "default": "#b362ce",
+      "group": "Custom palette"
+    },
+    {
+      "key": "violet",
+      "kind": "color",
+      "label": "09 \u00b7 Colour stop 9",
+      "default": "#c471aa",
+      "group": "Custom palette"
+    },
+    {
+      "key": "magenta",
+      "kind": "color",
+      "label": "10 \u00b7 Colour stop 10",
+      "default": "#dc7569",
+      "group": "Custom palette"
+    },
+    {
+      "key": "rose",
+      "kind": "color",
+      "label": "11 \u00b7 Colour stop 11",
+      "default": "#f57a32",
+      "group": "Custom palette"
+    },
+    {
+      "key": "coral",
+      "kind": "color",
+      "label": "12 \u00b7 Colour stop 12",
+      "default": "#ff9b52",
+      "group": "Custom palette"
+    },
+    {
+      "key": "grain",
+      "kind": "number",
+      "label": "Grain strength",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "group": "Texture"
+    },
+    {
+      "key": "grainSize",
+      "kind": "number",
+      "label": "Grain size",
+      "default": 1,
+      "min": 0.5,
+      "max": 3,
+      "step": 0.05,
+      "group": "Texture"
+    },
+    {
+      "key": "foreground",
+      "kind": "color",
+      "label": "Caption colour",
+      "default": "#ffffff",
+      "group": "Interface colours"
+    },
+    {
+      "key": "progressColor",
+      "kind": "color",
+      "label": "Progress colour",
+      "default": "#ffffff",
+      "group": "Interface colours"
+    },
+    {
+      "key": "buttonColor",
+      "kind": "color",
+      "label": "Return button",
+      "default": "#111111",
+      "group": "Interface colours"
+    },
+    {
+      "key": "buttonHover",
+      "kind": "color",
+      "label": "Return button hover",
+      "default": "#303039",
+      "group": "Interface colours"
+    },
+    {
+      "key": "buttonForeground",
+      "kind": "color",
+      "label": "Return icon",
+      "default": "#ffffff",
+      "group": "Interface colours"
+    },
+    {
+      "key": "caption",
+      "kind": "text",
+      "label": "Optional caption",
+      "default": "",
+      "maxLength": 200,
+      "group": "Content"
+    },
+    {
+      "key": "showProgress",
+      "kind": "boolean",
+      "label": "Show reading progress",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "showReturn",
+      "kind": "boolean",
+      "label": "Show return button",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "returnLabel",
+      "kind": "text",
+      "label": "Return button label",
+      "default": "Return to top",
+      "maxLength": 80,
+      "group": "Content"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/inter-400-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Inter by Rasmus Andersson. See assets/OFL-Inter.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Inter.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "Inter copyright and SIL Open Font License."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Native scrolling and instant return to top; no animated travel.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Calm",
+      "settings": {}
+    }
+  ]
+}
