@@ -20,6 +20,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Editorial FAQ | [`components/editorial-faq`](components/editorial-faq) |
 | Halftone Portrait | [`components/halftone-portrait`](components/halftone-portrait) |
 | Signal Field | [`components/signal-field`](components/signal-field) |
+| Smooth Scroll | [`components/smooth-scroll`](components/smooth-scroll) |
 | Grain Gradient | [`components/grain-gradient`](components/grain-gradient) |
 | Luminous Folds | [`components/luminous-folds`](components/luminous-folds) |
 | Mesh Gradient | [`components/mesh-gradient`](components/mesh-gradient) |

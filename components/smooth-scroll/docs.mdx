@@ -1,0 +1,64 @@
+# Smooth Scroll
+
+A contained scrolling surface with an original momentum controller. Wheel input eases toward a target while keyboard, touch, links and the scrollbar retain native browser behavior. No runtime dependency or global document scroll listener is required.
+
+```tsx
+import { SmoothScroll } from './components/smooth-scroll/src/react';
+
+export default function Example() {
+  return <SmoothScroll height={640} duration={1.43} caption="Take the long way." />;
+}
+```
+
+The continuous grain field covers a 4,800-pixel scroll area. `className`, `style` and `paused` are wrapper props. All other props are settings. For your own content, compose the framework-neutral core as shown below; the demo wrapper does not accept children.
+
+## Your own content
+
+Import the stylesheet, render the shell, then replace only `.ss-content` with your own semantic DOM before mounting. The controller preserves those nodes across settings updates. Use unique IDs for your own anchors when placing several containers on one page.
+
+```html
+<div id="reading-surface"></div>
+```
+
+```ts
+import './components/smooth-scroll/src/styles.css';
+import { render, mount } from './components/smooth-scroll/src/core';
+
+const host = document.querySelector<HTMLElement>('#reading-surface')!;
+const settings = { height: 560, caption: 'Notes from the studio.' };
+host.innerHTML = render(settings);
+const article = document.createElement('article');
+article.style.cssText = 'padding:32px 32px 140px;min-height:1800px';
+const heading = document.createElement('h2');
+heading.textContent = 'A place for your writing';
+article.append(heading); // Append your paragraphs, links and other content here.
+host.querySelector('.ss-content')!.replaceChildren(article);
+const controller = mount(host, settings);
+controller.update({ ...settings, duration: 0.4 });
+// controller.pause(); controller.resume();
+// controller.destroy(); // Removes the owned shell and releases its resources.
+```
+
+The default preview has no caption. Add one with the optional `caption` setting when needed. Reserve bottom space for a custom caption and the return button. Those controls belong to the container, not to the document viewport. The container height is bounded from 280 to 1000 pixels; its width follows its parent.
+
+## Colour and texture
+
+The Calm layout is the single composition. Choose Arclen UI (the default violet-and-ember field), Twilight, Aurora, Ember or Glacier. The palette menu shows a colour swatch preview. Choose Custom to edit all twelve ordered colour stops, from the dark background to the brightest highlight. Custom colours are remembered when switching to a preset and back. The selected palette and custom stops travel into React and HTML exports; the CSS fallback uses the same colours.
+
+For example, use `palette="aurora"` for emerald and cyan, or `palette="custom"` with individual colour props. The colour prop names remain stable across palettes; their numbers in Tweaks indicate their order in the field.
+
+`grain` adjusts texture strength from 0 (smooth) to 2; `grainSize` adjusts its scale from 0.5 to 3. The default is 1 for both. The texture combines fine speckle with a subtle diagonal grain that softens into stippling toward the bottom. It is static and moves with the scroll content.
+
+Caption, progress, return-button fill, hover fill and icon colours are independent controls. Keep sufficient contrast when changing them. Scrolling duration and container height remain separate from artwork settings.
+
+## Motion and accessibility
+
+The duration controls approximate settling time: the exponential controller covers roughly 99.3% of travel in that interval. It is not a fixed-length animation. Repeated wheel input extends the current target, and reversed input changes direction immediately. At container boundaries, wheel input can continue scrolling the surrounding page. Nested scrollable regions receive native input while they have room to scroll. Horizontal wheel input and browser zoom gestures are not intercepted.
+
+Focus the scrolling region to use Page Up, Page Down, Home, End or arrow keys. Touch, pointer presses, keyboard input and link clicks cancel pending wheel travel. The return button fades in over 250 milliseconds after 400 pixels and focuses the scroll region without moving the page. It is a 48-pixel target with an accessible label.
+
+Reduced motion is honored at load and when changed: wheel input is native and return-to-top is instant. `enabled={false}` also uses native input. Pausing, hiding the tab, or leaving the screen stops pending animation. No animation frame remains after scrolling settles. If intersection or resize observers are unavailable, native scrolling remains usable and progress updates on scroll.
+
+The server-rendered shell is readable and scrollable before JavaScript. Progress and the return button are enhancements; native keyboard and scrollbar navigation remain available without them. Use readable foreground/background combinations when changing colors. Text is escaped and settings reject unknown keys or invalid values. The static colour field is rendered once with WebGL and redraws only after a resize or colour change. A CSS gradient remains available when WebGL is unavailable. Inter is bundled under the SIL Open Font License. The package makes no external requests.
+
+The Installed height setting controls exported and embedded components. The catalogue preview fills its frame.
