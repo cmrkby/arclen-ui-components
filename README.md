@@ -6,6 +6,8 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Gooey Menu | [`components/gooey-menu`](components/gooey-menu) |
+| Expand Hero | [`components/expand-hero`](components/expand-hero) |
 | Contour Field | [`components/contour-field`](components/contour-field) |
 | Reveal Lens | [`components/reveal-lens`](components/reveal-lens) |
 | Testimonial Swipe | [`components/testimonial-swipe`](components/testimonial-swipe) |

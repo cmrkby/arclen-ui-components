@@ -1,0 +1,218 @@
+{
+  "id": "gooey-menu",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Gooey Menu",
+  "category": "Navigation",
+  "description": "Four liquid action menus: a compact fan, orbital launcher, upward dock and labeled rail.",
+  "keywords": [
+    "menu",
+    "gooey",
+    "liquid",
+    "navigation"
+  ],
+  "settings": [
+    {
+      "key": "direction",
+      "kind": "select",
+      "label": "Layout",
+      "default": "fan",
+      "options": [
+        "fan",
+        "orbit",
+        "dock",
+        "rail"
+      ]
+    },
+    {
+      "key": "initialOpen",
+      "kind": "boolean",
+      "label": "Initially open",
+      "default": false
+    },
+    {
+      "key": "itemLabels",
+      "kind": "string-list",
+      "label": "Action labels",
+      "default": [
+        "About",
+        "Blog",
+        "Works",
+        "Contact"
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "maxItemLength": 40
+    },
+    {
+      "key": "closeOnSelect",
+      "kind": "boolean",
+      "label": "Close after selection",
+      "default": true
+    },
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Palette",
+      "default": "auto",
+      "options": [
+        "auto",
+        "light",
+        "dark",
+        "custom"
+      ],
+      "group": "Appearance"
+    },
+    {
+      "key": "surfaceColor",
+      "kind": "color",
+      "label": "Custom surface",
+      "default": "#ffffff",
+      "group": "Appearance",
+      "description": "Used when Palette is custom."
+    },
+    {
+      "key": "iconColor",
+      "kind": "color",
+      "label": "Custom icons",
+      "default": "#000000",
+      "group": "Appearance",
+      "description": "Used when Palette is custom."
+    },
+    {
+      "key": "labelColor",
+      "kind": "color",
+      "label": "Custom labels and focus",
+      "default": "#111111",
+      "group": "Appearance",
+      "description": "Used when Palette is custom."
+    },
+    {
+      "key": "iconSize",
+      "kind": "number",
+      "label": "Icon size",
+      "default": 22,
+      "min": 18,
+      "max": 28,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "showOrbit",
+      "kind": "boolean",
+      "label": "Orbit guide",
+      "default": true,
+      "group": "Appearance",
+      "description": "Visible in the Orbit layout."
+    },
+    {
+      "key": "openDuration",
+      "kind": "number",
+      "label": "Opening duration",
+      "default": 350,
+      "min": 150,
+      "max": 700,
+      "step": 10,
+      "group": "Motion"
+    },
+    {
+      "key": "closeDuration",
+      "kind": "number",
+      "label": "Closing duration",
+      "default": 250,
+      "min": 100,
+      "max": 500,
+      "step": 10,
+      "group": "Motion"
+    },
+    {
+      "key": "stagger",
+      "kind": "number",
+      "label": "Action stagger",
+      "default": 40,
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "group": "Motion"
+    },
+    {
+      "key": "openLabel",
+      "kind": "text",
+      "label": "Open button label",
+      "default": "Open menu",
+      "maxLength": 60,
+      "group": "Content"
+    },
+    {
+      "key": "closeLabel",
+      "kind": "text",
+      "label": "Close button label",
+      "default": "Close menu",
+      "maxLength": 60,
+      "group": "Content"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/ICONSAX-LICENSE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "licensed",
+        "license": "Iconsax Free licence and Usage Manifesto",
+        "attribution": "Iconsax by Vuesax / Lusaxweb. https://iconsax.io/"
+      }
+    },
+    {
+      "path": "assets/icon-provenance.json",
+      "contentType": "application/json",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen asset inventory, 2026"
+      }
+    },
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Settle all menu actions immediately. Keyboard and selection remain available.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Fan",
+      "settings": {}
+    },
+    {
+      "name": "Orbit",
+      "settings": {
+        "direction": "orbit"
+      }
+    },
+    {
+      "name": "Dock",
+      "settings": {
+        "direction": "dock"
+      }
+    },
+    {
+      "name": "Rail",
+      "settings": {
+        "direction": "rail"
+      }
+    }
+  ]
+}

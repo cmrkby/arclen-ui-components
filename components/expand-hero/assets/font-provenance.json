@@ -1,0 +1,21 @@
+{
+  "fonts": [
+    {
+      "path": "assets/PlayfairDisplay.woff2",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplay/PlayfairDisplay%5Bwght%5D.ttf",
+      "sha256": "c3b605f084de3a86d0ff566c7e7e5d079678f79dfeb54f41a956d78dacf332c0",
+      "bytes": 106452,
+      "license": "OFL-1.1",
+      "sourceSha256": "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6",
+      "sourceBytes": 300724,
+      "conversion": "FontTools WOFF2 container compression; glyph outlines, names and variation axes retained. No subsetting."
+    },
+    {
+      "path": "assets/OFL-playfairdisplay.txt",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/playfairdisplay/OFL.txt",
+      "sha256": "566be814f8e96e93dfa16101331557eb6b5467e9e03f627c0910fe93ca12300e",
+      "bytes": 4449,
+      "license": "OFL-1.1"
+    }
+  ]
+}
