@@ -1,0 +1,32 @@
+@font-face{font-family:EH Playfair;src:url('../assets/PlayfairDisplay.woff2') format('woff2');font-weight:400 900;font-style:normal;font-display:swap}
+.eh{--eh-height:100svh;--eh-unit:1cqw;--eh-canvas:#ece2d5;--eh-ink:#493b30;--eh-image-ink:#fff;--eh-type-scale:1;--eh-top:-20%;--eh-side:-20%;--eh-bottom:0px;--eh-caption-opacity:0;--eh-caption-x:0px;--eh-title-opacity:1;--eh-title-scale:1;--eh-title-y:0px;--eh-reveal:1;position:relative;isolation:isolate;container-type:inline-size;box-sizing:border-box;width:100%;background:var(--eh-canvas);color:var(--eh-ink);font-family:Arial,Helvetica,sans-serif}
+.eh *{box-sizing:border-box}
+.eh-track{position:relative;height:var(--eh-height);background:var(--eh-canvas)}
+.eh[data-live]:not([data-reduced]) .eh-track{height:calc(var(--eh-height)*var(--eh-length,3))}
+.eh-stage{container-type:size;position:sticky;top:0;height:var(--eh-height);overflow:hidden;overflow:clip;isolation:isolate;background:var(--eh-canvas)}
+.eh-mask{position:absolute;inset:0;clip-path:inset(var(--eh-top) var(--eh-side) var(--eh-bottom));background:#26312b;z-index:2}
+.eh-image{position:absolute;inset:0;width:100%;height:100%;max-width:none;display:block;object-fit:cover;object-position:var(--eh-image-position,50% 50%)}
+.eh-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(38,22,12,var(--eh-shade-opacity,.65)),rgba(38,22,12,0) 65%)}
+.eh-title{position:absolute;inset:0;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:0;padding:0 6% 13%;text-align:left;color:var(--eh-image-ink);opacity:var(--eh-title-opacity);transform:translateY(var(--eh-title-y)) scale(var(--eh-title-scale));transform-origin:30% 75%}
+.eh-title h1{font:400 calc(var(--eh-unit)*10.5*var(--eh-type-scale))/1.04 'EH Playfair',Georgia,serif;letter-spacing:-.065em;margin:0;overflow-wrap:anywhere;max-width:100%}
+.eh-title p{font:400 14px/1.5 Arial,sans-serif;letter-spacing:.02em;margin:20px 0 0;max-width:100%;overflow-wrap:anywhere}
+.eh-captions{position:absolute;inset:0;pointer-events:none}
+.eh-caption{position:absolute;top:45.5%;font:400 calc(var(--eh-unit)*6.3)/1 'EH Playfair',Georgia,serif;letter-spacing:-.065em;width:31%;max-width:31%;white-space:normal;overflow-wrap:anywhere;opacity:var(--eh-caption-opacity)}
+.eh-caption--left{left:4%;text-align:right;transform:translate(calc(var(--eh-caption-x)*-1),-50%)}
+.eh-caption--right{right:4%;text-align:left;transform:translate(var(--eh-caption-x),-50%)}
+.eh-invitation{display:flex;position:absolute;left:50%;bottom:35px;transform:translateX(-50%);white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis;font-size:11px;letter-spacing:.04em;opacity:var(--eh-caption-opacity)}
+.eh-colophon{position:absolute;left:6%;right:6%;bottom:35px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;color:var(--eh-image-ink);font:500 10px/1.4 Arial,sans-serif;letter-spacing:.13em;opacity:var(--eh-reveal)}
+.eh-colophon span{max-width:48%;overflow-wrap:anywhere}.eh-colophon span:last-child{text-align:right}
+.eh-colophon span:first-child{font-size:12px;letter-spacing:0}
+.eh[data-image-failed] .eh-image{visibility:hidden}
+.eh[data-reduced]{--eh-caption-opacity:0!important;--eh-title-opacity:1!important;--eh-title-scale:1!important;--eh-title-y:0px!important;--eh-reveal:1!important}
+.eh[data-reduced] .eh-mask{clip-path:none}
+@container (max-width:767px){
+.eh-caption{font-size:calc(var(--eh-unit)*10);max-width:88%;width:auto;left:6%;right:6%;text-align:center;transform:translateY(-50%)}
+.eh-caption--left{top:13%}.eh-caption--right{top:78%}
+.eh-title{padding:0 7% 24%}.eh-title h1{font-size:calc(var(--eh-unit)*16*var(--eh-type-scale))}.eh-title p{font-size:12px;max-width:240px;margin-top:16px}
+.eh-colophon{left:7%;right:7%;bottom:25px;font-size:8px}.eh-colophon span:first-child{max-width:145px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){.eh .eh-track{height:var(--eh-height)!important}.eh .eh-mask{clip-path:none}.eh .eh-title{opacity:1;transform:none}.eh .eh-captions,.eh .eh-invitation{display:none}.eh .eh-colophon{opacity:1!important}}
+
+@container (max-height:500px){.eh-title{padding-bottom:18%;}.eh-title h1{font-size:min(calc(var(--eh-unit)*10.5*var(--eh-type-scale)),12cqh)}.eh-title p{font-size:11px;margin-top:10px}.eh-colophon{bottom:12px;font-size:8px}.eh-colophon span:first-child{font-size:9px}}

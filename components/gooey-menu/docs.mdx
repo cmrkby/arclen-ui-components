@@ -1,0 +1,39 @@
+# Gooey Menu
+
+Four action launchers share liquid surfaces. Fan spreads downward, Orbit opens at four compass points, Dock lifts into a toolbar, and Rail keeps the labels inside its pills.
+
+```tsx
+import { GooeyMenu } from './gooey-menu/src/react';
+
+<GooeyMenu
+  direction="orbit"
+  itemLabels={['Profile', 'Journal', 'Projects', 'Contact']}
+  onSelect={({ index, label }) => console.log(index, label)}
+/>
+```
+
+The React wrapper accepts every setting plus `className`, `style`, `paused`, `onSelect` and `onOpenChange`. The core and downloaded HTML use the same settings. Selection reports an action; wire the callback to your application to navigate or open content.
+
+```ts
+import { mount } from './gooey-menu/src/core';
+import './gooey-menu/src/styles.css';
+
+const menu = mount(host, { direction: 'dock', closeOnSelect: true });
+host.addEventListener('gooey-select', event => {
+  console.log((event as CustomEvent).detail); // { index, label }
+});
+menu.update({ direction: 'rail' });
+menu.pause();
+menu.resume();
+menu.destroy();
+```
+
+`update` replaces the configuration and preserves open state unless `initialOpen` changes. It restores keyboard focus after changing a layout or label. `gooey-toggle` bubbles with `{ open }`. Each instance owns its events and filter IDs. `destroy()` removes its listeners, timer, observer and markup and is safe to repeat. Remove any application event listeners you add when your host is discarded.
+
+Reserve at least 320 by 340 pixels around a centered menu and keep overflow visible. The component's anchor is 112 by 112 pixels; actions extend beyond it. Button geometry stays fixed so the four layouts retain comfortable 48–64 pixel targets. Labels are limited to four entries and 40 characters each; short names work best in the compact Rail layout. The button's accessible name retains the full bounded label when visible text is shortened.
+
+Palette `auto` follows a parent `data-theme="dark"` or `.dark`; light mode is the default. Choose light or dark to override it. The three custom colors apply only with Palette set to custom. The orbit guide applies only to Orbit. Icon size changes the glyph inside each fixed button. Opening duration, closing duration and stagger change action travel; the close dip and hamburger have their own short, fixed choreography.
+
+Native buttons support Enter and Space. Arrow keys traverse actions; Home and End choose the first and last. Escape closes and returns focus. Closed actions leave the tab order and accessibility tree. Reduced motion and suspension settle transitions immediately. Hidden documents and offscreen hosts stop the close timer; there is no background animation loop. Without JavaScript, `render()` supplies a static composition; action behavior requires mounting the controller.
+
+The four functional outline icons are Iconsax Linear by Vuesax / Lusaxweb, from [Iconsax](https://iconsax.io/). They retain their separate terms in `assets/ICONSAX-LICENSE.md`; the component MIT licence does not relicense those glyphs. Keep that notice with all distributions. No remote fonts or scripts are required.

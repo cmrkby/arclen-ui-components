@@ -1,0 +1,40 @@
+# Expand Hero
+
+A portrait begins as a small window in a warm canvas. Scrolling opens the image across the stage, then reveals the Light Study heading. The bundled portrait and Playfair Display font are local assets.
+
+```tsx
+import { ExpandHero } from './expand-hero/src/react';
+
+<ExpandHero
+  heading="A quiet moment."
+  subtitle="Photographs from the everyday."
+  footer="Collected in afternoon light."
+/>
+```
+
+The wrapper accepts every setting plus `className`, `style` and `paused`. React renders readable HTML on the server and mounts one framework-neutral controller. Updating settings retains the current reveal position and the image element; changing unrelated host props does not overwrite the controller's content.
+
+```ts
+import { mount } from './expand-hero/src/core';
+import './expand-hero/src/styles.css';
+
+const hero = mount(host, { heightMode: 'fixed', stageHeight: 700 });
+hero.update({ heading: 'Held in light.', settling: 250 });
+hero.pause();
+hero.resume();
+hero.destroy();
+```
+
+`update` replaces the configuration, so include every value you want to retain. `pause` freezes the reveal and cancels pending frames; `resume` follows the current scroll position. `destroy` removes its markup, observers, listeners and pending frame, and is safe to repeat. Multiple instances keep separate progress.
+
+The stage fills `100svh` by default. Choose fixed stage sizing to use `stageHeight` in pixels. The track is three stage heights by default; `scrollLength` changes that travel distance. The host or nearest ancestor with vertical `auto`, `scroll` or `hidden` overflow supplies the sticky scroll origin. Give an independent scrolling region a definite height and keyboard access. `overflow: clip` does not establish a scrollport.
+
+Layout follows the component's width. On narrow containers the opening labels move above and below the portrait and the title uses a larger proportion of the width. Keep titles and captions brief. Image focus controls set the crop's horizontal and vertical position. Image shading helps maintain text contrast; custom palettes and imagery need a contrast check in their final context.
+
+Content settings replace each visible label. Closing caption and image credit are empty by default; add them when needed. Empty text hides that label's content. Empty image uses the bundled portrait; a supplied image URL is requested only when explicitly configured. Set `imageAlt` to describe the replacement, or use an empty string for a decorative image. Raster data URLs and browser-accessible blob URLs are supported alongside HTTPS and local paths; executable URLs and SVG data URLs are rejected.
+
+The settling value is a smoothing time constant in milliseconds. Zero follows scroll directly. Native wheel, keyboard and touch scrolling remain available. Work runs only while the reveal is moving and the component is visible. Hidden documents and offscreen ancestors suspend drawing.
+
+Reduced motion displays the final composition and shortens the track to one stage. This also works through the system preference. Browsers without preference detection use the still composition. Server output and HTML without JavaScript show a readable final composition. If the image fails, a dark backing preserves the title; the font uses `font-display: swap` and has a local serif fallback.
+
+The portrait was generated with Codex image generation on 2026-11-06. Its generation disclosure and exact hash are in `assets/image-provenance.json`. Playfair Display is compressed to WOFF2 without changing glyphs or names and distributed under SIL OFL 1.1; retain its accompanying notice. The component code uses the MIT licence included in the package.

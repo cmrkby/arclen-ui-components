@@ -1,0 +1,22 @@
+{
+  "collection": "Light in Motion / Expand Hero",
+  "assets": [
+    {
+      "path": "assets/light-study-portrait.webp",
+      "key": "light-study-portrait",
+      "alt": "A freckled woman with dark curls in peach light against a blue-grey backdrop.",
+      "width": 1536,
+      "height": 1024,
+      "sourceWidth": 1536,
+      "sourceHeight": 1024,
+      "sha256": "eeb0cf56e0dddc5b0b16da24c15936f5767be1769c731839bf3ace6fc6081cec",
+      "bytes": 172964,
+      "masterSha256": "605c0aff1a9626dba046ffdb9d4f589d8a96fa6dfe32bc2bb8a47df624ca2594",
+      "generationBrief": "<image_brief><title>Portrait</title><direction>Young adult woman with dark curly hair and freckles, head and shoulders, looking upward. Blue-grey studio wall, peach light, natural skin, slight echo confined to curls and far shoulder. Landscape 3:2; face x52%, y34%; dark lower-left copy space; central crop retains face.</direction><avoid>Text, logos, watermarks, collage, heavy overall blur.</avoid></image_brief>",
+      "created": "2026-11-06",
+      "provenance": "Built-in Codex image generation. Model and quality controls not exposed.",
+      "export": "WebP quality 90; native dimensions; no upscaling or baked crop.",
+      "crop": "centre / cover"
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+{
+  "id": "expand-hero",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Expand Hero",
+  "category": "Heroes",
+  "description": "A portrait opens into a full image as you scroll, with a quiet editorial title reveal.",
+  "keywords": [
+    "hero",
+    "scroll",
+    "arch",
+    "editorial"
+  ],
+  "settings": [
+    {
+      "key": "heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "Light study.",
+      "maxLength": 60,
+      "group": "Content"
+    },
+    {
+      "key": "subtitle",
+      "kind": "text",
+      "label": "Subtitle",
+      "default": "A moment, held in light.",
+      "maxLength": 120,
+      "group": "Content"
+    },
+    {
+      "key": "leftLabel",
+      "kind": "text",
+      "label": "Opening left label",
+      "default": "LOOK",
+      "maxLength": 20,
+      "group": "Content"
+    },
+    {
+      "key": "rightLabel",
+      "kind": "text",
+      "label": "Opening right label",
+      "default": "CLOSER",
+      "maxLength": 20,
+      "group": "Content"
+    },
+    {
+      "key": "footer",
+      "kind": "text",
+      "label": "Closing caption",
+      "default": "",
+      "maxLength": 100,
+      "group": "Content"
+    },
+    {
+      "key": "credit",
+      "kind": "text",
+      "label": "Image credit",
+      "default": "",
+      "maxLength": 80,
+      "group": "Content"
+    },
+    {
+      "key": "invitation",
+      "kind": "text",
+      "label": "Scroll invitation",
+      "default": "Scroll to discover",
+      "maxLength": 60,
+      "group": "Content"
+    },
+    {
+      "key": "image",
+      "kind": "image",
+      "label": "Image",
+      "default": "",
+      "group": "Image",
+      "description": "Empty uses the bundled portrait. Explicit custom URLs request your supplied image."
+    },
+    {
+      "key": "imageAlt",
+      "kind": "text",
+      "label": "Image description",
+      "default": "A freckled woman with dark curls in peach light against a blue-grey backdrop.",
+      "maxLength": 240,
+      "group": "Image"
+    },
+    {
+      "key": "imagePositionX",
+      "kind": "number",
+      "label": "Image horizontal focus",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Image"
+    },
+    {
+      "key": "imagePositionY",
+      "kind": "number",
+      "label": "Image vertical focus",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Image"
+    },
+    {
+      "key": "heightMode",
+      "kind": "select",
+      "label": "Stage sizing",
+      "default": "viewport",
+      "options": [
+        "viewport",
+        "fixed"
+      ],
+      "group": "Layout"
+    },
+    {
+      "key": "stageHeight",
+      "kind": "number",
+      "label": "Fixed stage height",
+      "default": 900,
+      "min": 320,
+      "max": 1200,
+      "step": 10,
+      "group": "Layout",
+      "description": "Used when Stage sizing is fixed."
+    },
+    {
+      "key": "scrollLength",
+      "kind": "number",
+      "label": "Scroll length",
+      "default": 3,
+      "min": 2,
+      "max": 5,
+      "step": 0.25,
+      "group": "Layout",
+      "description": "Track length as a multiple of stage height."
+    },
+    {
+      "key": "titleSize",
+      "kind": "number",
+      "label": "Title scale",
+      "default": 1,
+      "min": 0.65,
+      "max": 1.3,
+      "step": 0.05,
+      "group": "Typography"
+    },
+    {
+      "key": "canvasColor",
+      "kind": "color",
+      "label": "Opening background",
+      "default": "#ece2d5",
+      "group": "Appearance"
+    },
+    {
+      "key": "captionColor",
+      "kind": "color",
+      "label": "Opening text",
+      "default": "#493b30",
+      "group": "Appearance"
+    },
+    {
+      "key": "titleColor",
+      "kind": "color",
+      "label": "Image text",
+      "default": "#ffffff",
+      "group": "Appearance"
+    },
+    {
+      "key": "shadeOpacity",
+      "kind": "number",
+      "label": "Image shading",
+      "default": 0.65,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "group": "Appearance"
+    },
+    {
+      "key": "settling",
+      "kind": "number",
+      "label": "Scroll settling",
+      "default": 400,
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "group": "Motion",
+      "description": "Smoothing time constant in milliseconds. Zero follows scroll directly."
+    },
+    {
+      "key": "reduceMotion",
+      "kind": "boolean",
+      "label": "Reduce motion",
+      "default": false,
+      "group": "Motion"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/OFL-playfairdisplay.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Playfair Display Project Authors"
+      }
+    },
+    {
+      "path": "assets/PlayfairDisplay.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Playfair Display Project Authors"
+      }
+    },
+    {
+      "path": "assets/light-study-portrait.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen artwork, generated with Codex image generation on 2026-11-06. See assets/image-provenance.json."
+      },
+      "gallery": true
+    },
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Copyright (c) 2026 Cameron Rickerby"
+      }
+    },
+    {
+      "path": "assets/image-provenance.json",
+      "contentType": "application/json",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen 2026"
+      }
+    },
+    {
+      "path": "assets/font-provenance.json",
+      "contentType": "application/json",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen 2026"
+      }
+    },
+    {
+      "path": "assets/NOTICE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen 2026"
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Shows the final composition without a long scroll track or animated clipping.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Light Study",
+      "settings": {}
+    },
+    {
+      "name": "Still composition",
+      "settings": {
+        "reduceMotion": true
+      }
+    }
+  ]
+}

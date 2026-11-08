@@ -1,0 +1,47 @@
+{
+  "library": "Iconsax Linear",
+  "commit": "e5dba15361f69d34d0f3f3f35408a28fe74c5727",
+  "assets": [
+    {
+      "name": "user",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/user.svg",
+      "sha256": "12984119deb432f12a7fdd8262de45d8d051ed1e4672775295df4064aad1c34e",
+      "transformation": "Root svg attributes supplied by component; stroke colour uses currentColor; inner geometry unchanged.",
+      "integratedSha256": "5133ec23d82782719d212a591b991a470621b5370d869a5501322d6b2ca66db9"
+    },
+    {
+      "name": "document-text",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/document-text.svg",
+      "sha256": "39f9d2cea39918da4d240605105b74ed7b472e8e89b6224a072fe363d694d89c",
+      "transformation": "Root svg attributes supplied by component; stroke colour uses currentColor; inner geometry unchanged.",
+      "integratedSha256": "993aefc6ff1fa03ebe20c55238623f25bd69da1f767745db254dd064ca7eb35e"
+    },
+    {
+      "name": "briefcase",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/briefcase.svg",
+      "sha256": "c4f340e72d8cce42faf1cbfb17a90f45eace2de9f045af51670df1f1d0526f06",
+      "transformation": "Root svg attributes supplied by component; stroke colour uses currentColor; inner geometry unchanged.",
+      "integratedSha256": "17103b9722e5f32b1c6d5dabd90945c525d9c340f1b2537c381b8f85006c729b"
+    },
+    {
+      "name": "sms",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/sms.svg",
+      "sha256": "958d2628ee54563e2bd440632e1f0ac71b655aba4be5db360de18f694a6593ec",
+      "transformation": "Root svg attributes supplied by component; stroke colour uses currentColor; inner geometry unchanged.",
+      "integratedSha256": "d917cea06f8203727c324dd326bc3563a600b62dbe77b36c1923a1c5a2763b9b"
+    }
+  ],
+  "commitDate": "2021-08-04T17:51:14Z",
+  "collection": "Iconsax V1 Linear",
+  "eligibility": {
+    "source": "https://docs.iconsax.io/license-and-terms/usage-manifesto",
+    "section": "2.3",
+    "checked": "2026-11-06",
+    "basis": "The author states that all 6000+ V1 icons remain Free in V2. The pinned official 2021 repository contains these four V1 glyphs."
+  },
+  "terms": [
+    "https://docs.iconsax.io/license-and-terms/license",
+    "https://docs.iconsax.io/license-and-terms/usage-manifesto"
+  ],
+  "distribution": "Integrated functional component glyphs only. Standalone SVG files are not distributed."
+}
