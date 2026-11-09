@@ -6,6 +6,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 
 | Component | Package |
 | --- | --- |
+| Toast Stack | [`components/toast-stack`](components/toast-stack) |
 | Gooey Menu | [`components/gooey-menu`](components/gooey-menu) |
 | Expand Hero | [`components/expand-hero`](components/expand-hero) |
 | Contour Field | [`components/contour-field`](components/contour-field) |

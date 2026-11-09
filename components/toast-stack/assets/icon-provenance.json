@@ -1,0 +1,31 @@
+{
+  "creator": "Iconsax / Vuesax / Lusaxweb",
+  "commit": "e5dba15361f69d34d0f3f3f35408a28fe74c5727",
+  "adaptation": "Unchanged path geometry; currentColor and enclosing presentation attributes.",
+  "glyphs": [
+    {
+      "name": "tick-circle.svg",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/tick-circle.svg",
+      "sourceSha256": "b6e85c6a1b260ff6300e308a9208b7ef2b0cedb79b9f6751f9b90afcc4b70352",
+      "geometrySha256": "25b9e9c6d7d4e1e08aca2916c28c0a5584eedde1074fe9deb168bb04df3d1571"
+    },
+    {
+      "name": "info-circle.svg",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/info-circle.svg",
+      "sourceSha256": "244d09c6c557a86b0e043313a6a7b94d9ef0539cd8394c48602419063a3f4b71",
+      "geometrySha256": "5315074738f530e941196f56dc4f5d14cb799ca856a3d3719efa694284165e8d"
+    },
+    {
+      "name": "warning-2.svg",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/warning-2.svg",
+      "sourceSha256": "4cd7458c8567167cb70721324169810e04db65485fea921dc0f4f651eb49810f",
+      "geometrySha256": "e194275f049ab117bdec9018d53fd18e25f2b8bdd00263b68bb10fca2a6196bd"
+    },
+    {
+      "name": "close-circle.svg",
+      "source": "https://raw.githubusercontent.com/lusaxweb/iconsax/e5dba15361f69d34d0f3f3f35408a28fe74c5727/static/Iconsax/Svg/All/linear/close-circle.svg",
+      "sourceSha256": "1b3cffe585d9ecab40935d43d8920588287ea2d99878aa247468357d7cf32fd2",
+      "geometrySha256": "824ab59a3579ef13deb5a8848df6bdc8b785b672544f16e153b79c4bd68356e6"
+    }
+  ]
+}

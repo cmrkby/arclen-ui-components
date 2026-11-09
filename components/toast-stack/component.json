@@ -1,0 +1,796 @@
+{
+  "id": "toast-stack",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Toast Stack",
+  "category": "Feedback",
+  "description": "Accessible notifications with an expandable stack, actions and status updates.",
+  "keywords": [
+    "toast",
+    "notification",
+    "stack",
+    "feedback"
+  ],
+  "settings": [
+    {
+      "key": "variant",
+      "kind": "select",
+      "label": "Card style",
+      "default": "standard",
+      "group": "Appearance",
+      "options": [
+        "standard",
+        "headless"
+      ]
+    },
+    {
+      "key": "title",
+      "kind": "text",
+      "label": "Title",
+      "default": "Changes saved",
+      "group": "Content",
+      "maxLength": 240
+    },
+    {
+      "key": "description",
+      "kind": "text",
+      "label": "Description",
+      "default": "Your workspace is up to date.",
+      "group": "Content",
+      "maxLength": 1000
+    },
+    {
+      "key": "messages",
+      "kind": "string-list",
+      "label": "Additional messages",
+      "default": [],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 20,
+      "maxItemLength": 240
+    },
+    {
+      "key": "type",
+      "kind": "select",
+      "label": "Notification type",
+      "default": "default",
+      "group": "Content",
+      "options": [
+        "default",
+        "success",
+        "info",
+        "warning",
+        "error",
+        "loading",
+        "custom"
+      ]
+    },
+    {
+      "key": "actionLabel",
+      "kind": "text",
+      "label": "Action label",
+      "default": "Undo",
+      "group": "Content",
+      "maxLength": 60
+    },
+    {
+      "key": "showAction",
+      "kind": "boolean",
+      "label": "Show action",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "showClose",
+      "kind": "boolean",
+      "label": "Show close button",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "showIcon",
+      "kind": "boolean",
+      "label": "Show status icon",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "regionLabel",
+      "kind": "text",
+      "label": "Region label",
+      "default": "Notifications",
+      "group": "Content",
+      "maxLength": 100
+    },
+    {
+      "key": "loadingLabel",
+      "kind": "text",
+      "label": "Loading text",
+      "default": "Saving changes\u2026",
+      "group": "Content",
+      "maxLength": 240
+    },
+    {
+      "key": "successLabel",
+      "kind": "text",
+      "label": "Resolved text",
+      "default": "Changes saved",
+      "group": "Content",
+      "maxLength": 240
+    },
+    {
+      "key": "errorLabel",
+      "kind": "text",
+      "label": "Failure text",
+      "default": "Could not save changes",
+      "group": "Content",
+      "maxLength": 240
+    },
+    {
+      "key": "position",
+      "kind": "select",
+      "label": "Position",
+      "default": "bottom-right",
+      "group": "Layout",
+      "options": [
+        "top-left",
+        "top-center",
+        "top-right",
+        "bottom-left",
+        "bottom-center",
+        "bottom-right"
+      ]
+    },
+    {
+      "key": "placement",
+      "kind": "select",
+      "label": "Positioning context",
+      "default": "viewport",
+      "group": "Layout",
+      "options": [
+        "viewport",
+        "container"
+      ]
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Card width",
+      "default": 420,
+      "group": "Layout",
+      "min": 240,
+      "max": 960,
+      "step": 1
+    },
+    {
+      "key": "inset",
+      "kind": "number",
+      "label": "Wide inset",
+      "default": 24,
+      "group": "Layout",
+      "min": 0,
+      "max": 96,
+      "step": 1
+    },
+    {
+      "key": "compactInset",
+      "kind": "number",
+      "label": "Compact inset",
+      "default": 16,
+      "group": "Layout",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "compactAt",
+      "kind": "number",
+      "label": "Compact threshold",
+      "default": 600,
+      "group": "Layout",
+      "min": 320,
+      "max": 900,
+      "step": 1
+    },
+    {
+      "key": "maxVisible",
+      "kind": "number",
+      "label": "Visible stack depth",
+      "default": 3,
+      "group": "Layout",
+      "min": 1,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "key": "gap",
+      "kind": "number",
+      "label": "Expanded gap",
+      "default": 14,
+      "group": "Layout",
+      "min": 4,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "depthOffset",
+      "kind": "number",
+      "label": "Collapsed offset",
+      "default": 14,
+      "group": "Layout",
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "depthScale",
+      "kind": "number",
+      "label": "Scale loss per layer",
+      "default": 0.05,
+      "group": "Layout",
+      "min": 0,
+      "max": 0.1,
+      "step": 0.01
+    },
+    {
+      "key": "expanded",
+      "kind": "boolean",
+      "label": "Always expand stack",
+      "default": false,
+      "group": "Layout"
+    },
+    {
+      "key": "padding",
+      "kind": "number",
+      "label": "Card padding",
+      "default": 16,
+      "group": "Layout",
+      "min": 8,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "auto",
+      "group": "Colors",
+      "options": [
+        "light",
+        "dark",
+        "auto"
+      ]
+    },
+    {
+      "key": "palette",
+      "kind": "select",
+      "label": "Palette",
+      "default": "library",
+      "group": "Colors",
+      "options": [
+        "monochrome",
+        "semantic",
+        "custom",
+        "library"
+      ]
+    },
+    {
+      "key": "surfaceColor",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#1c1c1c",
+      "group": "Colors"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "descriptionColor",
+      "kind": "color",
+      "label": "Secondary text",
+      "default": "#cccccc",
+      "group": "Colors"
+    },
+    {
+      "key": "borderColor",
+      "kind": "color",
+      "label": "Border",
+      "default": "#262626",
+      "group": "Colors"
+    },
+    {
+      "key": "actionColor",
+      "kind": "color",
+      "label": "Action surface",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "actionTextColor",
+      "kind": "color",
+      "label": "Action text",
+      "default": "#0d0d0d",
+      "group": "Colors"
+    },
+    {
+      "key": "successColor",
+      "kind": "color",
+      "label": "Success accent",
+      "default": "#008a2e",
+      "group": "Colors"
+    },
+    {
+      "key": "infoColor",
+      "kind": "color",
+      "label": "Info accent",
+      "default": "#0973dc",
+      "group": "Colors"
+    },
+    {
+      "key": "warningColor",
+      "kind": "color",
+      "label": "Warning accent",
+      "default": "#a85200",
+      "group": "Colors"
+    },
+    {
+      "key": "errorColor",
+      "kind": "color",
+      "label": "Error accent",
+      "default": "#c70000",
+      "group": "Colors"
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 18,
+      "group": "Appearance",
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "borderWidth",
+      "kind": "number",
+      "label": "Border width",
+      "default": 1,
+      "group": "Appearance",
+      "min": 0,
+      "max": 3,
+      "step": 1
+    },
+    {
+      "key": "shadow",
+      "kind": "select",
+      "label": "Shadow",
+      "default": "soft",
+      "group": "Appearance",
+      "options": [
+        "none",
+        "soft",
+        "strong"
+      ]
+    },
+    {
+      "key": "fontSize",
+      "kind": "number",
+      "label": "Text size",
+      "default": 15,
+      "group": "Appearance",
+      "min": 11,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "titleWeight",
+      "kind": "number",
+      "label": "Title weight",
+      "default": 600,
+      "group": "Appearance",
+      "min": 400,
+      "max": 700,
+      "step": 100
+    },
+    {
+      "key": "lineHeight",
+      "kind": "number",
+      "label": "Title line height",
+      "default": 1.4,
+      "group": "Appearance",
+      "min": 1.2,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "descriptionLineHeight",
+      "kind": "number",
+      "label": "Description line height",
+      "default": 1.4,
+      "group": "Appearance",
+      "min": 1.2,
+      "max": 1.8,
+      "step": 0.05
+    },
+    {
+      "key": "textGap",
+      "kind": "number",
+      "label": "Text gap",
+      "default": 2,
+      "group": "Appearance",
+      "min": 0,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "key": "iconSize",
+      "kind": "number",
+      "label": "Status icon slot",
+      "default": 16,
+      "group": "Appearance",
+      "min": 12,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Lifetime (ms; 0 persists)",
+      "default": 4000,
+      "group": "Motion",
+      "min": 0,
+      "max": 30000,
+      "step": 100
+    },
+    {
+      "key": "transitionDuration",
+      "kind": "number",
+      "label": "Travel duration (ms)",
+      "default": 400,
+      "group": "Motion",
+      "min": 0,
+      "max": 1000,
+      "step": 10
+    },
+    {
+      "key": "shadowDuration",
+      "kind": "number",
+      "label": "Focus shadow duration (ms)",
+      "default": 200,
+      "group": "Motion",
+      "min": 0,
+      "max": 500,
+      "step": 10
+    },
+    {
+      "key": "exitRemovalDelay",
+      "kind": "number",
+      "label": "Exit removal delay (ms)",
+      "default": 200,
+      "group": "Motion",
+      "min": 0,
+      "max": 1000,
+      "step": 10
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Travel easing",
+      "default": "ease",
+      "group": "Motion",
+      "options": [
+        "ease",
+        "ease-out",
+        "linear"
+      ]
+    },
+    {
+      "key": "loaderDuration",
+      "kind": "number",
+      "label": "Loader cycle (ms)",
+      "default": 1200,
+      "group": "Motion",
+      "min": 600,
+      "max": 2400,
+      "step": 100
+    },
+    {
+      "key": "animate",
+      "kind": "boolean",
+      "label": "Animate",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "pauseOnHover",
+      "kind": "boolean",
+      "label": "Pause on hover",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "expandOnHover",
+      "kind": "boolean",
+      "label": "Expand on hover",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "swipeToDismiss",
+      "kind": "boolean",
+      "label": "Swipe to dismiss",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "swipeThreshold",
+      "kind": "number",
+      "label": "Swipe commit distance",
+      "default": 48,
+      "group": "Motion",
+      "min": 24,
+      "max": 120,
+      "step": 1
+    },
+    {
+      "key": "swipeVelocity",
+      "kind": "number",
+      "label": "Swipe commit velocity (px/ms)",
+      "default": 0.3,
+      "group": "Motion",
+      "min": 0.1,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "presentation",
+      "kind": "select",
+      "label": "Presentation",
+      "default": "toast",
+      "group": "Layout",
+      "options": [
+        "toast",
+        "compact",
+        "banner"
+      ]
+    },
+    {
+      "key": "actionHeight",
+      "kind": "number",
+      "label": "Action height",
+      "default": 36,
+      "group": "Appearance",
+      "min": 24,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "actionRadius",
+      "kind": "number",
+      "label": "Action radius",
+      "default": 10,
+      "group": "Appearance",
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "gradientMode",
+      "kind": "select",
+      "label": "Gradient mode",
+      "default": "neutral",
+      "group": "Gradient",
+      "options": [
+        "off",
+        "neutral",
+        "status",
+        "custom"
+      ]
+    },
+    {
+      "key": "gradientColor",
+      "kind": "color",
+      "label": "Gradient color",
+      "default": "#93c5fd",
+      "group": "Gradient"
+    },
+    {
+      "key": "gradientStrength",
+      "kind": "number",
+      "label": "Gradient strength",
+      "default": 4,
+      "group": "Gradient",
+      "min": 0,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "key": "gradientX",
+      "kind": "number",
+      "label": "Gradient horizontal position",
+      "default": 52,
+      "group": "Gradient",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "gradientY",
+      "kind": "number",
+      "label": "Gradient vertical position",
+      "default": 70,
+      "group": "Gradient",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "gradientSpread",
+      "kind": "number",
+      "label": "Gradient spread",
+      "default": 72,
+      "group": "Gradient",
+      "min": 30,
+      "max": 100,
+      "step": 1
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/ICONSAX-LICENSE.md",
+      "rights": {
+        "kind": "licensed",
+        "license": "Iconsax Free licence and Usage Manifesto",
+        "attribution": "Icons by Iconsax (https://iconsax.io/), Vuesax / Lusaxweb. Retain the attribution and terms."
+      },
+      "contentType": "text/markdown"
+    },
+    {
+      "path": "assets/icon-provenance.json",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI asset provenance record."
+      },
+      "contentType": "application/json"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Suppress spatial travel, fading replacements and continuous loaders; preserve readable status and interactions.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Toast",
+      "settings": {}
+    },
+    {
+      "name": "Compact",
+      "settings": {
+        "presentation": "compact",
+        "width": 356,
+        "fontSize": 13,
+        "titleWeight": 500,
+        "lineHeight": 1.5,
+        "descriptionLineHeight": 1.4,
+        "padding": 16,
+        "radius": 8,
+        "borderWidth": 1,
+        "showIcon": true,
+        "showClose": false,
+        "showAction": false,
+        "actionLabel": "Undo",
+        "actionHeight": 24,
+        "actionRadius": 4,
+        "palette": "monochrome",
+        "surfaceColor": "#ffffff",
+        "textColor": "#171717",
+        "descriptionColor": "#3f3f3f",
+        "borderColor": "#ededed",
+        "actionColor": "#171717",
+        "actionTextColor": "#ffffff",
+        "gradientMode": "off"
+      }
+    },
+    {
+      "name": "Monochrome",
+      "settings": {
+        "palette": "monochrome"
+      }
+    },
+    {
+      "name": "Action",
+      "settings": {
+        "showAction": true,
+        "showClose": true,
+        "title": "File archived",
+        "description": "You can restore it from the archive."
+      }
+    },
+    {
+      "name": "Semantic",
+      "settings": {
+        "palette": "semantic",
+        "type": "success"
+      }
+    },
+    {
+      "name": "Dark",
+      "settings": {
+        "theme": "dark",
+        "type": "info"
+      }
+    },
+    {
+      "name": "Expanded",
+      "settings": {
+        "expanded": true,
+        "messages": [
+          "Export complete",
+          "Link copied"
+        ]
+      }
+    },
+    {
+      "name": "Headless",
+      "settings": {
+        "variant": "headless",
+        "title": "Review scheduled",
+        "description": "Tomorrow at 10:00",
+        "showClose": true,
+        "gradientMode": "off"
+      }
+    },
+    {
+      "name": "Container",
+      "settings": {
+        "placement": "container"
+      }
+    },
+    {
+      "name": "Loading",
+      "settings": {
+        "type": "loading",
+        "duration": 0
+      }
+    },
+    {
+      "name": "Banner",
+      "settings": {
+        "presentation": "banner",
+        "width": 766,
+        "fontSize": 28,
+        "titleWeight": 600,
+        "lineHeight": 1.25,
+        "descriptionLineHeight": 1.25,
+        "padding": 24,
+        "radius": 32,
+        "borderWidth": 1,
+        "showIcon": true,
+        "showClose": true,
+        "showAction": true,
+        "actionLabel": "Undo",
+        "actionHeight": 64,
+        "actionRadius": 18,
+        "palette": "library",
+        "surfaceColor": "#1c1c1c",
+        "textColor": "#ffffff",
+        "descriptionColor": "#cccccc",
+        "borderColor": "#262626",
+        "actionColor": "#ffffff",
+        "actionTextColor": "#0d0d0d",
+        "gradientStrength": 6
+      }
+    }
+  ]
+}
