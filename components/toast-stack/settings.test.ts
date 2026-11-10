@@ -24,13 +24,19 @@ describe('Toast Stack settings and static HTML', () => {
 });
 
 describe('Toast Stack gradient settings',()=>{
- it('keeps static surface choices bounded and preserves flat and wide presets',()=>{
-  expect(defaults.gradientMode).toBe('neutral');expect(defaults.gradientStrength).toBe(4);
-  for(const patch of [{gradientMode:'animated'},{gradientStrength:13},{gradientX:-1},{gradientY:101},{gradientSpread:29},{gradientColor:'url(example)'}])expect(()=>resolveSettings(patch)).toThrow();
+ it('uses the stronger status default while retaining neutral, flat and wide presets',()=>{
+  expect(defaults.gradientMode).toBe('status');expect(defaults.gradientStrength).toBe(17);expect(defaults.gradientShape).toBe('spotlight');expect(defaults.gradientX).toBe(94);expect(defaults.gradientY).toBe(70);expect(defaults.gradientSpread).toBe(72);
+  const monochrome=manifest.previews.find(p=>p.name==='Monochrome')!.settings;
+  expect(resolveSettings(monochrome)).toMatchObject({palette:'monochrome',gradientMode:'neutral',gradientStrength:4,gradientShape:'spotlight',gradientX:52,gradientY:70,gradientSpread:72});
+  for(const patch of [{gradientShape:'linear'},{gradientMode:'animated'},{gradientStrength:-1},{gradientStrength:61},{gradientStrength:28.5},{gradientStrength:NaN},{gradientX:-1},{gradientY:101},{gradientSpread:29},{gradientColor:'url(example)'}])expect(()=>resolveSettings(patch)).toThrow();
   expect(manifest.previews.find(p=>p.name==='Compact')?.settings).toMatchObject({gradientMode:'off'});
   expect(manifest.previews.find(p=>p.name==='Headless')?.settings).toMatchObject({gradientMode:'off'});
   expect(manifest.previews.find(p=>p.name==='Banner')?.settings).toMatchObject({gradientStrength:6});
-  const html=render({gradientMode:'custom',gradientColor:'#abcdef',gradientStrength:8,gradientX:20,gradientY:30,gradientSpread:60});
-  expect(html).toContain('data-gradient="custom"');expect(html).toContain('--gradientColor:#abcdef');expect(html).toContain('--gradientStrength:8%');expect(html).toContain('--gradientX:20%');
+  for(const gradientStrength of [0,17,60])expect(resolveSettings({gradientStrength}).gradientStrength).toBe(gradientStrength);
+  const html=render({gradientShape:'wash',gradientMode:'custom',gradientColor:'#abcdef',gradientStrength:8,gradientX:20,gradientY:30,gradientSpread:60});
+  expect(html).toContain('data-gradient-shape="wash"');expect(html).toContain('data-gradient="custom"');expect(html).toContain('--gradientColor:#abcdef');expect(html).toContain('--gradientStrength:8%');expect(html).toContain('--gradientX:20%');
+  for(const type of ['success','info','warning','error'] as const){
+   const fallback=render({type});expect(fallback).toContain('data-gradient-shape="spotlight"');expect(fallback).toContain('data-gradient="status"');expect(fallback).toContain('--gradientStrength:17%');expect(fallback).toContain(`data-type="${type}"`);
+  }
  });
 });

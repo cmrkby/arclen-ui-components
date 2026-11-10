@@ -1,6 +1,6 @@
 # Toast Stack
 
-Toast Stack displays instance-local notifications with actions, promise states and optional swipe dismissal. The default Toast presentation is 420px wide with the neutral Arclen UI palette and semantic status icons. Mouse hover or keyboard focus expands the stack.
+Toast Stack displays instance-local notifications with actions, promise states and optional swipe dismissal. The default Toast presentation is 420 px wide with neutral Arclen UI surfaces, semantic status icons and a stronger gradient that follows each status icon. Mouse hover or keyboard focus expands the stack.
 
 ## Install and delivery
 
@@ -172,7 +172,7 @@ A programmatic notification requires a nonblank title of at most 240 characters.
 
 ## Settings and appearance
 
-The generated API reference lists all 67 serializable settings from `component.json`, including their defaults, choices and bounds. It is the settings reference for React, vanilla and HTML. Callback functions, notification IDs, pending promises and controller state are not exported settings.
+The generated API reference lists all serializable settings from `component.json`, including their defaults, choices and bounds. It is the settings reference for React, vanilla and HTML. Callback functions, notification IDs, pending promises and controller state are not exported settings.
 
 `resolveSettings(input)` returns a complete validated settings object with fresh array values. Keep that object when exporting configuration. To restore manifest settings, pass `resolveSettings()` to `controller.update`. This resets settings; it does not recreate dismissed cards or clear application notifications. In React, restore the settings props instead. Inspector Reset restores manifest configuration; preview size, pause and replay are host controls.
 
@@ -180,7 +180,7 @@ The component's default lifetime is 4000ms. A catalogue preview can hold its dem
 
 Toast, Compact and Banner are presentation choices. Banner is an optional wide preset with larger type and an offset close button; it is not the default. The 11 presets are Toast, Compact, Monochrome, Action, Semantic, Dark, Expanded, Headless, Container, Loading and Banner. Presets supply settings, not a separate renderer. Headless is a styled variant with a wrapper and controls, not an unstyled render-prop API.
 
-The Library palette provides neutral Arclen UI surfaces with semantic icon accents. Theme auto follows the system. Custom palette values remain independent. Gradient modes are off, neutral, status and custom; strength, position and spread control a static surface tint. Gradient controls do not animate it. Check contrast for your chosen colors, opacity and background; arbitrary custom colors are not guaranteed to meet a contrast target.
+The Library palette provides neutral Arclen UI surfaces with semantic icon accents. Theme auto follows the system. Dark mode uses richer green, blue, amber and red status icons; each Status gradient uses the same colour. Custom palette values remain independent. Version 1.0.1 defaults to Status Spotlight at 17% strength, with its origin at 94% horizontally and 70% vertically and a 72% spread. The tint sits toward the lower right. Wash provides a broader treatment across the surface height. Success, info, warning and error use the same tint as their icons; default and loading notifications retain a neutral tint. Strength ranges from 0% to 60%. The Monochrome preset keeps the original neutral Spotlight at 4%, while Compact and Headless disable it. Gradient modes are off, neutral, status and custom; strength, position and spread control a static surface tint. Gradient controls do not animate it. Higher strength can reduce contrast. Check your chosen strength, colors and background; arbitrary custom colors are not guaranteed to meet a contrast target.
 
 Blank configured region and action labels display as Notifications and Undo. Blank promise labels display as Saving changes…, Changes saved and Could not save changes. Resolved settings retain the blank source values; display fallbacks do not rewrite exports.
 
