@@ -1,0 +1,217 @@
+# Toast Stack
+
+Toast Stack displays instance-local notifications with actions, promise states and optional swipe dismissal. The default Toast presentation is 420px wide with the neutral Arclen UI palette and semantic status icons. Mouse hover or keyboard focus expands the stack.
+
+## Install and delivery
+
+Run `npx arclen-ui add toast-stack` in your application. Keep the complete `components/toast-stack` directory, including its manifest, stylesheet, assets and notices. The React adapter needs your application's React and React DOM; the component declares no additional runtime packages. Vanilla JavaScript and standalone HTML do not need React. Fonts use the system stack and the component makes no network requests.
+
+The examples below run in a plain browser host bundled with esbuild; the React example uses React 19.2.8. They assume an application entry beside `components/`. Adjust relative import paths to your project. The installed root exports `ToastStack`, `Component` and `ToastStackProps`. Import controller types and framework-neutral functions from `components/toast-stack/src/core`. The React adapter imports its stylesheet; vanilla imports it explicitly. A bundler must support TypeScript, JSON and CSS imports.
+
+For HTML delivery, use Copy HTML or download the HTML archive. Copied HTML contains its styles and script. In an archive, keep `component.html`, `component.css`, `component.js` and the included assets together so relative paths resolve. The script enhances the supplied markup; do not mount that same host a second time. For application callbacks and programmatic notifications, use the React or vanilla controller.
+
+## React example
+
+Save this complete component as `Example.tsx` and render it from your application's React root.
+
+```tsx
+'use client';
+import { useRef, useState } from 'react';
+import { ToastStack } from './components/toast-stack';
+import type { Controller } from './components/toast-stack/src/core';
+
+export default function Example() {
+  const notifications = useRef<Controller | null>(null);
+  const [ready, setReady] = useState(false);
+  const [result, setResult] = useState('Ready to archive');
+
+  function archive() {
+    notifications.current?.notify({
+      title: 'File archived',
+      description: 'You can restore it from the archive.',
+      action: {
+        label: 'Undo',
+        onClick: async () => { setResult('File restored'); },
+      },
+    });
+  }
+
+  return (
+    <>
+      <button type="button" disabled={!ready} onClick={archive}>Archive file</button>
+      <output>{result}</output>
+      <ToastStack
+        title="Workspace ready"
+        showClose
+        onReady={(controller) => {
+          notifications.current = controller;
+          setReady(true);
+        }}
+      />
+    </>
+  );
+}
+```
+
+Keep the controller local to this mounted component. The adapter destroys it on unmount; do not retain it for later calls. `Component` is an alias for `ToastStack`. Settings are optional props. `className` and `style` apply to the host; `paused` suspends active motion and remaining notification time. `onReady`, `onAction` and `onDismiss` are API inputs, not serializable settings.
+
+React settings props own the complete settings snapshot. Removing a settings prop restores its manifest default. Changing a settings prop also replaces settings applied through `controller.update`. Configuration applied in `onReady` remains until a settings prop changes. Callback, className, style and paused changes do not replace settings. Existing cards and their lifetimes survive settings-prop updates.
+
+## Configured vanilla example
+
+This complete browser entry creates its own host and controls. Bundle it as `main.ts` and load the resulting script and CSS in an HTML page with a body.
+
+```ts
+import { mount } from './components/toast-stack/src/core';
+import './components/toast-stack/src/styles.css';
+
+const host = document.createElement('div');
+host.style.cssText = 'position:relative;min-height:320px;width:100%';
+const add = document.createElement('button');
+add.type = 'button';
+add.textContent = 'Archive file';
+const stop = document.createElement('button');
+stop.type = 'button';
+stop.textContent = 'Remove notifications';
+const result = document.createElement('output');
+result.textContent = 'Ready to archive';
+document.body.append(add, stop, result, host);
+
+const notifications = mount(host, {
+  title: 'Workspace ready',
+  placement: 'container',
+  position: 'top-right',
+  width: 440,
+  duration: 0,
+  showClose: true,
+  gradientMode: 'status',
+  gradientStrength: 8,
+}, {
+  onDismiss: (_id, reason) => { result.textContent = `Dismissed: ${reason}`; },
+});
+
+add.onclick = () => {
+  const id = notifications.notify({
+    title: 'File archived',
+    type: 'success',
+    action: {
+      label: 'Undo',
+      closeOnAction: false,
+      onClick: async () => { result.textContent = 'File restored'; },
+    },
+  });
+  notifications.updateToast(id, { description: 'Available in your archive.' });
+};
+stop.onclick = () => {
+  notifications.destroy();
+  add.disabled = true;
+  stop.disabled = true;
+  result.textContent = 'Notifications removed';
+};
+```
+
+Action handlers run in order: the notification's `action.onClick`, then the instance's `onAction`. Both may be asynchronous. A successful action dismisses its card unless `closeOnAction` is false. A thrown error or rejection displays `errorLabel` as an error status and retains the card. Actions with neither callback are disabled. Dismissal calls the notification's `onDismiss` and then the instance's `onDismiss`; errors in those handlers do not prevent removal.
+
+## Promise example
+
+This complete browser entry uses a local asynchronous operation. Replace `saveWorkspace` with your application's work. Bundle it separately from the vanilla example.
+
+```ts
+import { mount } from './components/toast-stack/src/core';
+import './components/toast-stack/src/styles.css';
+
+const host = document.createElement('div');
+const button = document.createElement('button');
+button.type = 'button';
+button.textContent = 'Save workspace';
+const result = document.createElement('output');
+result.textContent = 'Not saved';
+document.body.append(button, result, host);
+const notifications = mount(host, { title: 'Workspace ready', showClose: true });
+
+async function saveWorkspace() {
+  return { name: 'Design workspace' };
+}
+
+button.onclick = async () => {
+  const operation = notifications.notifyPromise(saveWorkspace(), {
+    loading: 'Saving changes…',
+    success: async (value) => `Saved ${value.name}`,
+    error: 'Could not save changes',
+  });
+  const outcome = await operation.settled;
+  result.textContent = outcome.status === 'fulfilled'
+    ? `Saved: ${outcome.value.name}`
+    : 'Save failed';
+};
+window.addEventListener('pagehide', () => notifications.destroy(), { once: true });
+```
+
+`notifyPromise` returns an ID and a `settled` promise. After valid creation, `settled` resolves with the original operation outcome: fulfilled with `value`, or rejected with `reason`. Message resolvers may return a string or a promise of one. If a resolver throws, rejects or returns invalid text, the card uses the captured error label and the outcome also contains `displayError`. Invalid loading text can throw during creation.
+
+Omit messages to use `loadingLabel`, `successLabel` and `errorLabel`, captured when the operation starts. Loading cards do not time out. Settlement changes the same card to success or error and starts the current configured duration. An intervening update, dismissal or destroy prevents stale asynchronous display updates; the original promise remains observed. Destroy does not cancel application work.
+
+## Controller and notification inputs
+
+Each `mount` or React instance owns its notifications; there is no global notification dispatcher.
+
+
+`notify(input)` returns an instance-local ID. Providing an active ID updates that card; an exiting ID throws until removal. Capacity is 100 active or queued cards.
+
+`updateToast(id, patch)` validates before applying changes and returns false for a missing, exiting or destroyed card. Omitted or undefined fields retain values. Set `description`, `action` or `onDismiss` to null to clear them. An explicit duration restarts the timer; ordinary edits preserve it. Leaving loading starts the current configured duration.
+
+`dismiss(id?)` dismisses one card or all dismissible cards. Dismissal reasons are action, close, swipe, escape, timeout and programmatic. `dismissible: false` blocks user and programmatic dismissal, but does not disable a finite timeout.
+
+`update(settings)` merges a partial settings patch. Undefined values are omitted; unknown keys and null values are invalid. Settings-owned cards follow content settings; programmatically added cards keep their content. A duration-setting change affects future lifetimes, not an already-running timer.
+
+`pause()` and `resume()` control manual suspension. React `paused`, document-hidden and container-offscreen suspension remain independent.
+
+`focus()` focuses this instance's list and expands it. `destroy()` removes owned DOM, listeners, timers, observers and animations. Repeated destruction is safe.
+
+A programmatic notification requires a nonblank title of at most 240 characters. Optional ID, description and action-label limits are 100, 1000 and 60 characters. Types are default, success, info, warning, error, loading and custom. Notification duration accepts 0–30000 milliseconds. Zero persists. Queued cards start consuming lifetime when first shown. `action` accepts label, onClick and closeOnAction; `onDismiss` receives the ID and reason.
+
+## Settings and appearance
+
+The generated API reference lists all 67 serializable settings from `component.json`, including their defaults, choices and bounds. It is the settings reference for React, vanilla and HTML. Callback functions, notification IDs, pending promises and controller state are not exported settings.
+
+`resolveSettings(input)` returns a complete validated settings object with fresh array values. Keep that object when exporting configuration. To restore manifest settings, pass `resolveSettings()` to `controller.update`. This resets settings; it does not recreate dismissed cards or clear application notifications. In React, restore the settings props instead. Inspector Reset restores manifest configuration; preview size, pause and replay are host controls.
+
+The component's default lifetime is 4000ms. A catalogue preview can hold its demonstration open; exported notifications still use their configured duration. Use duration 0 deliberately for persistent content.
+
+Toast, Compact and Banner are presentation choices. Banner is an optional wide preset with larger type and an offset close button; it is not the default. The 11 presets are Toast, Compact, Monochrome, Action, Semantic, Dark, Expanded, Headless, Container, Loading and Banner. Presets supply settings, not a separate renderer. Headless is a styled variant with a wrapper and controls, not an unstyled render-prop API.
+
+The Library palette provides neutral Arclen UI surfaces with semantic icon accents. Theme auto follows the system. Custom palette values remain independent. Gradient modes are off, neutral, status and custom; strength, position and spread control a static surface tint. Gradient controls do not animate it. Check contrast for your chosen colors, opacity and background; arbitrary custom colors are not guaranteed to meet a contrast target.
+
+Blank configured region and action labels display as Notifications and Undo. Blank promise labels display as Saving changes…, Changes saved and Could not save changes. Resolved settings retain the blank source values; display fallbacks do not rewrite exports.
+
+## Placement and responsive layout
+
+Six positions combine top or bottom with left, center or right. Viewport placement anchors to the viewport. Container placement uses the receiving host's width and positioning context; give that host enough height for the stack because the component does not assign host height. Width is limited by available space and configured insets. Compact insets apply at the configured breakpoint.
+
+Long content wraps and cards grow. Toast and Banner can move their action to a separate row in narrow containers. Banner's configured padding is the vertical inset; wide standard cards add 8px on the left and 10px on the right. At 600px or below, Banner uses the configured padding capped at 24px on all sides. Headless uses its own wrapper padding. These are responsive relationships rather than additional settings.
+
+## Keyboard, touch and announcements
+
+Notifications do not take focus when added. Alt+T enters the last interacted live instance in the document, or the first mounted instance. Tab reaches visible cards and enabled controls. Focus expands the stack and pauses notification lifetime. Escape dismisses the focused dismissible card. When removal occurs with focus inside that card, a still-connected invoker previously saved by `focus()` receives focus.
+
+A polite live region announces title and description changes. Decorative status icons and the loader are hidden from assistive technology. Queued cards and collapsed older cards stay out of the tab order. This is not a screen-reader or physical-device certification; test your application's announcements and focus flow with its target assistive technologies.
+
+Mouse hover expands the stack and pauses lifetime according to their respective settings. Optional horizontal swipes dismiss cards while vertical gestures remain available for scrolling. Buttons and keyboard dismissal remain alternatives. Coarse-pointer styles enlarge controls to at least 44px. Keep the host clear of overlapping application controls.
+
+## Reduced motion, suspension and static HTML
+
+Reduced motion or `animate: false` removes spatial travel, status-replacement fades and continuous loader animation. It does not stop notification lifetime. Explicit pause freezes active motion and remaining time; hover and focus pause lifetime while useful entrance motion can continue. Hidden documents suspend active time. Offscreen suspension applies to container placement with a nonzero host rectangle outside the viewport.
+
+Committed swipe travel uses 200ms ease-out. Regular travel duration and easing control entrances, stack movement and cancelled swipe returns. Interrupted reversals shorten according to active eased progress. `exitRemovalDelay` independently controls removal after dismissal.
+
+`render(settings)` returns escaped semantic static HTML. Include `src/styles.css` when using it directly. Content remains readable without enhancement; actions are disabled and close buttons appear after mount. `mount` replaces only its direct fallback section and preserves other host children. Toast Stack's HTML fallback is readable notification content rather than a duplicate poster.
+
+Without matchMedia, the core takes the reduced-motion path. Missing animation APIs use immediate state changes where necessary. Without ResizeObserver or IntersectionObserver, resize and scroll listeners provide passive layout or visibility updates; content changes outside those events may need an application update. Without PointerEvent, swipe enhancement is absent while buttons remain available.
+
+## Credits and licence
+
+Toast Stack code and CSS are original Arclen UI work, copyright 2026 Arclen, under the MIT licence in `LICENSE`. The crossed-line close mark and twelve-bar CSS loading indicator are original Arclen UI drawings.
+
+Status icons by [Iconsax](https://iconsax.io/), created by Vuesax / Lusaxweb. The four integrated V1 Linear glyphs have separate proprietary Free licence terms; the component's MIT licence grants no icon ownership or sublicence. Keep `NOTICE.md`, the working Iconsax attribution link, `assets/ICONSAX-LICENSE.md` and `assets/icon-provenance.json` with redistributed packages. Do not extract the glyphs into loose files, an icon pack or an icon library.
+
+Copied HTML includes companion icon credits outside the notification region, with the retained terms and provenance in a disclosure. Keep those credits readily locatable; they may live in your product's documentation area. React rendering does not insert this companion documentation, so retain attribution in your distributed documentation.
