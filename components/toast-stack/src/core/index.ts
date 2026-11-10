@@ -3,7 +3,7 @@ import { statusPaths } from './icons';
 
 export type ToastType = 'default' | 'success' | 'info' | 'warning' | 'error' | 'loading' | 'custom';
 export interface Settings {
-  gradientMode: 'off' | 'neutral' | 'status' | 'custom'; gradientColor: string; gradientStrength: number; gradientX: number; gradientY: number; gradientSpread: number;
+  gradientMode: 'off' | 'neutral' | 'status' | 'custom'; gradientShape: 'wash' | 'spotlight'; gradientColor: string; gradientStrength: number; gradientX: number; gradientY: number; gradientSpread: number;
   presentation: 'toast' | 'compact' | 'banner'; actionHeight: number; actionRadius: number;
   variant: 'standard' | 'headless'; title: string; description: string; messages: string[]; type: ToastType;
   actionLabel: string; showAction: boolean; showClose: boolean; showIcon: boolean; regionLabel: string;
@@ -86,7 +86,7 @@ function variables(s: Settings): string {
 }
 export function render(input: Partial<Settings> = {}): string {
   const s = resolveSettings(input);
-  return `<section class="ats" data-ats-fallback data-gradient="${s.gradientMode}" data-presentation="${s.presentation}" data-theme="${s.theme}" data-palette="${s.palette}" data-variant="${s.variant}" aria-label="${escape(regionLabel(s))}" style="${variables(s)}"><ol class="ats-list">${initial(s).map(t => `<li class="ats-card" data-type="${t.type}">${content(t, s, false, false)}</li>`).join('')}</ol></section>`;
+  return `<section class="ats" data-ats-fallback data-gradient="${s.gradientMode}" data-gradient-shape="${s.gradientShape}" data-presentation="${s.presentation}" data-theme="${s.theme}" data-palette="${s.palette}" data-variant="${s.variant}" aria-label="${escape(regionLabel(s))}" style="${variables(s)}"><ol class="ats-list">${initial(s).map(t => `<li class="ats-card" data-type="${t.type}">${content(t, s, false, false)}</li>`).join('')}</ol></section>`;
 }
 function validatePatch(input: unknown, allowId = false): Record<string, unknown> {
   const patch: Record<string, unknown> = {};
@@ -353,7 +353,7 @@ export function mount(host: HTMLElement, input: Partial<Settings> = {}, callback
   function layout(fresh?: RecordState) {
     if (destroyed) return;
     region.setAttribute('aria-label', regionLabel(settings)); region.dataset.theme = settings.theme === 'auto' ? (darkQuery?.matches ? 'dark' : 'light') : settings.theme;
-    region.dataset.gradient = settings.gradientMode; region.dataset.presentation = settings.presentation; region.dataset.palette = settings.palette; region.dataset.variant = settings.variant; region.dataset.reduced = String(reduced()); region.dataset.paused = String(hardPaused());
+    region.dataset.gradient = settings.gradientMode; region.dataset.gradientShape = settings.gradientShape; region.dataset.presentation = settings.presentation; region.dataset.palette = settings.palette; region.dataset.variant = settings.variant; region.dataset.reduced = String(reduced()); region.dataset.paused = String(hardPaused());
     region.style.cssText = variables(settings);
     const container = settings.placement === 'container';
     if (container && win.getComputedStyle(host).position === 'static') { host.style.position = 'relative'; changedPosition = true; }

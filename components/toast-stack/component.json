@@ -1,6 +1,6 @@
 {
   "id": "toast-stack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tier": "free",
   "name": "Toast Stack",
   "category": "Feedback",
@@ -582,13 +582,24 @@
       "key": "gradientMode",
       "kind": "select",
       "label": "Gradient mode",
-      "default": "neutral",
+      "default": "status",
       "group": "Gradient",
       "options": [
         "off",
         "neutral",
         "status",
         "custom"
+      ]
+    },
+    {
+      "key": "gradientShape",
+      "kind": "select",
+      "label": "Gradient shape",
+      "default": "spotlight",
+      "group": "Gradient",
+      "options": [
+        "wash",
+        "spotlight"
       ]
     },
     {
@@ -602,17 +613,17 @@
       "key": "gradientStrength",
       "kind": "number",
       "label": "Gradient strength",
-      "default": 4,
+      "default": 17,
       "group": "Gradient",
       "min": 0,
-      "max": 12,
+      "max": 60,
       "step": 1
     },
     {
       "key": "gradientX",
       "kind": "number",
       "label": "Gradient horizontal position",
-      "default": 52,
+      "default": 94,
       "group": "Gradient",
       "min": 0,
       "max": 100,
@@ -705,7 +716,13 @@
     {
       "name": "Monochrome",
       "settings": {
-        "palette": "monochrome"
+        "palette": "monochrome",
+        "gradientMode": "neutral",
+        "gradientStrength": 4,
+        "gradientShape": "spotlight",
+        "gradientX": 52,
+        "gradientY": 70,
+        "gradientSpread": 72
       }
     },
     {
@@ -789,7 +806,11 @@
         "borderColor": "#262626",
         "actionColor": "#ffffff",
         "actionTextColor": "#0d0d0d",
-        "gradientStrength": 6
+        "gradientStrength": 6,
+        "gradientShape": "spotlight",
+        "gradientX": 52,
+        "gradientY": 70,
+        "gradientSpread": 72
       }
     }
   ]
