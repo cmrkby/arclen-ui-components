@@ -1,0 +1,105 @@
+# Snap Drawer
+
+A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. Drag the panel or use the visible expand and collapse controls.
+
+## Install and use
+
+```sh
+npx arclen-ui add snap-drawer
+```
+
+Import `SnapDrawer` or its `Component` alias from the installed component directory. The React wrapper imports its stylesheet. The core has no runtime dependencies; the optional wrapper uses your application's React installation.
+
+```tsx
+import { SnapDrawer } from './components/snap-drawer';
+
+export default function ProductQuickView() {
+  return <SnapDrawer
+    theme="system"
+    snapPoints={['148px', '355px', '100%']}
+    initialSnap={0}
+  />;
+}
+```
+
+The package includes its CSS and a local Geist font. Choose `fontFamily="system"` to use your system font. Place the trigger anywhere in normal document flow. The drawer uses a native modal dialog in the document's top layer, so its fixed panel fills the receiving viewport even inside a narrow or transformed container.
+
+## Snap points
+
+Snap values are positive viewport anchors, written as pixels or percentages. They are not visible drawer heights. At a 1,000 px viewport, the default 97% panel is 970 px tall. The 148 px anchor translates it by 852 px, leaving 118 px visible. The 355 px anchor translates it by 645 px. The 100% anchor shows the full panel.
+
+Provide two to five distinct anchors. `initialSnap` indexes your configured list. The component sorts reachable positions and maps your index to the corresponding position. Very low anchors are clamped to keep 96 px of the panel accessible; coincident positions are merged. A viewport shorter than that falls back to one full view.
+
+A slow release chooses the nearest reachable view. A sustained fast upward release opens the highest view; a fast downward release dismisses. Dragging below the midpoint between the lowest view and the closed position also dismisses. Content scrolls at the highest reachable snap, including custom lists that omit 100%. A downward gesture transfers to the panel only at the top of its content. Mouse users can scroll with a wheel or trackpad; dragging a button or link activates that control instead of moving the panel.
+
+## Themes and content
+
+`system` follows the receiving device before and after JavaScript loads. `light` and `dark` use fixed palettes. Choose `custom` to use the seven color settings. The overlay opacity controls its background alpha; Adaptive separately fades the overlay when the panel settles at its highest snap. Constant keeps it dimmed whenever the drawer is open.
+
+Each group's item titles and descriptions must have matching lengths. Empty groups are omitted. All text is escaped. Set `actionHref` to a relative path, hash, HTTP or HTTPS URL to render a same-tab link. Leave it empty for an action button. There is no checkout or payment integration.
+
+The default demo uses `title` for the product name, `metadata` for price and availability, and `description` for a short introduction plus the selected option. The option is a text summary, not an interactive picker. The first group contains specifications; the second contains delivery and returns. Rating and quotation remain available but are hidden by default. Product claims and prices are fictional examples.
+
+The API reference is generated from the package manifest and lists all 45 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
+
+## Configured example
+
+```tsx
+import { SnapDrawer } from './components/snap-drawer';
+
+export default function LampDetails() {
+  return <SnapDrawer
+    triggerLabel="Quick view in Chalk"
+    title="Arc desk lamp"
+    metadata="$128 USD · In stock"
+    description={'Warm, dimmable light for a quieter desk.\nSelected: Chalk · USB-C'}
+    initialSnap={1}
+    groupOneTitle="Specifications"
+    groupOneTitles={['Light', 'Finish', 'Included']}
+    groupOneDescriptions={[
+      '2700 K warm white with three brightness levels.',
+      'Chalk powder-coated aluminum with a weighted base.',
+      '1.5 m USB-C cable. Power adapter sold separately.'
+    ]}
+    actionLabel="Choose Chalk"
+  />;
+}
+```
+
+## Events and imperative use
+
+```tsx
+"use client";
+import { useState } from 'react';
+import { SnapDrawer } from './components/snap-drawer';
+
+export default function LampSelection() {
+  const [selection, setSelection] = useState('');
+  return <>
+    <SnapDrawer
+      onAction={event => {
+        setSelection(`${event.detail.settings.title} selected for this demo. No order was placed.`);
+      }}
+    />
+    <p role="status">{selection}</p>
+  </>;
+}
+```
+
+Callbacks belong in a React client component. For plain JavaScript, import `mount` and `resolveSettings` from `src/core`. `mount(host, settings)` returns `open()`, `close()`, `snapTo(configuredIndex)`, `update(settings)`, `pause()`, `resume()` and `destroy()`. Updates accept a complete or partial settings object, with omitted fields restored to their defaults.
+
+The host emits `snap-drawer:open-change`, `snap-drawer:snap-change` and a cancelable `snap-drawer:action` event. Preventing the action event keeps the drawer open. Otherwise its button dismisses the drawer. The example above uses that dismissal and displays a local selection confirmation; it does not create a cart, charge a payment or send a request. Connect the event to your own application when using real products. A link follows its URL normally.
+
+## Accessibility and lifecycle
+
+The named dialog contains focus and makes the surrounding page inert. The visible close control receives initial focus. Tab stays among controls that are visible at the current snap. At the highest view, Tab also reaches the named reading region; use Arrow keys, Page Up, Page Down, Home and End to scroll it. Lowering the panel returns focus from that region to Close. Escape closes the drawer and returns focus to its initiating element. If that element was removed, focus returns to the inline trigger, then the host when available. Stacked drawers retain the page lock until the last one closes.
+
+Reduced motion removes programmatic spatial travel. Pointer movement still follows your hand. Pausing settles the active transition and keeps essential controls usable; resuming does not replay it. Hidden documents settle safely. Destroy removes the modal, listeners and timers, restores owned page styles and reveals the readable static content.
+
+Without JavaScript or native modal-dialog support, the content remains in normal flow beside a disabled enhancement trigger. The HTML bundle also includes a loaded poster for the no-JavaScript view. Without Pointer Events, touch gestures and visible keyboard controls remain available. Without `matchMedia`, CSS still follows the system color preference.
+
+## Delivery
+
+React, plain JavaScript and HTML use the same core. Copy the complete package, including CSS, assets and notices. HTML assets use relative URLs and work under a subpath. No external font or runtime request is required.
+
+The component code is MIT licensed. Geist retains its SIL Open Font License 1.1; keep `assets/OFL-Geist.txt` with the font. LICENSE, NOTICE.md and PROVENANCE.md describe the distributed files.
