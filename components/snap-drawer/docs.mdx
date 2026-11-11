@@ -1,6 +1,6 @@
 # Snap Drawer
 
-A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. Drag the panel or use the visible expand and collapse controls.
+A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. A subtle handle at the top edge signals that the panel can be dragged. Drag the panel or use the visible expand and collapse controls. Set `showHandle={false}` to hide the handle.
 
 ## Install and use
 
@@ -40,7 +40,19 @@ Each group's item titles and descriptions must have matching lengths. Empty grou
 
 The default demo uses `title` for the product name, `metadata` for price and availability, and `description` for a short introduction plus the selected option. The option is a text summary, not an interactive picker. The first group contains specifications; the second contains delivery and returns. Rating and quotation remain available but are hidden by default. Product claims and prices are fictional examples.
 
-The API reference is generated from the package manifest and lists all 45 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
+The API reference is generated from the package manifest and lists all 48 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
+
+## Product images
+
+Version 1.1.0 adds `showImage`, `imageUrl` and `imageAlt`; the existing 45 settings keep their defaults. The bundled fictional lamp photograph appears as a compact thumbnail beside the title and a larger square after the action. Both frames reserve their dimensions before loading. Expanding reveals the larger image without adding an image-growth animation.
+
+Leave `imageUrl` empty for the bundled photograph. A custom source may be an HTTPS URL, a local path such as `./images/lamp.webp` or `/images/lamp.webp`, a raster PNG/JPEG/WebP/GIF data URL, or a same-session HTTP/HTTPS blob URL. Relative paths resolve against the receiving page, including its subpath. Blob URLs are temporary and will not survive export into another session. Unsafe protocols, embedded credentials, whitespace and parent-directory paths are rejected. External image hosts receive a request only when that image is activated; make sure you have permission to use your replacement.
+
+Set `imageAlt` to describe the replacement, or leave it empty for a decorative image. Only the large image is announced; its thumbnail is decorative. Failed images keep their reserved space and show “Image unavailable” without requesting a substitute. The product information and action remain usable.
+
+Set `showImage={false}` to omit both image frames and sources entirely. An initially closed enhanced drawer keeps image definitions in inert templates, with no live image elements: opening loads the small rendition, and choosing the highest reachable snap loads the large rendition. A custom URL supplies both sizes. Closing removes still-pending image elements; loaded images may remain for reuse. Bytes already requested may remain in the browser cache. Image loading does not control the drawer's animation or delay the action.
+
+Server-rendered HTML carries inert templates with deferred source attributes; mounting keeps the closed drawer's images deferred. Without JavaScript, a scoped `noscript` style hides the product-image frames and restores a text-only heading. The product details remain readable, and the standard HTML bundle retains its loaded poster. Product photographs themselves require JavaScript. If JavaScript runs but native dialogs are unavailable, the visible static view loads its images. Destroy restores readable static content without starting new image requests. Bundles still include local asset bytes even when an instance hides its images; image-off prevents requests, not distribution of packaged assets.
 
 ## Configured example
 
@@ -49,6 +61,7 @@ import { SnapDrawer } from './components/snap-drawer';
 
 export default function LampDetails() {
   return <SnapDrawer
+    showImage={false}
     triggerLabel="Quick view in Chalk"
     title="Arc desk lamp"
     metadata="$128 USD · In stock"
@@ -102,4 +115,4 @@ Without JavaScript or native modal-dialog support, the content remains in normal
 
 React, plain JavaScript and HTML use the same core. Copy the complete package, including CSS, assets and notices. HTML assets use relative URLs and work under a subpath. No external font or runtime request is required.
 
-The component code is MIT licensed. Geist retains its SIL Open Font License 1.1; keep `assets/OFL-Geist.txt` with the font. LICENSE, NOTICE.md and PROVENANCE.md describe the distributed files.
+The component code and bundled original AI-generated lamp photograph are MIT licensed. Geist retains its SIL Open Font License 1.1; keep `assets/OFL-Geist.txt` with the font. LICENSE, NOTICE.md and PROVENANCE.md describe the distributed files.

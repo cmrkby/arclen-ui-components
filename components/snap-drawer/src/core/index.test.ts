@@ -29,6 +29,21 @@ describe('Snap Drawer settings and geometry', () => {
     expect(host.querySelector('.sd-quote blockquote')?.textContent).toBe('<Optional note>');
     expect(host.querySelector('.sd-quote figcaption')?.textContent).toBe('Your attribution');
   });
+  it('accepts portable image sources and rejects active or ambiguous URLs', () => {
+    for (const imageUrl of ['', './lamp.webp', '/images/lamp.webp', 'images/lamp.webp', 'https://example.com/lamp.webp?v=2', 'data:image/webp;base64,AAAA', 'blob:https://example.com/image-id']) expect(resolveSettings({ imageUrl }).imageUrl).toBe(imageUrl);
+    for (const imageUrl of ['javascript:alert(1)', 'data:image/svg+xml,<svg/>', '//example.com/lamp.webp', 'https://user:secret@example.com/lamp.webp', '../private.webp', 'images/../private.webp', 'https://example.com/\nimage.webp', 'http://example.com/lamp.webp', 'file:///lamp.webp']) expect(() => resolveSettings({ imageUrl })).toThrow();
+    expect(() => resolveSettings({ imageAlt: 'a'.repeat(301) })).toThrow();
+    expect(resolveSettings({ imageAlt: '' }).imageAlt).toBe('');
+  });
+  it('omits disabled images and keeps the no-JavaScript content text-only', () => {
+    const absent = render(resolveSettings({ showImage: false, imageUrl: 'https://example.com/private.webp' }));
+    expect(absent).not.toContain('class="sd-image '); expect(absent).not.toContain('private.webp');
+    const markup = render(resolveSettings({ imageUrl: '/images/lamp.webp', imageAlt: '<Lamp> "on"' }));
+    expect(markup).toContain('data-sd-src="/images/lamp.webp"'); expect(markup).not.toContain('<noscript><img');
+    expect(markup).toContain('<noscript><style>.sd .sd-image{display:none!important}.sd .sd-product-header{display:block}</style></noscript>');
+    expect(markup).toContain('Arc desk lamp'); expect(markup).toContain('Specifications'); expect(markup).toContain('Delivery &amp; returns');
+    expect(markup).toContain('aria-label="&lt;Lamp&gt; &quot;on&quot;"'); expect(markup).not.toContain('aria-label="<Lamp>');
+  });
   it('preserves viewport anchor semantics at desktop, phone and tablet viewport heights', () => {
     for (const height of [1000, 844, 1024, 1112]) {
       const geometry = resolveSnapGeometry(resolveSettings({}), height);
@@ -70,6 +85,54 @@ describe('Snap Drawer lifecycle', () => {
   });
   afterEach(() => { controllers.splice(0).forEach(controller => controller.destroy()); vi.restoreAllMocks(); vi.useRealTimers(); document.body.innerHTML = ''; document.body.removeAttribute('style'); });
   const create = (id = 'one', duration = 0) => { const controller = mount(document.getElementById(id)!, { duration }, id); controllers.push(controller); return controller; };
+  it('keeps closed media inert and instantiates each image only when needed', () => {
+    const controller = create(); const modal = document.querySelector('.sd-modal')!;
+    expect(document.querySelectorAll('img')).toHaveLength(0);
+    expect(modal.querySelectorAll('.sd-image-template')).toHaveLength(2);
+    const template = modal.querySelector<HTMLTemplateElement>('.sd-image-large .sd-image-template')!;
+    expect(template.content.querySelector('img')!.hasAttribute('src')).toBe(false);
+    controller.open();
+    const thumb = modal.querySelector<HTMLImageElement>('.sd-image-thumb img[data-sd-src]')!, thumbFrame = thumb.parentElement!;
+    expect(thumb.getAttribute('src')).toBe(thumb.dataset.sdSrc); expect(modal.querySelector('.sd-image-large img')).toBeNull();
+    controller.snapTo(1); expect(modal.querySelector('.sd-image-large img')).toBeNull();
+    controller.snapTo(2); const image = modal.querySelector<HTMLImageElement>('.sd-image-large img[data-sd-src]')!;
+    expect(image.getAttribute('src')).toBe(image.dataset.sdSrc);
+    image.dispatchEvent(new Event('load')); expect(image.hidden).toBe(false); expect(image.parentElement!.dataset.imageState).toBe('loaded');
+    expect(image.parentElement!.hasAttribute('role')).toBe(false); expect(image.alt).toBe(defaults.imageAlt);
+    controller.close(); expect(thumb.hasAttribute('src')).toBe(false); expect(thumb.isConnected).toBe(false); expect(thumbFrame.dataset.imageState).toBe('idle');
+    expect(modal.querySelectorAll('img')).toHaveLength(1); expect(image.isConnected).toBe(true);
+    controller.open(); expect(modal.querySelector('.sd-image-thumb img')).not.toBe(thumb);
+  });
+  it('replaces pending images safely, preserves failed-image frames and cleans up on destroy', () => {
+    const controller = create(); controller.open(); controller.snapTo(2);
+    const stale = document.querySelector<HTMLImageElement>('.sd-modal .sd-image-large img[data-sd-src]')!;
+    controller.update({ duration: 0, imageUrl: '/replacement.webp', imageAlt: 'Replacement lamp' });
+    const current = document.querySelector<HTMLImageElement>('.sd-modal .sd-image-large img[data-sd-src]')!, currentFrame = current.parentElement!;
+    expect(current).not.toBe(stale); expect(current.getAttribute('src')).toBe('/replacement.webp'); expect(stale.hasAttribute('src')).toBe(false);
+    stale.dispatchEvent(new Event('error')); expect(current.parentElement!.dataset.imageState).toBe('loading');
+    current.dispatchEvent(new Event('error')); expect(current.hidden).toBe(true); expect(current.isConnected).toBe(false); expect(currentFrame.dataset.imageState).toBe('error');
+    expect(currentFrame.getAttribute('aria-label')).toBe('Image unavailable: Replacement lamp');
+    expect(currentFrame.querySelector<HTMLElement>('.sd-image-note')!.hidden).toBe(false);
+    controller.snapTo(2); expect(currentFrame.querySelector('img')).toBeNull();
+    controller.update({ duration: 0, imageUrl: '/pending.webp' });
+    const pending = document.querySelector<HTMLImageElement>('.sd-modal .sd-image-large img[data-sd-src]')!, frame = pending.parentElement!;
+    controller.destroy(); expect(pending.hasAttribute('src')).toBe(false); pending.dispatchEvent(new Event('load'));
+    expect(frame.dataset.imageState).toBe('idle'); expect(pending.hidden).toBe(true);
+    expect(document.querySelectorAll('img')).toHaveLength(0);
+  });
+  it('hydrates replacement images at custom highest snaps and removes both when disabled', () => {
+    const controller = create(); controller.update({ duration: 0, snapPoints: ['148px', '355px'] }); controller.open(); controller.snapTo(1);
+    expect(document.querySelector<HTMLImageElement>('.sd-modal .sd-image-large img[data-sd-src]')!.hasAttribute('src')).toBe(true);
+    controller.update({ duration: 0, showImage: false }); expect(document.querySelector('.sd-modal .sd-image')).toBeNull();
+    controller.close(); controller.update({ duration: 0, imageUrl: '/new.webp' });
+    expect(document.querySelectorAll('.sd-modal img')).toHaveLength(0);
+  });
+  it('shows the drag affordance by default and keeps its visibility configurable', () => {
+    const controller = create(); const handle = document.querySelector<HTMLElement>('.sd-modal .sd-handle')!;
+    expect(defaults.showHandle).toBe(true); expect(handle.hidden).toBe(false); expect(handle.getAttribute('aria-hidden')).toBe('true');
+    controller.update({ duration: 0, showHandle: false }); expect(handle.hidden).toBe(true);
+    controller.update({ duration: 0 }); expect(handle.hidden).toBe(false);
+  });
   it('keeps locks across two instances and restores focus and styles after teardown', () => {
     const one = create(), two = create('two'); document.getElementById('before')!.focus();
     one.open(); two.open(); expect(document.body.style.overflow).toBe('hidden');
@@ -187,6 +250,25 @@ describe('Snap Drawer lifecycle', () => {
     controller.destroy(); vi.advanceTimersByTime(0); expect(vi.getTimerCount()).toBe(0); expect(document.querySelector('dialog')).toBeNull();
     expect(document.querySelector<HTMLElement>('.sd-static')!.hidden).toBe(false);
     expect(document.querySelector<HTMLButtonElement>('.sd-trigger')!.disabled).toBe(true);
+  });
+  it('keeps visible fallback images current when opening the native dialog fails', () => {
+    const controller = create();
+    const modal = document.querySelector<HTMLDialogElement>('.sd-modal')!;
+    vi.spyOn(modal, 'showModal').mockImplementation(() => { throw new Error('Dialog unavailable'); });
+    controller.open();
+    const fallback = document.querySelector<HTMLElement>('.sd-static')!;
+    expect(fallback.hidden).toBe(false); expect(document.querySelector<HTMLButtonElement>('.sd-trigger')!.disabled).toBe(true);
+    const previous = fallback.querySelector<HTMLImageElement>('.sd-image-large img[data-sd-src]')!;
+    expect(previous.hasAttribute('src')).toBe(true);
+    controller.update({ duration: 0, imageUrl: '/replacement.webp', imageAlt: 'Replacement lamp' });
+    expect(previous.hasAttribute('src')).toBe(false);
+    const images = [...fallback.querySelectorAll<HTMLImageElement>('img[data-sd-src]')];
+    expect(images).toHaveLength(2); expect(images.every(image => image.getAttribute('src') === '/replacement.webp')).toBe(true);
+    images.forEach(image => image.dispatchEvent(new Event('load')));
+    expect(images.every(image => !image.hidden)).toBe(true);
+    expect(images[1].alt).toBe('Replacement lamp');
+    expect(modal.querySelectorAll('img')).toHaveLength(0);
+    controller.update({ duration: 0, showImage: false }); expect(fallback.querySelector('.sd-image')).toBeNull();
   });
   it('keeps a usable static view when native dialogs are unavailable', () => {
     Object.defineProperty(HTMLDialogElement.prototype, 'showModal', { configurable: true, value: undefined });

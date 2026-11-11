@@ -1,7 +1,13 @@
 import manifest from '../../component.json';
+import lampImage from '../../assets/arc-desk-lamp.webp';
+import lampThumbnail from '../../assets/arc-desk-lamp-thumb.webp';
+
+const imageSource = (value: string | { src: string }) => typeof value === 'string' ? value : value.src;
+const bundledImage = imageSource(lampImage), bundledThumbnail = imageSource(lampThumbnail);
 
 export interface Settings {
   triggerLabel: string; title: string; metadata: string; description: string;
+  showImage: boolean; imageUrl: string; imageAlt: string;
   showRating: boolean; rating: number; showAction: boolean; actionLabel: string; actionHref: string;
   groupOneTitle: string; groupOneTitles: string[]; groupOneDescriptions: string[];
   showQuote: boolean; quote: string; quoteAttribution: string;
@@ -24,6 +30,17 @@ const cloneDefaults = (): Settings => Object.fromEntries(Object.entries(defaults
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const snapPattern = /^(\d+(?:\.\d+)?)(px|%)$/;
 
+function validImageUrl(value: string): boolean {
+  if (value === '') return true;
+  if (/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(value)) return true;
+  if (/[\u0000-\u0020\u007f<>"'\\]/.test(value)) return false;
+  if (value.startsWith('https://') || value.startsWith('blob:https://') || value.startsWith('blob:http://')) {
+    try { const url = new URL(value.startsWith('blob:') ? value.slice(5) : value); return !!url.hostname && !url.username && !url.password; }
+    catch { return false; }
+  }
+  return /^(?:\.\/|\/)?[A-Za-z0-9_-][A-Za-z0-9_./-]*$/.test(value) && !value.split('/').includes('..');
+}
+
 /** Resolve a fresh settings object without retaining callers' arrays. */
 export function resolveSettings(input: unknown = {}): Settings {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Snap Drawer settings must be an object.');
@@ -39,6 +56,7 @@ export function resolveSettings(input: unknown = {}): Settings {
       if (!Array.isArray(value) || value.length < setting.minItems! || value.length > setting.maxItems! || value.some(item => typeof item !== 'string' || item.length > setting.maxItemLength!)) throw new Error('Invalid list: ' + key);
     } else {
       if (typeof value !== 'string' || value.length > (setting.maxLength ?? 100000)) throw new Error('Invalid text: ' + key);
+      if (setting.kind === 'image' && !validImageUrl(value)) throw new Error('Use a safe HTTPS, local, raster data or blob image URL.');
       if (setting.kind === 'color' && !/^#[\da-f]{6}(?:[\da-f]{2})?$/i.test(value)) throw new Error('Invalid color: ' + key);
       if (setting.kind === 'select' && !setting.options?.some(option => (typeof option === 'string' ? option : option.value) === value)) throw new Error('Invalid selection: ' + key);
     }
@@ -109,9 +127,18 @@ function group(title: string, titles: string[], descriptions: string[]) {
   if (!titles.length) return '';
   return `<section class="sd-group">${title ? `<h3>${escape(title)}</h3>` : ''}<ul>${titles.map((item, index) => `<li><h4>${escape(item)}</h4><p>${escape(descriptions[index])}</p></li>`).join('')}</ul></section>`;
 }
+function productImage(settings: Settings, thumbnail: boolean) {
+  const source = settings.imageUrl || (thumbnail ? bundledThumbnail : bundledImage);
+  const alt = thumbnail ? '' : settings.imageAlt;
+  const label = alt ? ` role="img" aria-label="${escape(alt)}"` : ' aria-hidden="true"';
+  const size = thumbnail ? 128 : 640;
+  // Server-rendered sources remain inert until the corresponding view is opened.
+  return `<div class="sd-image sd-image-${thumbnail ? 'thumb' : 'large'}" data-image-state="idle"${label}><template class="sd-image-template"><img data-sd-src="${escape(source)}" width="${size}" height="${size}" alt="${escape(alt)}" decoding="async" draggable="false" hidden></template><span class="sd-image-note" aria-hidden="true" hidden>Image unavailable</span></div>`;
+}
 function content(settings: Settings, id: string) {
   const action = settings.actionHref ? `<a class="sd-action" href="${escape(settings.actionHref)}">${escape(settings.actionLabel)}</a>` : `<button class="sd-action" type="button">${escape(settings.actionLabel)}</button>`;
-  return `<div class="sd-content">${settings.showRating ? rating(settings) : ''}<h2 id="${id}-title">${escape(settings.title)}</h2>${settings.metadata ? `<p class="sd-metadata">${escape(settings.metadata)}</p>` : ''}<p class="sd-intro" id="${id}-description">${escape(settings.description)}</p>${settings.showAction ? action : ''}${group(settings.groupOneTitle, settings.groupOneTitles, settings.groupOneDescriptions)}${settings.showQuote && settings.quote ? `<figure class="sd-quote"><blockquote>${escape(settings.quote)}</blockquote>${settings.quoteAttribution ? `<figcaption>${escape(settings.quoteAttribution)}</figcaption>` : ''}</figure>` : ''}${group(settings.groupTwoTitle, settings.groupTwoTitles, settings.groupTwoDescriptions)}</div>`;
+  const heading = `<div class="sd-heading"><h2 id="${id}-title">${escape(settings.title)}</h2>${settings.metadata ? `<p class="sd-metadata">${escape(settings.metadata)}</p>` : ''}</div>`;
+  return `<div class="sd-content">${settings.showRating ? rating(settings) : ''}${settings.showImage ? `<div class="sd-product-header">${productImage(settings, true)}${heading}</div>` : heading}<p class="sd-intro" id="${id}-description">${escape(settings.description)}</p>${settings.showAction ? action : ''}${settings.showImage ? productImage(settings, false) : ''}${group(settings.groupOneTitle, settings.groupOneTitles, settings.groupOneDescriptions)}${settings.showQuote && settings.quote ? `<figure class="sd-quote"><blockquote>${escape(settings.quote)}</blockquote>${settings.quoteAttribution ? `<figcaption>${escape(settings.quoteAttribution)}</figcaption>` : ''}</figure>` : ''}${group(settings.groupTwoTitle, settings.groupTwoTitles, settings.groupTwoDescriptions)}</div>`;
 }
 function style(settings: Settings) {
   return `--sd-width:${settings.contentWidth}px;--sd-padding:${settings.contentPadding}px;--sd-gap:${settings.sectionGap}px;--sd-radius:${settings.radius}px;--sd-body:${settings.bodySize}px;--sd-leading:${settings.bodyLineHeight};--sd-heading:${settings.headingSize}px;--sd-surface-custom:${settings.surfaceColor};--sd-text-custom:${settings.textColor};--sd-muted-custom:${settings.mutedColor};--sd-border-custom:${settings.borderColor};--sd-action-custom:${settings.actionColor};--sd-action-text-custom:${settings.actionTextColor};--sd-overlay-custom:${settings.overlayColor};--sd-dim:${settings.overlayOpacity};--sd-font:${settings.fontFamily === 'geist' ? 'SnapDrawerGeist,ui-sans-serif' : 'ui-sans-serif'},system-ui,-apple-system,Segoe UI,sans-serif`;
@@ -120,7 +147,7 @@ let instanceCounter = 0;
 const safeId = (id?: string) => id ? 'sd-' + id.replace(/[^a-zA-Z0-9_-]/g, '-') : 'sd-' + (++instanceCounter);
 export function render(input: Settings = cloneDefaults(), id?: string): string {
   const settings = resolveSettings(input), identity = safeId(id);
-  return `<div class="sd" data-theme="${settings.theme}" data-shadow="${settings.shadow}" data-rating="${settings.showRating}" style="${style(settings)}"><button class="sd-trigger" type="button" disabled aria-haspopup="dialog">${escape(settings.triggerLabel)}</button><article class="sd-static" aria-labelledby="${identity}-title">${content(settings, identity)}</article></div>`;
+  return `<div class="sd" data-theme="${settings.theme}" data-shadow="${settings.shadow}" data-rating="${settings.showRating}" style="${style(settings)}"><noscript><style>.sd .sd-image{display:none!important}.sd .sd-product-header{display:block}</style></noscript><button class="sd-trigger" type="button" disabled aria-haspopup="dialog">${escape(settings.triggerLabel)}</button><article class="sd-static" aria-labelledby="${identity}-title">${content(settings, identity)}</article></div>`;
 }
 
 export interface Controller {
@@ -176,6 +203,38 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   type Gesture = { type: 'pointer' | 'touch'; id: number; start: number; origin: number; base: number; opacity: number; prior: number; active: boolean; fromFull: boolean; samples: PointerSample[]; target: HTMLElement };
   let gesture: Gesture | null = null;
   const on = (target: EventTarget, name: string, listener: EventListener, options?: AddEventListenerOptions) => { target.addEventListener(name, listener, options); cleanups.push(() => target.removeEventListener(name, listener, options)); };
+  function imageResult(event: Event) {
+    const image = event.target;
+    if (!(image instanceof view.HTMLImageElement) || !image.matches('img[data-sd-src]') || !image.hasAttribute('src')) return;
+    if (destroyed || (!modal.contains(image) && !fallback.contains(image))) return;
+    const frame = image.parentElement!, failed = event.type === 'error';
+    frame.dataset.imageState = failed ? 'error' : 'loaded'; image.hidden = failed;
+    const note = frame.querySelector<HTMLElement>('.sd-image-note')!; note.hidden = !failed || frame.classList.contains('sd-image-thumb');
+    if (failed && image.alt) { frame.setAttribute('role', 'img'); frame.setAttribute('aria-label', 'Image unavailable: ' + image.alt); }
+    else { frame.removeAttribute('role'); frame.removeAttribute('aria-label'); }
+    if (failed) { image.remove(); image.removeAttribute('src'); }
+  }
+  function hydrateImages(container: HTMLElement, full: boolean) {
+    for (const frame of container.querySelectorAll<HTMLElement>('.sd-image')) {
+      if (!full && frame.classList.contains('sd-image-large')) continue;
+      if (frame.querySelector('img[data-sd-src]') || frame.dataset.imageState === 'error') continue;
+      const template = frame.querySelector<HTMLTemplateElement>('.sd-image-template')!;
+      const image = template.content.firstElementChild!.cloneNode(true) as HTMLImageElement;
+      frame.dataset.imageState = 'loading'; frame.appendChild(image);
+      image.src = image.dataset.sdSrc!;
+    }
+  }
+  function clearImageSources(container: HTMLElement) {
+    for (const image of container.querySelectorAll<HTMLImageElement>('img[data-sd-src]')) {
+      const frame = image.parentElement!;
+      image.remove(); image.removeAttribute('src'); image.hidden = true;
+      frame.dataset.imageState = 'idle'; frame.querySelector<HTMLElement>('.sd-image-note')!.hidden = true;
+      if (image.alt) { frame.setAttribute('role', 'img'); frame.setAttribute('aria-label', image.alt); }
+    }
+  }
+  for (const container of [modal, fallback]) {
+    on(container, 'load', imageResult, { capture: true }); on(container, 'error', imageResult, { capture: true });
+  }
   function emit(name: string, detail: unknown, cancelable = false) { return host.dispatchEvent(new CustomEvent('snap-drawer:' + name, { detail, bubbles: true, cancelable })); }
   function theme() {
     for (const node of [root, modal]) {
@@ -225,6 +284,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   function finishClose() {
     if (!opened) return;
     opened = false; closing = false; state('closed');
+    for (const frame of scroll.querySelectorAll<HTMLElement>('[data-image-state="loading"]')) { clearImageSources(frame); frame.dataset.imageState = 'idle'; }
     if (modal.open) modal.close(); unlockPage(document, modal);
     trigger.setAttribute('aria-expanded', 'false');
     const other = [...(locks.get(document)?.owners ?? [])].at(-1);
@@ -249,6 +309,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   function snap(reachable: number, animateMotion = true) {
     if (!opened || destroyed) return;
     closing = false; index = clamp(reachable, 0, geometry.positions.length - 1); controls(true);
+    hydrateImages(scroll, index === geometry.positions.length - 1);
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
     state('settling');
     const done = () => { refreshContentTabStops(); state(paused ? 'paused' : 'resting'); emit('snap-change', { index: geometry.reachableToSource[index], reachableIndex: index }); };
@@ -266,8 +327,8 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     measure(); index = geometry.sourceToReachable[settings.initialSnap];
     initiator = document.activeElement instanceof view.HTMLElement ? document.activeElement as HTMLElement : trigger;
     paint(geometry.height, 0); cancelTransition(false);
-    try { modal.showModal(); modal.scrollTop = 0; modal.scrollLeft = 0; } catch { fallback.hidden = false; trigger.disabled = true; return; }
-    opened = true; closing = false; lockPage(document, modal); trigger.setAttribute('aria-expanded', 'true');
+    try { modal.showModal(); modal.scrollTop = 0; modal.scrollLeft = 0; } catch { fallback.hidden = false; trigger.disabled = true; hydrateImages(fallback, true); return; }
+    opened = true; closing = false; hydrateImages(scroll, index === geometry.positions.length - 1); lockPage(document, modal); trigger.setAttribute('aria-expanded', 'true');
     controls(); closeButton.focus({ preventScroll: true }); modal.scrollTop = 0; state('opening');
     emit('open-change', { open: true });
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
@@ -391,6 +452,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     if (media) on(media, 'change', () => { if (media.matches) settle(); });
     if (colorMedia) on(colorMedia, 'change', () => { if (settings.theme === 'system') { theme(); if (opened) { measure(); paint(y, opacity); } } });
   }
+  if (!mounted) hydrateImages(fallback, true);
   return {
     open, close,
     snapTo(source) { if (!Number.isInteger(source) || source < 0 || source >= settings.snapPoints.length) throw new Error('Invalid snap index.'); if (opened) snap(geometry.sourceToReachable[source]); },
@@ -404,8 +466,9 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       cancelGesture(); cancelTransition(); settings = resolved; theme();
       trigger.textContent = settings.triggerLabel;
       const body = content(settings, identity);
-      if (oldBody !== body) scroll.innerHTML = body;
-      fallback.innerHTML = content(settings, identity + '-static');
+      if (oldBody !== body) { clearImageSources(scroll); scroll.innerHTML = body; }
+      clearImageSources(fallback); fallback.innerHTML = content(settings, identity + '-static');
+      if (!fallback.hidden) hydrateImages(fallback, true);
       measure(); index = geometry.sourceToReachable[Math.min(oldSource, settings.snapPoints.length - 1)];
       if (opened) { if (closing) settle(); else snap(index, false); scroll.scrollTop = oldScroll; if (actionFocused) (scroll.querySelector<HTMLElement>('.sd-action') ?? closeButton).focus({ preventScroll: true }); }
     },
@@ -414,7 +477,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     destroy() {
       if (destroyed) return;
       cancelGesture(); cancelTransition(false); if (opened) finishClose(); destroyed = true;
-      cleanups.splice(0).forEach(cleanup => cleanup()); unlockPage(document, modal); modal.remove();
+      cleanups.splice(0).forEach(cleanup => cleanup()); clearImageSources(modal); clearImageSources(fallback); unlockPage(document, modal); modal.remove();
       trigger.disabled = true; trigger.removeAttribute('aria-controls'); trigger.removeAttribute('aria-expanded');
       delete root.dataset.enhanced; fallback.hidden = false; state('destroyed');
     },

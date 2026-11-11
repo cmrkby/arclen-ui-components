@@ -1,6 +1,6 @@
 {
   "id": "snap-drawer",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "tier": "free",
   "name": "Snap Drawer",
   "category": "utilities",
@@ -43,6 +43,31 @@
       "default": "Warm, dimmable light for a quieter desk.\nSelected: Graphite · USB-C",
       "group": "Content",
       "maxLength": 2000
+    },
+    {
+      "key": "showImage",
+      "kind": "boolean",
+      "label": "Show image",
+      "default": true,
+      "group": "Image"
+    },
+    {
+      "key": "imageUrl",
+      "kind": "image",
+      "label": "Image URL",
+      "default": "",
+      "group": "Image",
+      "maxLength": 12000000,
+      "description": "Leave empty for the bundled lamp photograph. Hidden images are not requested."
+    },
+    {
+      "key": "imageAlt",
+      "kind": "text",
+      "label": "Image alt text",
+      "default": "Graphite Arc desk lamp with a curved stem and warm light on a grey background.",
+      "group": "Image",
+      "maxLength": 300,
+      "description": "Describe your replacement image, or leave empty when decorative."
     },
     {
       "key": "showRating",
@@ -415,7 +440,7 @@
       "key": "showHandle",
       "kind": "boolean",
       "label": "Show drag handle",
-      "default": false,
+      "default": true,
       "group": "Behavior"
     },
     {
@@ -500,6 +525,25 @@
         "kind": "original",
         "license": "MIT",
         "attribution": "Copyright 2026 Arclen. Geist font terms remain in assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/arc-desk-lamp.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated fictional Arc desk lamp photograph, copyright 2026 Arclen."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/arc-desk-lamp-thumb.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Thumbnail derived from the original Arc desk lamp photograph, copyright 2026 Arclen."
       }
     }
   ],
