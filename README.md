@@ -45,6 +45,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Image Slideshow | [`components/image-slideshow`](components/image-slideshow) |
 | Editorial Slideshow | [`components/editorial-slideshow`](components/editorial-slideshow) |
 | Cinema Reel | [`components/cinema-reel`](components/cinema-reel) |
+| Snap Drawer | [`components/snap-drawer`](components/snap-drawer) |
 
 Open a package's `docs.mdx` for its usage and settings. `src/react/index.tsx` is the React entry point. `src/core/index.ts` provides the framework-neutral renderer and mount lifecycle, and `src/styles.css` supplies its styles. Keep the package's assets with the source when copying it. The component and HTML bundle schemas live in [`packages/spec`](packages/spec).
 

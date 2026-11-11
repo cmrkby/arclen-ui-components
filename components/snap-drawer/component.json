@@ -1,0 +1,557 @@
+{
+  "id": "snap-drawer",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Snap Drawer",
+  "category": "utilities",
+  "description": "A gesture-driven bottom drawer with accessible snap controls and readable content.",
+  "keywords": [
+    "drawer",
+    "dialog",
+    "snap points",
+    "touch"
+  ],
+  "settings": [
+    {
+      "key": "triggerLabel",
+      "kind": "text",
+      "label": "Trigger label",
+      "default": "View details",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "title",
+      "kind": "text",
+      "label": "Title",
+      "default": "A place for the details",
+      "group": "Content",
+      "maxLength": 120
+    },
+    {
+      "key": "metadata",
+      "kind": "text",
+      "label": "Metadata",
+      "default": "A short guide \u00b7 Read at your own pace",
+      "group": "Content",
+      "maxLength": 180
+    },
+    {
+      "key": "description",
+      "kind": "text",
+      "label": "Introduction",
+      "default": "Keep useful context close while leaving the main page in view. Open this panel for a quick overview, then raise it to read the complete guide. Each section has a clear purpose, with room for a longer explanation when you need it.",
+      "group": "Content",
+      "maxLength": 2000
+    },
+    {
+      "key": "showRating",
+      "kind": "boolean",
+      "label": "Show rating",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "rating",
+      "kind": "number",
+      "label": "Rating",
+      "default": 5,
+      "group": "Content",
+      "min": 0,
+      "max": 5,
+      "step": 1
+    },
+    {
+      "key": "showAction",
+      "kind": "boolean",
+      "label": "Show action",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "actionLabel",
+      "kind": "text",
+      "label": "Action label",
+      "default": "Continue",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "actionHref",
+      "kind": "text",
+      "label": "Action link",
+      "default": "",
+      "group": "Behavior",
+      "maxLength": 2048
+    },
+    {
+      "key": "groupOneTitle",
+      "kind": "text",
+      "label": "First group title",
+      "default": "01. Make space",
+      "group": "Content",
+      "maxLength": 120
+    },
+    {
+      "key": "groupOneTitles",
+      "kind": "string-list",
+      "label": "First group item titles",
+      "default": [
+        "Start with the essentials",
+        "Keep context nearby",
+        "Leave room to read"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 300
+    },
+    {
+      "key": "groupOneDescriptions",
+      "kind": "string-list",
+      "label": "First group item descriptions",
+      "default": [
+        "Show a concise introduction before the full explanation.",
+        "Keep the original page behind the panel so the task stays familiar.",
+        "Use a comfortable line length and let longer content scroll."
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 300
+    },
+    {
+      "key": "showQuote",
+      "kind": "boolean",
+      "label": "Show quotation",
+      "default": true,
+      "group": "Content"
+    },
+    {
+      "key": "quote",
+      "kind": "text",
+      "label": "Quotation",
+      "default": "A clear summary gives me enough context to decide. I can open the full details when I need more, then return to the page without losing my place.",
+      "group": "Content",
+      "maxLength": 1000
+    },
+    {
+      "key": "quoteAttribution",
+      "kind": "text",
+      "label": "Quote attribution",
+      "default": "Fictional example \u00b7 Arclen",
+      "group": "Content",
+      "maxLength": 160
+    },
+    {
+      "key": "groupTwoTitle",
+      "kind": "text",
+      "label": "Second group title",
+      "default": "02. Keep control",
+      "group": "Content",
+      "maxLength": 120
+    },
+    {
+      "key": "groupTwoTitles",
+      "kind": "string-list",
+      "label": "Second group item titles",
+      "default": [
+        "Choose your view",
+        "Move at your pace",
+        "Return when ready"
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 300
+    },
+    {
+      "key": "groupTwoDescriptions",
+      "kind": "string-list",
+      "label": "Second group item descriptions",
+      "default": [
+        "Raise or lower the panel using the visible controls or a drag.",
+        "Read with touch, a pointer or a keyboard.",
+        "Close the panel and continue from the control that opened it."
+      ],
+      "group": "Content",
+      "minItems": 0,
+      "maxItems": 8,
+      "maxItemLength": 300
+    },
+    {
+      "key": "fontFamily",
+      "kind": "select",
+      "label": "Font",
+      "default": "geist",
+      "group": "Appearance",
+      "options": [
+        "geist",
+        "system"
+      ]
+    },
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Color mode",
+      "default": "system",
+      "group": "Appearance",
+      "options": [
+        "system",
+        "light",
+        "dark",
+        "custom"
+      ]
+    },
+    {
+      "key": "contentWidth",
+      "kind": "number",
+      "label": "Content width",
+      "default": 448,
+      "group": "Layout",
+      "min": 280,
+      "max": 800,
+      "step": 1
+    },
+    {
+      "key": "maxHeight",
+      "kind": "number",
+      "label": "Maximum height (%)",
+      "default": 97,
+      "group": "Layout",
+      "min": 50,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "contentPadding",
+      "kind": "number",
+      "label": "Horizontal padding",
+      "default": 16,
+      "group": "Layout",
+      "min": 8,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "sectionGap",
+      "kind": "number",
+      "label": "Section gap",
+      "default": 48,
+      "group": "Layout",
+      "min": 16,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Top corners",
+      "default": 10,
+      "group": "Appearance",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "shadow",
+      "kind": "select",
+      "label": "Shadow",
+      "default": "none",
+      "group": "Appearance",
+      "options": [
+        "none",
+        "soft",
+        "strong"
+      ]
+    },
+    {
+      "key": "bodySize",
+      "kind": "number",
+      "label": "Body size",
+      "default": 16,
+      "group": "Appearance",
+      "min": 14,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "bodyLineHeight",
+      "kind": "number",
+      "label": "Body line height",
+      "default": 1.5,
+      "group": "Appearance",
+      "min": 1.2,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "headingSize",
+      "kind": "number",
+      "label": "Title size",
+      "default": 24,
+      "group": "Appearance",
+      "min": 20,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "surfaceColor",
+      "kind": "color",
+      "label": "Surface",
+      "default": "#ffffff",
+      "group": "Colors"
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Text",
+      "default": "#18181b",
+      "group": "Colors"
+    },
+    {
+      "key": "mutedColor",
+      "kind": "color",
+      "label": "Secondary text",
+      "default": "#52525b",
+      "group": "Colors"
+    },
+    {
+      "key": "borderColor",
+      "kind": "color",
+      "label": "Border",
+      "default": "#e4e4e7",
+      "group": "Colors"
+    },
+    {
+      "key": "actionColor",
+      "kind": "color",
+      "label": "Action background",
+      "default": "#000000",
+      "group": "Colors"
+    },
+    {
+      "key": "actionTextColor",
+      "kind": "color",
+      "label": "Action text",
+      "default": "#fafafa",
+      "group": "Colors"
+    },
+    {
+      "key": "overlayColor",
+      "kind": "color",
+      "label": "Overlay",
+      "default": "#000000",
+      "group": "Colors"
+    },
+    {
+      "key": "overlayOpacity",
+      "kind": "number",
+      "label": "Overlay opacity",
+      "default": 0.4,
+      "group": "Colors",
+      "min": 0,
+      "max": 0.8,
+      "step": 0.05
+    },
+    {
+      "key": "overlayMode",
+      "kind": "select",
+      "label": "Overlay behavior",
+      "default": "adaptive",
+      "group": "Behavior",
+      "options": [
+        {
+          "value": "adaptive",
+          "label": "Adaptive"
+        },
+        {
+          "value": "constant",
+          "label": "Constant"
+        }
+      ],
+      "description": "Adaptive follows direction-aware snap transitions; Constant keeps the configured dimming while open."
+    },
+    {
+      "key": "snapPoints",
+      "kind": "string-list",
+      "label": "Snap points",
+      "default": [
+        "148px",
+        "355px",
+        "100%"
+      ],
+      "group": "Behavior",
+      "minItems": 2,
+      "maxItems": 5,
+      "maxItemLength": 12,
+      "description": "Viewport-relative snap anchors such as 148px or 100%; anchors are not visible drawer heights."
+    },
+    {
+      "key": "initialSnap",
+      "kind": "number",
+      "label": "Initial snap",
+      "default": 0,
+      "group": "Behavior",
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "dragEnabled",
+      "kind": "boolean",
+      "label": "Drag to resize",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "dismissOnOverlay",
+      "kind": "boolean",
+      "label": "Dismiss on overlay",
+      "default": true,
+      "group": "Behavior"
+    },
+    {
+      "key": "showHandle",
+      "kind": "boolean",
+      "label": "Show drag handle",
+      "default": false,
+      "group": "Behavior"
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Transition duration",
+      "default": 500,
+      "group": "Motion",
+      "min": 0,
+      "max": 1000,
+      "step": 10
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Transition easing",
+      "default": "glide",
+      "group": "Motion",
+      "options": [
+        {
+          "value": "glide",
+          "label": "Glide"
+        },
+        {
+          "value": "standard",
+          "label": "Standard"
+        },
+        {
+          "value": "linear",
+          "label": "Linear"
+        }
+      ]
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors; see assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Copyright 2024 The Geist Project Authors."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Copyright 2026 Arclen. Geist font terms remain in assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "NOTICE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Copyright 2026 Arclen. Geist font terms remain in assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "PROVENANCE.md",
+      "contentType": "text/markdown",
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Copyright 2026 Arclen. Geist font terms remain in assets/OFL-Geist.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Remove spatial transitions; snapping and dismissal settle immediately while controls and focus remain usable.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Light",
+      "settings": {
+        "theme": "light"
+      }
+    },
+    {
+      "name": "Dark",
+      "settings": {
+        "theme": "dark"
+      }
+    },
+    {
+      "name": "Short content",
+      "settings": {
+        "showQuote": false,
+        "groupTwoTitle": "",
+        "groupTwoTitles": [],
+        "groupTwoDescriptions": []
+      }
+    },
+    {
+      "name": "Roomy",
+      "settings": {
+        "contentWidth": 560,
+        "bodySize": 18,
+        "contentPadding": 24,
+        "sectionGap": 56
+      }
+    },
+    {
+      "name": "Custom monochrome",
+      "settings": {
+        "theme": "custom",
+        "surfaceColor": "#f3f3f3",
+        "textColor": "#151515",
+        "mutedColor": "#595959",
+        "borderColor": "#d4d4d4",
+        "actionColor": "#222222",
+        "actionTextColor": "#ffffff",
+        "overlayColor": "#000000",
+        "overlayOpacity": 0.35
+      }
+    }
+  ]
+}
