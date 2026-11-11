@@ -34,6 +34,13 @@
 .sd-handle{position:absolute;z-index:1;top:7px;left:50%;width:32px;height:4px;transform:translateX(-50%);border-radius:3px;background:var(--sd-border);pointer-events:none}
 .sd-content{width:100%;max-width:var(--sd-width,448px);margin:0 auto;padding:20px var(--sd-padding,16px) max(16px,env(safe-area-inset-bottom));overflow-wrap:anywhere}
 .sd[data-rating=false] .sd-content{padding-top:48px}
+.sd-product-header{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center}
+.sd-heading{min-width:0}
+.sd-image{position:relative;overflow:hidden;background:#e7e4df;border-radius:6px;isolation:isolate}
+.sd-image-thumb{width:56px;height:56px}
+.sd-image-large{width:100%;max-width:280px;aspect-ratio:1;margin:var(--sd-gap,48px) auto 0}
+.sd-image img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:contain}
+.sd-image-note{position:absolute;inset:0;display:grid;place-items:center;padding:16px;color:#52525b;font-size:14px;text-align:center}
 .sd-rating{height:20px;display:flex;align-items:center;gap:0;color:var(--sd-text);margin:0 0 8px}
 .sd-rating svg{display:block;width:20px;height:20px}
 .sd-content :is(h2,h3,h4,p,ul,figure,blockquote){margin:0;padding:0;font:inherit}
