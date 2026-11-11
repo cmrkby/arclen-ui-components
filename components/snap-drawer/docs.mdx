@@ -1,6 +1,6 @@
 # Snap Drawer
 
-A bottom drawer with a short overview, a middle view and a full reading view. Open it from an inline trigger, drag the panel, or use the visible expand and collapse controls.
+A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. Drag the panel or use the visible expand and collapse controls.
 
 ## Install and use
 
@@ -13,10 +13,8 @@ Import `SnapDrawer` or its `Component` alias from the installed component direct
 ```tsx
 import { SnapDrawer } from './components/snap-drawer';
 
-export default function ProjectDetails() {
+export default function ProductQuickView() {
   return <SnapDrawer
-    title="Project details"
-    triggerLabel="View project"
     theme="system"
     snapPoints={['148px', '355px', '100%']}
     initialSnap={0}
@@ -40,33 +38,30 @@ A slow release chooses the nearest reachable view. A sustained fast upward relea
 
 Each group's item titles and descriptions must have matching lengths. Empty groups are omitted. All text is escaped. Set `actionHref` to a relative path, hash, HTTP or HTTPS URL to render a same-tab link. Leave it empty for an action button. There is no checkout or payment integration.
 
-The API reference is generated from the package manifest and lists all 45 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Preview size, pause and device controls are not exported settings.
+The default demo uses `title` for the product name, `metadata` for price and availability, and `description` for a short introduction plus the selected option. The option is a text summary, not an interactive picker. The first group contains specifications; the second contains delivery and returns. Rating and quotation remain available but are hidden by default. Product claims and prices are fictional examples.
+
+The API reference is generated from the package manifest and lists all 45 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
 
 ## Configured example
 
 ```tsx
 import { SnapDrawer } from './components/snap-drawer';
 
-export default function ReleaseDetails() {
+export default function LampDetails() {
   return <SnapDrawer
-    triggerLabel="View release notes"
-    title="Release notes"
-    metadata="Version 2.4"
-    description="Read the changes before continuing to the full release notes."
-    showRating={false}
-    contentWidth={560}
+    triggerLabel="Quick view in Chalk"
+    title="Arc desk lamp"
+    metadata="$128 USD · In stock"
+    description={'Warm, dimmable light for a quieter desk.\nSelected: Chalk · USB-C'}
     initialSnap={1}
-    groupOneTitle="Changes"
-    groupOneTitles={['Faster search', 'Clearer settings']}
+    groupOneTitle="Specifications"
+    groupOneTitles={['Light', 'Finish', 'Included']}
     groupOneDescriptions={[
-      'Search keeps the filters you selected.',
-      'Each setting now includes a short explanation.'
+      '2700 K warm white with three brightness levels.',
+      'Chalk powder-coated aluminum with a weighted base.',
+      '1.5 m USB-C cable. Power adapter sold separately.'
     ]}
-    groupTwoTitles={[]}
-    groupTwoDescriptions={[]}
-    showQuote={false}
-    actionLabel="Read release notes"
-    actionHref="/releases/2.4"
+    actionLabel="Choose Chalk"
   />;
 }
 ```
@@ -75,23 +70,25 @@ export default function ReleaseDetails() {
 
 ```tsx
 "use client";
+import { useState } from 'react';
 import { SnapDrawer } from './components/snap-drawer';
 
-export default function ActionDetails() {
-  return <SnapDrawer
-    onOpenChange={open => console.log(open)}
-    onSnapChange={index => console.log(index)}
-    onAction={event => {
-      event.preventDefault();
-      console.log(event.detail.settings.title);
-    }}
-  />;
+export default function LampSelection() {
+  const [selection, setSelection] = useState('');
+  return <>
+    <SnapDrawer
+      onAction={event => {
+        setSelection(`${event.detail.settings.title} selected for this demo. No order was placed.`);
+      }}
+    />
+    <p role="status">{selection}</p>
+  </>;
 }
 ```
 
 Callbacks belong in a React client component. For plain JavaScript, import `mount` and `resolveSettings` from `src/core`. `mount(host, settings)` returns `open()`, `close()`, `snapTo(configuredIndex)`, `update(settings)`, `pause()`, `resume()` and `destroy()`. Updates accept a complete or partial settings object, with omitted fields restored to their defaults.
 
-The host emits `snap-drawer:open-change`, `snap-drawer:snap-change` and a cancelable `snap-drawer:action` event. Preventing the action event keeps the drawer open. Otherwise its button dismisses the drawer. A link follows its URL normally.
+The host emits `snap-drawer:open-change`, `snap-drawer:snap-change` and a cancelable `snap-drawer:action` event. Preventing the action event keeps the drawer open. Otherwise its button dismisses the drawer. The example above uses that dismissal and displays a local selection confirmation; it does not create a cart, charge a payment or send a request. Connect the event to your own application when using real products. A link follows its URL normally.
 
 ## Accessibility and lifecycle
 

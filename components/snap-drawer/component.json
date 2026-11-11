@@ -16,7 +16,7 @@
       "key": "triggerLabel",
       "kind": "text",
       "label": "Trigger label",
-      "default": "View details",
+      "default": "Quick view",
       "group": "Content",
       "maxLength": 80
     },
@@ -24,7 +24,7 @@
       "key": "title",
       "kind": "text",
       "label": "Title",
-      "default": "A place for the details",
+      "default": "Arc desk lamp",
       "group": "Content",
       "maxLength": 120
     },
@@ -32,7 +32,7 @@
       "key": "metadata",
       "kind": "text",
       "label": "Metadata",
-      "default": "A short guide \u00b7 Read at your own pace",
+      "default": "$128 USD · In stock",
       "group": "Content",
       "maxLength": 180
     },
@@ -40,7 +40,7 @@
       "key": "description",
       "kind": "text",
       "label": "Introduction",
-      "default": "Keep useful context close while leaving the main page in view. Open this panel for a quick overview, then raise it to read the complete guide. Each section has a clear purpose, with room for a longer explanation when you need it.",
+      "default": "Warm, dimmable light for a quieter desk.\nSelected: Graphite · USB-C",
       "group": "Content",
       "maxLength": 2000
     },
@@ -48,7 +48,7 @@
       "key": "showRating",
       "kind": "boolean",
       "label": "Show rating",
-      "default": true,
+      "default": false,
       "group": "Content"
     },
     {
@@ -72,7 +72,7 @@
       "key": "actionLabel",
       "kind": "text",
       "label": "Action label",
-      "default": "Continue",
+      "default": "Choose this lamp",
       "group": "Content",
       "maxLength": 80
     },
@@ -88,7 +88,7 @@
       "key": "groupOneTitle",
       "kind": "text",
       "label": "First group title",
-      "default": "01. Make space",
+      "default": "Specifications",
       "group": "Content",
       "maxLength": 120
     },
@@ -97,9 +97,9 @@
       "kind": "string-list",
       "label": "First group item titles",
       "default": [
-        "Start with the essentials",
-        "Keep context nearby",
-        "Leave room to read"
+        "Light",
+        "Materials",
+        "Size & power"
       ],
       "group": "Content",
       "minItems": 0,
@@ -111,9 +111,9 @@
       "kind": "string-list",
       "label": "First group item descriptions",
       "default": [
-        "Show a concise introduction before the full explanation.",
-        "Keep the original page behind the panel so the task stays familiar.",
-        "Use a comfortable line length and let longer content scroll."
+        "2700 K warm white. Three brightness levels with a touch dimmer.",
+        "Powder-coated aluminum with a weighted base and soft underside.",
+        "32 cm tall · 14 cm base · 6 W LED. Includes a 1.5 m USB-C cable; power adapter sold separately."
       ],
       "group": "Content",
       "minItems": 0,
@@ -124,14 +124,14 @@
       "key": "showQuote",
       "kind": "boolean",
       "label": "Show quotation",
-      "default": true,
+      "default": false,
       "group": "Content"
     },
     {
       "key": "quote",
       "kind": "text",
       "label": "Quotation",
-      "default": "A clear summary gives me enough context to decide. I can open the full details when I need more, then return to the page without losing my place.",
+      "default": "A small pool of light, exactly where you need it.",
       "group": "Content",
       "maxLength": 1000
     },
@@ -139,7 +139,7 @@
       "key": "quoteAttribution",
       "kind": "text",
       "label": "Quote attribution",
-      "default": "Fictional example \u00b7 Arclen",
+      "default": "Design note · Fictional product",
       "group": "Content",
       "maxLength": 160
     },
@@ -147,7 +147,7 @@
       "key": "groupTwoTitle",
       "kind": "text",
       "label": "Second group title",
-      "default": "02. Keep control",
+      "default": "Delivery & returns",
       "group": "Content",
       "maxLength": 120
     },
@@ -156,9 +156,9 @@
       "kind": "string-list",
       "label": "Second group item titles",
       "default": [
-        "Choose your view",
-        "Move at your pace",
-        "Return when ready"
+        "Dispatch",
+        "Delivery",
+        "Returns"
       ],
       "group": "Content",
       "minItems": 0,
@@ -170,9 +170,9 @@
       "kind": "string-list",
       "label": "Second group item descriptions",
       "default": [
-        "Raise or lower the panel using the visible controls or a drag.",
-        "Read with touch, a pointer or a keyboard.",
-        "Close the panel and continue from the control that opened it."
+        "Ready to leave the studio in 2 business days.",
+        "Standard delivery in 3–5 business days after dispatch. Shipping calculated at checkout.",
+        "Return within 30 days in the original packaging. This is a fictional product demo; no order is placed."
       ],
       "group": "Content",
       "minItems": 0,
@@ -525,9 +525,9 @@
       "name": "Short content",
       "settings": {
         "showQuote": false,
-        "groupTwoTitle": "",
-        "groupTwoTitles": [],
-        "groupTwoDescriptions": []
+        "groupOneTitle": "",
+        "groupOneTitles": [],
+        "groupOneDescriptions": []
       }
     },
     {

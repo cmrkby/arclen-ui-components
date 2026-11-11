@@ -17,6 +17,18 @@ describe('Snap Drawer settings and geometry', () => {
     expect(markup).toContain('disabled aria-haspopup="dialog"'); expect(markup).toContain('<article'); expect(markup).not.toContain('aria-modal');
     expect(markup).toContain('href="/go?a=1&amp;b=2"');
   });
+  it('keeps optional social content opt-in and the product details readable without enhancement', () => {
+    const host = document.createElement('div'); host.innerHTML = render(resolveSettings({}));
+    expect(host.querySelector('.sd-rating')).toBeNull(); expect(host.querySelector('.sd-quote')).toBeNull();
+    expect(host.querySelector('h2')?.textContent).toBe('Arc desk lamp');
+    expect(host.querySelector('.sd-metadata')?.textContent).toBe('$128 USD · In stock');
+    expect([...host.querySelectorAll('.sd-group h3')].map(node => node.textContent)).toEqual(['Specifications', 'Delivery & returns']);
+    expect(host.querySelector('.sd-action')?.tagName).toBe('BUTTON');
+    host.innerHTML = render(resolveSettings({ showRating: true, rating: 3, showQuote: true, quote: '<Optional note>', quoteAttribution: 'Your attribution' }));
+    expect(host.querySelector('.sd-rating')?.getAttribute('aria-label')).toBe('3 out of 5 stars');
+    expect(host.querySelector('.sd-quote blockquote')?.textContent).toBe('<Optional note>');
+    expect(host.querySelector('.sd-quote figcaption')?.textContent).toBe('Your attribution');
+  });
   it('preserves viewport anchor semantics at desktop, phone and tablet viewport heights', () => {
     for (const height of [1000, 844, 1024, 1112]) {
       const geometry = resolveSnapGeometry(resolveSettings({}), height);
@@ -71,7 +83,10 @@ describe('Snap Drawer lifecycle', () => {
     const scroll = document.querySelector<HTMLElement>('.sd-modal .sd-scroll')!; scroll.scrollTop = 40;
     controller.update({ duration: 0, contentWidth: 560 });
     expect(document.querySelector('.sd-modal .sd-action')).toBe(action); expect(scroll.scrollTop).toBe(40);
-    document.getElementById('one')!.addEventListener('snap-drawer:action', event => event.preventDefault(), { once: true });
+    document.getElementById('one')!.addEventListener('snap-drawer:action', event => {
+      expect((event as CustomEvent).detail.settings).toMatchObject({ title: 'Arc desk lamp', actionLabel: 'Choose this lamp', actionHref: '' });
+      event.preventDefault();
+    }, { once: true });
     action.click(); expect(document.querySelector('dialog')!.open).toBe(true);
     action.click(); expect(document.querySelector('dialog')!.open).toBe(false);
   });
@@ -114,11 +129,28 @@ describe('Snap Drawer lifecycle', () => {
     pointer(scroll, 'pointerdown', 90, 700); scroll.focus(); pointer(window, 'pointermove', 810, 750); pointer(window, 'pointerup', 810, 755);
     expect(modal.open).toBe(false);
   });
+  it.each(['', '#selected'])('keeps a visible middle action stable and keyboard reachable (%s)', actionHref => {
+    const controller = create(); controller.update({ duration: 0, actionHref }); controller.open();
+    const modal = document.querySelector<HTMLDialogElement>('.sd-modal')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
+    const action = modal.querySelector<HTMLElement>('.sd-action')!, close = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
+    const box = (top: number, bottom: number) => ({ top, bottom, left: 20, right: 420, width: 400, height: bottom - top, x: 20, y: top, toJSON() { return {}; } });
+    vi.spyOn(scroll, 'getBoundingClientRect').mockReturnValue(box(676, 1645));
+    for (const node of modal.querySelectorAll<HTMLElement>('.sd-controls button')) vi.spyOn(node, 'getBoundingClientRect').mockReturnValue(box(680, 712));
+    vi.spyOn(action, 'getBoundingClientRect').mockReturnValue(box(884, 932));
+    const reveal = vi.fn(); Object.defineProperty(action, 'scrollIntoView', { configurable: true, value: reveal });
+    controller.snapTo(1); expect(action.tabIndex).toBe(0);
+    close.focus(); modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+    expect(document.activeElement).toBe(action); expect(modal.dataset.snap).toBe('1'); expect(reveal).not.toHaveBeenCalled();
+    // A native pointer may focus the control before an in-flight tab-stop refresh.
+    close.focus(); action.tabIndex = -1; action.focus();
+    expect(modal.dataset.snap).toBe('1'); expect(reveal).not.toHaveBeenCalled();
+    if (!actionHref) { const selected = vi.fn(); document.getElementById('one')!.addEventListener('snap-drawer:action', selected); action.click(); expect(selected).toHaveBeenCalledTimes(1); expect(modal.open).toBe(false); }
+  });
   it('still reveals an offscreen focused child control from a partial snap', () => {
     const controller = create(); controller.open();
     const action = document.querySelector<HTMLButtonElement>('.sd-modal .sd-action')!;
     const reveal = vi.fn(); Object.defineProperty(action, 'scrollIntoView', { configurable: true, value: reveal });
-    action.focus();
+    expect(action.tabIndex).toBe(-1); action.focus();
     expect(document.querySelector<HTMLElement>('.sd-modal')!.dataset.snap).toBe('2'); expect(document.activeElement).toBe(action); expect(reveal).toHaveBeenCalledWith({ block: 'nearest' });
   });
   it('fits the reading viewport to custom highest snaps and clamped coincident positions', () => {

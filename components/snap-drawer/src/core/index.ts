@@ -251,7 +251,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     closing = false; index = clamp(reachable, 0, geometry.positions.length - 1); controls(true);
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
     state('settling');
-    const done = () => { state(paused ? 'paused' : 'resting'); emit('snap-change', { index: geometry.reachableToSource[index], reachableIndex: index }); };
+    const done = () => { refreshContentTabStops(); state(paused ? 'paused' : 'resting'); emit('snap-change', { index: geometry.reachableToSource[index], reachableIndex: index }); };
     if (animateMotion) animate(geometry.positions[index], targetOpacity, done);
     else { cancelTransition(false); paint(geometry.positions[index], targetOpacity); done(); }
   }
@@ -271,7 +271,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     controls(); closeButton.focus({ preventScroll: true }); modal.scrollTop = 0; state('opening');
     emit('open-change', { open: true });
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
-    animate(geometry.positions[index], targetOpacity, () => { state(paused ? 'paused' : 'resting'); });
+    animate(geometry.positions[index], targetOpacity, () => { refreshContentTabStops(); state(paused ? 'paused' : 'resting'); });
   }
   function close() {
     if (!opened || destroyed || closing) return;
@@ -317,9 +317,23 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       if (target === 'closed') close(); else snap(target);
     } else cancelGesture();
   }
-  function visibleFocusable() {
+  function contentVisible(node: HTMLElement) {
+    const box = node.getBoundingClientRect(), clip = scroll.getBoundingClientRect();
     const top = view.visualViewport?.offsetTop ?? 0, bottom = top + (view.visualViewport?.height ?? view.innerHeight);
-    return [...modal.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],.sd-scroll[tabindex="0"]')].filter(node => { const box = node.getBoundingClientRect(); return node.tabIndex >= 0 && box.height > 0 && box.top >= top && box.bottom <= bottom + 1; });
+    return box.width > 0 && box.height > 0 && box.top >= Math.max(top, clip.top)
+      && box.bottom <= Math.min(bottom, clip.bottom) + 1
+      && box.left >= Math.max(0, clip.left) && box.right <= Math.min(view.innerWidth, clip.right) + 1;
+  }
+  function refreshContentTabStops() {
+    scroll.querySelectorAll<HTMLElement>('a,button').forEach(node => { node.tabIndex = contentVisible(node) ? 0 : -1; });
+  }
+  function visibleFocusable() {
+    refreshContentTabStops();
+    const top = view.visualViewport?.offsetTop ?? 0, bottom = top + (view.visualViewport?.height ?? view.innerHeight);
+    return [...modal.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],.sd-scroll[tabindex="0"]')].filter(node => {
+      const box = node.getBoundingClientRect();
+      return node.tabIndex >= 0 && (scroll.contains(node) ? contentVisible(node) : box.height > 0 && box.top >= top && box.bottom <= bottom + 1);
+    });
   }
   function settle() {
     if (!opened) return;
@@ -354,8 +368,9 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     on(modal, 'focusin', event => {
       const target = event.target as HTMLElement;
       // Pointer focus on the reading region must not change the gesture's snap or origin.
-      // Reveal offscreen child controls when keyboard or programmatic focus reaches them.
-      if (target !== scroll && scroll.contains(target) && !visibleFocusable().includes(target)) {
+      // Pointer focus can reach a visible control before its tab stop is refreshed.
+      // Reveal only content clipped by the reading viewport, independently of tabindex.
+      if (target !== scroll && scroll.contains(target) && !contentVisible(target)) {
         snap(geometry.positions.length - 1, false); target.scrollIntoView({ block: 'nearest' });
       }
     });
