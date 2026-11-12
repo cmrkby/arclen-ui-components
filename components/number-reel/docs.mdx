@@ -1,0 +1,105 @@
+# Number Reel
+
+Number Reel displays quantities, prices and measured values with proportional rolling digits. Value, formatting and visual settings update together. The default is a plain `431.10` readout; Ledger, Cells and Instrument are optional surface treatments of the same component.
+
+## Install and delivery
+
+Run `npx arclen-ui add number-reel` in your application. Keep the complete `components/number-reel` directory, including its manifest and stylesheet. The installed root exports `NumberReel`, `Component` and `NumberReelProps`. `Component` is an alias for `NumberReel`.
+
+The React adapter uses your application's React and React DOM. It has been tested with React 19.2.8 in Vite and Next.js. The component declares no additional runtime dependencies. Vanilla JavaScript and standalone HTML do not need React. System fonts require no downloads; the component makes no network requests.
+
+The complete examples below assume an application entry beside `components/`. Adjust relative paths to your project. A bundler must support TypeScript, JSON and CSS imports. The React adapter imports its stylesheet; vanilla imports it explicitly.
+
+For standalone HTML, use Copy HTML or download the HTML archive. Copied HTML contains its styles and script. Keep `component.html`, `component.css` and `component.js` together in an archive so relative paths resolve. Its script enhances the supplied markup; do not mount that host a second time. Use the React or vanilla API for programmatic updates.
+
+## React example
+
+Save this complete component as `Example.tsx` and render it from your application's React root. The controls belong to the application, so they can keep the displayed value and other business state together.
+
+```tsx
+'use client';
+import { useState } from 'react';
+import { NumberReel } from './components/number-reel';
+
+export default function Example() {
+  const [value, setValue] = useState(431.1);
+  const [paused, setPaused] = useState(false);
+
+  return (
+    <section aria-label="Order total" style={{ maxWidth: 420 }}>
+      <NumberReel
+        value={value}
+        format="currency"
+        currency="USD"
+        fractionDigits={2}
+        accessibleLabel="Order total"
+        announce
+        paused={paused}
+        theme="light"
+      />
+      <button type="button" onClick={() => setValue(current => current + 1)}>
+        Add one dollar
+      </button>
+      <button type="button" onClick={() => setPaused(current => !current)}>
+        {paused ? 'Resume' : 'Pause'}
+      </button>
+    </section>
+  );
+}
+```
+
+Settings are optional props. `className` and `style` apply to the receiving host; `paused` freezes active motion. These three wrapper props are not serialized settings. React settings props own the complete settings snapshot: removing a prop restores its manifest default. The adapter destroys its instance on unmount.
+
+## Configured vanilla example
+
+Bundle this complete browser entry as `main.ts` and load its generated script and CSS in an HTML document with a body. It creates its own host and controls.
+
+```ts
+import { defaults, mount } from './components/number-reel/src/core';
+import './components/number-reel/src/styles.css';
+
+const host = document.createElement('div');
+host.style.cssText = 'width:320px;max-width:100%';
+const update = document.createElement('button');
+update.type = 'button';
+update.textContent = 'Update percentage';
+const reset = document.createElement('button');
+reset.type = 'button';
+reset.textContent = 'Reset display';
+document.body.append(host, update, reset);
+
+const reel = mount(host, {
+  value: 0.742,
+  format: 'percent',
+  fractionDigits: 1,
+  accessibleLabel: 'Completion',
+  theme: 'light',
+});
+update.onclick = () => reel.update({ value: 0.815 });
+reset.onclick = () => reel.update(defaults);
+window.addEventListener('pagehide', () => reel.destroy(), { once: true });
+```
+
+`mount(element, settings)` returns `update(partialSettings)`, `pause()`, `resume()` and `destroy()`. Update the value and formatting in one call for an atomic change. `resolveSettings` validates a complete configuration without mutating the input. `defaults` is immutable; `update(defaults)` resets every setting. Settings serialize directly with `JSON.stringify`. Updating a destroyed handle throws; repeated destroy, pause and resume calls are safe.
+
+## Formatting and sizing
+
+Values must be finite numbers between −999,999,999,999 and 999,999,999,999. Decimal places must be an integer from 0 to 4. Percent values are fractions: `0.742` with one decimal place displays `74.2%`. Currency decimal places follow `fractionDigits`, including JPY. Accounting signs use the selected locale. Negative zero displays as zero. Prefix and suffix are literal text, limited to 24 characters each.
+
+Custom colors apply with the Custom theme; currency controls apply to Currency formatting. Font size is a maximum that scales with the viewport before fitting the receiving container. At the 16px minimum, long content scrolls horizontally so both ends remain reachable. Provide a receiving container with a definite width when fitting is important.
+
+Direction follows numeric increase or decrease by default. Choose Up or Down to fix the travel direction. Duration and easing control rolling and horizontal layout responses. Opacity uses ease-out over half the roll duration. Stagger offsets changed digit starts; edge fade controls the mask without changing the baseline. Rapid changes preserve current progress and settle on the latest target.
+
+The API reference on this page is generated from the manifest and lists every default, option and bound. Metric, Price, Percentage and Quantity presets configure the same Plain layout. Presets and the site's Next value action are preview controls, not additional component props.
+
+## Accessibility and lifecycle
+
+The component is a display, with no focusable controls of its own. Supply native labeled buttons or inputs for keyboard and touch updates, as in the examples. Visual glyphs are hidden from assistive technology; one accessible string carries the value and optional label. Enable `announce` for a polite announcement once the latest value settles.
+
+Reduced motion, disabled animation and zero duration immediately display the latest value without spatial travel. Explicit pause freezes progress and retains the latest target; resume continues when visible. Hidden and offscreen instances stop work. Offscreen instances settle to the latest target when visible again. Initial values render without motion.
+
+`render(settings)` returns escaped, accessible static HTML for server rendering. If Intl formatting or required animation/observer APIs are unavailable, the display remains static. The Intl fallback uses decimal points, a currency code and a percent suffix; it does not reproduce locale grouping. Destroy releases owned observers, listeners and animation work and removes only its own content.
+
+## Rights
+
+Number Reel's code, styles and poster are original Arclen UI work. It uses system fonts and includes no third-party artwork, icons or additional runtime library. Keep `NOTICE.md` with redistributed source.
