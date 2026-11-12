@@ -1,6 +1,6 @@
 {
   "id": "snap-drawer",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "tier": "free",
   "name": "Snap Drawer",
   "category": "utilities",
@@ -32,7 +32,7 @@
       "key": "metadata",
       "kind": "text",
       "label": "Metadata",
-      "default": "$128 USD · In stock",
+      "default": "$128 USD \u00b7 In stock",
       "group": "Content",
       "maxLength": 180
     },
@@ -40,7 +40,7 @@
       "key": "description",
       "kind": "text",
       "label": "Introduction",
-      "default": "Warm, dimmable light for a quieter desk.\nSelected: Graphite · USB-C",
+      "default": "Warm, dimmable light for a quieter desk.\nSelected: Graphite \u00b7 USB-C",
       "group": "Content",
       "maxLength": 2000
     },
@@ -138,7 +138,7 @@
       "default": [
         "2700 K warm white. Three brightness levels with a touch dimmer.",
         "Powder-coated aluminum with a weighted base and soft underside.",
-        "32 cm tall · 14 cm base · 6 W LED. Includes a 1.5 m USB-C cable; power adapter sold separately."
+        "32 cm tall \u00b7 14 cm base \u00b7 6 W LED. Includes a 1.5 m USB-C cable; power adapter sold separately."
       ],
       "group": "Content",
       "minItems": 0,
@@ -164,7 +164,7 @@
       "key": "quoteAttribution",
       "kind": "text",
       "label": "Quote attribution",
-      "default": "Design note · Fictional product",
+      "default": "Design note \u00b7 Fictional product",
       "group": "Content",
       "maxLength": 160
     },
@@ -196,7 +196,7 @@
       "label": "Second group item descriptions",
       "default": [
         "Ready to leave the studio in 2 business days.",
-        "Standard delivery in 3–5 business days after dispatch. Shipping calculated at checkout.",
+        "Standard delivery in 3\u20135 business days after dispatch. Shipping calculated at checkout.",
         "Return within 30 days in the original packaging. This is a fictional product demo; no order is placed."
       ],
       "group": "Content",
@@ -473,6 +473,267 @@
           "label": "Linear"
         }
       ]
+    },
+    {
+      "key": "beamEnabled",
+      "kind": "boolean",
+      "label": "Show edge beam",
+      "default": true,
+      "group": "Edge beam"
+    },
+    {
+      "key": "beamPalette",
+      "kind": "select",
+      "label": "Beam palette",
+      "default": "adaptive",
+      "group": "Edge beam",
+      "options": [
+        "adaptive",
+        "silver",
+        "blue",
+        "arclen",
+        "custom"
+      ]
+    },
+    {
+      "key": "beamColor1",
+      "kind": "color",
+      "label": "Gradient color 1",
+      "default": "#003dff",
+      "group": "Beam colors",
+      "description": "Used by the Custom beam palette."
+    },
+    {
+      "key": "beamColor2",
+      "kind": "color",
+      "label": "Gradient color 2",
+      "default": "#0055ff",
+      "group": "Beam colors",
+      "description": "Used by the Custom beam palette."
+    },
+    {
+      "key": "beamColor3",
+      "kind": "color",
+      "label": "Gradient color 3",
+      "default": "#3366ff",
+      "group": "Beam colors",
+      "description": "Used by the Custom beam palette."
+    },
+    {
+      "key": "beamColor4",
+      "kind": "color",
+      "label": "Gradient color 4",
+      "default": "#0033ee",
+      "group": "Beam colors",
+      "description": "Used by the Custom beam palette."
+    },
+    {
+      "key": "beamRestOpacity",
+      "kind": "number",
+      "label": "Resting opacity",
+      "default": 0,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "beamHoverOpacity",
+      "kind": "number",
+      "label": "Hover / focus opacity",
+      "default": 0.9,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "beamDragOpacity",
+      "kind": "number",
+      "label": "Dragging opacity",
+      "default": 1,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "beamDarkIntensity",
+      "kind": "number",
+      "label": "Dark surface intensity",
+      "default": 0.85,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "description": "Multiplies the entire beam opacity on dark surfaces, for every palette. Set to 1 for equal light and dark intensity."
+    },
+    {
+      "key": "beamLineThickness",
+      "kind": "number",
+      "label": "Line thickness (px)",
+      "default": 1,
+      "group": "Beam appearance",
+      "min": 0.5,
+      "max": 4,
+      "step": 0.5
+    },
+    {
+      "key": "beamCoreHighlight",
+      "kind": "number",
+      "label": "Core highlight",
+      "default": 0.85,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "description": "Mixes white into the crisp line only. The surrounding halo retains the selected palette."
+    },
+    {
+      "key": "beamGlowThickness",
+      "kind": "number",
+      "label": "Glow thickness (px)",
+      "default": 10,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "beamGlowBlur",
+      "kind": "number",
+      "label": "Glow blur (px)",
+      "default": 4,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 12,
+      "step": 0.5
+    },
+    {
+      "key": "beamGlowOpacity",
+      "kind": "number",
+      "label": "Glow opacity",
+      "default": 0.7,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "beamDragGlowThickness",
+      "kind": "number",
+      "label": "Dragging glow thickness (px)",
+      "default": 14,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "beamDragGlowOpacity",
+      "kind": "number",
+      "label": "Dragging glow opacity",
+      "default": 0.82,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "beamEndFade",
+      "kind": "number",
+      "label": "End fade (%)",
+      "default": 22,
+      "group": "Beam appearance",
+      "min": 0,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "beamWidth",
+      "kind": "number",
+      "label": "Beam width (%)",
+      "default": 100,
+      "group": "Beam appearance",
+      "min": 10,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beamActivationDistance",
+      "kind": "number",
+      "label": "Activation distance (px)",
+      "default": 12,
+      "group": "Beam interaction",
+      "min": 0,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "beamFadeDuration",
+      "kind": "number",
+      "label": "Fade duration (ms)",
+      "default": 180,
+      "group": "Beam interaction",
+      "min": 0,
+      "max": 1000,
+      "step": 10
+    },
+    {
+      "key": "beamEasing",
+      "kind": "select",
+      "label": "Fade easing",
+      "default": "ease",
+      "group": "Beam interaction",
+      "options": [
+        "ease",
+        "linear",
+        "ease-out"
+      ]
+    },
+    {
+      "key": "handleFeedbackEnabled",
+      "kind": "boolean",
+      "label": "Handle feedback",
+      "default": true,
+      "group": "Handle feedback"
+    },
+    {
+      "key": "handlePalette",
+      "kind": "select",
+      "label": "Handle palette",
+      "default": "adaptive",
+      "group": "Handle feedback",
+      "options": [
+        "adaptive",
+        "custom"
+      ]
+    },
+    {
+      "key": "handleHoverColor",
+      "kind": "color",
+      "label": "Hover / focus color",
+      "default": "#93c5fd",
+      "group": "Handle feedback",
+      "description": "Used by the Custom handle palette."
+    },
+    {
+      "key": "handleDragColor",
+      "kind": "color",
+      "label": "Dragging color",
+      "default": "#f5faff",
+      "group": "Handle feedback",
+      "description": "Used by the Custom handle palette."
+    },
+    {
+      "key": "handleFeedbackDuration",
+      "kind": "number",
+      "label": "Color transition (ms)",
+      "default": 150,
+      "group": "Handle feedback",
+      "min": 0,
+      "max": 500,
+      "step": 10
     }
   ],
   "targets": [
