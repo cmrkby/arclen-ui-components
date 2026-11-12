@@ -119,7 +119,7 @@ export const palettes = {
 } as const;
 const ease = { glide: 'cubic-bezier(.32,.72,0,1)', standard: 'cubic-bezier(.2,0,0,1)', linear: 'linear' };
 const escape = (value: string) => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
-const icon = (name: 'up' | 'down' | 'close') => `<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="${name === 'up' ? 'M5 12.5 10 7.5 15 12.5' : name === 'down' ? 'M5 7.5 10 12.5 15 7.5' : 'M5.5 5.5 14.5 14.5M14.5 5.5 5.5 14.5'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const closeIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5.5 5.5 14.5 14.5M14.5 5.5 5.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 function rating(settings: Settings) {
   return `<div class="sd-rating" role="img" aria-label="${settings.rating} out of 5 stars">${Array.from({ length: 5 }, (_, index) => `<svg viewBox="0 0 20 20" aria-hidden="true" style="opacity:${index < settings.rating ? 1 : .2}"><path fill="currentColor" d="M10 1.6 12.4 7 18.3 7.6 13.9 11.6 15.1 17.4 10 14.4 4.9 17.4 6.1 11.6 1.7 7.6 7.6 7Z"/></svg>`).join('')}</div>`;
 }
@@ -189,9 +189,9 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   const modal = document.createElement('dialog'); modal.className = 'sd sd-modal'; modal.dataset.sdInstance = identity;
   modal.tabIndex = -1; modal.autofocus = true;
   modal.id = identity + '-dialog'; modal.setAttribute('aria-labelledby', identity + '-title'); modal.setAttribute('aria-describedby', identity + '-description');
-  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet"><div class="sd-handle" aria-hidden="true"></div><div class="sd-controls"><button type="button" data-sd-control="expand" aria-label="Expand details">${icon('up')}</button><button type="button" data-sd-control="collapse" aria-label="Collapse details">${icon('down')}</button><button type="button" data-sd-control="close" aria-label="Close details">${icon('close')}</button></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><span class="sd-status" role="status" aria-live="polite"></span></div>`;
+  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet"><div class="sd-handle" role="slider" tabindex="0" aria-label="Drawer height" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-valuetext="View 1 of 1"></div><div class="sd-controls"><button type="button" data-sd-control="close" aria-label="Close details">${closeIcon}</button></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><span class="sd-status" role="status" aria-live="polite"></span></div>`;
   const sheet = modal.querySelector<HTMLElement>('.sd-sheet')!, overlay = modal.querySelector<HTMLElement>('.sd-overlay')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
-  const expand = modal.querySelector<HTMLButtonElement>('[data-sd-control="expand"]')!, collapse = modal.querySelector<HTMLButtonElement>('[data-sd-control="collapse"]')!, closeButton = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
+  const handle = modal.querySelector<HTMLElement>('.sd-handle')!, closeButton = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
   const status = modal.querySelector<HTMLElement>('.sd-status')!;
   const media = typeof view.matchMedia === 'function' ? view.matchMedia('(prefers-reduced-motion: reduce)') : null;
   const colorMedia = typeof view.matchMedia === 'function' ? view.matchMedia('(prefers-color-scheme: dark)') : null;
@@ -242,7 +242,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       node.style.cssText = style(settings);
       if (settings.theme === 'system' && colorMedia) node.dataset.resolvedTheme = colorMedia.matches ? 'dark' : 'light'; else delete node.dataset.resolvedTheme;
     }
-    modal.querySelector<HTMLElement>('.sd-handle')!.hidden = !settings.showHandle;
+    handle.dataset.visible = String(settings.showHandle);
   }
   function state(value: string) { modal.dataset.state = value; root.dataset.state = value; }
   function measure() {
@@ -267,10 +267,9 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     sheet.style.transition = 'none'; overlay.style.transition = 'none'; paint(y, opacity);
   }
   function controls(announce = false) {
-    const disableExpand = index >= geometry.positions.length - 1, disableCollapse = index <= 0;
-    if (document.activeElement === expand && disableExpand) { if (!disableCollapse) collapse.disabled = false; (disableCollapse ? closeButton : collapse).focus({ preventScroll: true }); }
-    else if (document.activeElement === collapse && disableCollapse) { if (!disableExpand) expand.disabled = false; (disableExpand ? closeButton : expand).focus({ preventScroll: true }); }
-    expand.disabled = disableExpand; collapse.disabled = disableCollapse;
+    handle.setAttribute('aria-valuemax', String(geometry.positions.length));
+    handle.setAttribute('aria-valuenow', String(index + 1));
+    handle.setAttribute('aria-valuetext', `View ${index + 1} of ${geometry.positions.length}`);
     modal.dataset.snap = String(geometry.reachableToSource[index]); modal.dataset.reachableSnap = String(index);
     const highest = index === geometry.positions.length - 1;
     if (!highest && (document.activeElement === scroll || scroll.contains(document.activeElement))) closeButton.focus({ preventScroll: true });
@@ -391,7 +390,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   function visibleFocusable() {
     refreshContentTabStops();
     const top = view.visualViewport?.offsetTop ?? 0, bottom = top + (view.visualViewport?.height ?? view.innerHeight);
-    return [...modal.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],.sd-scroll[tabindex="0"]')].filter(node => {
+    return [...modal.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],.sd-handle,.sd-scroll[tabindex="0"]')].filter(node => {
       const box = node.getBoundingClientRect();
       return node.tabIndex >= 0 && (scroll.contains(node) ? contentVisible(node) : box.height > 0 && box.top >= top && box.bottom <= bottom + 1);
     });
@@ -414,7 +413,15 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     root.dataset.enhanced = ''; trigger.setAttribute('aria-controls', modal.id); trigger.setAttribute('aria-expanded', 'false'); state('closed');
     on(trigger, 'click', open);
     on(closeButton, 'click', close);
-    on(expand, 'click', () => snap(index + 1)); on(collapse, 'click', () => snap(index - 1));
+    on(handle, 'keydown', event => {
+      const key = event as KeyboardEvent;
+      if (key.altKey || key.ctrlKey || key.metaKey) return;
+      const target = key.key === 'Home' ? 0 : key.key === 'End' ? geometry.positions.length - 1
+        : key.key === 'ArrowUp' || key.key === 'ArrowRight' ? index + 1
+        : key.key === 'ArrowDown' || key.key === 'ArrowLeft' ? index - 1 : null;
+      if (target === null) return;
+      key.preventDefault(); key.stopPropagation(); cancelGesture(); snap(target);
+    });
     on(overlay, 'click', () => { if (settings.dismissOnOverlay) close(); });
     on(modal, 'cancel', event => { event.preventDefault(); close(); });
     on(modal, 'close', () => { if (opened && !closing) { cancelTransition(false); finishClose(); } });
