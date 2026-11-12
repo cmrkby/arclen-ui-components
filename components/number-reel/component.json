@@ -1,0 +1,361 @@
+{
+  "id": "number-reel",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Number Reel",
+  "category": "Typography",
+  "description": "An animated numeric display with editable formatting and restrained monochrome treatments.",
+  "keywords": [
+    "number",
+    "counter",
+    "metric",
+    "currency",
+    "rolling"
+  ],
+  "settings": [
+    {
+      "key": "value",
+      "kind": "number",
+      "label": "Value",
+      "default": 431.1,
+      "group": "Number",
+      "min": -999999999999,
+      "max": 999999999999,
+      "step": 0.01
+    },
+    {
+      "key": "format",
+      "kind": "select",
+      "label": "Format",
+      "default": "decimal",
+      "group": "Number",
+      "options": [
+        "decimal",
+        "currency",
+        "percent"
+      ]
+    },
+    {
+      "key": "locale",
+      "kind": "select",
+      "label": "Locale",
+      "default": "en-US",
+      "group": "Number",
+      "options": [
+        "en-US",
+        "en-GB",
+        "de-DE",
+        "fr-FR",
+        "ja-JP"
+      ]
+    },
+    {
+      "key": "currency",
+      "kind": "select",
+      "label": "Currency",
+      "default": "USD",
+      "group": "Number",
+      "options": [
+        "USD",
+        "GBP",
+        "EUR",
+        "JPY",
+        "CAD"
+      ]
+    },
+    {
+      "key": "currencySign",
+      "kind": "select",
+      "label": "Currency sign",
+      "default": "standard",
+      "group": "Number",
+      "options": [
+        "standard",
+        "accounting"
+      ]
+    },
+    {
+      "key": "fractionDigits",
+      "kind": "number",
+      "label": "Decimal places",
+      "default": 2,
+      "group": "Number",
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "grouping",
+      "kind": "boolean",
+      "label": "Group thousands",
+      "default": true,
+      "group": "Number"
+    },
+    {
+      "key": "signDisplay",
+      "kind": "select",
+      "label": "Sign display",
+      "default": "auto",
+      "group": "Number",
+      "options": [
+        "auto",
+        "always",
+        "exceptZero",
+        "never"
+      ]
+    },
+    {
+      "key": "prefix",
+      "kind": "text",
+      "label": "Prefix",
+      "default": "",
+      "group": "Number",
+      "maxLength": 24
+    },
+    {
+      "key": "suffix",
+      "kind": "text",
+      "label": "Suffix",
+      "default": "",
+      "group": "Number",
+      "maxLength": 24
+    },
+    {
+      "key": "accessibleLabel",
+      "kind": "text",
+      "label": "Accessible label",
+      "default": "",
+      "group": "Accessibility",
+      "maxLength": 120
+    },
+    {
+      "key": "announce",
+      "kind": "boolean",
+      "label": "Announce value changes",
+      "default": false,
+      "group": "Accessibility"
+    },
+    {
+      "key": "appearance",
+      "kind": "select",
+      "label": "Appearance",
+      "default": "plain",
+      "group": "Layout",
+      "options": [
+        "plain",
+        "ledger",
+        "cells",
+        "instrument"
+      ]
+    },
+    {
+      "key": "alignment",
+      "kind": "select",
+      "label": "Alignment",
+      "default": "center",
+      "group": "Layout",
+      "options": [
+        "start",
+        "center",
+        "end"
+      ]
+    },
+    {
+      "key": "fontFamily",
+      "kind": "select",
+      "label": "Typeface",
+      "default": "system",
+      "group": "Typography",
+      "options": [
+        "system",
+        "mono"
+      ]
+    },
+    {
+      "key": "fontSize",
+      "kind": "number",
+      "label": "Maximum font size",
+      "default": 72,
+      "group": "Typography",
+      "min": 16,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "fontWeight",
+      "kind": "number",
+      "label": "Font weight",
+      "default": 550,
+      "group": "Typography",
+      "min": 100,
+      "max": 900,
+      "step": 1
+    },
+    {
+      "key": "letterSpacing",
+      "kind": "number",
+      "label": "Letter spacing",
+      "default": 0,
+      "group": "Typography",
+      "min": -0.08,
+      "max": 0.12,
+      "step": 0.01
+    },
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "auto",
+      "group": "Color",
+      "options": [
+        "auto",
+        "light",
+        "dark",
+        "custom"
+      ]
+    },
+    {
+      "key": "textColor",
+      "kind": "color",
+      "label": "Custom text color",
+      "default": "#111111",
+      "group": "Color"
+    },
+    {
+      "key": "surfaceColor",
+      "kind": "color",
+      "label": "Custom surface color",
+      "default": "#ffffff",
+      "group": "Color"
+    },
+    {
+      "key": "borderColor",
+      "kind": "color",
+      "label": "Custom border color",
+      "default": "#d4d4d4",
+      "group": "Color"
+    },
+    {
+      "key": "duration",
+      "kind": "number",
+      "label": "Roll duration",
+      "default": 900,
+      "group": "Motion",
+      "min": 0,
+      "max": 1600,
+      "step": 10
+    },
+    {
+      "key": "easing",
+      "kind": "select",
+      "label": "Easing",
+      "default": "reel",
+      "group": "Motion",
+      "options": [
+        "reel",
+        "ease-out",
+        "ease-in-out",
+        "linear"
+      ]
+    },
+    {
+      "key": "stagger",
+      "kind": "number",
+      "label": "Digit stagger",
+      "default": 0,
+      "group": "Motion",
+      "min": 0,
+      "max": 80,
+      "step": 5
+    },
+    {
+      "key": "maskFade",
+      "kind": "number",
+      "label": "Edge fade at 72px type",
+      "default": 18,
+      "group": "Motion",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "direction",
+      "kind": "select",
+      "label": "Roll direction",
+      "default": "value",
+      "group": "Motion",
+      "options": [
+        "value",
+        "up",
+        "down"
+      ]
+    },
+    {
+      "key": "animate",
+      "kind": "boolean",
+      "label": "Animate changes",
+      "default": true,
+      "group": "Motion"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen. Rendered from the independently authored Number Reel component."
+      },
+      "contentType": "image/webp"
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Immediately render the latest formatted value without digit travel, width animation or fades.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Metric",
+      "settings": {
+        "appearance": "plain",
+        "value": 431.1,
+        "format": "decimal",
+        "fractionDigits": 2
+      }
+    },
+    {
+      "name": "Price",
+      "settings": {
+        "appearance": "plain",
+        "value": 3243.6,
+        "format": "currency",
+        "currency": "USD",
+        "fractionDigits": 2
+      }
+    },
+    {
+      "name": "Percentage",
+      "settings": {
+        "appearance": "plain",
+        "value": 0.742,
+        "format": "percent",
+        "fractionDigits": 1
+      }
+    },
+    {
+      "name": "Quantity",
+      "settings": {
+        "appearance": "plain",
+        "value": 9,
+        "format": "decimal",
+        "fractionDigits": 0
+      }
+    }
+  ]
+}
