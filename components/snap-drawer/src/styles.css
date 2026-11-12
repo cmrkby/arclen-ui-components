@@ -30,8 +30,11 @@
 .sd-controls{position:absolute;z-index:2;right:8px;top:5px;display:flex;gap:2px}
 .sd-controls button{display:grid;place-items:center;width:32px;height:32px;padding:6px;border:0;border-radius:6px;background:var(--sd-surface);color:var(--sd-text)}
 .sd-controls svg{width:20px;height:20px}
-.sd-controls button:disabled{opacity:.28}
-.sd-handle{position:absolute;z-index:1;top:7px;left:50%;width:32px;height:4px;transform:translateX(-50%);border-radius:3px;background:var(--sd-border);pointer-events:none}
+.sd-handle{position:absolute;z-index:2;top:0;left:50%;width:64px;height:44px;transform:translateX(-50%);border-radius:6px;cursor:ns-resize;touch-action:none}
+.sd-handle::before{content:"";position:absolute;top:7px;left:16px;width:32px;height:4px;border-radius:3px;background:var(--sd-border)}
+.sd-handle[data-visible="false"]::before{opacity:0}
+.sd-handle:focus-visible{outline:2px solid var(--sd-text);outline-offset:-3px}
+.sd-handle:focus-visible::before{opacity:1}
 .sd-content{width:100%;max-width:var(--sd-width,448px);margin:0 auto;padding:20px var(--sd-padding,16px) max(16px,env(safe-area-inset-bottom));overflow-wrap:anywhere}
 .sd[data-rating=false] .sd-content{padding-top:48px}
 .sd-product-header{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center}

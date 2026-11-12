@@ -1,6 +1,6 @@
 # Snap Drawer
 
-A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. A subtle handle at the top edge signals that the panel can be dragged. Drag the panel or use the visible expand and collapse controls. Set `showHandle={false}` to hide the handle.
+A bottom drawer for product quick views and other layered details. The default fictional Arc desk lamp shows its price and availability at the small snap, a short description and selection action at the middle snap, and specifications, delivery and returns in the full view. A subtle handle at the top edge signals that the panel can be dragged. Drag the panel or focus the handle and use Arrow Up/Down to change its height. Home selects the lowest view; End selects the highest. Set `showHandle={false}` to hide the resting visual cue; keyboard focus still reveals the handle.
 
 ## Install and use
 
@@ -105,7 +105,7 @@ The host emits `snap-drawer:open-change`, `snap-drawer:snap-change` and a cancel
 
 ## Accessibility and lifecycle
 
-The named dialog contains focus and makes the surrounding page inert. The visible close control receives initial focus. Tab stays among controls that are visible at the current snap. At the highest view, Tab also reaches the named reading region; use Arrow keys, Page Up, Page Down, Home and End to scroll it. Lowering the panel returns focus from that region to Close. Escape closes the drawer and returns focus to its initiating element. If that element was removed, focus returns to the inline trigger, then the host when available. Stacked drawers retain the page lock until the last one closes.
+The named dialog contains focus and makes the surrounding page inert. The visible close control receives initial focus. Version 1.1.1 replaces the header arrow buttons with a keyboard-accessible drag handle. Its vertical slider announces the current view and available view count. Arrow Up/Right increases the view; Arrow Down/Left decreases it. Home and End select the lowest and highest reachable views, and focus stays on the handle at either endpoint. These keys only change the drawer when the handle is focused; content scrolling is unchanged. Tab stays among controls that are visible at the current snap. At the highest view, Tab also reaches the named reading region; use Arrow keys, Page Up, Page Down, Home and End to scroll it. Lowering the panel returns focus from that region to Close. Escape closes the drawer and returns focus to its initiating element. If that element was removed, focus returns to the inline trigger, then the host when available. Stacked drawers retain the page lock until the last one closes.
 
 Reduced motion removes programmatic spatial travel. Pointer movement still follows your hand. Pausing settles the active transition and keeps essential controls usable; resuming does not replay it. Hidden documents settle safely. Destroy removes the modal, listeners and timers, restores owned page styles and reveals the readable static content.
 

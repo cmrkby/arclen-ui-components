@@ -129,9 +129,9 @@ describe('Snap Drawer lifecycle', () => {
   });
   it('shows the drag affordance by default and keeps its visibility configurable', () => {
     const controller = create(); const handle = document.querySelector<HTMLElement>('.sd-modal .sd-handle')!;
-    expect(defaults.showHandle).toBe(true); expect(handle.hidden).toBe(false); expect(handle.getAttribute('aria-hidden')).toBe('true');
-    controller.update({ duration: 0, showHandle: false }); expect(handle.hidden).toBe(true);
-    controller.update({ duration: 0 }); expect(handle.hidden).toBe(false);
+    expect(defaults.showHandle).toBe(true); expect(handle.hidden).toBe(false); expect(handle.getAttribute('role')).toBe('slider'); expect(handle.tabIndex).toBe(0);
+    controller.update({ duration: 0, showHandle: false }); expect(handle.dataset.visible).toBe('false'); expect(handle.tabIndex).toBe(0);
+    controller.update({ duration: 0 }); expect(handle.dataset.visible).toBe('true');
   });
   it('keeps locks across two instances and restores focus and styles after teardown', () => {
     const one = create(), two = create('two'); document.getElementById('before')!.focus();
@@ -153,12 +153,34 @@ describe('Snap Drawer lifecycle', () => {
     action.click(); expect(document.querySelector('dialog')!.open).toBe(true);
     action.click(); expect(document.querySelector('dialog')!.open).toBe(false);
   });
-  it('moves focus to the opposite snap control before disabling an endpoint', () => {
-    const controller = create(); controller.open(); controller.snapTo(1);
-    const expand = document.querySelector<HTMLButtonElement>('[data-sd-control="expand"]')!;
-    const collapse = document.querySelector<HTMLButtonElement>('[data-sd-control="collapse"]')!;
-    expand.focus(); expand.click(); expect(expand.disabled).toBe(true); expect(document.activeElement).toBe(collapse);
-    collapse.click(); collapse.click(); expect(collapse.disabled).toBe(true); expect(document.activeElement).toBe(expand);
+  it('changes reachable views with the focused handle and keeps focus at endpoints', () => {
+    const controller = create(); controller.open();
+    const handle = document.querySelector<HTMLElement>('.sd-handle')!, modal = document.querySelector('dialog')!;
+    expect(modal.querySelectorAll('[data-sd-control]')).toHaveLength(1);
+    expect(handle.getAttribute('aria-label')).toBe('Drawer height');
+    expect(handle.getAttribute('aria-orientation')).toBe('vertical');
+    const key = (name: string) => { const event = new KeyboardEvent('keydown', { key: name, bubbles: true, cancelable: true }); handle.dispatchEvent(event); expect(event.defaultPrevented).toBe(true); };
+    handle.focus(); key('ArrowUp'); expect(modal.dataset.reachableSnap).toBe('1');
+    expect(handle.getAttribute('aria-valuetext')).toBe('View 2 of 3');
+    key('End'); key('ArrowUp'); expect(handle.getAttribute('aria-valuenow')).toBe('3');
+    key('ArrowLeft'); expect(handle.getAttribute('aria-valuenow')).toBe('2');
+    key('Home'); key('ArrowDown'); expect(handle.getAttribute('aria-valuenow')).toBe('1');
+    expect(document.activeElement).toBe(handle); expect(modal.open).toBe(true);
+    controller.update({ duration: 0, snapPoints: ['100%', '148px', '355px'], maxHeight: 50 });
+    key('End'); expect(handle.getAttribute('aria-valuemax')).toBe('2'); expect(modal.dataset.snap).toBe('0');
+    key('Home'); expect(modal.dataset.snap).toBe('1');
+    handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true })); expect(modal.open).toBe(false);
+  });
+  it('keeps pointer dragging available on the keyboard handle', () => {
+    const controller = create(); controller.open();
+    const handle = document.querySelector<HTMLElement>('.sd-handle')!, sheet = document.querySelector<HTMLElement>('.sd-sheet')!;
+    const pointer = (target: EventTarget, type: string, y: number) => {
+      const event = new MouseEvent(type, { bubbles: true, cancelable: true, button: 0, clientY: y });
+      Object.defineProperties(event, { pointerType: { value: 'mouse' }, pointerId: { value: 7 } }); target.dispatchEvent(event);
+    };
+    pointer(handle, 'pointerdown', 940); pointer(window, 'pointermove', 920);
+    expect(sheet.dataset.dragging).toBe(''); expect(sheet.style.transform).toBe('translate3d(0,832px,0)');
+    pointer(window, 'pointercancel', 920); expect(sheet.hasAttribute('data-dragging')).toBe(false);
   });
   it('provides a keyboard reading stop at the highest snap even without an action', () => {
     const controller = create(); controller.update({ duration: 0, showAction: false }); controller.open();
