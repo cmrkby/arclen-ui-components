@@ -20,10 +20,23 @@
 /* Background alpha and element opacity have separate jobs during a gesture. */
 .sd-overlay{background:color-mix(in srgb,var(--sd-overlay) calc(var(--sd-dim,.4)*100%),transparent)}
 .sd-overlay::after{display:none}
-.sd-sheet{position:absolute;bottom:0;left:-1px;width:calc(100% + 2px);height:97%;border:1px solid var(--sd-border);border-bottom:0;border-radius:var(--sd-radius,10px) var(--sd-radius,10px) 0 0;background:var(--sd-surface);color:var(--sd-text);overflow:hidden;will-change:transform;transform:translate3d(0,100%,0)}
+.sd-sheet{position:absolute;bottom:0;left:-1px;width:calc(100% + 2px);height:97%;border:1px solid var(--sd-border);border-bottom:0;border-radius:var(--sd-radius,10px) var(--sd-radius,10px) 0 0;background:var(--sd-surface);color:var(--sd-text);overflow:visible;will-change:transform;transform:translate3d(0,100%,0)}
+/* Full-edge feedback with portable theme-aware palette and appearance controls. */
+.sd{--sd-handle-hover:var(--sd-handle-light-hover);--sd-handle-drag:var(--sd-handle-light-drag);--sd-beam-intensity:var(--sd-beam-light-intensity);--sd-beam-c1:var(--sd-beam-light1);--sd-beam-c2:var(--sd-beam-light2);--sd-beam-c3:var(--sd-beam-light3);--sd-beam-c4:var(--sd-beam-light4)}
+.sd[data-theme=dark],.sd[data-theme=system][data-resolved-theme=dark]{--sd-handle-hover:var(--sd-handle-dark-hover);--sd-handle-drag:var(--sd-handle-dark-drag);--sd-beam-intensity:var(--sd-beam-dark-intensity);--sd-beam-c1:var(--sd-beam-dark1);--sd-beam-c2:var(--sd-beam-dark2);--sd-beam-c3:var(--sd-beam-dark3);--sd-beam-c4:var(--sd-beam-dark4)}
+@media(prefers-color-scheme:dark){.sd[data-theme=system]:not([data-resolved-theme=light]){--sd-handle-hover:var(--sd-handle-dark-hover);--sd-handle-drag:var(--sd-handle-dark-drag);--sd-beam-intensity:var(--sd-beam-dark-intensity);--sd-beam-c1:var(--sd-beam-dark1);--sd-beam-c2:var(--sd-beam-dark2);--sd-beam-c3:var(--sd-beam-dark3);--sd-beam-c4:var(--sd-beam-dark4)}}
+.sd-beam{--sd-beam-halo-size:var(--sd-beam-glow);position:absolute;z-index:1;top:-105px;left:50%;width:var(--sd-beam-width);height:208px;transform:translateX(-50%);pointer-events:none;opacity:calc(var(--sd-beam-strength,var(--sd-beam-rest)) * var(--sd-beam-intensity));transition:opacity var(--sd-beam-duration) var(--sd-beam-ease);mask-image:linear-gradient(90deg,transparent,#000 var(--sd-beam-fade),#000 calc(100% - var(--sd-beam-fade)),transparent)}
+.sd-beam::before,.sd-beam::after{content:"";position:absolute;top:50%;left:0;width:100%;pointer-events:none;background:linear-gradient(90deg,var(--sd-beam-c1) 0%,var(--sd-beam-c2) 35%,var(--sd-beam-c3) 60%,var(--sd-beam-c4) 100%)}
+.sd-beam::before{z-index:1;height:var(--sd-beam-line);background:linear-gradient(90deg,color-mix(in srgb,#fff var(--sd-beam-core-highlight),var(--sd-beam-c1)) 0%,color-mix(in srgb,#fff var(--sd-beam-core-highlight),var(--sd-beam-c2)) 35%,color-mix(in srgb,#fff var(--sd-beam-core-highlight),var(--sd-beam-c3)) 60%,color-mix(in srgb,#fff var(--sd-beam-core-highlight),var(--sd-beam-c4)) 100%)}
+.sd-beam::after{height:var(--sd-beam-glow);margin-top:calc(var(--sd-beam-glow) / -2);filter:blur(var(--sd-beam-blur));box-shadow:0 0 calc(var(--sd-beam-blur) * 3) calc(var(--sd-beam-halo-size) / 2) color-mix(in srgb,var(--sd-beam-c2) 60%,transparent);opacity:var(--sd-beam-glow-opacity);transition:opacity var(--sd-beam-duration) var(--sd-beam-ease)}
+.sd-sheet:not([data-beam-inactive]):has(.sd-handle:focus-visible) .sd-beam{opacity:calc(var(--sd-beam-hover) * var(--sd-beam-intensity))}
+.sd-sheet[data-dragging]:not([data-beam-inactive]) .sd-beam{--sd-beam-halo-size:var(--sd-beam-drag-glow);opacity:calc(var(--sd-beam-drag) * var(--sd-beam-intensity));transition:none}
+.sd-sheet[data-dragging]:not([data-beam-inactive]) .sd-beam::after{height:var(--sd-beam-drag-glow);margin-top:calc(var(--sd-beam-drag-glow) / -2);opacity:var(--sd-beam-drag-glow-opacity)}
+.sd[data-beam-enabled=false] .sd-beam{display:none}
+.sd:is([data-state=paused],[data-state=closing],[data-state=closed],[data-state=destroyed]) .sd-beam,.sd-sheet[data-beam-suspended] .sd-beam{opacity:0!important;transition:none}
 .sd[data-shadow=soft] .sd-sheet{box-shadow:0 -8px 30px #00000012}
 .sd[data-shadow=strong] .sd-sheet{box-shadow:0 -16px 60px #00000029}
-.sd-scroll{height:100%;overflow:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--sd-border) transparent;touch-action:pan-y}
+.sd-scroll{height:100%;border-radius:inherit;overflow:hidden;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:var(--sd-border) transparent;touch-action:pan-y}
 .sd-scroll[data-scrollable=true]{overflow-y:auto}
 .sd-scroll:focus-visible{outline:2px solid var(--sd-text);outline-offset:-3px}
 .sd-sheet[data-dragging]{user-select:none;cursor:grabbing}
@@ -31,10 +44,14 @@
 .sd-controls button{display:grid;place-items:center;width:32px;height:32px;padding:6px;border:0;border-radius:6px;background:var(--sd-surface);color:var(--sd-text)}
 .sd-controls svg{width:20px;height:20px}
 .sd-handle{position:absolute;z-index:2;top:0;left:50%;width:64px;height:44px;transform:translateX(-50%);border-radius:6px;cursor:ns-resize;touch-action:none}
-.sd-handle::before{content:"";position:absolute;top:7px;left:16px;width:32px;height:4px;border-radius:3px;background:var(--sd-border)}
+.sd-handle::before{content:"";position:absolute;top:7px;left:16px;width:32px;height:4px;border-radius:3px;background:var(--sd-border);transition:background-color var(--sd-handle-duration) ease,box-shadow var(--sd-handle-duration) ease}
 .sd-handle[data-visible="false"]::before{opacity:0}
 .sd-handle:focus-visible{outline:2px solid var(--sd-text);outline-offset:-3px}
 .sd-handle:focus-visible::before{opacity:1}
+.sd[data-handle-feedback=true] .sd-handle:focus-visible::before{background:var(--sd-handle-hover);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sd-text) 18%,transparent)}
+@media(hover:hover) and (pointer:fine){.sd[data-handle-feedback=true] .sd-handle:hover::before{background:var(--sd-handle-hover);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sd-text) 18%,transparent)}}
+.sd[data-handle-feedback=true] .sd-sheet[data-dragging] .sd-handle::before{background:var(--sd-handle-drag);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sd-text) 18%,transparent)}
+.sd:is([data-state=paused],[data-state=closing],[data-state=closed],[data-state=destroyed]) .sd-handle::before,.sd .sd-sheet[data-beam-suspended] .sd-handle::before{background:var(--sd-border)!important;box-shadow:none!important;transition:none!important}
 .sd-content{width:100%;max-width:var(--sd-width,448px);margin:0 auto;padding:20px var(--sd-padding,16px) max(16px,env(safe-area-inset-bottom));overflow-wrap:anywhere}
 .sd[data-rating=false] .sd-content{padding-top:48px}
 .sd-product-header{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;align-items:center}
@@ -61,4 +78,4 @@
 .sd-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(hover:hover) and (pointer:fine){.sd-trigger:hover:not(:disabled){background:color-mix(in srgb,var(--sd-trigger) 90%,var(--sd-text))}.sd-controls button:hover:not(:disabled){background:color-mix(in srgb,var(--sd-surface) 92%,var(--sd-text))}.sd-action:hover{opacity:.9}}
 @media(pointer:coarse){.sd-trigger{min-height:44px;min-width:44px}.sd-controls{top:2px;right:4px;gap:0}.sd-controls button{width:44px;height:44px;padding:12px}}
-@media(prefers-reduced-motion:reduce){.sd-trigger{transition:none}.sd-sheet,.sd-overlay{transition:none!important}}
+@media(prefers-reduced-motion:reduce){.sd-trigger{transition:none}.sd-sheet,.sd-beam,.sd-beam::after,.sd-handle::before,.sd-overlay{transition:none!important}}

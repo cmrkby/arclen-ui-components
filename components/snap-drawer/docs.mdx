@@ -40,7 +40,23 @@ Each group's item titles and descriptions must have matching lengths. Empty grou
 
 The default demo uses `title` for the product name, `metadata` for price and availability, and `description` for a short introduction plus the selected option. The option is a text summary, not an interactive picker. The first group contains specifications; the second contains delivery and returns. Rating and quotation remain available but are hidden by default. Product claims and prices are fictional examples.
 
-The API reference is generated from the package manifest and lists all 48 settings, defaults and bounds. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
+The API reference is generated from the package manifest and lists every setting, default and bound. Light, Dark, Short content, Roomy and Custom monochrome are preset setting objects. Short content omits specifications and retains delivery and returns. Preview size, pause and device controls are not exported settings.
+
+## Edge beam
+
+The full top edge lights up near a mouse or hovering pen, while the focused handle and an active drag provide equivalent feedback. The default beam is off at rest and uses .9 hover opacity, full dragging opacity, a crisp 1px ice-blue core, and a 10px saturated glow with 4px blur and a wider soft halo. It adds no animation loop or pointer target.
+
+The **Edge beam** group enables the effect and selects a palette. `adaptive` uses saturated electric blue in both light and dark modes. The dark-surface intensity multiplier (`beamDarkIntensity`, default .85) softens the whole beam on dark surfaces for every palette, including system-theme changes. The default effective hover opacity is .9 in light mode and .765 in dark mode; dragging is 1 and .85 respectively. Set the multiplier to 1 for equal intensity, or 0 to hide the beam on dark surfaces. For a custom surface, weighted RGB brightness below .5 counts as dark (the alpha channel is ignored). `silver` retains the neutral white/grey option; `blue` uses the same electric-blue colors as `adaptive`, and `arclen` uses ember/violet. All retain the configured dark-surface multiplier. `custom` uses the four **Beam colors** controls at 0%, 35%, 60% and 100% of the gradient.
+
+**Beam appearance** controls resting, hover/focus and dragging opacity, line thickness, core highlight, glow thickness/blur/opacity, dragging glow thickness/opacity, end fade and centered width. `beamCoreHighlight` mixes white into the crisp line (default .85); zero preserves the palette color and one makes the core white. The surrounding halo retains the palette colors. Glow thickness and blur also set the wider halo spread, while glow opacity controls both glow layers. The default glow opacity is .7; dragging increases the glow to 14px at .82 opacity. Resting opacity is opt-in; disabling `beamEnabled` hides every beam state. Width changes only the painted beam, while the activation area remains the full top edge. **Beam interaction** controls activation distance above and below the edge, fade duration and easing. The default activation distance is 12px and fade is 180ms. Reduced motion removes beam transitions. Pause, document hiding and window blur suppress the decoration; pointer input can restore it when active again.
+
+Beam and handle-feedback setting changes preserve the open drawer, current snap, content and keyboard focus. React props, core updates and configured HTML use the same manifest defaults and bounds.
+
+## Handle feedback
+
+The handle stays neutral at rest, uses pale blue on hover or keyboard focus and near-white during a drag on dark surfaces. Light surfaces use clear blue and deeper royal blue for contrast. It has no separate halo. A subtle inset stroke uses the current theme text color to keep the active mark readable on light surfaces. The 64×44px interaction area, focus outline and `showHandle` behavior are unchanged: hiding the handle still leaves its keyboard-focused cue visible.
+
+The **Handle feedback** group exposes `handleFeedbackEnabled` (true), `handlePalette` (`adaptive` or `custom`), `handleHoverColor` (`#93c5fd`), `handleDragColor` (`#f5faff`) and `handleFeedbackDuration` (150ms, 0–500ms). Adaptive follows the system or custom-surface brightness; Custom uses the two chosen colors in every theme. These settings are independent of the edge beam. Disabling feedback restores the neutral handle while preserving its focus outline. Pause, hidden tabs and window blur suppress active decoration; reduced motion makes color changes immediate. Updating these controls preserves the drawer's snap, scroll and focus.
 
 ## Product images
 

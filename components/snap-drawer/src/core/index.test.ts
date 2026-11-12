@@ -11,6 +11,35 @@ describe('Snap Drawer settings and geometry', () => {
     for (const actionHref of ['', '#details', './guide', '../guide', '/guide', 'https://example.com/guide']) expect(resolveSettings({ actionHref }).actionHref).toBe(actionHref);
     expect(resolveSettings({ groupOneTitles: [], groupOneDescriptions: [] }).groupOneTitles).toEqual([]);
   });
+  it('validates beam controls and carries adaptive and explicit palettes into portable markup', () => {
+    expect(defaults.beamPalette).toBe('adaptive'); expect(defaults.beamRestOpacity).toBe(0); expect(defaults.beamHoverOpacity).toBe(.9);
+    const adaptive = render(resolveSettings({}));
+    expect(defaults.beamCoreHighlight).toBe(.85); expect(adaptive).toContain('--sd-beam-core-highlight:85%');
+    expect(adaptive).toContain('--sd-beam-glow:10px'); expect(adaptive).toContain('--sd-beam-blur:4px');
+    expect(render(resolveSettings({ beamCoreHighlight: 0 }))).toContain('--sd-beam-core-highlight:0%');
+    expect(render(resolveSettings({ beamCoreHighlight: 1 }))).toContain('--sd-beam-core-highlight:100%');
+    expect(adaptive).toContain('--sd-beam-light1:#003dff'); expect(adaptive).toContain('--sd-beam-dark1:#003dff');
+    expect(defaults.beamDarkIntensity).toBe(.85); expect(adaptive).toContain('--sd-beam-light-intensity:1'); expect(adaptive).toContain('--sd-beam-dark-intensity:0.85');
+    expect(render(resolveSettings({ beamPalette: 'arclen' }))).toContain('--sd-beam-light1:#f54e00');
+    expect(render(resolveSettings({ beamPalette: 'silver' }))).toContain('--sd-beam-light1:#a1a1aa');
+    expect(render(resolveSettings({ theme: 'custom', surfaceColor: '#101010' }))).toContain('--sd-beam-light1:#003dff');
+    expect(render(resolveSettings({ theme: 'custom', surfaceColor: '#101010', beamDarkIntensity: .4 }))).toContain('--sd-beam-light-intensity:0.4');
+    expect(render(resolveSettings({ theme: 'custom', surfaceColor: '#fafafa', beamDarkIntensity: .4 }))).toContain('--sd-beam-light-intensity:1');
+    expect(render(resolveSettings({ theme: 'dark', beamPalette: 'silver', beamDarkIntensity: 1 }))).toContain('--sd-beam-dark-intensity:1');
+    expect(render(resolveSettings({ theme: 'system', beamDarkIntensity: 0 }))).toContain('--sd-beam-dark-intensity:0');
+    expect(render(resolveSettings({ theme: 'custom', surfaceColor: '#fafafa' }))).toContain('--sd-beam-light1:#003dff');
+    for (const input of [{ beamCoreHighlight: -.01 }, { beamCoreHighlight: 1.01 }, { beamDarkIntensity: -.01 }, { beamDarkIntensity: 1.01 }, { beamHoverOpacity: 1.01 }, { beamRestOpacity: -.1 }, { beamEndFade: 51 }, { beamWidth: 0 }, { beamActivationDistance: 73 }, { beamFadeDuration: -1 }, { beamLineThickness: 0 }, { beamGlowBlur: 13 }, { beamPalette: 'rainbow' }, { beamColor1: 'red' }, { beamEnabled: 'yes' }, { beamEasing: 'spring' }]) expect(() => resolveSettings(input)).toThrow();
+    expect(resolveSettings({ beamGlowThickness: 0, beamGlowBlur: 0, beamActivationDistance: 0, beamFadeDuration: 0, beamEndFade: 50 }).beamFadeDuration).toBe(0);
+  });
+  it('validates handle controls and exports contrasting adaptive and custom colors', () => {
+    expect(defaults.handleFeedbackEnabled).toBe(true); expect(defaults.handlePalette).toBe('adaptive');
+    const markup = render(resolveSettings({}));
+    expect(markup).toContain('--sd-handle-light-hover:#3b82f6'); expect(markup).toContain('--sd-handle-dark-drag:#f5faff');
+    expect(render(resolveSettings({ theme: 'custom', surfaceColor: '#101010' }))).toContain('--sd-handle-light-hover:#93c5fd');
+    const custom = render(resolveSettings({ handlePalette: 'custom', handleHoverColor: '#112233', handleDragColor: '#abcdef', handleFeedbackDuration: 0 }));
+    expect(custom).toContain('--sd-handle-light-hover:#112233'); expect(custom).toContain('--sd-handle-dark-drag:#abcdef'); expect(custom).toContain('--sd-handle-duration:0ms');
+    for (const input of [{ handlePalette: 'bad' }, { handleHoverColor: 'red' }, { handleFeedbackDuration: -1 }, { handleFeedbackDuration: 501 }, { handleFeedbackEnabled: 1 }]) expect(() => resolveSettings(input)).toThrow();
+  });
   it('escapes content and produces readable content before enhancement', () => {
     const markup = render(resolveSettings({ title: '<img src=x onerror=alert(1)>', actionHref: '/go?a=1&b=2' }), 'example');
     expect(markup).toContain('&lt;img'); expect(markup).not.toContain('<img src=x');
@@ -85,6 +114,69 @@ describe('Snap Drawer lifecycle', () => {
   });
   afterEach(() => { controllers.splice(0).forEach(controller => controller.destroy()); vi.restoreAllMocks(); vi.useRealTimers(); document.body.innerHTML = ''; document.body.removeAttribute('style'); });
   const create = (id = 'one', duration = 0) => { const controller = mount(document.getElementById(id)!, { duration }, id); controllers.push(controller); return controller; };
+  it('lights only near the edge for hover pointers and clears stale light across lifecycle changes', () => {
+    const controller = create(); controller.open();
+    const modal = document.querySelector<HTMLElement>('.sd-modal')!, sheet = modal.querySelector<HTMLElement>('.sd-sheet')!;
+    vi.spyOn(sheet, 'getBoundingClientRect').mockReturnValue({ left: 100, right: 500, top: 300, bottom: 900, width: 400, height: 600, x: 100, y: 300, toJSON() {} });
+    const hover = (x: number, y: number, pointerType = 'mouse') => {
+      const event = new Event('pointermove', { bubbles: true });
+      Object.assign(event, { clientX: x, clientY: y, pointerType, buttons: 0 }); modal.dispatchEvent(event);
+    };
+    const intensity = () => Number(sheet.style.getPropertyValue('--sd-beam-strength'));
+    expect(intensity()).toBe(0);
+    hover(220, 300); expect(intensity()).toBeCloseTo(.9); expect(sheet.hasAttribute('data-beam-hover')).toBe(true);
+    hover(300, 288); expect(intensity()).toBeCloseTo(.9); expect(sheet.style.getPropertyValue('--sd-beam-x')).toBe('');
+    hover(480, 312, 'pen'); expect(intensity()).toBeCloseTo(.9);
+    for (const [x, y, type] of [[300, 313, 'mouse'], [300, 287, 'mouse'], [99, 300, 'mouse'], [501, 300, 'mouse'], [220, 300, 'touch']] as const) {
+      hover(x, y, type); expect(intensity()).toBe(0);
+    }
+    hover(220, 300); modal.dispatchEvent(new Event('pointerleave')); expect(intensity()).toBe(0); expect(sheet.hasAttribute('data-beam-hover')).toBe(false);
+    hover(220, 300); window.dispatchEvent(new Event('blur')); expect(intensity()).toBe(0);
+    hover(220, 300); controller.pause(); expect(intensity()).toBe(0);
+    hover(220, 300); expect(intensity()).toBe(0);
+    controller.resume(); expect(intensity()).toBe(0);
+    hover(220, 300); controller.snapTo(1); expect(intensity()).toBe(0);
+    hover(220, 300); controller.close(); expect(intensity()).toBe(0);
+    controller.open(); expect(intensity()).toBe(0);
+    hover(220, 300); controller.destroy(); hover(220, 300); expect(intensity()).toBe(0);
+  });
+  it('clears edge feedback when the document becomes hidden', () => {
+    const controller = create(); controller.open();
+    const modal = document.querySelector<HTMLElement>('.sd-modal')!, sheet = modal.querySelector<HTMLElement>('.sd-sheet')!;
+    sheet.style.setProperty('--sd-beam-strength', '.9');
+    vi.spyOn(document, 'hidden', 'get').mockReturnValue(true);
+    document.dispatchEvent(new Event('visibilitychange'));
+    expect(sheet.style.getPropertyValue('--sd-beam-strength')).toBe('');
+    expect(sheet.hasAttribute('data-beam-inactive')).toBe(true);
+  });
+  it('updates beam controls without closing, moving focus or resetting the current snap', () => {
+    const controller = create(); controller.open(); controller.snapTo(1);
+    const modal = document.querySelector<HTMLElement>('.sd-modal')!, handle = modal.querySelector<HTMLElement>('.sd-handle')!;
+    handle.focus(); const snap = modal.dataset.snap;
+    controller.update({ duration: 0, beamPalette: 'custom', beamColor1: '#112233', beamHoverOpacity: .2, beamWidth: 75, beamDarkIntensity: .55, beamCoreHighlight: .6 });
+    expect(modal.hasAttribute('open')).toBe(true); expect(document.activeElement).toBe(handle); expect(modal.dataset.snap).toBe(snap);
+    expect(modal.style.getPropertyValue('--sd-beam-light1')).toBe('#112233');
+    expect(modal.style.getPropertyValue('--sd-beam-core-highlight')).toBe('60%');
+    expect(modal.style.getPropertyValue('--sd-beam-dark-intensity')).toBe('0.55');
+    expect(modal.style.getPropertyValue('--sd-beam-hover')).toBe('0.2'); expect(modal.style.getPropertyValue('--sd-beam-width')).toBe('75%');
+    controller.update({ duration: 0, beamEnabled: false, beamRestOpacity: 1 });
+    expect(modal.dataset.beamEnabled).toBe('false'); expect(document.activeElement).toBe(handle);
+    const sheet = modal.querySelector<HTMLElement>('.sd-sheet')!;
+    const event = new Event('pointermove', { bubbles: true }); Object.assign(event, { clientX: 0, clientY: 0, pointerType: 'mouse', buttons: 0 }); modal.dispatchEvent(event);
+    expect(sheet.hasAttribute('data-beam-inactive')).toBe(true); expect(sheet.style.getPropertyValue('--sd-beam-strength')).toBe('');
+    controller.update({ duration: 0 }); expect(modal.dataset.beamEnabled).toBe('true'); expect(modal.style.getPropertyValue('--sd-beam-rest')).toBe('0');
+  });
+  it('updates handle feedback independently without resetting the open drawer or scroll', () => {
+    const controller = create(); controller.open(); controller.snapTo(2);
+    const modal = document.querySelector<HTMLElement>('.sd-modal')!, handle = modal.querySelector<HTMLElement>('.sd-handle')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
+    handle.focus(); scroll.scrollTop = 125; const snap = modal.dataset.snap;
+    controller.update({ duration: 0, beamEnabled: false, handlePalette: 'custom', handleHoverColor: '#112233', handleFeedbackDuration: 80 });
+    expect(modal.dataset.handleFeedback).toBe('true'); expect(modal.dataset.beamEnabled).toBe('false');
+    expect(modal.style.getPropertyValue('--sd-handle-light-hover')).toBe('#112233'); expect(modal.style.getPropertyValue('--sd-handle-duration')).toBe('80ms');
+    expect(document.activeElement).toBe(handle); expect(scroll.scrollTop).toBe(125); expect(modal.dataset.snap).toBe(snap);
+    controller.update({ duration: 0, handleFeedbackEnabled: false }); expect(modal.dataset.handleFeedback).toBe('false'); expect(document.activeElement).toBe(handle);
+    expect(modal.hasAttribute('open')).toBe(true); expect(scroll.scrollTop).toBe(125);
+  });
   it('keeps closed media inert and instantiates each image only when needed', () => {
     const controller = create(); const modal = document.querySelector('.sd-modal')!;
     expect(document.querySelectorAll('img')).toHaveLength(0);

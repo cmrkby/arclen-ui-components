@@ -19,6 +19,11 @@ export interface Settings {
   actionColor: string; actionTextColor: string; overlayColor: string; overlayOpacity: number;
   overlayMode: 'adaptive' | 'constant'; snapPoints: string[]; initialSnap: number;
   dragEnabled: boolean; dismissOnOverlay: boolean; showHandle: boolean;
+  handleFeedbackEnabled: boolean; handlePalette: 'adaptive' | 'custom'; handleHoverColor: string; handleDragColor: string; handleFeedbackDuration: number;
+  beamEnabled: boolean; beamPalette: 'adaptive' | 'silver' | 'blue' | 'arclen' | 'custom';
+  beamColor1: string; beamColor2: string; beamColor3: string; beamColor4: string;
+  beamCoreHighlight: number; beamDarkIntensity: number; beamRestOpacity: number; beamHoverOpacity: number; beamDragOpacity: number; beamLineThickness: number; beamGlowThickness: number; beamGlowBlur: number; beamGlowOpacity: number; beamDragGlowThickness: number; beamDragGlowOpacity: number; beamEndFade: number; beamWidth: number; beamActivationDistance: number; beamFadeDuration: number;
+  beamEasing: 'ease' | 'linear' | 'ease-out';
   duration: number; easing: 'glide' | 'standard' | 'linear';
 }
 
@@ -140,14 +145,38 @@ function content(settings: Settings, id: string) {
   const heading = `<div class="sd-heading"><h2 id="${id}-title">${escape(settings.title)}</h2>${settings.metadata ? `<p class="sd-metadata">${escape(settings.metadata)}</p>` : ''}</div>`;
   return `<div class="sd-content">${settings.showRating ? rating(settings) : ''}${settings.showImage ? `<div class="sd-product-header">${productImage(settings, true)}${heading}</div>` : heading}<p class="sd-intro" id="${id}-description">${escape(settings.description)}</p>${settings.showAction ? action : ''}${settings.showImage ? productImage(settings, false) : ''}${group(settings.groupOneTitle, settings.groupOneTitles, settings.groupOneDescriptions)}${settings.showQuote && settings.quote ? `<figure class="sd-quote"><blockquote>${escape(settings.quote)}</blockquote>${settings.quoteAttribution ? `<figcaption>${escape(settings.quoteAttribution)}</figcaption>` : ''}</figure>` : ''}${group(settings.groupTwoTitle, settings.groupTwoTitles, settings.groupTwoDescriptions)}</div>`;
 }
+const beamPalettes = {
+  silver: ['#a1a1aa', '#e4e4e7', '#ffffff', '#d4d4d8'],
+  blue: ['#003dff', '#0055ff', '#3366ff', '#0033ee'],
+  arclen: ['#f54e00', '#df5e54', '#bf6c91', '#a66d9c'],
+};
+function beamColors(settings: Settings): string[] {
+  if (settings.beamPalette === 'custom') return [settings.beamColor1, settings.beamColor2, settings.beamColor3, settings.beamColor4];
+  return beamPalettes[settings.beamPalette === 'adaptive' ? 'blue' : settings.beamPalette];
+}
+function customSurfaceIsDark(settings: Settings): boolean {
+  const rgb = [1, 3, 5].map(start => parseInt(settings.surfaceColor.slice(start, start + 2), 16) / 255);
+  return rgb[0] * .2126 + rgb[1] * .7152 + rgb[2] * .0722 < .5;
+}
+function beamStyle(settings: Settings) {
+  const colors = (dark: boolean) => beamColors(settings).map((color, i) => `--sd-beam-${dark ? 'dark' : 'light'}${i + 1}:${color}`).join(';');
+  return `${colors(false)};${colors(true)};--sd-beam-light-intensity:${settings.theme === 'custom' && customSurfaceIsDark(settings) ? settings.beamDarkIntensity : 1};--sd-beam-dark-intensity:${settings.beamDarkIntensity};--sd-beam-rest:${settings.beamRestOpacity};--sd-beam-hover:${settings.beamHoverOpacity};--sd-beam-drag:${settings.beamDragOpacity};--sd-beam-line:${settings.beamLineThickness}px;--sd-beam-core-highlight:${settings.beamCoreHighlight * 100}%;--sd-beam-glow:${settings.beamGlowThickness}px;--sd-beam-blur:${settings.beamGlowBlur}px;--sd-beam-glow-opacity:${settings.beamGlowOpacity};--sd-beam-drag-glow:${settings.beamDragGlowThickness}px;--sd-beam-drag-glow-opacity:${settings.beamDragGlowOpacity};--sd-beam-fade:${settings.beamEndFade}%;--sd-beam-width:${settings.beamWidth}%;--sd-beam-duration:${settings.beamFadeDuration}ms;--sd-beam-ease:${settings.beamEasing}`;
+}
+function handleStyle(settings: Settings) {
+  const colors = (dark: boolean) => settings.handlePalette === 'custom'
+    ? [settings.handleHoverColor, settings.handleDragColor]
+    : dark ? ['#93c5fd', '#f5faff'] : ['#3b82f6', '#1d4ed8'];
+  const light = colors(settings.theme === 'custom' && customSurfaceIsDark(settings)), dark = colors(true);
+  return `--sd-handle-light-hover:${light[0]};--sd-handle-light-drag:${light[1]};--sd-handle-dark-hover:${dark[0]};--sd-handle-dark-drag:${dark[1]};--sd-handle-duration:${settings.handleFeedbackDuration}ms`;
+}
 function style(settings: Settings) {
-  return `--sd-width:${settings.contentWidth}px;--sd-padding:${settings.contentPadding}px;--sd-gap:${settings.sectionGap}px;--sd-radius:${settings.radius}px;--sd-body:${settings.bodySize}px;--sd-leading:${settings.bodyLineHeight};--sd-heading:${settings.headingSize}px;--sd-surface-custom:${settings.surfaceColor};--sd-text-custom:${settings.textColor};--sd-muted-custom:${settings.mutedColor};--sd-border-custom:${settings.borderColor};--sd-action-custom:${settings.actionColor};--sd-action-text-custom:${settings.actionTextColor};--sd-overlay-custom:${settings.overlayColor};--sd-dim:${settings.overlayOpacity};--sd-font:${settings.fontFamily === 'geist' ? 'SnapDrawerGeist,ui-sans-serif' : 'ui-sans-serif'},system-ui,-apple-system,Segoe UI,sans-serif`;
+  return `${handleStyle(settings)};${beamStyle(settings)};--sd-width:${settings.contentWidth}px;--sd-padding:${settings.contentPadding}px;--sd-gap:${settings.sectionGap}px;--sd-radius:${settings.radius}px;--sd-body:${settings.bodySize}px;--sd-leading:${settings.bodyLineHeight};--sd-heading:${settings.headingSize}px;--sd-surface-custom:${settings.surfaceColor};--sd-text-custom:${settings.textColor};--sd-muted-custom:${settings.mutedColor};--sd-border-custom:${settings.borderColor};--sd-action-custom:${settings.actionColor};--sd-action-text-custom:${settings.actionTextColor};--sd-overlay-custom:${settings.overlayColor};--sd-dim:${settings.overlayOpacity};--sd-font:${settings.fontFamily === 'geist' ? 'SnapDrawerGeist,ui-sans-serif' : 'ui-sans-serif'},system-ui,-apple-system,Segoe UI,sans-serif`;
 }
 let instanceCounter = 0;
 const safeId = (id?: string) => id ? 'sd-' + id.replace(/[^a-zA-Z0-9_-]/g, '-') : 'sd-' + (++instanceCounter);
 export function render(input: Settings = cloneDefaults(), id?: string): string {
   const settings = resolveSettings(input), identity = safeId(id);
-  return `<div class="sd" data-theme="${settings.theme}" data-shadow="${settings.shadow}" data-rating="${settings.showRating}" style="${style(settings)}"><noscript><style>.sd .sd-image{display:none!important}.sd .sd-product-header{display:block}</style></noscript><button class="sd-trigger" type="button" disabled aria-haspopup="dialog">${escape(settings.triggerLabel)}</button><article class="sd-static" aria-labelledby="${identity}-title">${content(settings, identity)}</article></div>`;
+  return `<div class="sd" data-theme="${settings.theme}" data-shadow="${settings.shadow}" data-rating="${settings.showRating}" data-beam-enabled="${settings.beamEnabled}" data-handle-feedback="${settings.handleFeedbackEnabled}" style="${style(settings)}"><noscript><style>.sd .sd-image{display:none!important}.sd .sd-product-header{display:block}</style></noscript><button class="sd-trigger" type="button" disabled aria-haspopup="dialog">${escape(settings.triggerLabel)}</button><article class="sd-static" aria-labelledby="${identity}-title">${content(settings, identity)}</article></div>`;
 }
 
 export interface Controller {
@@ -189,7 +218,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   const modal = document.createElement('dialog'); modal.className = 'sd sd-modal'; modal.dataset.sdInstance = identity;
   modal.tabIndex = -1; modal.autofocus = true;
   modal.id = identity + '-dialog'; modal.setAttribute('aria-labelledby', identity + '-title'); modal.setAttribute('aria-describedby', identity + '-description');
-  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet"><div class="sd-handle" role="slider" tabindex="0" aria-label="Drawer height" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-valuetext="View 1 of 1"></div><div class="sd-controls"><button type="button" data-sd-control="close" aria-label="Close details">${closeIcon}</button></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><span class="sd-status" role="status" aria-live="polite"></span></div>`;
+  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet"><span class="sd-beam" aria-hidden="true"></span><div class="sd-handle" role="slider" tabindex="0" aria-label="Drawer height" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-valuetext="View 1 of 1"></div><div class="sd-controls"><button type="button" data-sd-control="close" aria-label="Close details">${closeIcon}</button></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><span class="sd-status" role="status" aria-live="polite"></span></div>`;
   const sheet = modal.querySelector<HTMLElement>('.sd-sheet')!, overlay = modal.querySelector<HTMLElement>('.sd-overlay')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
   const handle = modal.querySelector<HTMLElement>('.sd-handle')!, closeButton = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
   const status = modal.querySelector<HTMLElement>('.sd-status')!;
@@ -203,6 +232,29 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   type Gesture = { type: 'pointer' | 'touch'; id: number; start: number; origin: number; base: number; opacity: number; prior: number; active: boolean; fromFull: boolean; samples: PointerSample[]; target: HTMLElement };
   let gesture: Gesture | null = null;
   const on = (target: EventTarget, name: string, listener: EventListener, options?: AddEventListenerOptions) => { target.addEventListener(name, listener, options); cleanups.push(() => target.removeEventListener(name, listener, options)); };
+  function resetBeam() {
+    sheet.dataset.beamInactive = ''; delete sheet.dataset.beamHover;
+    sheet.style.removeProperty('--sd-beam-strength');
+  }
+  function beamAvailable() { return settings.beamEnabled && opened && !closing && !paused && !destroyed && !document.hidden; }
+  function enableBeamFeedback() {
+    if (opened && !closing && !paused && !destroyed && !document.hidden) delete sheet.dataset.beamSuspended;
+    if (beamAvailable()) delete sheet.dataset.beamInactive;
+  }
+  function suspendBeam() { resetBeam(); sheet.dataset.beamSuspended = ''; }
+  function proximityBeam(event: Event) {
+    const pointer = event as PointerEvent;
+    if (beamAvailable() && gesture?.active) { enableBeamFeedback(); return; }
+    if (!beamAvailable() || !['mouse', 'pen'].includes(pointer.pointerType) || pointer.buttons !== 0) { resetBeam(); return; }
+    const box = sheet.getBoundingClientRect(), distance = Math.abs(pointer.clientY - box.top);
+    if (distance > settings.beamActivationDistance || pointer.clientX < box.left || pointer.clientX > box.right) {
+      resetBeam(); if (handle.matches(':focus-visible')) enableBeamFeedback(); return;
+    }
+    enableBeamFeedback();
+    sheet.dataset.beamHover = '';
+    sheet.style.setProperty('--sd-beam-strength', String(settings.beamHoverOpacity));
+  }
+  resetBeam();
   function imageResult(event: Event) {
     const image = event.target;
     if (!(image instanceof view.HTMLImageElement) || !image.matches('img[data-sd-src]') || !image.hasAttribute('src')) return;
@@ -238,7 +290,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   function emit(name: string, detail: unknown, cancelable = false) { return host.dispatchEvent(new CustomEvent('snap-drawer:' + name, { detail, bubbles: true, cancelable })); }
   function theme() {
     for (const node of [root, modal]) {
-      node.dataset.theme = settings.theme; node.dataset.shadow = settings.shadow; node.dataset.rating = String(settings.showRating);
+      node.dataset.theme = settings.theme; node.dataset.shadow = settings.shadow; node.dataset.rating = String(settings.showRating); node.dataset.beamEnabled = String(settings.beamEnabled); node.dataset.handleFeedback = String(settings.handleFeedbackEnabled);
       node.style.cssText = style(settings);
       if (settings.theme === 'system' && colorMedia) node.dataset.resolvedTheme = colorMedia.matches ? 'dark' : 'light'; else delete node.dataset.resolvedTheme;
     }
@@ -282,7 +334,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   }
   function finishClose() {
     if (!opened) return;
-    opened = false; closing = false; state('closed');
+    resetBeam(); opened = false; closing = false; state('closed');
     for (const frame of scroll.querySelectorAll<HTMLElement>('[data-image-state="loading"]')) { clearImageSources(frame); frame.dataset.imageState = 'idle'; }
     if (modal.open) modal.close(); unlockPage(document, modal);
     trigger.setAttribute('aria-expanded', 'false');
@@ -307,7 +359,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   }
   function snap(reachable: number, animateMotion = true) {
     if (!opened || destroyed) return;
-    closing = false; index = clamp(reachable, 0, geometry.positions.length - 1); controls(true);
+    resetBeam(); closing = false; index = clamp(reachable, 0, geometry.positions.length - 1); controls(true);
     hydrateImages(scroll, index === geometry.positions.length - 1);
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
     state('settling');
@@ -323,7 +375,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   function open() {
     if (destroyed || !mounted) return;
     if (opened) { if (closing) snap(index); return; }
-    measure(); index = geometry.sourceToReachable[settings.initialSnap];
+    resetBeam(); delete sheet.dataset.beamSuspended; measure(); index = geometry.sourceToReachable[settings.initialSnap];
     initiator = document.activeElement instanceof view.HTMLElement ? document.activeElement as HTMLElement : trigger;
     paint(geometry.height, 0); cancelTransition(false);
     try { modal.showModal(); modal.scrollTop = 0; modal.scrollLeft = 0; } catch { fallback.hidden = false; trigger.disabled = true; hydrateImages(fallback, true); return; }
@@ -335,7 +387,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   }
   function close() {
     if (!opened || destroyed || closing) return;
-    cancelGesture(); closing = true; state('closing'); animate(geometry.height, 0, finishClose);
+    resetBeam(); cancelGesture(); closing = true; state('closing'); animate(geometry.height, 0, finishClose);
   }
   function begin(type: Gesture['type'], pointerId: number, clientY: number, time: number, target: HTMLElement) {
     if (!opened || closing || !settings.dragEnabled || target.closest('button,a,input,textarea,select') || gesture) return;
@@ -352,7 +404,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
         drag.start = clientY; drag.base = y; return;
       }
       cancelTransition(); drag.base = y; drag.opacity = opacity; drag.active = true; closing = false;
-      sheet.dataset.dragging = ''; state('dragging');
+      enableBeamFeedback(); sheet.dataset.dragging = ''; state('dragging');
       if (drag.type === 'pointer') try { sheet.setPointerCapture(drag.id); } catch { /* A detached pointer has no capture. */ }
       delta = clientY - drag.start;
     }
@@ -403,7 +455,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   }
   function resize() {
     if (destroyed) return;
-    const source = geometry.reachableToSource[index] ?? settings.initialSnap;
+    resetBeam(); const source = geometry.reachableToSource[index] ?? settings.initialSnap;
     cancelGesture(); measure(); index = geometry.sourceToReachable[Math.min(source, settings.snapPoints.length - 1)];
     if (opened) { if (closing) settle(); else snap(index, false); }
   }
@@ -420,7 +472,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
         : key.key === 'ArrowUp' || key.key === 'ArrowRight' ? index + 1
         : key.key === 'ArrowDown' || key.key === 'ArrowLeft' ? index - 1 : null;
       if (target === null) return;
-      key.preventDefault(); key.stopPropagation(); cancelGesture(); snap(target);
+      key.preventDefault(); key.stopPropagation(); cancelGesture(); snap(target); enableBeamFeedback();
     });
     on(overlay, 'click', () => { if (settings.dismissOnOverlay) close(); });
     on(modal, 'cancel', event => { event.preventDefault(); close(); });
@@ -447,6 +499,11 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       const action = (event.target as HTMLElement).closest('.sd-action');
       if (action?.tagName === 'BUTTON' && emit('action', { settings: resolveSettings(settings) }, true)) close();
     }, { capture: true });
+    on(modal, 'pointermove', proximityBeam, { passive: true });
+    on(modal, 'pointerleave', resetBeam); on(modal, 'pointercancel', resetBeam);
+    on(view, 'blur', suspendBeam);
+    on(handle, 'pointerenter', event => { if (['mouse', 'pen'].includes((event as PointerEvent).pointerType)) enableBeamFeedback(); });
+    on(handle, 'focus', enableBeamFeedback); on(handle, 'blur', resetBeam);
     on(sheet, 'pointerdown', event => { const pointer = event as PointerEvent; suppressClick = false; if (pointer.pointerType !== 'touch' && pointer.button === 0) begin('pointer', pointer.pointerId, pointer.clientY, pointer.timeStamp, pointer.target as HTMLElement); });
     on(view, 'pointermove', event => { const pointer = event as PointerEvent; if (gesture?.type === 'pointer' && gesture.id === pointer.pointerId) move(pointer.clientY, pointer.timeStamp, event); });
     on(view, 'pointerup', event => { const pointer = event as PointerEvent; if (gesture?.type === 'pointer' && gesture.id === pointer.pointerId) end(pointer.clientY, pointer.timeStamp); });
@@ -455,7 +512,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     on(sheet, 'touchmove', event => { const touch = event as TouchEvent; const point = [...touch.changedTouches].find(item => gesture?.type === 'touch' && item.identifier === gesture.id); if (point) move(point.clientY, touch.timeStamp, event); }, { passive: false });
     for (const name of ['touchend', 'touchcancel']) on(sheet, name, event => { const touch = event as TouchEvent; const point = [...touch.changedTouches].find(item => gesture?.type === 'touch' && item.identifier === gesture.id); if (point) end(point.clientY, touch.timeStamp, name === 'touchcancel'); }, { passive: true });
     on(view, 'resize', resize); if (view.visualViewport) { on(view.visualViewport, 'resize', resize); on(view.visualViewport, 'scroll', resize); }
-    on(document, 'visibilitychange', () => { if (document.hidden) settle(); });
+    on(document, 'visibilitychange', () => { if (document.hidden) { suspendBeam(); settle(); } });
     if (media) on(media, 'change', () => { if (media.matches) settle(); });
     if (colorMedia) on(colorMedia, 'change', () => { if (settings.theme === 'system') { theme(); if (opened) { measure(); paint(y, opacity); } } });
   }
@@ -467,10 +524,21 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       if (destroyed) return;
       const resolved = resolveSettings(next);
       if (JSON.stringify(resolved) === JSON.stringify(settings)) return;
+      const feedbackOnly = Object.keys(resolved).every(key => key.startsWith('beam') || key.startsWith('handle') || JSON.stringify(resolved[key as keyof Settings]) === JSON.stringify(settings[key as keyof Settings]));
+      if (feedbackOnly) {
+        const hovered = sheet.hasAttribute('data-beam-hover');
+        settings = resolved; theme();
+        if (!beamAvailable()) resetBeam();
+        else {
+          if (hovered) sheet.style.setProperty('--sd-beam-strength', String(settings.beamHoverOpacity));
+          if (document.activeElement === handle) enableBeamFeedback();
+        }
+        return;
+      }
       const oldSource = geometry.reachableToSource[index] ?? settings.initialSnap;
       const active = document.activeElement as HTMLElement | null, actionFocused = active?.classList.contains('sd-action'), oldScroll = scroll.scrollTop;
       const oldBody = content(settings, identity);
-      cancelGesture(); cancelTransition(); settings = resolved; theme();
+      resetBeam(); cancelGesture(); cancelTransition(); settings = resolved; theme();
       trigger.textContent = settings.triggerLabel;
       const body = content(settings, identity);
       if (oldBody !== body) { clearImageSources(scroll); scroll.innerHTML = body; }
@@ -479,11 +547,11 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       measure(); index = geometry.sourceToReachable[Math.min(oldSource, settings.snapPoints.length - 1)];
       if (opened) { if (closing) settle(); else snap(index, false); scroll.scrollTop = oldScroll; if (actionFocused) (scroll.querySelector<HTMLElement>('.sd-action') ?? closeButton).focus({ preventScroll: true }); }
     },
-    pause() { if (destroyed) return; paused = true; settle(); },
-    resume() { if (destroyed) return; paused = false; if (opened) state('resting'); },
+    pause() { if (destroyed) return; paused = true; suspendBeam(); settle(); },
+    resume() { if (destroyed) return; paused = false; delete sheet.dataset.beamSuspended; if (opened) state('resting'); },
     destroy() {
       if (destroyed) return;
-      cancelGesture(); cancelTransition(false); if (opened) finishClose(); destroyed = true;
+      resetBeam(); cancelGesture(); cancelTransition(false); if (opened) finishClose(); destroyed = true;
       cleanups.splice(0).forEach(cleanup => cleanup()); clearImageSources(modal); clearImageSources(fallback); unlockPage(document, modal); modal.remove();
       trigger.disabled = true; trigger.removeAttribute('aria-controls'); trigger.removeAttribute('aria-expanded');
       delete root.dataset.enhanced; fallback.hidden = false; state('destroyed');
