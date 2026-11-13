@@ -8,8 +8,9 @@ export type EditorialFAQProps=Partial<Settings>&{className?:string;style?:CSSPro
 export function EditorialFAQ({className='',style,paused=false,...input}:EditorialFAQProps){
  const host=useRef<HTMLDivElement>(null),controller=useRef<ReturnType<typeof mount>|null>(null);
  const serialized=JSON.stringify(resolveSettings(input));
+ const initialSettings=useRef(serialized);
  const [markup]=useState(()=>({__html:render(JSON.parse(serialized))}));
- useEffect(()=>{if(!host.current)return;const instance=mount(host.current,JSON.parse(serialized));controller.current=instance;return()=>{instance.destroy();controller.current=null}},[]);
+ useEffect(()=>{if(!host.current)return;const instance=mount(host.current,JSON.parse(initialSettings.current));controller.current=instance;return()=>{instance.destroy();controller.current=null}},[]);
  useEffect(()=>{controller.current?.update(JSON.parse(serialized));if(paused)controller.current?.pause();else controller.current?.resume()},[serialized,paused]);
  return <div ref={host} data-component={manifest.id} className={className} style={style} dangerouslySetInnerHTML={markup}/>;
 }
