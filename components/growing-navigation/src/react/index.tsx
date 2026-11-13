@@ -20,8 +20,8 @@ export function GrowingNavigation({ className, style, paused = false, onOpenChan
   const settingsKey = JSON.stringify(settings);
   const initial = useRef(settings);
   const callback = useRef(onOpenChange);
-  callback.current = onOpenChange;
-  const [markup] = useState(() => ({ __html: render(initial.current, instanceId) }));
+  useEffect(() => { callback.current = onOpenChange; });
+  const [markup] = useState(() => ({ __html: render(settings, instanceId) }));
 
   useEffect(() => {
     const target = host.current!;
@@ -36,7 +36,7 @@ export function GrowingNavigation({ className, style, paused = false, onOpenChan
     };
   }, [instanceId]);
 
-  useEffect(() => { controller.current?.update(settings); }, [settingsKey]);
+  useEffect(() => { controller.current?.update(JSON.parse(settingsKey)); }, [settingsKey]);
   useEffect(() => {
     if (paused) controller.current?.pause();
     else controller.current?.resume();

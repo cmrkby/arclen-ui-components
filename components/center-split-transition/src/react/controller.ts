@@ -17,29 +17,32 @@ export function useTransitionController(
 ) {
   const host = useRef<HTMLDivElement>(null),
     controller = useRef<PageTransitionController | null>(null),
-    latest = useRef(settings),
+    latest = useRef({create, settings, paused}),
     last = useRef(settings),
     firstRoute = useRef(routeKey);
-  latest.current = settings;
+  const serialized = JSON.stringify(settings);
+  useEffect(() => { latest.current = {create, settings, paused}; });
   useEffect(() => {
     if (!host.current) return;
-    const api = create(host.current, latest.current);
+    const {create: factory, settings: current, paused: stopped} = latest.current;
+    const api = factory(host.current, current);
     controller.current = api;
-    if (paused) api.pause();
-    else if (latest.current.autoplay) void api.replay();
+    if (stopped) api.pause();
+    else if (current.autoplay) void api.replay();
     return () => {
       api.destroy();
       controller.current = null;
     };
   }, [isCustom]);
   useEffect(() => {
-    if (JSON.stringify(last.current) !== JSON.stringify(latest.current)) {
-      controller.current?.update(latest.current);
-      if (isCustom && latest.current.autoplay && !paused)
+    const current = JSON.parse(serialized) as Settings;
+    if (JSON.stringify(last.current) !== serialized) {
+      controller.current?.update(current);
+      if (isCustom && current.autoplay && !paused)
         void controller.current?.replay();
-      last.current = latest.current;
+      last.current = current;
     }
-  }, [settingsKey, isCustom, paused]);
+  }, [settingsKey, serialized, isCustom, paused]);
   useEffect(() => {
     if (paused) controller.current?.pause();
     else controller.current?.resume();

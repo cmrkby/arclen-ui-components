@@ -17,7 +17,7 @@ export function MeshGradient(props: MeshGradientProps) {
   const settings = resolveSettings(input);
   const signature = JSON.stringify(settings);
   const latest = useRef(settings);
-  latest.current = settings;
+  useEffect(() => { latest.current = settings; });
   // React owns the outer host; the core exclusively owns its inner DOM after mount.
   const [markup] = useState(() => ({ __html: render(settings, id) }));
   useEffect(() => {
@@ -26,7 +26,7 @@ export function MeshGradient(props: MeshGradientProps) {
     instance.current = mounted;
     return () => { mounted.destroy(); instance.current = null; };
   }, [id]);
-  useEffect(() => { instance.current?.update(latest.current); }, [signature]);
+  useEffect(() => { instance.current?.update(JSON.parse(signature)); }, [signature]);
   useEffect(() => {
     if (props.paused) instance.current?.pause(); else instance.current?.resume();
   }, [props.paused]);

@@ -15,9 +15,9 @@ export function ExpandHero({ className, style, paused = false, ...settings }: Ex
   const appliedSettings = useRef(initial.serialized);
   useEffect(() => {
     if (!host.current) return;
-    controller.current = mount(host.current, JSON.parse(initial.serialized));
+    const instance = mount(host.current, JSON.parse(initial.serialized)); controller.current = instance;
     appliedSettings.current = initial.serialized;
-    return () => { controller.current?.destroy(); controller.current = null; };
+    return () => { instance.destroy(); controller.current = null; };
   }, [initial]);
   useEffect(() => {
     const instance = controller.current;

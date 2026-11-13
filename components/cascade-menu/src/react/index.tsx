@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, type CSSProperties } from 'react';
+import { useEffect, useRef,useState, type CSSProperties } from 'react';
 import manifest from '../../component.json';
 import { mount, render, resolveSettings, type Controller, type Settings } from '../core';
 import '../styles.css';
@@ -17,11 +17,11 @@ export function CascadeMenu({ className, style, paused = false, onSelect, onOpen
   const host = useRef<HTMLDivElement>(null);
   const controller = useRef<Controller | null>(null);
   const initial = useRef(resolveSettings(input));
-  const markup = useRef({ __html: render(initial.current) });
+  const [markup] = useState(() => ({ __html: render(resolveSettings(input)) }));
   useEffect(() => {
     const node = host.current!;
-    controller.current = mount(node, initial.current);
-    return () => { controller.current?.destroy(); controller.current = null; };
+    const instance = mount(node, initial.current); controller.current = instance;
+    return () => { instance.destroy(); controller.current = null; };
   }, []);
   useEffect(() => { controller.current?.update(resolveSettings(input)); });
   useEffect(() => { if (paused) controller.current?.pause(); else controller.current?.resume(); }, [paused]);
@@ -33,6 +33,6 @@ export function CascadeMenu({ className, style, paused = false, onSelect, onOpen
     node.addEventListener('radial-toggle', toggled);
     return () => { node.removeEventListener('radial-select', selected); node.removeEventListener('radial-toggle', toggled); };
   }, [onSelect, onOpenChange]);
-  return <div ref={host} className={className} style={style} data-arclen-component={manifest.id} dangerouslySetInnerHTML={markup.current} />;
+  return <div ref={host} className={className} style={style} data-arclen-component={manifest.id} dangerouslySetInnerHTML={markup} />;
 }
 export const Component = CascadeMenu;

@@ -1,5 +1,5 @@
 "use client";
-import { useRef, type CSSProperties, type ReactNode } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import manifest from "../../component.json";
 import { useTransitionController } from "./controller";
 import {
@@ -38,7 +38,7 @@ export function ThreePanelTransition({
   ...input
 }: ThreePanelTransitionProps) {
   const settings = resolveSettings(input),
-    initial = useRef(render(settings)),
+    [initial] = useState(() => ({ __html: render(settings) })),
     isCustom = children !== undefined;
   const host = useTransitionController(
     isCustom
@@ -74,7 +74,7 @@ export function ThreePanelTransition({
       ref={host}
       className={className}
       style={style}
-      dangerouslySetInnerHTML={{ __html: initial.current }}
+      dangerouslySetInnerHTML={initial}
     />
   );
 }
