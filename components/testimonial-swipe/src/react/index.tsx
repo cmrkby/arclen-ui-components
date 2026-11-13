@@ -12,10 +12,11 @@ export function TestimonialSwipe({ className = '', style, paused = false, ...inp
   const controller = useRef<Controller | null>(null);
   const settings = resolveSettings(input);
   const serialized = JSON.stringify(settings);
-  const [initialMarkup] = useState(() => render(settings));
+ const initialSettings=useRef(serialized);
+  const [initialMarkup] = useState(() => ({__html:render(settings)}));
   useEffect(() => {
     if (!host.current) return;
-    const instance = mount(host.current, JSON.parse(serialized));
+    const instance = mount(host.current, JSON.parse(initialSettings.current));
     controller.current = instance;
     return () => { instance.destroy(); if (controller.current === instance) controller.current = null; };
     // Initial markup is stable across hydration; later props use update below.
@@ -24,7 +25,7 @@ export function TestimonialSwipe({ className = '', style, paused = false, ...inp
     controller.current?.update(JSON.parse(serialized));
     if (paused) controller.current?.pause(); else controller.current?.resume();
   }, [serialized, paused]);
-  return <div ref={host} className={className} style={{ height: settings.sizing === 'fill' ? '100%' : undefined, ...style }} data-component={manifest.id} dangerouslySetInnerHTML={{ __html: initialMarkup }} />;
+  return <div ref={host} className={className} style={{ height: settings.sizing === 'fill' ? '100%' : undefined, ...style }} data-component={manifest.id} dangerouslySetInnerHTML={initialMarkup} />;
 }
 export { TestimonialSwipe as Component };
 export default TestimonialSwipe;

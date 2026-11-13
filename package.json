@@ -8,7 +8,8 @@
     "boundary": "node scripts/check-boundary.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "check": "pnpm boundary && pnpm typecheck && pnpm test"
+    "lint": "eslint . --max-warnings 0",
+    "check": "pnpm boundary && pnpm lint && pnpm typecheck && pnpm test"
   },
   "dependencies": {
     "react": "19.2.8",
@@ -19,8 +20,11 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.5",
     "ajv": "8.17.1",
+    "eslint": "9.39.4",
+    "eslint-plugin-react-hooks": "7.1.1",
     "jsdom": "27.4.0",
     "typescript": "6.0.3",
+    "typescript-eslint": "8.71.1",
     "vitest": "4.1.11"
   }
 }

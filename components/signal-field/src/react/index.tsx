@@ -9,10 +9,11 @@ export function SignalField({className='',style,paused=false,...input}:SignalFie
  const controller=useRef<ReturnType<typeof mount>|null>(null);
  const settings=resolveSettings(input);
  const serialized=JSON.stringify(settings);
- const [initialMarkup]=useState(()=>render(settings));
- useEffect(()=>{if(!root.current)return;controller.current=mount(root.current,JSON.parse(serialized));return ()=>{controller.current?.destroy();controller.current=null;};},[]);
+ const initialSettings=useRef(serialized);
+ const [initialMarkup]=useState(()=>({__html:render(settings)}));
+ useEffect(()=>{if(!root.current)return;const instance = mount(root.current,JSON.parse(initialSettings.current)); controller.current = instance;return ()=>{instance.destroy();controller.current=null;};},[]);
  useEffect(()=>{controller.current?.update(JSON.parse(serialized));if(paused)controller.current?.pause();else controller.current?.resume();},[serialized,paused]);
- return <div ref={root} className={"aui-signal-field "+className} style={style} dangerouslySetInnerHTML={{__html:initialMarkup}}/>;
+ return <div ref={root} className={"aui-signal-field "+className} style={style} dangerouslySetInnerHTML={initialMarkup}/>;
 }
 export {SignalField as Component};
 export default SignalField;

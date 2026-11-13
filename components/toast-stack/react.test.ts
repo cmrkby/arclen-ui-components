@@ -35,3 +35,21 @@ describe('Toast Stack React settings',()=>{
  });
 
 });
+
+it('keeps an ongoing stack and controller while callback props become current',async()=>{
+ const host=document.createElement('div');document.body.append(host);const root=createRoot(host),firstAction=vi.fn(),latestAction=vi.fn(),firstDismiss=vi.fn(),latestDismiss=vi.fn();let api:Controller|undefined;
+ const ready=vi.fn((value:Controller)=>{api=value;});
+ try{
+  await act(async()=>root.render(createElement(ToastStack,{title:'First',duration:0,animate:false,onReady:ready,onAction:firstAction,onDismiss:firstDismiss})));
+  const card=host.querySelector('.ats-card');const instance=api!;
+  await act(async()=>{instance.notify({id:'ongoing',title:'Ongoing',duration:0,action:{label:'Act',closeOnAction:false}});});
+  const ongoing=Array.from(host.querySelectorAll('.ats-card')).find(node=>node.textContent?.includes('Ongoing'))!;
+  await act(async()=>root.render(createElement(ToastStack,{title:'First',duration:0,animate:false,theme:'dark',onReady:ready,onAction:latestAction,onDismiss:latestDismiss})));
+  expect(ready).toHaveBeenCalledTimes(1);expect(api).toBe(instance);expect(host.contains(card)).toBe(true);expect(host.contains(ongoing)).toBe(true);
+  await act(async()=>{ongoing.querySelector<HTMLButtonElement>('.ats-action')!.click();});
+  expect(firstAction).not.toHaveBeenCalled();expect(latestAction).toHaveBeenCalledWith('ongoing');expect(host.contains(ongoing)).toBe(true);
+  await act(async()=>{ongoing.querySelector<HTMLButtonElement>('.ats-close')!.click();});
+  expect(firstDismiss).not.toHaveBeenCalled();expect(latestDismiss).toHaveBeenCalledWith('ongoing','close');
+  await act(async()=>root.unmount());expect(host.childElementCount).toBe(0);
+ }finally{await act(async()=>root.unmount());host.remove();}
+});
