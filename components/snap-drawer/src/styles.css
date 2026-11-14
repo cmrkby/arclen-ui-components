@@ -1,7 +1,7 @@
 @font-face{font-family:SnapDrawerGeist;src:url('../assets/geist-latin.woff2') format('woff2');font-style:normal;font-weight:100 900;font-display:swap}
 .sd{--sd-surface:#fff;--sd-text:#18181b;--sd-muted:#52525b;--sd-border:#e4e4e7;--sd-action:#000;--sd-action-text:#fafafa;--sd-overlay:#000;--sd-trigger:#f4f4f5;color-scheme:light;color:var(--sd-text);font-family:var(--sd-font,ui-sans-serif,system-ui,sans-serif);font-size:var(--sd-body,16px);line-height:var(--sd-leading,1.5);font-weight:400;text-align:left;letter-spacing:normal;box-sizing:border-box}
-.sd[data-theme=dark],.sd[data-theme=system][data-resolved-theme=dark]{--sd-surface:#18181b;--sd-text:#fafafa;--sd-muted:#a1a1aa;--sd-border:#3f3f46;--sd-action:#fafafa;--sd-action-text:#18181b;--sd-trigger:#27272a;color-scheme:dark}
-@media(prefers-color-scheme:dark){.sd[data-theme=system]:not([data-resolved-theme=light]){--sd-surface:#18181b;--sd-text:#fafafa;--sd-muted:#a1a1aa;--sd-border:#3f3f46;--sd-action:#fafafa;--sd-action-text:#18181b;--sd-trigger:#27272a;color-scheme:dark}}
+.sd[data-theme=dark],.sd[data-theme=system][data-resolved-theme=dark]{--sd-surface:#171717;--sd-text:#fafafa;--sd-muted:#a1a1aa;--sd-border:#3f3f46;--sd-action:#fafafa;--sd-action-text:#18181b;--sd-trigger:#27272a;color-scheme:dark}
+@media(prefers-color-scheme:dark){.sd[data-theme=system]:not([data-resolved-theme=light]){--sd-surface:#171717;--sd-text:#fafafa;--sd-muted:#a1a1aa;--sd-border:#3f3f46;--sd-action:#fafafa;--sd-action-text:#18181b;--sd-trigger:#27272a;color-scheme:dark}}
 .sd[data-theme=custom]{--sd-surface:var(--sd-surface-custom);--sd-text:var(--sd-text-custom);--sd-muted:var(--sd-muted-custom);--sd-border:var(--sd-border-custom);--sd-action:var(--sd-action-custom);--sd-action-text:var(--sd-action-text-custom);--sd-overlay:var(--sd-overlay-custom);--sd-trigger:var(--sd-surface-custom);color-scheme:normal}
 .sd *,.sd *::before,.sd *::after{box-sizing:border-box}
 .sd [hidden]{display:none!important}
@@ -40,9 +40,8 @@
 .sd-scroll[data-scrollable=true]{overflow-y:auto}
 .sd-scroll:focus-visible{outline:2px solid var(--sd-text);outline-offset:-3px}
 .sd-sheet[data-dragging]{user-select:none;cursor:grabbing}
-.sd-controls{position:absolute;z-index:2;right:8px;top:5px;display:flex;gap:2px}
-.sd-controls button{display:grid;place-items:center;width:32px;height:32px;padding:6px;border:0;border-radius:6px;background:var(--sd-surface);color:var(--sd-text)}
-.sd-controls svg{width:20px;height:20px}
+.sd-dismiss{position:absolute;z-index:2;right:8px;top:4px;min-height:44px;padding:8px 12px;border:1px solid var(--sd-border);border-radius:6px;background:var(--sd-surface);color:var(--sd-text)}
+.sd-dismiss[hidden]{display:none}
 .sd-handle{position:absolute;z-index:2;top:0;left:50%;width:64px;height:44px;transform:translateX(-50%);border-radius:6px;cursor:ns-resize;touch-action:none}
 .sd-handle::before{content:"";position:absolute;top:7px;left:16px;width:32px;height:4px;border-radius:3px;background:var(--sd-border);transition:background-color var(--sd-handle-duration) ease,box-shadow var(--sd-handle-duration) ease}
 .sd-handle[data-visible="false"]::before{opacity:0}
@@ -76,6 +75,6 @@
 .sd-quote blockquote{white-space:pre-line}
 .sd-quote figcaption{margin-top:8px;font-size:14px;line-height:20px;color:var(--sd-muted)}
 .sd-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media(hover:hover) and (pointer:fine){.sd-trigger:hover:not(:disabled){background:color-mix(in srgb,var(--sd-trigger) 90%,var(--sd-text))}.sd-controls button:hover:not(:disabled){background:color-mix(in srgb,var(--sd-surface) 92%,var(--sd-text))}.sd-action:hover{opacity:.9}}
-@media(pointer:coarse){.sd-trigger{min-height:44px;min-width:44px}.sd-controls{top:2px;right:4px;gap:0}.sd-controls button{width:44px;height:44px;padding:12px}}
+@media(hover:hover) and (pointer:fine){.sd-trigger:hover:not(:disabled){background:color-mix(in srgb,var(--sd-trigger) 90%,var(--sd-text))}.sd-action:hover{opacity:.9}}
+@media(pointer:coarse){.sd-trigger{min-height:44px;min-width:44px}}
 @media(prefers-reduced-motion:reduce){.sd-trigger{transition:none}.sd-sheet,.sd-beam,.sd-beam::after,.sd-handle::before,.sd-overlay{transition:none!important}}

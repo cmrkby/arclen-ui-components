@@ -1,6 +1,6 @@
 {
   "id": "snap-drawer",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "tier": "free",
   "name": "Snap Drawer",
   "category": "utilities",
@@ -64,7 +64,7 @@
       "key": "imageAlt",
       "kind": "text",
       "label": "Image alt text",
-      "default": "Graphite Arc desk lamp with a curved stem and warm light on a grey background.",
+      "default": "Graphite Arc desk lamp with a blue-lit curved edge and warm underside on a slate background.",
       "group": "Image",
       "maxLength": 300,
       "description": "Describe your replacement image, or leave empty when decorative."
@@ -794,7 +794,7 @@
       "rights": {
         "kind": "original",
         "license": "MIT",
-        "attribution": "Original AI-generated fictional Arc desk lamp photograph, copyright 2026 Arclen."
+        "attribution": "Original AI-generated fictional Arc desk lamp photograph with blue accent lighting, copyright 2026 Arclen."
       },
       "gallery": true
     },
