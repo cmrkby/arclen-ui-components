@@ -124,7 +124,6 @@ export const palettes = {
 } as const;
 const ease = { glide: 'cubic-bezier(.32,.72,0,1)', standard: 'cubic-bezier(.2,0,0,1)', linear: 'linear' };
 const escape = (value: string) => value.replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]!);
-const closeIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5.5 5.5 14.5 14.5M14.5 5.5 5.5 14.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
 function rating(settings: Settings) {
   return `<div class="sd-rating" role="img" aria-label="${settings.rating} out of 5 stars">${Array.from({ length: 5 }, (_, index) => `<svg viewBox="0 0 20 20" aria-hidden="true" style="opacity:${index < settings.rating ? 1 : .2}"><path fill="currentColor" d="M10 1.6 12.4 7 18.3 7.6 13.9 11.6 15.1 17.4 10 14.4 4.9 17.4 6.1 11.6 1.7 7.6 7.6 7Z"/></svg>`).join('')}</div>`;
 }
@@ -218,10 +217,12 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
   const modal = document.createElement('dialog'); modal.className = 'sd sd-modal'; modal.dataset.sdInstance = identity;
   modal.tabIndex = -1; modal.autofocus = true;
   modal.id = identity + '-dialog'; modal.setAttribute('aria-labelledby', identity + '-title'); modal.setAttribute('aria-describedby', identity + '-description');
-  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet"><span class="sd-beam" aria-hidden="true"></span><div class="sd-handle" role="slider" tabindex="0" aria-label="Drawer height" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-valuetext="View 1 of 1"></div><div class="sd-controls"><button type="button" data-sd-control="close" aria-label="Close details">${closeIcon}</button></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><span class="sd-status" role="status" aria-live="polite"></span></div>`;
+  modal.innerHTML = `<div class="sd-overlay" aria-hidden="true"></div><div class="sd-sheet" tabindex="-1"><span class="sd-beam" aria-hidden="true"></span><div class="sd-handle" role="slider" tabindex="0" aria-label="Drawer height" aria-orientation="vertical" aria-valuemin="1" aria-valuemax="1" aria-valuenow="1" aria-valuetext="View 1 of 1"></div><div class="sd-scroll" role="region" aria-label="Details content" tabindex="-1">${content(settings, identity)}</div><button class="sd-dismiss" type="button" hidden>Close</button><span class="sd-status" role="status" aria-live="polite"></span></div>`;
   const sheet = modal.querySelector<HTMLElement>('.sd-sheet')!, overlay = modal.querySelector<HTMLElement>('.sd-overlay')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
-  const handle = modal.querySelector<HTMLElement>('.sd-handle')!, closeButton = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
+  const handle = modal.querySelector<HTMLElement>('.sd-handle')!;
+  const focusAnchor = () => settings.showHandle ? handle : sheet;
   const status = modal.querySelector<HTMLElement>('.sd-status')!;
+  const dismiss = modal.querySelector<HTMLButtonElement>('.sd-dismiss')!;
   const media = typeof view.matchMedia === 'function' ? view.matchMedia('(prefers-reduced-motion: reduce)') : null;
   const colorMedia = typeof view.matchMedia === 'function' ? view.matchMedia('(prefers-color-scheme: dark)') : null;
   let destroyed = false, paused = false, opened = false, closing = false, mounted = false, index = 0;
@@ -295,6 +296,10 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       if (settings.theme === 'system' && colorMedia) node.dataset.resolvedTheme = colorMedia.matches ? 'dark' : 'light'; else delete node.dataset.resolvedTheme;
     }
     handle.dataset.visible = String(settings.showHandle);
+    handle.tabIndex = settings.showHandle ? 0 : -1;
+    dismiss.hidden = settings.dragEnabled || settings.dismissOnOverlay;
+    if (opened && document.activeElement === dismiss && dismiss.hidden) focusAnchor().focus({ preventScroll: true });
+    if (opened && document.activeElement === handle && !settings.showHandle) sheet.focus({ preventScroll: true });
   }
   function state(value: string) { modal.dataset.state = value; root.dataset.state = value; }
   function measure() {
@@ -324,7 +329,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     handle.setAttribute('aria-valuetext', `View ${index + 1} of ${geometry.positions.length}`);
     modal.dataset.snap = String(geometry.reachableToSource[index]); modal.dataset.reachableSnap = String(index);
     const highest = index === geometry.positions.length - 1;
-    if (!highest && (document.activeElement === scroll || scroll.contains(document.activeElement))) closeButton.focus({ preventScroll: true });
+    if (!highest && (document.activeElement === scroll || scroll.contains(document.activeElement))) focusAnchor().focus({ preventScroll: true });
     scroll.dataset.scrollable = String(highest);
     scroll.tabIndex = highest ? 0 : -1;
     // The shell keeps its full geometry; a custom highest snap exposes a smaller reading viewport.
@@ -339,7 +344,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     if (modal.open) modal.close(); unlockPage(document, modal);
     trigger.setAttribute('aria-expanded', 'false');
     const other = [...(locks.get(document)?.owners ?? [])].at(-1);
-    if (other) other.querySelector<HTMLButtonElement>('[data-sd-control="close"]')?.focus({ preventScroll: true });
+    if (other) (other.querySelector<HTMLElement>('.sd-handle[data-visible="true"]') ?? other.querySelector<HTMLElement>('.sd-sheet'))?.focus({ preventScroll: true });
     else if (initiator?.isConnected) initiator.focus({ preventScroll: true });
     else if (trigger.isConnected) trigger.focus({ preventScroll: true });
     else if (host.isConnected) { const previous = host.getAttribute('tabindex'); host.tabIndex = -1; host.focus({ preventScroll: true }); if (previous === null) host.removeAttribute('tabindex'); else host.setAttribute('tabindex', previous); }
@@ -380,7 +385,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     paint(geometry.height, 0); cancelTransition(false);
     try { modal.showModal(); modal.scrollTop = 0; modal.scrollLeft = 0; } catch { fallback.hidden = false; trigger.disabled = true; hydrateImages(fallback, true); return; }
     opened = true; closing = false; hydrateImages(scroll, index === geometry.positions.length - 1); lockPage(document, modal); trigger.setAttribute('aria-expanded', 'true');
-    controls(); closeButton.focus({ preventScroll: true }); modal.scrollTop = 0; state('opening');
+    controls(); focusAnchor().focus({ preventScroll: true }); modal.scrollTop = 0; state('opening');
     emit('open-change', { open: true });
     const targetOpacity = settings.overlayMode === 'constant' || index === geometry.positions.length - 1 ? 1 : 0;
     animate(geometry.positions[index], targetOpacity, () => { refreshContentTabStops(); state(paused ? 'paused' : 'resting'); });
@@ -444,7 +449,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     const top = view.visualViewport?.offsetTop ?? 0, bottom = top + (view.visualViewport?.height ?? view.innerHeight);
     return [...modal.querySelectorAll<HTMLElement>('button:not(:disabled),a[href],.sd-handle,.sd-scroll[tabindex="0"]')].filter(node => {
       const box = node.getBoundingClientRect();
-      return node.tabIndex >= 0 && (scroll.contains(node) ? contentVisible(node) : box.height > 0 && box.top >= top && box.bottom <= bottom + 1);
+      return !node.hidden && node.tabIndex >= 0 && (scroll.contains(node) ? contentVisible(node) : box.height > 0 && box.top >= top && box.bottom <= bottom + 1);
     });
   }
   function settle() {
@@ -464,7 +469,6 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
     document.body.appendChild(modal); mounted = true; fallback.hidden = true; trigger.disabled = false;
     root.dataset.enhanced = ''; trigger.setAttribute('aria-controls', modal.id); trigger.setAttribute('aria-expanded', 'false'); state('closed');
     on(trigger, 'click', open);
-    on(closeButton, 'click', close);
     on(handle, 'keydown', event => {
       const key = event as KeyboardEvent;
       if (key.altKey || key.ctrlKey || key.metaKey) return;
@@ -474,15 +478,17 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       if (target === null) return;
       key.preventDefault(); key.stopPropagation(); cancelGesture(); snap(target); enableBeamFeedback();
     });
+    on(dismiss, 'click', close);
     on(overlay, 'click', () => { if (settings.dismissOnOverlay) close(); });
     on(modal, 'cancel', event => { event.preventDefault(); close(); });
-    on(modal, 'close', () => { if (opened && !closing) { cancelTransition(false); finishClose(); } });
+    on(modal, 'close', () => { if (!modal.open && opened && !closing) { cancelTransition(false); finishClose(); } });
     on(modal, 'keydown', event => {
       const key = event as KeyboardEvent;
       if (key.key === 'Escape') { key.preventDefault(); key.stopPropagation(); close(); }
       if (key.key === 'Tab') {
         const nodes = visibleFocusable(), at = nodes.indexOf(document.activeElement as HTMLElement);
-        key.preventDefault(); (nodes[(at + (key.shiftKey ? -1 : 1) + nodes.length) % nodes.length] ?? closeButton).focus({ preventScroll: true });
+        const next = at < 0 ? (key.shiftKey ? nodes.length - 1 : 0) : (at + (key.shiftKey ? -1 : 1) + nodes.length) % nodes.length;
+        key.preventDefault(); (nodes[next] ?? focusAnchor()).focus({ preventScroll: true });
       }
     });
     on(modal, 'focusin', event => {
@@ -545,7 +551,7 @@ export function mount(host: HTMLElement, input: unknown = {}, id?: string): Cont
       clearImageSources(fallback); fallback.innerHTML = content(settings, identity + '-static');
       if (!fallback.hidden) hydrateImages(fallback, true);
       measure(); index = geometry.sourceToReachable[Math.min(oldSource, settings.snapPoints.length - 1)];
-      if (opened) { if (closing) settle(); else snap(index, false); scroll.scrollTop = oldScroll; if (actionFocused) (scroll.querySelector<HTMLElement>('.sd-action') ?? closeButton).focus({ preventScroll: true }); }
+      if (opened) { if (closing) settle(); else snap(index, false); scroll.scrollTop = oldScroll; if (actionFocused) (scroll.querySelector<HTMLElement>('.sd-action') ?? focusAnchor()).focus({ preventScroll: true }); }
     },
     pause() { if (destroyed) return; paused = true; suspendBeam(); settle(); },
     resume() { if (destroyed) return; paused = false; delete sheet.dataset.beamSuspended; if (opened) state('resting'); },

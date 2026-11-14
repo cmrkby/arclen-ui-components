@@ -114,6 +114,63 @@ describe('Snap Drawer lifecycle', () => {
   });
   afterEach(() => { controllers.splice(0).forEach(controller => controller.destroy()); vi.restoreAllMocks(); vi.useRealTimers(); document.body.innerHTML = ''; document.body.removeAttribute('style'); });
   const create = (id = 'one', duration = 0) => { const controller = mount(document.getElementById(id)!, { duration }, id); controllers.push(controller); return controller; };
+  it('opens on the handle and keeps a keyboard dismissal path when the handle is hidden', () => {
+    const controller = create();
+    const trigger = document.querySelector<HTMLButtonElement>('.sd-trigger')!;
+    trigger.focus(); controller.open();
+    const modal = document.querySelector<HTMLDialogElement>('dialog')!, handle = modal.querySelector<HTMLElement>('.sd-handle')!, sheet = modal.querySelector<HTMLElement>('.sd-sheet')!;
+    expect(document.activeElement).toBe(handle);
+    expect(modal.querySelector('[data-sd-control="close"]')).toBeNull();
+    controller.update({ duration: 0, showHandle: false });
+    expect(document.activeElement).toBe(sheet);
+    expect(handle.tabIndex).toBe(-1);
+    modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+    expect(document.activeElement).toBe(sheet);
+    modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }));
+    expect(modal.open).toBe(false); expect(document.activeElement).toBe(trigger);
+    controller.open(); expect(document.activeElement).toBe(sheet);
+  });
+  it('keeps explicit pointer dismissal when drag and overlay dismissal are both disabled', () => {
+    const controller = create(); controller.update({ duration: 0, showHandle: false, showAction: false, dragEnabled: false, dismissOnOverlay: false }); controller.open();
+    const modal = document.querySelector<HTMLDialogElement>('dialog')!, close = modal.querySelector<HTMLButtonElement>('.sd-dismiss')!;
+    expect(close.hidden).toBe(false); close.click(); expect(modal.open).toBe(false);
+    controller.update({ duration: 0, dragEnabled: false, dismissOnOverlay: true }); controller.open(); expect(close.hidden).toBe(true);
+  });
+  it('enters the visible tab order from either end when the hidden-handle sheet has focus', () => {
+    const controller = create(); controller.update({ duration: 0, showHandle: false }); controller.open(); controller.snapTo(2);
+    const modal = document.querySelector<HTMLDialogElement>('dialog')!, sheet = modal.querySelector<HTMLElement>('.sd-sheet')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!, action = modal.querySelector<HTMLElement>('.sd-action')!;
+    const box = (top: number, bottom: number) => ({ top, bottom, left: 0, right: 400, width: 400, height: bottom - top, x: 0, y: top, toJSON() {} });
+    vi.spyOn(scroll, 'getBoundingClientRect').mockReturnValue(box(30, 1000));
+    vi.spyOn(action, 'getBoundingClientRect').mockReturnValue(box(200, 248));
+    // jsdom's grouped selector can return the ancestor after its child. Native
+    // Chromium covers this order separately; normalize only the unit DOM shim.
+    const query = modal.querySelectorAll.bind(modal);
+    vi.spyOn(modal, 'querySelectorAll').mockImplementation(selector => {
+      const nodes = query(selector);
+      return selector.includes('button:not(:disabled)')
+        ? [...nodes].sort((a, b) => a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1) as unknown as NodeListOf<Element>
+        : nodes;
+    });
+    sheet.focus(); modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true, cancelable: true }));
+    expect(document.activeElement).toBe(action);
+    sheet.focus(); modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
+    expect(document.activeElement).toBe(scroll);
+  });
+  it('ignores a queued native close event after a new opening', () => {
+    const controller = create(); document.querySelector<HTMLButtonElement>('.sd-trigger')!.focus(); controller.open(); controller.close(); controller.open();
+    const modal = document.querySelector<HTMLDialogElement>('dialog')!;
+    modal.dispatchEvent(new Event('close'));
+    expect(modal.open).toBe(true); expect(document.activeElement).toBe(modal.querySelector('.sd-handle'));
+    modal.open = false; modal.dispatchEvent(new Event('close'));
+    expect(document.activeElement).toBe(document.querySelector('.sd-trigger'));
+  });
+  it('returns focus to the surviving drawer handle or sheet when a peer closes', () => {
+    const one = create(), two = create('two');
+    one.open(); two.open(); two.close();
+    expect(document.activeElement).toBe(document.querySelector('.sd-handle'));
+    one.update({ duration: 0, showHandle: false }); two.open(); two.close();
+    expect(document.activeElement).toBe(document.querySelector('.sd-sheet'));
+  });
   it('lights only near the edge for hover pointers and clears stale light across lifecycle changes', () => {
     const controller = create(); controller.open();
     const modal = document.querySelector<HTMLElement>('.sd-modal')!, sheet = modal.querySelector<HTMLElement>('.sd-sheet')!;
@@ -222,7 +279,7 @@ describe('Snap Drawer lifecycle', () => {
   it('shows the drag affordance by default and keeps its visibility configurable', () => {
     const controller = create(); const handle = document.querySelector<HTMLElement>('.sd-modal .sd-handle')!;
     expect(defaults.showHandle).toBe(true); expect(handle.hidden).toBe(false); expect(handle.getAttribute('role')).toBe('slider'); expect(handle.tabIndex).toBe(0);
-    controller.update({ duration: 0, showHandle: false }); expect(handle.dataset.visible).toBe('false'); expect(handle.tabIndex).toBe(0);
+    controller.update({ duration: 0, showHandle: false }); expect(handle.dataset.visible).toBe('false'); expect(handle.tabIndex).toBe(-1);
     controller.update({ duration: 0 }); expect(handle.dataset.visible).toBe('true');
   });
   it('keeps locks across two instances and restores focus and styles after teardown', () => {
@@ -248,7 +305,7 @@ describe('Snap Drawer lifecycle', () => {
   it('changes reachable views with the focused handle and keeps focus at endpoints', () => {
     const controller = create(); controller.open();
     const handle = document.querySelector<HTMLElement>('.sd-handle')!, modal = document.querySelector('dialog')!;
-    expect(modal.querySelectorAll('[data-sd-control]')).toHaveLength(1);
+    expect(modal.querySelectorAll('[data-sd-control]')).toHaveLength(0);
     expect(handle.getAttribute('aria-label')).toBe('Drawer height');
     expect(handle.getAttribute('aria-orientation')).toBe('vertical');
     const key = (name: string) => { const event = new KeyboardEvent('keydown', { key: name, bubbles: true, cancelable: true }); handle.dispatchEvent(event); expect(event.defaultPrevented).toBe(true); };
@@ -281,7 +338,7 @@ describe('Snap Drawer lifecycle', () => {
     controller.snapTo(2); expect(scroll.tabIndex).toBe(0); expect(scroll.getAttribute('aria-label')).toBe('Details content');
     const box = { top: 30, bottom: 60, left: 0, right: 100, width: 100, height: 30, x: 0, y: 30, toJSON() { return {}; } };
     for (const node of modal.querySelectorAll<HTMLElement>('button,.sd-scroll')) vi.spyOn(node, 'getBoundingClientRect').mockReturnValue(box);
-    const close = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!; close.focus();
+    const close = modal.querySelector<HTMLElement>('.sd-handle')!; close.focus();
     modal.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true }));
     expect(document.activeElement).toBe(scroll);
     controller.snapTo(1); expect(scroll.tabIndex).toBe(-1); expect(document.activeElement).toBe(close);
@@ -309,7 +366,7 @@ describe('Snap Drawer lifecycle', () => {
   it.each(['', '#selected'])('keeps a visible middle action stable and keyboard reachable (%s)', actionHref => {
     const controller = create(); controller.update({ duration: 0, actionHref }); controller.open();
     const modal = document.querySelector<HTMLDialogElement>('.sd-modal')!, scroll = modal.querySelector<HTMLElement>('.sd-scroll')!;
-    const action = modal.querySelector<HTMLElement>('.sd-action')!, close = modal.querySelector<HTMLButtonElement>('[data-sd-control="close"]')!;
+    const action = modal.querySelector<HTMLElement>('.sd-action')!, close = modal.querySelector<HTMLElement>('.sd-handle')!;
     const box = (top: number, bottom: number) => ({ top, bottom, left: 20, right: 420, width: 400, height: bottom - top, x: 20, y: top, toJSON() { return {}; } });
     vi.spyOn(scroll, 'getBoundingClientRect').mockReturnValue(box(676, 1645));
     for (const node of modal.querySelectorAll<HTMLElement>('.sd-controls button')) vi.spyOn(node, 'getBoundingClientRect').mockReturnValue(box(680, 712));
