@@ -1,0 +1,70 @@
+# Tension Slider
+
+Set a value between 0 and 100 on a graduated track. Press or drag the scale for direct adjustment. Pull the marker away from the destination, then release to send it to the projected value.
+
+## React
+
+```tsx
+import { TensionSlider } from './components/tension-slider';
+
+<TensionSlider label="Input level" value={36} onValueChange={setInputLevel} />
+```
+
+`Component` is an alias for `TensionSlider`. Omit `value` to start at the default and keep the value in the slider. Subsequent changes to the `value` prop move the slider. `onValueChange` reports distinct user changes during a scrub and reports the projected value once on release. `className`, `style`, and `paused` configure the wrapper and lifecycle.
+
+## HTML and vanilla
+
+```ts
+import { mount } from './components/tension-slider/src/core';
+import './components/tension-slider/src/styles.css';
+
+const slider = mount(document.querySelector('#level')!, { label: 'Input level' });
+slider.update({ theme: 'light', hint: false });
+```
+
+Updates accept partial settings. Programmatic changes emit no event. User changes also dispatch a bubbling `tension-slider-change` with `detail.value`. Call `pause()` to disable interaction, `resume()` to restore it and `destroy()` when removing the host.
+
+## Gestures and accessibility
+
+Direct scrubbing follows the pointer across the ruled scale. Pulling the marker shows the projected value and the flight path. A short pull, Escape or pointer cancellation clears the projection. A vertical pull increases the height of the path. Releasing commits the value immediately. During flight, the visible scale and number count toward that committed value. A new gesture during the animation starts from the committed value.
+
+Tab reaches a native range input. Arrow keys adjust by `keyboardStep` (default 1), Page Up and Page Down adjust by `pageStep` (default 10), and Home and End select the limits. With reduced motion, the pull preview remains visible and the marker moves directly to its landing point on release. Static output displays the value with the input disabled until mounted.
+
+## Tuning the wave
+
+Every bar has its own displacement and velocity. A scrub or flying marker excites the nearby bars, and their springs pass that motion along the scale. The landing adds a second impulse. The readout and change event use the selected value throughout.
+
+`waveStrength` controls the height of the disturbance. Zero keeps the bars stationary. `waveWidth` is the width of the contact in bars, and `waveSpeed` is the propagation speed in bars per second. Increase `waveDamping` for a shorter tail. `flightDuration` sets the reference flight time in milliseconds. Taller arcs take longer. `accent` colors the marker, trajectory, and landing target.
+
+```tsx
+<TensionSlider waveWidth={3} waveSpeed={44} waveStrength={1.25}
+  waveDamping={7} flightDuration={375} accent="#c95724" />
+```
+
+The spring clock stops after the last bar settles. Pausing, destruction, scrolling offscreen and switching to reduced motion clear the wave immediately.
+
+## Marker, ticks, and instructions
+
+`markerSize` sets the diameter of both the marker and its landing outline, in nominal desktop pixels. The grip keeps its larger pointer target. `tickThickness` sets the width of each filled graduation. Unfilled graduations use a third of that width by default. `emptyThickness` scales the unfilled width independently. The narrowest strokes have a minimum visible width.
+
+Set `helpText` to change the instructions. A line break starts a new line. The native range announces this text while the hint is visible. Set `hint={false}` or use an empty string to hide it.
+
+
+## Preview controls
+
+| Group | What you can adjust |
+| --- | --- |
+| Layout | Maximum width, clearance above the marker and space below the scale. |
+| Readout | Number visibility, size, weight, suffix and distance from the scale. Show the accessible label above the slider and set its size. |
+| Instructions | Copy, visibility, line width, type size, vertical gap and alignment. |
+| Track | Tick count, filled and empty tick dimensions, and corner radius. Density changes preserve the selected value. |
+| Palette | Independent light and dark colors for the filled scale, empty graduations and instructions. |
+| Marker | Accent, diameter, clearance, ring weight, corner rounding, grip target and keyboard focus offset. |
+| Scrub response | Number catch-up speed, marker spring and damping, vertical lift and horizontal swing on fast drags. |
+| Wave | Amplitude, contact width, propagation speed and damping. |
+| Launch | Maximum pull, throw distance, flight time, arc height and how far the marker leans into the pull. |
+| Aim guides | Band and trajectory strokes, opacity, dash pattern, landing target scale and optional projected number. |
+| Trail and landing | Trail length, width and opacity, rebound height and time, and the impact sent through the ticks. |
+| Keyboard | Arrow-key and page-key increments. |
+
+To isolate a motion, scrub quickly across the ticks for swing and lift, or drag the marker away from the desired landing point for the aim guides and trail. Controls update the mounted slider. Changing the tick count rebuilds the tick field at the current value.

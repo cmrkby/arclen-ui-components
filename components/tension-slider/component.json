@@ -1,0 +1,753 @@
+{
+  "id": "tension-slider",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Tension Slider",
+  "category": "Inputs",
+  "description": "A graduated slider with a direct scrub track and a separate pull-to-launch handle.",
+  "keywords": [
+    "slider",
+    "range",
+    "scrub",
+    "spring",
+    "pointer"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": [
+        {
+          "label": "Dark",
+          "value": "dark"
+        },
+        {
+          "label": "Light",
+          "value": "light"
+        }
+      ],
+      "group": "Appearance"
+    },
+    {
+      "key": "value",
+      "kind": "number",
+      "label": "Value",
+      "default": 36,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Interaction"
+    },
+    {
+      "key": "label",
+      "kind": "text",
+      "label": "Accessible label",
+      "default": "Value",
+      "maxLength": 80,
+      "group": "Content"
+    },
+    {
+      "key": "hint",
+      "kind": "boolean",
+      "label": "Gesture hint",
+      "default": true,
+      "group": "Instructions"
+    },
+    {
+      "key": "waveStrength",
+      "kind": "number",
+      "label": "Wave strength",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05,
+      "group": "Wave"
+    },
+    {
+      "key": "waveWidth",
+      "kind": "number",
+      "label": "Wave width (bars)",
+      "default": 2.5,
+      "min": 1,
+      "max": 8,
+      "step": 0.25,
+      "group": "Wave"
+    },
+    {
+      "key": "waveDamping",
+      "kind": "number",
+      "label": "Wave damping",
+      "default": 8,
+      "min": 3,
+      "max": 18,
+      "step": 0.5,
+      "group": "Wave"
+    },
+    {
+      "key": "waveSpeed",
+      "kind": "number",
+      "label": "Wave speed (bars/s)",
+      "default": 38,
+      "min": 15,
+      "max": 65,
+      "step": 1,
+      "group": "Wave"
+    },
+    {
+      "key": "flightDuration",
+      "kind": "number",
+      "label": "Flight time (ms)",
+      "default": 425,
+      "min": 240,
+      "max": 750,
+      "step": 5,
+      "group": "Launch"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Marker color",
+      "default": "#d44611",
+      "group": "Marker"
+    },
+    {
+      "key": "markerSize",
+      "kind": "number",
+      "label": "Marker diameter (px)",
+      "default": 12,
+      "min": 6,
+      "max": 22,
+      "step": 1,
+      "group": "Marker"
+    },
+    {
+      "key": "tickThickness",
+      "kind": "number",
+      "label": "Filled tick width (px)",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "step": 0.5,
+      "group": "Track"
+    },
+    {
+      "key": "helpText",
+      "kind": "text",
+      "label": "Gesture instructions",
+      "default": "Slide along the scale to set a value.\nPull the marker back and release to launch.",
+      "maxLength": 180,
+      "group": "Instructions"
+    },
+    {
+      "key": "panelWidth",
+      "label": "Maximum slider width (px)",
+      "kind": "number",
+      "default": 670,
+      "min": 260,
+      "max": 840,
+      "step": 1,
+      "group": "Layout"
+    },
+    {
+      "key": "headroom",
+      "label": "Space above track (px)",
+      "kind": "number",
+      "default": 110,
+      "min": 30,
+      "max": 155,
+      "step": 1,
+      "group": "Layout"
+    },
+    {
+      "key": "bottomSpace",
+      "label": "Space below track (px)",
+      "kind": "number",
+      "default": 22,
+      "min": 4,
+      "max": 64,
+      "step": 1,
+      "group": "Layout"
+    },
+    {
+      "key": "showValue",
+      "label": "Show numeric value",
+      "kind": "boolean",
+      "default": true,
+      "group": "Readout"
+    },
+    {
+      "key": "valueGap",
+      "label": "Gap after track (px)",
+      "kind": "number",
+      "default": 20,
+      "min": 4,
+      "max": 46,
+      "step": 1,
+      "group": "Readout"
+    },
+    {
+      "key": "valueSize",
+      "label": "Value size (px)",
+      "kind": "number",
+      "default": 44,
+      "min": 22,
+      "max": 54,
+      "step": 1,
+      "group": "Readout"
+    },
+    {
+      "key": "valueWeight",
+      "label": "Value weight",
+      "kind": "number",
+      "default": 400,
+      "min": 300,
+      "max": 750,
+      "step": 50,
+      "group": "Readout"
+    },
+    {
+      "key": "valueSuffix",
+      "label": "Value unit",
+      "kind": "text",
+      "default": "",
+      "maxLength": 8,
+      "group": "Readout"
+    },
+    {
+      "key": "showLabel",
+      "label": "Display accessible label",
+      "kind": "boolean",
+      "default": false,
+      "group": "Readout"
+    },
+    {
+      "key": "labelSize",
+      "label": "Label size (px)",
+      "kind": "number",
+      "default": 13,
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "group": "Readout"
+    },
+    {
+      "key": "hintWidth",
+      "label": "Instructions width (px)",
+      "kind": "number",
+      "default": 279,
+      "min": 160,
+      "max": 600,
+      "step": 1,
+      "group": "Instructions"
+    },
+    {
+      "key": "hintSize",
+      "label": "Instructions size (px)",
+      "kind": "number",
+      "default": 13,
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "group": "Instructions"
+    },
+    {
+      "key": "hintGap",
+      "label": "Instructions gap (px)",
+      "kind": "number",
+      "default": 10,
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "group": "Instructions"
+    },
+    {
+      "key": "hintAlign",
+      "label": "Instructions alignment",
+      "kind": "select",
+      "default": "center",
+      "options": [
+        {
+          "label": "Left",
+          "value": "left"
+        },
+        {
+          "label": "Center",
+          "value": "center"
+        },
+        {
+          "label": "Right",
+          "value": "right"
+        }
+      ],
+      "group": "Instructions"
+    },
+    {
+      "key": "tickCount",
+      "label": "Number of ticks",
+      "kind": "number",
+      "default": 59,
+      "min": 19,
+      "max": 87,
+      "step": 1,
+      "group": "Track"
+    },
+    {
+      "key": "filledHeight",
+      "label": "Filled tick height (px)",
+      "kind": "number",
+      "default": 48,
+      "min": 18,
+      "max": 70,
+      "step": 1,
+      "group": "Track"
+    },
+    {
+      "key": "emptyHeight",
+      "label": "Empty tick height (px)",
+      "kind": "number",
+      "default": 32,
+      "min": 8,
+      "max": 58,
+      "step": 1,
+      "group": "Track"
+    },
+    {
+      "key": "emptyThickness",
+      "label": "Empty tick width multiplier (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 30,
+      "max": 300,
+      "step": 1,
+      "group": "Track"
+    },
+    {
+      "key": "tickRadius",
+      "label": "Tick corner radius (px)",
+      "kind": "number",
+      "default": 3,
+      "min": 0,
+      "max": 6,
+      "step": 0.25,
+      "group": "Track"
+    },
+    {
+      "key": "lightInk",
+      "label": "Light value and filled ticks",
+      "kind": "color",
+      "default": "#171819",
+      "group": "Palette"
+    },
+    {
+      "key": "darkInk",
+      "label": "Dark value and filled ticks",
+      "kind": "color",
+      "default": "#f4f3f1",
+      "group": "Palette"
+    },
+    {
+      "key": "lightLine",
+      "label": "Light empty ticks",
+      "kind": "color",
+      "default": "#898d90",
+      "group": "Palette"
+    },
+    {
+      "key": "darkLine",
+      "label": "Dark empty ticks",
+      "kind": "color",
+      "default": "#80858a",
+      "group": "Palette"
+    },
+    {
+      "key": "lightMuted",
+      "label": "Light caption and instructions",
+      "kind": "color",
+      "default": "#65686a",
+      "group": "Palette"
+    },
+    {
+      "key": "darkMuted",
+      "label": "Dark caption and instructions",
+      "kind": "color",
+      "default": "#b0b2b4",
+      "group": "Palette"
+    },
+    {
+      "key": "markerGap",
+      "label": "Clearance above filled tick (px)",
+      "kind": "number",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 0.5,
+      "group": "Marker"
+    },
+    {
+      "key": "markerRing",
+      "label": "Marker inner ring (px)",
+      "kind": "number",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "step": 0.25,
+      "group": "Marker"
+    },
+    {
+      "key": "markerRadius",
+      "label": "Marker rounding (%)",
+      "kind": "number",
+      "default": 50,
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "group": "Marker"
+    },
+    {
+      "key": "gripWidth",
+      "label": "Marker grab area (px)",
+      "kind": "number",
+      "default": 40,
+      "min": 32,
+      "max": 60,
+      "step": 1,
+      "group": "Marker"
+    },
+    {
+      "key": "focusOffset",
+      "label": "Keyboard outline offset (px)",
+      "kind": "number",
+      "default": 5,
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "group": "Marker"
+    },
+    {
+      "key": "readoutResponse",
+      "label": "Readout response (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.55,
+      "max": 1.6,
+      "step": 0.05,
+      "group": "Scrub response"
+    },
+    {
+      "key": "markerSpring",
+      "label": "Marker stiffness (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.55,
+      "max": 1.65,
+      "step": 0.05,
+      "group": "Scrub response"
+    },
+    {
+      "key": "markerDamping",
+      "label": "Marker damping (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.6,
+      "max": 1.65,
+      "step": 0.05,
+      "group": "Scrub response"
+    },
+    {
+      "key": "scrubLift",
+      "label": "Speed-sensitive lift (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "step": 5,
+      "group": "Scrub response"
+    },
+    {
+      "key": "scrubSwing",
+      "label": "Sideways swing (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 0,
+      "max": 160,
+      "step": 5,
+      "group": "Scrub response"
+    },
+    {
+      "key": "pullTravel",
+      "label": "Maximum elastic draw (px)",
+      "kind": "number",
+      "default": 96,
+      "min": 48,
+      "max": 128,
+      "step": 1,
+      "group": "Launch"
+    },
+    {
+      "key": "launchPower",
+      "label": "Throw distance (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.4,
+      "max": 1.7,
+      "step": 0.05,
+      "group": "Launch"
+    },
+    {
+      "key": "arcHeight",
+      "label": "Flight height (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.5,
+      "max": 1.35,
+      "step": 0.05,
+      "group": "Launch"
+    },
+    {
+      "key": "pullLean",
+      "label": "Tick lean (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0,
+      "max": 1.6,
+      "step": 0.1,
+      "group": "Launch"
+    },
+    {
+      "key": "bandWidth",
+      "label": "Elastic band width (px)",
+      "kind": "number",
+      "default": 1.5,
+      "min": 0.5,
+      "max": 4,
+      "step": 0.25,
+      "group": "Aim guides"
+    },
+    {
+      "key": "bandOpacity",
+      "label": "Elastic band opacity (%)",
+      "kind": "number",
+      "default": 84,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Aim guides"
+    },
+    {
+      "key": "arcWidth",
+      "label": "Guide width (px)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.5,
+      "max": 3,
+      "step": 0.25,
+      "group": "Aim guides"
+    },
+    {
+      "key": "arcOpacity",
+      "label": "Guide opacity (%)",
+      "kind": "number",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Aim guides"
+    },
+    {
+      "key": "dashLength",
+      "label": "Dash length (px)",
+      "kind": "number",
+      "default": 2,
+      "min": 1,
+      "max": 12,
+      "step": 0.5,
+      "group": "Aim guides"
+    },
+    {
+      "key": "dashGap",
+      "label": "Dash spacing (px)",
+      "kind": "number",
+      "default": 3,
+      "min": 0,
+      "max": 12,
+      "step": 0.5,
+      "group": "Aim guides"
+    },
+    {
+      "key": "showPrediction",
+      "label": "Show value over landing point",
+      "kind": "boolean",
+      "default": false,
+      "group": "Aim guides"
+    },
+    {
+      "key": "targetScale",
+      "label": "Landing ring size (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 50,
+      "max": 160,
+      "step": 5,
+      "group": "Aim guides"
+    },
+    {
+      "key": "trailLength",
+      "label": "Flight trail length (%)",
+      "kind": "number",
+      "default": 35,
+      "min": 0,
+      "max": 70,
+      "step": 1,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "trailWidth",
+      "label": "Trail width (px)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.5,
+      "max": 4,
+      "step": 0.25,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "trailOpacity",
+      "label": "Trail opacity (%)",
+      "kind": "number",
+      "default": 32,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "bounceHeight",
+      "label": "Rebound height (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 0,
+      "max": 180,
+      "step": 5,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "bounceTime",
+      "label": "Rebound duration (ms)",
+      "kind": "number",
+      "default": 160,
+      "min": 65,
+      "max": 350,
+      "step": 5,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "impactStrength",
+      "label": "Impact wave (%)",
+      "kind": "number",
+      "default": 100,
+      "min": 0,
+      "max": 180,
+      "step": 5,
+      "group": "Trail and landing"
+    },
+    {
+      "key": "keyboardStep",
+      "label": "Arrow key increment",
+      "kind": "number",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "group": "Keyboard"
+    },
+    {
+      "key": "pageStep",
+      "label": "Page key increment",
+      "kind": "number",
+      "default": 10,
+      "min": 1,
+      "max": 50,
+      "step": 1,
+      "group": "Keyboard"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from the original Tension Slider implementation."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Keep direct scrubbing and the projected value, then jump to the landing point.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Porcelain",
+      "settings": {
+        "theme": "light",
+        "value": 36,
+        "label": "Value",
+        "hint": true,
+        "waveStrength": 1,
+        "waveWidth": 2.5,
+        "waveDamping": 8,
+        "waveSpeed": 38,
+        "flightDuration": 425,
+        "accent": "#d44611",
+        "markerSize": 12,
+        "tickThickness": 3,
+        "helpText": "Slide along the scale to set a value.\nPull the marker back and release to launch."
+      }
+    },
+    {
+      "name": "Graphite",
+      "settings": {
+        "theme": "dark",
+        "value": 64,
+        "label": "Value",
+        "hint": true,
+        "waveStrength": 1.35,
+        "waveWidth": 3,
+        "waveDamping": 6,
+        "waveSpeed": 38,
+        "flightDuration": 425,
+        "accent": "#ff8a52",
+        "markerSize": 12,
+        "tickThickness": 3,
+        "helpText": "Slide along the scale to set a value.\nPull the marker back and release to launch."
+      }
+    }
+  ]
+}

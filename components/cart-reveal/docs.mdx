@@ -1,0 +1,67 @@
+Cart Reveal is a product tile with a quantity picker and slide-to-confirm control. The save button works in either view.
+
+## React
+
+```tsx
+import { CartReveal } from './components/cart-reveal/src/react';
+
+<CartReveal
+  title="Relay Trail 01"
+  brand="Arclen Footwear"
+  price={59}
+  image="./trail-shoe.webp"
+  onConfirm={({ quantity, total }) => console.log(quantity, total)}
+/>
+```
+
+Use an image path relative to the page, a root-relative path, an HTTPS image URL or an embedded WebP. The bundled original trail-shoe photograph appears by default and if a supplied image fails to load. Portrait product photography sits just above the lower edge of the tile and keeps its original orientation. Square images cover the tile. Whole-dollar prices omit cents. Set `sound` to opt into a short synthesized tone on confirmation.
+
+## HTML and vanilla JavaScript
+
+```ts
+import { mount } from './cart-reveal/src/core';
+import './cart-reveal/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#cart')!;
+const controller = mount(host, { title: 'Relay Trail 01' });
+host.addEventListener('cartconfirm', (event) => {
+  const { quantity, total } = (event as CustomEvent).detail;
+  console.log(quantity, total);
+});
+controller.update({ price: 82 });
+```
+
+`render(settings)` returns the closed tile for static output. `mount` replaces the host contents. Call `destroy()` when removing the instance. The callback and bubbling event report demo confirmation. Connect any purchase flow in the host application.
+
+## Input and motion
+
+Activate the tile to reveal the details fold (237px at the defaults). The cart opens with one item. Press the shopping cart button to add another. Hover or focus the quantity controls to reveal the minus button, which is always visible on touch devices when an item can be removed. At zero, the confirmation control announces that the cart is empty.
+
+Drag the thumb to the far end and release to confirm. Releasing partway returns it to the start. The center label also confirms with a single click or tap. When the thumb is focused, arrow keys adjust its position. Home returns it to the start. End, Enter or Space confirm. The handle shows a check before the details close to the receipt (34px at the defaults). The receipt clears automatically. The next cart starts with quantity one.
+
+Reduced motion and `paused` apply cart movements immediately. Confirmation fires once per cart. Pointer cancellation returns the handle to its starting position. Hidden or offscreen instances finish the current subtotal update. The closed panel follows standard keyboard focus order when reopened.
+
+## Tuning the card
+
+`radius` adjusts the silhouette and the matching image corner. `accent` sets the quantity badge, the saved heart and its burst. The default accent is #E0182D. The receipt uses a #2FBF5F success indicator.
+
+`foldSpeed` adjusts the details fold and subtotal counter. `confirmSpeed` adjusts the handle return and the transition into the receipt. Both are playback multipliers with a default of 1. In **Text entrance**, `textEntranceSpeed` scales the 480 ms row entrance and `textStagger` sets the interval between rows, initially 55 ms. Set the stagger to zero for simultaneous entrances. The thumb can be picked up during its return. It continues from its painted position.
+
+`confirmThreshold` sets how far the thumb must travel before release commits, as a percentage of the available track. Its default is 92. `receiptDuration` sets the receipt dwell in milliseconds. Changing appearance and motion controls preserves the current quantity and open state.
+
+Set the `theme` prop to `light` for the porcelain finish or `dark` for graphite. Changing the finish preserves the open cart and its quantity.
+
+
+## Confirmation copy and wishlist
+
+Set `confirmLabel` to change the rail button and the keyboard slider’s accessible name. A completed slide shows “Order placed” on the rail. The folded card then shows a green check and “Confirmed”. Set `receiptText` to change the visible receipt and the live success announcement. The announcement includes the quantity and total. Short labels fit the rail at its default width.
+
+Set `showWishlist={false}` to hide the heart and remove it from keyboard navigation. Showing it again restores its saved state. All three settings can change while the card is open, using React props or `controller.update()`.
+
+## Icon credits
+
+Functional icons come from Lucide. The bundled license includes the ISC and Feather MIT notices. [Lucide](https://lucide.dev)
+
+The preview groups controls by card part. Use `cardWidth` and `framePadding` for the frame, `mediaHeight` for the image proportions, and `imageFocusX`, `imageFocusY` and `imageScale` to compose the photograph. The image height setting is measured at a reference width of 272px and scales with the card.
+
+The details fold adapts to your title, spacing, subtotal type and quantity button sizes. `trackHeight` and `thumbInset` size the thumb and recalculate its travel. `keyboardStep` sets travel per arrow press. `subtotalDuration` and `confirmHold` set base durations in milliseconds for the subtotal and “Order placed” respectively. The hold is independent of handle speed. Under **Order confirmation**, `glowColor` and `glowStrength` control the bottom wash. The default is #269a5a at 24%. A strength of zero hides the wash. Reduced motion skips the wash and retains the message hold. The receipt height follows its top spacing, type and badge size. Every preview control is also a React prop and a vanilla `controller.update` setting.

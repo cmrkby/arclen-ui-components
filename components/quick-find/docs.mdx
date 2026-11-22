@@ -1,0 +1,64 @@
+# Quick Find
+
+A workspace search field with category filters, keyboard navigation, and local recent items. Its host reserves the height of the expanded workspace, so opening the field keeps surrounding content in place.
+
+## React
+
+```tsx
+import { QuickFind } from './components/quick-find';
+
+<QuickFind rows={3} onSelect={title => openWorkspaceItem(title)} />
+```
+
+`Component` is an alias for `QuickFind`. The settings are individual props. `className`, `style`, and `paused` configure the wrapper and lifecycle. Selection passes the example item's title to the application.
+
+## HTML and vanilla
+
+```ts
+import { mount } from './components/quick-find/src/core';
+import './components/quick-find/src/styles.css';
+
+const search = mount(document.querySelector('#workspace-search')!, { corner: 12 }, undefined, {
+  onSelect(title) { console.log(title); },
+});
+search.update({ theme: 'dark' });
+```
+
+Updates accept partial settings. The component also dispatches a bubbling `quick-find-select` event with `detail.title`. Call `pause()` to close and disable the field, `resume()` to activate it, and `destroy()` when removing the host.
+
+## Search and keyboard
+
+Focus or click the input to open. Use the arrow keys to move through results and Enter to select. The shortcut toggles the workspace with Cmd+K or Ctrl+K when enabled. Escape clears a typed query first. Press Escape again to close and keep focus in the compact input. Clicking or tabbing outside closes the workspace. Closing preserves the current query and category. Selecting a result clears both and adds the item to the top of recents.
+
+The category strip scrolls horizontally when its pills overflow. Adjust `chipGap` for spacing and `edgeFade` for the width of the fade at an edge with more content. Set `edgeFade` to 0 to turn the fade off. `hoverTint` adjusts the red tint on the highlighted result as a percentage.
+
+The filter chips narrow results to pages, notes, or tools. Queries match title, category, keyword, and file extension, including dotted extensions such as `.pdf`. Escape clears the query. Reset search clears the query and category together. Each category chip has a separate remove button. The numbered Categories button restores all three chips. These choices are independent of recent items. Each recent row has its own labelled remove button. Clear all empties the recent list. Restore repopulates the starting list. Recent items live in memory for the lifetime of the mounted instance. A rows setting of zero hides recents and keeps text search and category filters available.
+
+The combobox keeps the same input as the panel expands. The active result is announced through the listbox and is visible with pointer or keyboard navigation. Reduced motion opens and closes the panel immediately. Static markup displays a disabled field until the component mounts.
+
+## Configuring the search surface
+
+`openWidth` caps the expanded panel in pixels. The panel also respects the width of its host. `rowHeight` changes the spacing, hover surface and remove-button alignment together. Set `showArtwork` to false for a text-only list. `placeholder` changes the field prompt, and `accent` colors the active controls.
+
+`openDuration` sets the expansion time in milliseconds. The field remains editable as the results appear. `hoverDuration` controls how quickly the raised sheet catches the pointer or keyboard selection. Changing direction keeps its current velocity. When the list changes, retained items move to their new positions, new results enter in order, and removed entries briefly fade outside the accessibility tree.
+
+```tsx
+<QuickFind openWidth={480} rowHeight={64} openDuration={380}
+  hoverDuration={220} accent="#795b48" placeholder="Find an asset…" />
+```
+
+## Result thumbnails and messages
+
+`thumbnailSize` sets the folded-paper file icon between 24 and 48 pixels. Use `showDescriptions={false}` for a title-only list. Use `showDividers={false}` to hide the hairlines between results. These settings work independently of row height and artwork visibility.
+
+`noResultsText` appears when a query or category has no matching items. `emptyRecentsText` appears when the recent list is empty. Both messages are announced to assistive technology. A blank message restores the default copy.
+
+## Tuning the open panel
+
+Switch off **Close when focus leaves** to keep the search open while adjusting the inspector. Escape and the close button still work. Change **Field height**, **Heading height**, **Row height** and **Strip height** to tune density. The panel recalculates its height while preserving the active input and query. The inner corners follow the outer radius minus the sheet inset.
+
+**Highlight spring damping** controls how much the highlight overshoots when it follows the pointer. **Hover response** controls how quickly it catches up. New result stagger, rise distance, removal fade and pill movement have their own controls. Each theme has its own outer shell, results surface, text, divider, active action and removal colors. The trash icon and hover fade share the removal color.
+
+## Icon credits
+
+Functional icons come from Lucide. The bundled license includes the ISC and Feather MIT notices. [Lucide](https://lucide.dev)

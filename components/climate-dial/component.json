@@ -1,0 +1,602 @@
+{
+  "id": "climate-dial",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Climate Dial",
+  "category": "Controls",
+  "description": "A radial temperature control with a calibrated scale and a seasonal readout.",
+  "keywords": [
+    "temperature",
+    "climate",
+    "dial",
+    "slider",
+    "radial"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": [
+        "dark",
+        "light"
+      ],
+      "group": "Face"
+    },
+    {
+      "key": "value",
+      "kind": "number",
+      "label": "Temperature (°C)",
+      "default": 38,
+      "min": -9,
+      "max": 70,
+      "step": 1,
+      "group": "Interaction"
+    },
+    {
+      "key": "hint",
+      "kind": "boolean",
+      "label": "Show interaction hint",
+      "default": true,
+      "group": "Hint"
+    },
+    {
+      "key": "size",
+      "kind": "number",
+      "label": "Dial width",
+      "group": "Face",
+      "default": 340,
+      "min": 240,
+      "max": 460,
+      "step": 2
+    },
+    {
+      "key": "glow",
+      "kind": "number",
+      "label": "Thermal glow",
+      "group": "Floor glow",
+      "default": 1,
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "coldAccent",
+      "kind": "color",
+      "label": "Cold accent",
+      "group": "Thermal palette",
+      "default": "#3b82f6"
+    },
+    {
+      "key": "warmAccent",
+      "kind": "color",
+      "label": "Warm accent",
+      "group": "Thermal palette",
+      "default": "#ff3d1a"
+    },
+    {
+      "key": "spring",
+      "kind": "number",
+      "label": "Spring rebound",
+      "group": "Motion",
+      "default": 0.55,
+      "min": 0,
+      "max": 1,
+      "step": 0.05
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Response speed",
+      "group": "Motion",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "entrance",
+      "kind": "boolean",
+      "label": "Play entrance sweep",
+      "group": "Entrance",
+      "default": true
+    },
+    {
+      "key": "pulse",
+      "kind": "boolean",
+      "label": "Pulse bottom glow",
+      "group": "Floor glow",
+      "default": true
+    },
+    {
+      "key": "pulsePeriod",
+      "kind": "number",
+      "label": "Pulse cycle (seconds)",
+      "group": "Floor glow",
+      "default": 3.81,
+      "min": 1.2,
+      "max": 8,
+      "step": 0.01
+    },
+    {
+      "key": "pulseDepth",
+      "kind": "number",
+      "label": "Pulse depth (%)",
+      "group": "Floor glow",
+      "default": 1.5,
+      "min": 0,
+      "max": 85,
+      "step": 0.5
+    },
+    {
+      "key": "bloomWidth",
+      "kind": "number",
+      "label": "Glow spread (%)",
+      "group": "Floor glow",
+      "default": 84,
+      "min": 45,
+      "max": 120,
+      "step": 1
+    },
+    {
+      "key": "showSeason",
+      "kind": "boolean",
+      "label": "Show season name",
+      "group": "Season label",
+      "default": true
+    },
+    {
+      "key": "faceRadius",
+      "kind": "number",
+      "label": "Corner radius (% of width)",
+      "group": "Face",
+      "default": 30,
+      "min": 0,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "rimWidth",
+      "kind": "number",
+      "label": "Rim thickness (px)",
+      "group": "Face",
+      "default": 1,
+      "min": 0,
+      "max": 4,
+      "step": 0.25
+    },
+    {
+      "key": "lightTop",
+      "kind": "color",
+      "label": "Light face highlight",
+      "group": "Face",
+      "default": "#fdfcfa"
+    },
+    {
+      "key": "lightMid",
+      "kind": "color",
+      "label": "Light face midtone",
+      "group": "Face",
+      "default": "#f6f4f0"
+    },
+    {
+      "key": "lightBase",
+      "kind": "color",
+      "label": "Light face shadow",
+      "group": "Face",
+      "default": "#efece7"
+    },
+    {
+      "key": "darkTop",
+      "kind": "color",
+      "label": "Dark face highlight",
+      "group": "Face",
+      "default": "#161616"
+    },
+    {
+      "key": "darkMid",
+      "kind": "color",
+      "label": "Dark face midtone",
+      "group": "Face",
+      "default": "#0b0b0b"
+    },
+    {
+      "key": "darkBase",
+      "kind": "color",
+      "label": "Dark face shadow",
+      "group": "Face",
+      "default": "#060606"
+    },
+    {
+      "key": "lightInk",
+      "kind": "color",
+      "label": "Light scale color",
+      "group": "Scale",
+      "default": "#141414"
+    },
+    {
+      "key": "darkInk",
+      "kind": "color",
+      "label": "Dark scale color",
+      "group": "Scale",
+      "default": "#ffffff"
+    },
+    {
+      "key": "tickWidth",
+      "kind": "number",
+      "label": "Tick width",
+      "group": "Scale",
+      "default": 1.2,
+      "min": 0.5,
+      "max": 4,
+      "step": 0.1
+    },
+    {
+      "key": "inactiveAlpha",
+      "kind": "number",
+      "label": "Inactive tick opacity (%)",
+      "group": "Scale",
+      "default": 26,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "needleAlpha",
+      "kind": "number",
+      "label": "Needle opacity (%)",
+      "group": "Scale",
+      "default": 100,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "idlePeriod",
+      "kind": "number",
+      "label": "Resting wave period (s)",
+      "group": "Scale",
+      "default": 1.905,
+      "min": 0.5,
+      "max": 6,
+      "step": 0.005
+    },
+    {
+      "key": "idleStrength",
+      "kind": "number",
+      "label": "Resting wave strength (×)",
+      "group": "Scale",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "readingSize",
+      "kind": "number",
+      "label": "Number size (% of width)",
+      "group": "Temperature readout",
+      "default": 45,
+      "min": 28,
+      "max": 55,
+      "step": 0.5
+    },
+    {
+      "key": "readingTop",
+      "kind": "number",
+      "label": "Number position from top (%)",
+      "group": "Temperature readout",
+      "default": 46,
+      "min": 32,
+      "max": 58,
+      "step": 0.5
+    },
+    {
+      "key": "readingWeight",
+      "kind": "number",
+      "label": "Number weight",
+      "group": "Temperature readout",
+      "default": 500,
+      "min": 200,
+      "max": 850,
+      "step": 10
+    },
+    {
+      "key": "readingStretch",
+      "kind": "number",
+      "label": "Number width (×)",
+      "group": "Temperature readout",
+      "default": 0.916,
+      "min": 0.7,
+      "max": 1.2,
+      "step": 0.001
+    },
+    {
+      "key": "digitColor",
+      "kind": "color",
+      "label": "Units digit color",
+      "group": "Temperature readout",
+      "default": "#ffffff"
+    },
+    {
+      "key": "degreeSize",
+      "kind": "number",
+      "label": "Degree ring size (% of width)",
+      "group": "Temperature readout",
+      "default": 3.25,
+      "min": 1.5,
+      "max": 5,
+      "step": 0.05
+    },
+    {
+      "key": "degreeAlpha",
+      "kind": "number",
+      "label": "Degree ring opacity (%)",
+      "group": "Temperature readout",
+      "default": 92,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "digitTravel",
+      "kind": "number",
+      "label": "Digit roll distance (px)",
+      "group": "Temperature readout",
+      "default": 22,
+      "min": 0,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "digitDuration",
+      "kind": "number",
+      "label": "Digit roll duration (ms)",
+      "group": "Temperature readout",
+      "default": 265,
+      "min": 50,
+      "max": 700,
+      "step": 5
+    },
+    {
+      "key": "seasonSize",
+      "kind": "number",
+      "label": "Label size (% of width)",
+      "group": "Season label",
+      "default": 9.4,
+      "min": 5,
+      "max": 14,
+      "step": 0.1
+    },
+    {
+      "key": "seasonTop",
+      "kind": "number",
+      "label": "Label position from top (%)",
+      "group": "Season label",
+      "default": 15.45,
+      "min": 7,
+      "max": 26,
+      "step": 0.05
+    },
+    {
+      "key": "seasonWeight",
+      "kind": "number",
+      "label": "Label weight",
+      "group": "Season label",
+      "default": 720,
+      "min": 300,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "seasonTracking",
+      "kind": "number",
+      "label": "Letter spacing (em)",
+      "group": "Season label",
+      "default": 0.13,
+      "min": -0.03,
+      "max": 0.3,
+      "step": 0.01
+    },
+    {
+      "key": "letterIn",
+      "kind": "number",
+      "label": "Letter arrival (ms)",
+      "group": "Season label",
+      "default": 380,
+      "min": 100,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "letterStagger",
+      "kind": "number",
+      "label": "Arrival stagger (ms)",
+      "group": "Season label",
+      "default": 30,
+      "min": 0,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "bloomHeight",
+      "kind": "number",
+      "label": "Bloom height (%)",
+      "group": "Floor glow",
+      "default": 22,
+      "min": 5,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "bloomBottom",
+      "kind": "number",
+      "label": "Bloom bottom offset (%)",
+      "group": "Floor glow",
+      "default": -8,
+      "min": -22,
+      "max": 12,
+      "step": 1
+    },
+    {
+      "key": "bloomBlur",
+      "kind": "number",
+      "label": "Bloom blur (% of width)",
+      "group": "Floor glow",
+      "default": 7,
+      "min": 1,
+      "max": 16,
+      "step": 0.5
+    },
+    {
+      "key": "haloBlur",
+      "kind": "number",
+      "label": "Ambient halo blur (% of width)",
+      "group": "Floor glow",
+      "default": 8,
+      "min": 1,
+      "max": 18,
+      "step": 0.5
+    },
+    {
+      "key": "entranceHold",
+      "kind": "number",
+      "label": "Hold before sweep (ms)",
+      "group": "Entrance",
+      "default": 380,
+      "min": 0,
+      "max": 1000,
+      "step": 10
+    },
+    {
+      "key": "entranceLift",
+      "kind": "number",
+      "label": "Face travel (px)",
+      "group": "Entrance",
+      "default": 36,
+      "min": 0,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "entranceScale",
+      "kind": "number",
+      "label": "Initial face scale (×)",
+      "group": "Entrance",
+      "default": 0.88,
+      "min": 0.65,
+      "max": 1,
+      "step": 0.01
+    },
+    {
+      "key": "entranceBlur",
+      "kind": "number",
+      "label": "Initial face blur (px)",
+      "group": "Entrance",
+      "default": 18,
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "keyboardStep",
+      "kind": "number",
+      "label": "Keyboard and wheel step (°C)",
+      "group": "Interaction",
+      "default": 1,
+      "min": 1,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "shiftStep",
+      "kind": "number",
+      "label": "Shift step (°C)",
+      "group": "Interaction",
+      "default": 5,
+      "min": 1,
+      "max": 25,
+      "step": 1
+    },
+    {
+      "key": "wheelEnabled",
+      "kind": "boolean",
+      "label": "Adjust with focused wheel",
+      "group": "Interaction",
+      "default": true
+    },
+    {
+      "key": "hintText",
+      "kind": "text",
+      "label": "Hint text",
+      "group": "Hint",
+      "default": "Turn the dial to adjust temperature",
+      "maxLength": 100
+    },
+    {
+      "key": "hintSize",
+      "kind": "number",
+      "label": "Hint type size (px)",
+      "group": "Hint",
+      "default": 12,
+      "min": 9,
+      "max": 20,
+      "step": 0.5
+    },
+    {
+      "key": "hintGap",
+      "kind": "number",
+      "label": "Maximum hint gap (px)",
+      "group": "Hint",
+      "default": 74.8,
+      "min": 0,
+      "max": 110,
+      "step": 0.1
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Keep the bottom glow steady, skip the opening sweep and update the ring and readout immediately.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Warm",
+      "settings": {}
+    },
+    {
+      "name": "Cool",
+      "settings": {
+        "theme": "dark",
+        "value": 8
+      }
+    }
+  ]
+}

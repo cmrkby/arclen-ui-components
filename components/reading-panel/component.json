@@ -1,0 +1,985 @@
+{
+  "id": "reading-panel",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Reading Panel",
+  "category": "Content",
+  "description": "A scrollable excerpt that opens into a frosted reader and carries the current passage between the two views.",
+  "keywords": [
+    "reader",
+    "reading",
+    "dialog",
+    "editorial",
+    "glass"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": [
+        {
+          "label": "Night",
+          "value": "dark"
+        },
+        {
+          "label": "Day",
+          "value": "light"
+        }
+      ],
+      "group": "General"
+    },
+    {
+      "key": "backgroundGlow",
+      "kind": "number",
+      "label": "Background glow strength (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "General"
+    },
+    {
+      "key": "fill",
+      "kind": "boolean",
+      "label": "Fill container",
+      "default": false,
+      "group": "General"
+    },
+    {
+      "key": "darkGlassTint",
+      "group": "Dark glass",
+      "label": "Glass tint",
+      "kind": "color",
+      "default": "#17171a"
+    },
+    {
+      "key": "darkTintStrength",
+      "group": "Dark glass",
+      "label": "Tint strength (%)",
+      "kind": "number",
+      "default": 70,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "darkRimBrightness",
+      "group": "Dark glass",
+      "label": "Rim brightness (%)",
+      "kind": "number",
+      "default": 55,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "darkBevelWidth",
+      "group": "Dark glass",
+      "label": "Side bevel width (px)",
+      "kind": "number",
+      "default": 9,
+      "min": 0,
+      "max": 24,
+      "step": 0.5
+    },
+    {
+      "key": "darkBevelTaper",
+      "group": "Dark glass",
+      "label": "Corner taper (%)",
+      "kind": "number",
+      "default": 24,
+      "min": 0,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "darkToolbarTransmission",
+      "group": "Dark glass",
+      "label": "Toolbar text visibility (%)",
+      "kind": "number",
+      "default": 68,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "title",
+      "kind": "text",
+      "label": "Article title",
+      "default": "A mark below the tide",
+      "maxLength": 100,
+      "group": "Content"
+    },
+    {
+      "key": "passages",
+      "kind": "string-list",
+      "label": "Article paragraphs",
+      "default": [
+        "At the far end of Alder Street there is a brass nail in the seawall. It sits at the height of my shoulder. Someone cut a small line across its head, then painted the line white, and for most of my life I took it for a carpenter’s accident.",
+        "One February morning I found a woman with a folding rule standing beside it. She wore a wool cap pulled over her ears. The cuffs of her coat were wet. She held one end of the rule against the nail and let the other end hang down into the harbour.",
+        "My mother kept this mark, she said. The way she said kept made the nail sound like a bird that needed feeding. She showed me a pocket ledger. Each page gave the day, the wind and the distance between the white line and the water. The earliest entries were in pencil, the rest in a cramped blue hand.",
+        "We walked down the steps to look at the boats. A strip of green weed along the sixth riser showed where the water had spent the morning. Below it, the granite turned the colour of a plucked plum. Above it, every grain of sand cast its own small shadow.",
+        "The woman drew a second line, lower on the page, and handed me the pencil. I wrote the time from my watch. Across the channel an empty ferry was making its first run. It put up a pale wave, which struck the wall and entered the ledger as a perfectly respectable mistake.",
+        "On the way home I began to see little gauges everywhere. On the bakery door a child’s height was marked with a pencil. A bus conductor had worn a hollow into the brass on his ticket machine. Even my own key had polished a bright track in the stone beside the lock.",
+        "A week later the folding rule was waiting on the wall. A scrap of paper caught under its hinge gave an hour and nothing else. I brought a flask of coffee and sat on the steps until the minute hand on my watch reached the mark.",
+        "The harbour was very quiet. A coot picked its way around a tangle of orange rope. Farther out, a man in a white boat pulled in a net so fine it disappeared whenever the sun came out. I held the rule still and waited for the water to come to rest.",
+        "It never quite did. Between the ferry and the breeze and the displacement of a single black bird there was always some small movement under the rule. I wrote two numbers down, one for the highest reading and one for the lowest.",
+        "When I next saw the woman she turned the ledger sideways to read my entry. My mother did that too, she said. She showed me the first page again. Between the faint pencil lines I could just make out the tiny vertical strokes that joined each pair of numbers.",
+        "I still go down on Sundays. There is a slot in the brickwork where the rule stays dry and the ledger fits inside my coat. Occasionally a passer-by stops to ask what we are measuring. I let them take the next reading. That is usually enough of an answer."
+      ],
+      "minItems": 1,
+      "maxItems": 64,
+      "maxItemLength": 2400,
+      "group": "Content"
+    },
+    {
+      "key": "byline",
+      "kind": "text",
+      "label": "Byline",
+      "group": "Content",
+      "default": "Arclen Journal · Field notes",
+      "maxLength": 120
+    },
+    {
+      "key": "openLabel",
+      "kind": "text",
+      "label": "Open button",
+      "group": "Content",
+      "default": "Read",
+      "maxLength": 18
+    },
+    {
+      "key": "glassMode",
+      "kind": "select",
+      "label": "Optical treatment",
+      "group": "Glass",
+      "default": "refracted",
+      "options": [
+        {
+          "label": "Refracted",
+          "value": "refracted"
+        },
+        {
+          "label": "Frosted",
+          "value": "frosted"
+        }
+      ]
+    },
+    {
+      "key": "glassStrength",
+      "kind": "number",
+      "label": "Lens intensity (%)",
+      "group": "Glass",
+      "default": 76,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "paperOpacity",
+      "kind": "number",
+      "label": "Paper opacity (%)",
+      "group": "Glass",
+      "default": 93,
+      "min": 45,
+      "max": 96,
+      "step": 1
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Reading accent",
+      "group": "Glass",
+      "default": "#496859"
+    },
+    {
+      "key": "typeface",
+      "kind": "select",
+      "label": "Article typeface",
+      "group": "Typography",
+      "default": "geist-serif",
+      "options": [
+        {
+          "label": "Geist Serif",
+          "value": "geist-serif"
+        },
+        {
+          "label": "Editorial serif",
+          "value": "editorial"
+        },
+        {
+          "label": "Book serif",
+          "value": "book"
+        },
+        {
+          "label": "Geist Sans",
+          "value": "sans"
+        }
+      ]
+    },
+    {
+      "key": "fontSize",
+      "kind": "number",
+      "label": "Reading size (px)",
+      "group": "Typography",
+      "default": 19,
+      "min": 15,
+      "max": 29,
+      "step": 1
+    },
+    {
+      "key": "lineHeight",
+      "kind": "number",
+      "label": "Line height",
+      "group": "Typography",
+      "default": 1.68,
+      "min": 1.35,
+      "max": 2,
+      "step": 0.01
+    },
+    {
+      "key": "readerWidth",
+      "kind": "number",
+      "label": "Reader width (px)",
+      "group": "Typography",
+      "default": 680,
+      "min": 340,
+      "max": 820,
+      "step": 10
+    },
+    {
+      "key": "motionSpeed",
+      "kind": "number",
+      "label": "Morph speed (×)",
+      "group": "Motion",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "cornerRadius",
+      "kind": "number",
+      "label": "Paper corner radius (px)",
+      "group": "Glass",
+      "default": 40,
+      "min": 8,
+      "max": 56,
+      "step": 1
+    },
+    {
+      "key": "paragraphSpacing",
+      "kind": "number",
+      "label": "Paragraph spacing (em)",
+      "group": "Typography",
+      "default": 1,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "readingMeasure",
+      "kind": "number",
+      "label": "Text column limit (px)",
+      "group": "Typography",
+      "default": 576,
+      "min": 260,
+      "max": 700,
+      "step": 4
+    },
+    {
+      "key": "coverWidth",
+      "kind": "number",
+      "label": "Cover width (px)",
+      "default": 289,
+      "group": "Cover",
+      "min": 220,
+      "max": 420,
+      "step": 1
+    },
+    {
+      "key": "coverHeight",
+      "kind": "number",
+      "label": "Cover height (px)",
+      "default": 290,
+      "group": "Cover",
+      "min": 240,
+      "max": 440,
+      "step": 1
+    },
+    {
+      "key": "coverTitleSize",
+      "kind": "number",
+      "label": "Cover title size (px)",
+      "default": 22.6,
+      "group": "Cover",
+      "min": 16,
+      "max": 32,
+      "step": 0.1
+    },
+    {
+      "key": "coverTitleWidth",
+      "kind": "number",
+      "label": "Cover title measure (px)",
+      "default": 156,
+      "group": "Cover",
+      "min": 110,
+      "max": 210,
+      "step": 1
+    },
+    {
+      "key": "coverTitleTop",
+      "kind": "number",
+      "label": "Cover title offset (px)",
+      "default": 24.5,
+      "group": "Cover",
+      "min": 12,
+      "max": 38,
+      "step": 0.5
+    },
+    {
+      "key": "excerptSize",
+      "kind": "number",
+      "label": "Excerpt type size (px)",
+      "default": 15.9,
+      "group": "Cover",
+      "min": 12,
+      "max": 22,
+      "step": 0.1
+    },
+    {
+      "key": "excerptLeading",
+      "kind": "number",
+      "label": "Excerpt line height (px)",
+      "default": 23,
+      "group": "Cover",
+      "min": 20,
+      "max": 34,
+      "step": 1
+    },
+    {
+      "key": "excerptInset",
+      "kind": "number",
+      "label": "Excerpt side padding (px)",
+      "default": 23,
+      "group": "Cover",
+      "min": 12,
+      "max": 42,
+      "step": 1
+    },
+    {
+      "key": "coverBlur",
+      "kind": "number",
+      "label": "Cover backdrop blur (px)",
+      "default": 10,
+      "group": "Glass",
+      "min": 0,
+      "max": 26,
+      "step": 0.5
+    },
+    {
+      "key": "sheetBlur",
+      "kind": "number",
+      "label": "Sheet backdrop blur (px)",
+      "default": 12,
+      "group": "Glass",
+      "min": 0,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "frostBlur",
+      "kind": "number",
+      "label": "Frosted control blur (px)",
+      "default": 4,
+      "group": "Glass",
+      "min": 0,
+      "max": 18,
+      "step": 0.5
+    },
+    {
+      "key": "frostSaturation",
+      "kind": "number",
+      "label": "Frosted control saturation (×)",
+      "default": 1.35,
+      "group": "Glass",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "rimStrength",
+      "kind": "number",
+      "label": "Glass rim intensity (×)",
+      "default": 1,
+      "group": "Glass",
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05
+    },
+    {
+      "key": "veilStrength",
+      "kind": "number",
+      "label": "Edge blur intensity (×)",
+      "default": 1,
+      "group": "Glass",
+      "min": 0,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "coverTopFade",
+      "kind": "number",
+      "label": "Cover top fade height (px)",
+      "default": 104,
+      "group": "Glass",
+      "min": 72,
+      "max": 144,
+      "step": 1
+    },
+    {
+      "key": "coverBottomFade",
+      "kind": "number",
+      "label": "Cover bottom fade height (px)",
+      "default": 96,
+      "group": "Glass",
+      "min": 48,
+      "max": 144,
+      "step": 1
+    },
+    {
+      "key": "sheetHeight",
+      "kind": "number",
+      "label": "Maximum sheet height (px)",
+      "default": 860,
+      "group": "Reader sheet",
+      "min": 320,
+      "max": 1100,
+      "step": 10
+    },
+    {
+      "key": "readerTopFade",
+      "kind": "number",
+      "label": "Reader top fade height (px)",
+      "default": 108,
+      "group": "Reader sheet",
+      "min": 64,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "readerBottomFade",
+      "kind": "number",
+      "label": "Reader bottom fade height (px)",
+      "default": 120,
+      "group": "Reader sheet",
+      "min": 64,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "headerTitleSize",
+      "kind": "number",
+      "label": "Reader title size (px)",
+      "default": 22.6,
+      "group": "Reader sheet",
+      "min": 16,
+      "max": 36,
+      "step": 0.1
+    },
+    {
+      "key": "bylineSize",
+      "kind": "number",
+      "label": "Byline size (px)",
+      "default": 12,
+      "group": "Reader sheet",
+      "min": 10,
+      "max": 18,
+      "step": 0.5
+    },
+    {
+      "key": "bodyTopInset",
+      "kind": "number",
+      "label": "Article top padding (px)",
+      "default": 116,
+      "group": "Reader sheet",
+      "min": 84,
+      "max": 164,
+      "step": 1
+    },
+    {
+      "key": "bodySideInset",
+      "kind": "number",
+      "label": "Article side padding (%)",
+      "default": 8,
+      "group": "Reader sheet",
+      "min": 3,
+      "max": 16,
+      "step": 0.5
+    },
+    {
+      "key": "bodyBottomInset",
+      "kind": "number",
+      "label": "Article bottom padding (px)",
+      "default": 132,
+      "group": "Reader sheet",
+      "min": 80,
+      "max": 190,
+      "step": 1
+    },
+    {
+      "key": "dropCapSize",
+      "kind": "number",
+      "label": "Drop cap size (em)",
+      "default": 3,
+      "group": "Reader sheet",
+      "min": 1,
+      "max": 5,
+      "step": 0.1
+    },
+    {
+      "key": "sectionLabelSize",
+      "kind": "number",
+      "label": "Section label size (px)",
+      "default": 11,
+      "group": "Reader sheet",
+      "min": 9,
+      "max": 16,
+      "step": 0.5
+    },
+    {
+      "key": "openWidth",
+      "kind": "number",
+      "label": "Open button width (px)",
+      "default": 104,
+      "group": "Buttons and toolbar",
+      "min": 80,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "openHeight",
+      "kind": "number",
+      "label": "Open button height (px)",
+      "default": 40,
+      "group": "Buttons and toolbar",
+      "min": 32,
+      "max": 62,
+      "step": 1
+    },
+    {
+      "key": "openOffset",
+      "kind": "number",
+      "label": "Open button bottom inset (px)",
+      "default": 24,
+      "group": "Buttons and toolbar",
+      "min": 10,
+      "max": 52,
+      "step": 1
+    },
+    {
+      "key": "openTextSize",
+      "kind": "number",
+      "label": "Open label size (px)",
+      "default": 19,
+      "group": "Buttons and toolbar",
+      "min": 13,
+      "max": 24,
+      "step": 0.5
+    },
+    {
+      "key": "openIconSize",
+      "kind": "number",
+      "label": "Open arrow size (px)",
+      "default": 15,
+      "group": "Buttons and toolbar",
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "closeSize",
+      "kind": "number",
+      "label": "Close button size (px)",
+      "default": 42,
+      "group": "Buttons and toolbar",
+      "min": 32,
+      "max": 56,
+      "step": 1
+    },
+    {
+      "key": "closeIconSize",
+      "kind": "number",
+      "label": "Close icon size (px)",
+      "default": 21,
+      "group": "Buttons and toolbar",
+      "min": 14,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "controlStroke",
+      "kind": "number",
+      "label": "Icon stroke (px)",
+      "default": 2,
+      "group": "Buttons and toolbar",
+      "min": 1,
+      "max": 3,
+      "step": 0.1
+    },
+    {
+      "key": "toolbarWidth",
+      "kind": "number",
+      "label": "Toolbar width (px)",
+      "default": 241,
+      "group": "Buttons and toolbar",
+      "min": 210,
+      "max": 330,
+      "step": 1
+    },
+    {
+      "key": "toolbarHeight",
+      "kind": "number",
+      "label": "Toolbar height (px)",
+      "default": 48,
+      "group": "Buttons and toolbar",
+      "min": 42,
+      "max": 70,
+      "step": 1
+    },
+    {
+      "key": "toolbarOffset",
+      "kind": "number",
+      "label": "Toolbar bottom inset (px)",
+      "default": 20,
+      "group": "Buttons and toolbar",
+      "min": 10,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "typeButtonSize",
+      "kind": "number",
+      "label": "Type button size (px)",
+      "default": 38,
+      "group": "Buttons and toolbar",
+      "min": 28,
+      "max": 46,
+      "step": 1
+    },
+    {
+      "key": "meterWidth",
+      "kind": "number",
+      "label": "Progress bar width (px)",
+      "default": 76,
+      "group": "Buttons and toolbar",
+      "min": 32,
+      "max": 112,
+      "step": 1
+    },
+    {
+      "key": "meterHeight",
+      "kind": "number",
+      "label": "Progress bar height (px)",
+      "default": 4,
+      "group": "Buttons and toolbar",
+      "min": 2,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "progressSize",
+      "kind": "number",
+      "label": "Progress number size (px)",
+      "default": 12,
+      "group": "Buttons and toolbar",
+      "min": 10,
+      "max": 16,
+      "step": 0.5
+    },
+    {
+      "key": "barBase",
+      "kind": "color",
+      "label": "Base color",
+      "default": "#ffffff",
+      "group": "Progress bar finish"
+    },
+    {
+      "key": "barHighlight",
+      "kind": "color",
+      "label": "Highlight color",
+      "default": "#f2f5fa",
+      "group": "Progress bar finish"
+    },
+    {
+      "key": "barShine",
+      "kind": "number",
+      "label": "Shine strength (%)",
+      "default": 0,
+      "group": "Progress bar finish",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "barShineWidth",
+      "kind": "number",
+      "label": "Shine width (%)",
+      "default": 88,
+      "group": "Progress bar finish",
+      "min": 4,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "barAngle",
+      "kind": "number",
+      "label": "Gradient angle (°)",
+      "default": 165,
+      "group": "Progress bar finish",
+      "min": 0,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "openDuration",
+      "kind": "number",
+      "label": "Opening duration (ms)",
+      "default": 560,
+      "group": "Motion",
+      "min": 150,
+      "max": 1000,
+      "step": 5
+    },
+    {
+      "key": "closeDuration",
+      "kind": "number",
+      "label": "Closing duration (ms)",
+      "default": 420,
+      "group": "Motion",
+      "min": 100,
+      "max": 800,
+      "step": 5
+    },
+    {
+      "key": "chromeDelay",
+      "kind": "number",
+      "label": "Toolbar entrance delay (ms)",
+      "default": 105,
+      "group": "Motion",
+      "min": 0,
+      "max": 240,
+      "step": 5
+    },
+    {
+      "key": "storyDelay",
+      "kind": "number",
+      "label": "Article entrance delay (ms)",
+      "default": 70,
+      "group": "Motion",
+      "min": 0,
+      "max": 220,
+      "step": 5
+    },
+    {
+      "key": "markerDuration",
+      "kind": "number",
+      "label": "Passage highlight time (ms)",
+      "default": 1650,
+      "group": "Motion",
+      "min": 0,
+      "max": 3200,
+      "step": 10
+    },
+    {
+      "key": "sectionLabel",
+      "kind": "text",
+      "label": "Article section label",
+      "default": "Field notebook",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "lightPaper",
+      "kind": "color",
+      "label": "Paper",
+      "default": "#f7f7f7",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkPaper",
+      "kind": "color",
+      "label": "Paper",
+      "default": "#242428",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightInk",
+      "kind": "color",
+      "label": "Article ink",
+      "default": "#242427",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkInk",
+      "kind": "color",
+      "label": "Article ink",
+      "default": "#f5f3f0",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightQuiet",
+      "kind": "color",
+      "label": "Byline ink",
+      "default": "#646469",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkQuiet",
+      "kind": "color",
+      "label": "Byline ink",
+      "default": "#c2bdc4",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightBase",
+      "kind": "color",
+      "label": "Stage background",
+      "default": "#d8d5d7",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkBase",
+      "kind": "color",
+      "label": "Stage background",
+      "default": "#141217",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightMistA",
+      "kind": "color",
+      "label": "Ember glow · left",
+      "default": "#ffad7d",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkMistA",
+      "kind": "color",
+      "label": "Ember glow · left",
+      "default": "#a34428",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightMistB",
+      "kind": "color",
+      "label": "Violet glow · right",
+      "default": "#c4a5f5",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkMistB",
+      "kind": "color",
+      "label": "Violet glow · right",
+      "default": "#68418c",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightMistC",
+      "kind": "color",
+      "label": "Pink glow · lower",
+      "default": "#f7a9c6",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkMistC",
+      "kind": "color",
+      "label": "Pink glow · lower",
+      "default": "#923f68",
+      "group": "Dark palette"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      }
+    },
+    {
+      "path": "assets/geist-serif-regular.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist-Serif.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist-Serif.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist-Serif.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Open and close immediately and show a steady passage marker.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Day",
+      "settings": {
+        "theme": "light",
+        "fill": false
+      }
+    },
+    {
+      "name": "Night",
+      "settings": {
+        "theme": "dark",
+        "fill": false
+      }
+    }
+  ]
+}

@@ -1,0 +1,364 @@
+@property --cd-phase {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+@font-face {
+  font-family: 'Geist';
+  src: url('../assets/geist-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+.cd-shell {
+  --cd-ink: var(--cd-light-ink);
+  --cd-top: var(--cd-light-top);
+  --cd-mid: var(--cd-light-mid);
+  --cd-clay: var(--cd-light-base);
+  --cd-rim: white;
+  --cd-rim-mid: #ffffff66;
+  --cd-shadow: 0 0 0 1px rgb(40 25 10 / 6%), 0 1px 2px rgb(40 25 10 / 6%), 0 40px 70px -35px rgb(80 45 20 / 45%);
+  --cd-gain: .5;
+  --cd-wash-gain: .78;
+  --cd-wash-filter: blur(2cqw) saturate(.88) brightness(1.1);
+  --cd-hint: rgb(20 20 20 / 50%);
+  --cd-separation: rgb(53 35 26 / 34%);
+  box-sizing: border-box;
+  width: min(var(--cd-size, 340px), 80vw, 100%);
+  margin-inline: auto;
+  position: relative;
+  font-family: 'Geist', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--cd-ink);
+}
+.cd-shell[data-theme='dark'] {
+  --cd-ink: var(--cd-dark-ink);
+  --cd-top: var(--cd-dark-top);
+  --cd-mid: var(--cd-dark-mid);
+  --cd-clay: var(--cd-dark-base);
+  --cd-rim: rgb(255 255 255 / 42%);
+  --cd-rim-mid: rgb(255 255 255 / 7%);
+  --cd-shadow: 0 0 0 1px rgb(255 255 255 / 3.5%), 0 50px 100px -40px black;
+  --cd-gain: 1;
+  --cd-wash-gain: 1;
+  --cd-wash-filter: blur(1.6cqw);
+  --cd-hint: rgb(255 255 255 / 50%);
+  --cd-separation: rgb(0 0 0 / 60%);
+}
+.cd-shell *,
+.cd-shell *::before,
+.cd-shell *::after {
+  box-sizing: border-box;
+}
+.cd-instrument {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 440 / 458;
+}
+.cd-instrument {
+  --cd-letter-top: color-mix(in srgb, white 88%, var(--cd-tip));
+  --cd-letter-mid: color-mix(in srgb, var(--cd-tip) 58%, rgb(var(--cd-rgb)));
+  --cd-letter-end: color-mix(in srgb, var(--cd-deep) 60%, #121212);
+  --cd-leading: linear-gradient(165deg, var(--cd-letter-top) 10%, var(--cd-letter-mid) 43%, var(--cd-letter-end) 82%);
+  --cd-label: linear-gradient(to bottom, white 14%, var(--cd-tip) 43%, rgb(var(--cd-rgb)) 64%, var(--cd-letter-end) 83%);
+}
+.cd-shell[data-theme='dark'] .cd-instrument {
+  --cd-letter-mid: color-mix(in srgb, white 68%, var(--cd-tip));
+  --cd-letter-end: rgb(var(--cd-rgb));
+}
+.cd-halo,
+.cd-bloom {
+  pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+}
+.cd-halo {
+  inset: 45% -4% -2%;
+  --cd-halo-opacity: calc(var(--cd-heat-reveal) * var(--cd-halo-alpha) * var(--cd-gain));
+  opacity: var(--cd-halo-opacity);
+  opacity: round(nearest, var(--cd-halo-opacity), .001);
+  background: radial-gradient(60% 50% at 50% 80%, color-mix(in srgb, rgb(var(--cd-rgb)) 45%, transparent), transparent 70%);
+  filter: blur(var(--cd-halo-blur));
+}
+.cd-bloom {
+  inset-inline: calc((100% - var(--cd-bloom-width)) / 2);
+  bottom: var(--cd-bloom-bottom);
+  height: var(--cd-bloom-height);
+  --cd-bright: calc(var(--cd-heat-reveal) * var(--cd-bloom-alpha) * var(--cd-gain));
+  --cd-bloom-opacity: calc(var(--cd-bright) * (1 + sin(var(--cd-phase)) * var(--cd-pulse-depth)));
+  opacity: var(--cd-bloom-opacity);
+  opacity: round(nearest, var(--cd-bloom-opacity), .001);
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--cd-tip) 85%, white), color-mix(in srgb, rgb(var(--cd-rgb)) 80%, transparent) 55%, transparent);
+  filter: blur(var(--cd-bloom-blur));
+}
+.cd-face {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--cd-face-radius);
+  color: var(--cd-ink);
+  background: radial-gradient(130% 80% at 50% 0%, var(--cd-top), var(--cd-mid) 45%, var(--cd-clay));
+  box-shadow: var(--cd-shadow);
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  -webkit-tap-highlight-color: transparent;
+}
+.cd-shell[data-tracking] .cd-face {
+  cursor: grabbing;
+}
+.cd-face:focus-visible {
+  outline: 3px solid rgb(var(--cd-rgb));
+  outline-offset: 6px;
+}
+.cd-heat {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.cd-wash {
+  position: absolute;
+  inset: 0;
+  --cd-bright: calc(var(--cd-glow) * var(--cd-wash-gain));
+  opacity: var(--cd-bright);
+  background:
+    radial-gradient(62% 22% at 50% 102%, #fff3d2, color-mix(in srgb, var(--cd-tip) 80%, transparent) 40%, transparent 80%),
+    linear-gradient(to top, var(--cd-tip), rgb(var(--cd-rgb)) 8%, var(--cd-deep) 19%, color-mix(in srgb, var(--cd-deep) 38%, transparent) 29%, transparent 40%);
+  filter: var(--cd-wash-filter);
+  transform-origin: center bottom;
+  --cd-height: calc(var(--cd-rise) * (1 + sin(var(--cd-phase)) * var(--cd-pulse-depth)));
+  transform: scaleY(var(--cd-height));
+  transform: scaleY(round(nearest, var(--cd-height), .0001));
+}
+.cd-wall {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 -2cqw 4cqw -1.2cqw color-mix(in srgb, var(--cd-tip) 80%, white),
+    inset 1.6cqw -5cqw 5cqw -3cqw color-mix(in srgb, rgb(var(--cd-rgb)) 80%, transparent),
+    inset -1.6cqw -5cqw 5cqw -3cqw color-mix(in srgb, rgb(var(--cd-rgb)) 80%, transparent);
+  opacity: calc(var(--cd-glow) * var(--cd-wash-gain));
+}
+.cd-rim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: var(--cd-rim-width);
+  background: linear-gradient(var(--cd-rim), var(--cd-rim-mid) 22% 52%, color-mix(in srgb, rgb(var(--cd-rgb)) calc(min(var(--cd-glow), 1) * 70%), transparent) 84%, var(--cd-rim-tip));
+  mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0);
+}
+.cd-season {
+  position: absolute;
+
+  top: var(--cd-season-top);
+  inset-inline: 0;
+  text-align: center;
+  font-size: var(--cd-season-size);
+  line-height: 1;
+  font-weight: var(--cd-season-weight);
+  letter-spacing: var(--cd-season-tracking);
+}
+.cd-season span {
+  display: inline-block;
+  background: var(--cd-label);
+  background-clip: text;
+  color: transparent;
+}
+.cd-season:not(:has(span)) {
+  background: var(--cd-label);
+  background-clip: text;
+  color: transparent;
+}
+.cd-scale {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.cd-ticks line {
+  stroke: var(--cd-ink);
+  stroke-width: var(--cd-tick-width);
+  stroke-linecap: round;
+  opacity: calc(var(--cd-inactive-alpha) * var(--cd-edge));
+}
+.cd-ticks .cd-passed {
+  --cd-distance: clamp(0, calc((var(--cd-progress) - var(--cd-position)) * 2.2), 1);
+  --cd-head: max(0, calc(1 - (var(--cd-progress) - var(--cd-position)) / .12));
+  --cd-wave: calc(sin(var(--cd-wave-phase, 0deg) + var(--cd-wave-offset)) * (.8 + var(--cd-progress) * 1.6) * var(--cd-idle-strength));
+  transform-origin: 220px 156px;
+  transform: scaleY(calc((12 + 7 * var(--cd-head) + var(--cd-wave)) / 9));
+  opacity: calc((1 - .58 * var(--cd-distance)) * var(--cd-edge));
+}
+.cd-needle {
+  fill: var(--cd-ink);
+  opacity: var(--cd-needle-alpha);
+  transform-origin: 220px 322px;
+  transform: rotate(var(--cd-angle));
+}
+.cd-reading {
+  position: absolute;
+  top: var(--cd-reading-top);
+  left: 50%;
+  transform: translateX(-50%) scaleX(var(--cd-reading-stretch));
+  font-size: var(--cd-reading-size);
+  line-height: 1;
+  font-weight: var(--cd-reading-weight);
+  letter-spacing: -0.033em;
+  white-space: nowrap;
+}
+.cd-value {
+  display: inline-flex;
+}
+.cd-lead,
+.cd-unit {
+  position: relative;
+  display: block;
+  height: 1em;
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+.cd-lead[hidden] {
+  display: none;
+}
+.cd-lead,
+.cd-sign {
+  transform: translateY(0.164em) scale(1.055);
+  transform-origin: bottom right;
+}
+.cd-lead {
+  min-width: 0.52em;
+}
+.cd-sign:empty {
+  display: none;
+}
+.cd-drum {
+  display: block;
+  position: relative;
+  height: 1em;
+  min-width: 0.52em;
+  text-align: center;
+}
+.cd-sign,
+.cd-lead .cd-drum {
+  background-image: var(--cd-leading);
+  background-clip: text;
+  color: transparent;
+}
+.cd-unit { filter: drop-shadow(-.6cqw 0 1.2cqw var(--cd-separation)); }
+.cd-unit .cd-drum {
+  color: var(--cd-digit-color);
+}
+.cd-degree {
+  position: absolute;
+  top: 0.13em;
+  left: calc(100% + 0.065em);
+  width: var(--cd-degree-size);
+  transform: scaleX(1.092);
+  aspect-ratio: 1;
+  background: linear-gradient(145deg, var(--cd-letter-top), var(--cd-letter-mid) 42%, var(--cd-deep));
+  padding: max(1.25px, 0.45cqw);
+  mask: linear-gradient(black 0 0) content-box exclude, linear-gradient(black 0 0);
+  border-radius: 50%;
+  opacity: var(--cd-degree-alpha);
+}
+.cd-band--bottom {
+  margin-top: min(17.6vw, var(--cd-hint-gap));
+  text-align: center;
+  font:
+    500 var(--cd-hint-size) / 1.2083333333 'Geist', system-ui, sans-serif;
+  letter-spacing: 0.02em;
+  color: var(--cd-hint);
+}
+.cd-band--bottom[hidden] {
+  display: none;
+}
+@property --cd-heat-reveal {
+  syntax: '<number>';
+  initial-value: 1;
+  inherits: true;
+}
+@property --cd-wave-phase {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: true;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cd-shell[data-live]:not([data-static]) .cd-ticks {
+    animation: cd-wave var(--cd-idle-period) linear infinite;
+  }
+  .cd-shell[data-mounted]:not([data-static]) .cd-ticks g {
+    animation: cd-reveal calc(.3s / var(--cd-speed)) calc((.2s + var(--cd-stagger)) / var(--cd-speed)) ease-out backwards;
+  }
+  .cd-shell[data-mounted]:not([data-static]) .cd-needle {
+    animation: cd-reveal calc(.4s / var(--cd-speed)) calc(.45s / var(--cd-speed)) ease-out backwards;
+  }
+  .cd-shell:not([data-static]) .cd-season[data-motion='in'] span {
+    animation: cd-letter-in calc(var(--cd-letter-in) / var(--cd-speed)) calc(var(--cd-letter) * var(--cd-letter-stagger) / var(--cd-speed)) backwards;
+  }
+  .cd-shell:not([data-static]) .cd-season[data-motion='out'] span {
+    animation: cd-letter-out calc(.13s / var(--cd-speed)) calc(var(--cd-letter) * .012s / var(--cd-speed)) both;
+  }
+  .cd-shell[data-pulsing] :is(.cd-bloom, .cd-wash) {
+    animation: cd-breathe var(--cd-pulse-period) linear infinite;
+  }
+  .cd-shell[data-mounted]:not([data-static]) .cd-instrument {
+    animation: cd-heat-arrive calc(1.4s / var(--cd-speed)) calc(.3s / var(--cd-speed)) ease-out backwards;
+  }
+  .cd-shell[data-mounted]:not([data-static]) .cd-face {
+    /* The face settles on its own spring while the floor reflection stays anchored. */
+    animation:
+      cd-arrive calc(.65s / var(--cd-speed)) ease-out backwards,
+      cd-rise-in calc(.8s / var(--cd-speed)) var(--cd-face-spring, ease-out) backwards;
+    filter: blur(0);
+  }
+  .cd-shell[data-mounted]:not([data-static]) .cd-band--bottom {
+    animation: cd-instruct calc(.6s / var(--cd-speed)) calc(1.4s / var(--cd-speed)) ease-out both;
+  }
+}
+@keyframes cd-wave { to { --cd-wave-phase: 1turn; } }
+@keyframes cd-reveal { from { opacity: 0; } }
+@keyframes cd-heat-arrive { from { --cd-heat-reveal: 0; } to { --cd-heat-reveal: 1; } }
+@keyframes cd-letter-in {
+  from { opacity: 0; transform: translateY(.35em) scale(.91); filter: blur(7px); }
+  72% { transform: translateY(-.035em); }
+}
+@keyframes cd-letter-out {
+  to { opacity: 0; transform: translateY(-.22em); filter: blur(5px); }
+}
+@keyframes cd-breathe {
+  from { --cd-phase: 0turn; }
+  to { --cd-phase: 1turn; }
+}
+@supports (animation-timing-function: linear(0, 1)) {
+  .cd-face {
+    --cd-face-spring: linear(0, 0.1289, 0.3766, 0.6171, 0.8007, 0.9201, 0.9865, 1.0165, 1.025, 1.0229, 1.0169, 1.0107, 1.0057, 1.0024, 1.0006, 0.9997, 1);
+  }
+}
+@keyframes cd-rise-in {
+  from { transform: translateY(var(--cd-entrance-lift)) scale(var(--cd-entrance-scale)); }
+  to { transform: none; }
+}
+@keyframes cd-arrive {
+  from {
+    opacity: 0;
+    filter: blur(var(--cd-entrance-blur));
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes cd-instruct {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

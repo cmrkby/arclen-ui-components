@@ -1,0 +1,58 @@
+Climate Dial is a circular temperature input for −9 to 70 °C. The dial pairs a segmented scale with a numeric readout and a seasonal label.
+
+## React
+
+```tsx
+import { ClimateDial } from './components/climate-dial/src/react';
+
+<ClimateDial
+  theme="dark"
+  value={38}
+  onValueChange={(value, season) => console.log(value, season)}
+/>
+```
+
+The default face is warm porcelain. Pass `theme="dark"` for graphite or `hint={false}` to hide the instruction band. A changed `value` prop updates the dial. User input updates its current value immediately and calls `onValueChange`. The seasonal ranges are Winter through 4 °C, Autumn from 5 through 15 °C, Spring from 16 through 25 °C and Summer from 26 °C. These are display ranges.
+
+## HTML and vanilla JavaScript
+
+```ts
+import { mount } from './climate-dial/src/core';
+import './climate-dial/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#climate')!;
+const controller = mount(host, { value: 38 });
+host.addEventListener('temperaturechange', (event) => {
+  const { value, season } = (event as CustomEvent).detail;
+  console.log(value, season);
+});
+controller.update({ theme: 'light' });
+```
+
+`render(settings)` returns the settled dial for static output. `mount` replaces the host contents. Call `destroy()` when removing the instance. Programmatic updates leave the user change event silent.
+
+## Input and motion
+
+Drag around the scale or click its track to set the temperature. When focused, the arrow keys and mouse wheel adjust it by one degree. Hold Shift for five-degree steps. Home and End jump to the limits.
+
+The 96 indices cover 230 degrees. The graphite pointer travels with a spring-smoothed readout and a temperature-dependent light under the shell. Keyboard and pointer input share this model. The accessible slider reports the target immediately. The digits show the moving temperature within the −9 to 70 °C range. Escape and pointer cancellation restore the value at the start of the drag. Reduced motion and `paused` snap the scale to the current reading. Hidden or offscreen instances stop motion. The face scales down in narrow hosts. At a 390px viewport it is 312px wide.
+
+## Tuning the instrument
+
+`size` sets the preferred face width in pixels. The containing element and viewport constrain its final width. `coldAccent` and `warmAccent` accept six-digit hex colors and tint the three bands of the temperature gradient. `glow` adjusts the light beneath the face and its reflected edge. Set it to zero for a neutral face.
+
+`speed` scales response time. `spring` controls rebound separately. The defaults of 1 and 0.55 preserve the measured fast overshoot. During a gesture, the needle, digit slots and moving reflection all follow the same spring position. The season label fades from white into the current temperature color. The leading numeral and degree mark also pick up the palette. The units digit defaults to solid white. At rest, a wave moves through the lit ticks, with the longest marks just behind the needle. Season changes stagger individual letters out and back in. Each digit slides into its own slot when its integer changes. The tens digit holds still between decades.
+
+With `entrance` enabled, the face comes into focus, the indices appear from the middle outward and the needle sweeps from −9 °C to the configured temperature. The glow builds underneath before the instruction appears. Changing `replayKey` in React or calling `controller.replay()` in JavaScript plays it again. Input interrupts the sweep. Replay leaves the target value and change callback untouched. A paused or reduced-motion instrument displays its settled reading immediately.
+
+## Bottom glow
+
+The reflected band rises and falls while the light beneath the dial brightens and dims. Both follow a sine wave with a 3.81-second cycle and a default swing of ±1.5% around the steady reading. Set `pulsePeriod` to change the length of a full cycle, `pulseDepth` to change the percentage swing, and `bloomWidth` to spread or concentrate the pool of light. A depth of 0 or `pulse={false}` holds the glow steady. The glow also stays steady for reduced motion, paused instances and hidden dials. Set `showSeason={false}` for a number-only face. The accessible temperature description still includes the season.
+
+## Face, type and motion controls
+
+Use the Face controls to adjust the curvature, rim and three gradient stops for each theme. Scale controls set engraving thickness, inactive tick opacity, pointer opacity and the resting wave. `idlePeriod` is one full cycle in seconds. Set `idleStrength` to zero for stationary ticks.
+
+Temperature readout and Season label have separate type and placement controls. `digitTravel` and `digitDuration` adjust the roll as the temperature changes. `letterIn` and `letterStagger` adjust each season letter’s arrival and delay. Replay the entrance to inspect its lift, scale, blur and hold before the needle starts moving. Floor glow controls set the reflection’s height, lower edge and blur, independently of the pulsing light.
+
+`keyboardStep` and `shiftStep` set the degree increments for keys and a focused wheel. Turn off `wheelEnabled` to allow page scrolling while the dial has focus. Hint controls edit its copy, type size and space below the face. These settings work as React props and through `controller.update`.

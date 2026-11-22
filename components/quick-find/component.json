@@ -1,0 +1,903 @@
+{
+  "id": "quick-find",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Quick Find",
+  "category": "Search",
+  "description": "An expandable workspace search with local results, category filters, and removable recent items.",
+  "keywords": [
+    "search",
+    "command",
+    "filter",
+    "keyboard",
+    "recent"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": [
+        {
+          "label": "Light",
+          "value": "light"
+        },
+        {
+          "label": "Dark",
+          "value": "dark"
+        }
+      ],
+      "group": "Appearance"
+    },
+    {
+      "key": "corner",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 12,
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "rows",
+      "kind": "number",
+      "label": "Recent rows",
+      "default": 3,
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "group": "Results"
+    },
+    {
+      "key": "shortcut",
+      "kind": "boolean",
+      "label": "Keyboard shortcut",
+      "default": true,
+      "group": "Interaction"
+    },
+    {
+      "key": "rowHeight",
+      "kind": "number",
+      "label": "Row height (px)",
+      "default": 68,
+      "min": 56,
+      "max": 84,
+      "step": 1,
+      "group": "Results"
+    },
+    {
+      "key": "openWidth",
+      "kind": "number",
+      "label": "Open width (px)",
+      "default": 420,
+      "min": 320,
+      "max": 600,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "openDuration",
+      "kind": "number",
+      "label": "Open duration (ms)",
+      "default": 560,
+      "min": 220,
+      "max": 800,
+      "step": 5,
+      "group": "Motion"
+    },
+    {
+      "key": "hoverDuration",
+      "kind": "number",
+      "label": "Hover response (ms)",
+      "default": 240,
+      "min": 120,
+      "max": 500,
+      "step": 5,
+      "group": "Motion"
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Accent",
+      "default": "#f54e00",
+      "group": "Appearance"
+    },
+    {
+      "key": "showArtwork",
+      "kind": "boolean",
+      "label": "Result artwork",
+      "default": true,
+      "group": "Results"
+    },
+    {
+      "key": "placeholder",
+      "kind": "text",
+      "label": "Field placeholder",
+      "default": "Find in workspace…",
+      "maxLength": 80,
+      "group": "Content"
+    },
+    {
+      "key": "thumbnailSize",
+      "kind": "number",
+      "label": "Thumbnail size (px)",
+      "default": 44,
+      "min": 24,
+      "max": 48,
+      "step": 1,
+      "group": "Results"
+    },
+    {
+      "key": "showDescriptions",
+      "kind": "boolean",
+      "label": "Show result descriptions",
+      "default": true,
+      "group": "Results"
+    },
+    {
+      "key": "noResultsText",
+      "kind": "text",
+      "label": "No matches message",
+      "default": "No matching items",
+      "maxLength": 140,
+      "group": "Content"
+    },
+    {
+      "key": "emptyRecentsText",
+      "kind": "text",
+      "label": "Empty recents message",
+      "default": "No recent items",
+      "maxLength": 140,
+      "group": "Content"
+    },
+    {
+      "key": "showDividers",
+      "kind": "boolean",
+      "label": "Result dividers",
+      "default": true,
+      "group": "Results"
+    },
+    {
+      "key": "chipGap",
+      "kind": "number",
+      "label": "Pill spacing (px)",
+      "default": 14,
+      "min": 0,
+      "max": 28,
+      "step": 1,
+      "group": "Category strip"
+    },
+    {
+      "key": "edgeFade",
+      "kind": "number",
+      "label": "Edge fade width (px)",
+      "default": 48,
+      "min": 0,
+      "max": 80,
+      "step": 1,
+      "group": "Category strip"
+    },
+    {
+      "key": "hoverTint",
+      "kind": "number",
+      "label": "Hover tint strength (%)",
+      "default": 10,
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "group": "Results"
+    },
+    {
+      "key": "closedWidth",
+      "kind": "number",
+      "label": "Closed width (px)",
+      "default": 300,
+      "group": "Search field",
+      "min": 200,
+      "max": 420,
+      "step": 1
+    },
+    {
+      "key": "fieldHeight",
+      "kind": "number",
+      "label": "Field height (px)",
+      "default": 50,
+      "group": "Search field",
+      "min": 44,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "fieldInset",
+      "kind": "number",
+      "label": "Left padding (px)",
+      "default": 16,
+      "group": "Search field",
+      "min": 6,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "fieldGap",
+      "kind": "number",
+      "label": "Icon to input gap (px)",
+      "default": 10,
+      "group": "Search field",
+      "min": 2,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "fieldTextSize",
+      "kind": "number",
+      "label": "Input type size (px)",
+      "default": 15,
+      "group": "Search field",
+      "min": 12,
+      "max": 21,
+      "step": 0.5
+    },
+    {
+      "key": "searchIconSize",
+      "kind": "number",
+      "label": "Search icon size (px)",
+      "default": 24,
+      "group": "Search field",
+      "min": 14,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "closeSize",
+      "kind": "number",
+      "label": "Close button size (px)",
+      "default": 30,
+      "group": "Search field",
+      "min": 24,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "closeIconSize",
+      "kind": "number",
+      "label": "Close icon size (px)",
+      "default": 16,
+      "group": "Search field",
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "shortcutRadius",
+      "kind": "number",
+      "label": "Shortcut radius (px)",
+      "default": 6,
+      "group": "Search field",
+      "min": 0,
+      "max": 11,
+      "step": 1
+    },
+    {
+      "key": "sheetInset",
+      "kind": "number",
+      "label": "Sheet inset (px)",
+      "default": 6,
+      "group": "Results panel",
+      "min": 0,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "headerHeight",
+      "kind": "number",
+      "label": "Heading height (px)",
+      "default": 40,
+      "group": "Results panel",
+      "min": 32,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "headingSize",
+      "kind": "number",
+      "label": "Heading type size (px)",
+      "default": 12.5,
+      "group": "Results panel",
+      "min": 10,
+      "max": 18,
+      "step": 0.5
+    },
+    {
+      "key": "rowInset",
+      "kind": "number",
+      "label": "Result left inset (px)",
+      "default": 16,
+      "group": "Results panel",
+      "min": 4,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "artworkGap",
+      "kind": "number",
+      "label": "Artwork to title gap (px)",
+      "default": 13,
+      "group": "Results panel",
+      "min": 2,
+      "max": 26,
+      "step": 1
+    },
+    {
+      "key": "dividerInset",
+      "kind": "number",
+      "label": "Divider inset (px)",
+      "default": 16,
+      "group": "Results panel",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "resultTitleSize",
+      "kind": "number",
+      "label": "Title size (px)",
+      "default": 14.5,
+      "group": "Results panel",
+      "min": 11,
+      "max": 20,
+      "step": 0.5
+    },
+    {
+      "key": "resultTitleWeight",
+      "kind": "number",
+      "label": "Title weight",
+      "default": 550,
+      "group": "Results panel",
+      "min": 400,
+      "max": 750,
+      "step": 10
+    },
+    {
+      "key": "descriptionSize",
+      "kind": "number",
+      "label": "Description size (px)",
+      "default": 13,
+      "group": "Results panel",
+      "min": 10,
+      "max": 17,
+      "step": 0.5
+    },
+    {
+      "key": "textGap",
+      "kind": "number",
+      "label": "Title to description gap (px)",
+      "default": 2,
+      "group": "Results panel",
+      "min": 0,
+      "max": 9,
+      "step": 1
+    },
+    {
+      "key": "highlightRadius",
+      "kind": "number",
+      "label": "Highlight radius (px)",
+      "default": 0,
+      "group": "Hover and removal",
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "artworkHoverScale",
+      "kind": "number",
+      "label": "Artwork hover scale (×)",
+      "default": 1.05,
+      "group": "Hover and removal",
+      "min": 1,
+      "max": 1.3,
+      "step": 0.01
+    },
+    {
+      "key": "trashSize",
+      "kind": "number",
+      "label": "Trash icon size (px)",
+      "default": 19,
+      "group": "Hover and removal",
+      "min": 12,
+      "max": 26,
+      "step": 1
+    },
+    {
+      "key": "trashButtonSize",
+      "kind": "number",
+      "label": "Trash button size (px)",
+      "default": 32,
+      "group": "Hover and removal",
+      "min": 26,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "hoverDamping",
+      "kind": "number",
+      "label": "Highlight spring damping",
+      "default": 0.925,
+      "group": "Hover and removal",
+      "min": 0.55,
+      "max": 1.3,
+      "step": 0.005
+    },
+    {
+      "key": "stripHeight",
+      "kind": "number",
+      "label": "Strip height (px)",
+      "default": 64,
+      "group": "Category strip",
+      "min": 48,
+      "max": 88,
+      "step": 1
+    },
+    {
+      "key": "chipHeight",
+      "kind": "number",
+      "label": "Pill height (px)",
+      "default": 32,
+      "group": "Category strip",
+      "min": 26,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "chipRadius",
+      "kind": "number",
+      "label": "Pill radius (px)",
+      "default": 24,
+      "group": "Category strip",
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "chipTextSize",
+      "kind": "number",
+      "label": "Pill type size (px)",
+      "default": 12,
+      "group": "Category strip",
+      "min": 10,
+      "max": 17,
+      "step": 0.5
+    },
+    {
+      "key": "chipInset",
+      "kind": "number",
+      "label": "Strip side padding (px)",
+      "default": 16,
+      "group": "Category strip",
+      "min": 4,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "chipControlSize",
+      "kind": "number",
+      "label": "Pill remove and count size (px)",
+      "default": 24,
+      "group": "Category strip",
+      "min": 18,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "rowStagger",
+      "kind": "number",
+      "label": "New result stagger (ms)",
+      "default": 45,
+      "group": "Motion",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "rowDistance",
+      "kind": "number",
+      "label": "New result rise (px)",
+      "default": 6,
+      "group": "Motion",
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "removalDuration",
+      "kind": "number",
+      "label": "Departing result fade (ms)",
+      "default": 145,
+      "group": "Motion",
+      "min": 0,
+      "max": 450,
+      "step": 5
+    },
+    {
+      "key": "chipDuration",
+      "kind": "number",
+      "label": "Pill movement (ms)",
+      "default": 240,
+      "group": "Motion",
+      "min": 0,
+      "max": 600,
+      "step": 5
+    },
+    {
+      "key": "recentHeading",
+      "kind": "text",
+      "label": "Recent section title",
+      "default": "Recently opened",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "matchHeading",
+      "kind": "text",
+      "label": "Search results title",
+      "default": "Matching items",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "clearLabel",
+      "kind": "text",
+      "label": "Clear action label",
+      "default": "Clear all",
+      "group": "Content",
+      "maxLength": 80
+    },
+    {
+      "key": "lightShell",
+      "kind": "color",
+      "label": "Outer shell",
+      "default": "#ffffff",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkShell",
+      "kind": "color",
+      "label": "Outer shell",
+      "default": "#2a2a2a",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightPaper",
+      "kind": "color",
+      "label": "Results surface",
+      "default": "#f5f5f5",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkPaper",
+      "kind": "color",
+      "label": "Results surface",
+      "default": "#222222",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightInk",
+      "kind": "color",
+      "label": "Primary text",
+      "default": "#0d0d0d",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkInk",
+      "kind": "color",
+      "label": "Primary text",
+      "default": "#ffffff",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightMuted",
+      "kind": "color",
+      "label": "Secondary text",
+      "default": "#6b6b6b",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkMuted",
+      "kind": "color",
+      "label": "Secondary text",
+      "default": "#999999",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightBorder",
+      "kind": "color",
+      "label": "Dividers and outlines",
+      "default": "#e9e7e6",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkBorder",
+      "kind": "color",
+      "label": "Dividers and outlines",
+      "default": "#262626",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightRemoval",
+      "kind": "color",
+      "label": "Removal icon and fade",
+      "default": "#ff3b30",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkRemoval",
+      "kind": "color",
+      "label": "Removal icon and fade",
+      "default": "#ff453a",
+      "group": "Dark palette"
+    },
+    {
+      "key": "lightAction",
+      "kind": "color",
+      "label": "Active icon and clear action",
+      "default": "#000000",
+      "group": "Light palette"
+    },
+    {
+      "key": "darkAction",
+      "kind": "color",
+      "label": "Active icon and clear action",
+      "default": "#ffffff",
+      "group": "Dark palette"
+    },
+    {
+      "key": "dismissOnOutside",
+      "kind": "boolean",
+      "label": "Close when focus leaves",
+      "default": true,
+      "group": "Interaction"
+    },
+    {
+      "key": "iconStroke",
+      "kind": "number",
+      "label": "Icon stroke (px)",
+      "default": 2,
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "group": "Search field"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from the original Quick Find implementation."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      }
+    },
+    {
+      "path": "assets/file-pdf.svg",
+      "contentType": "image/svg+xml",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original PDF document artwork by Arclen UI."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/file-doc.svg",
+      "contentType": "image/svg+xml",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original DOC document artwork by Arclen UI."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/file-png.svg",
+      "contentType": "image/svg+xml",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original PNG document artwork by Arclen UI."
+      },
+      "gallery": true
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Open and close the panel immediately with no row staging.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Paper",
+      "settings": {
+        "theme": "light",
+        "corner": 12,
+        "rows": 3,
+        "shortcut": true,
+        "rowHeight": 68,
+        "openWidth": 420,
+        "openDuration": 560,
+        "hoverDuration": 240,
+        "accent": "#f54e00",
+        "showArtwork": true,
+        "placeholder": "Find in workspace…",
+        "thumbnailSize": 44,
+        "showDescriptions": true,
+        "noResultsText": "No matching items",
+        "emptyRecentsText": "No recent items",
+        "showDividers": true,
+        "chipGap": 14,
+        "edgeFade": 48,
+        "hoverTint": 10,
+        "closedWidth": 300,
+        "fieldHeight": 50,
+        "fieldInset": 16,
+        "fieldGap": 10,
+        "fieldTextSize": 15,
+        "searchIconSize": 24,
+        "closeSize": 30,
+        "closeIconSize": 16,
+        "shortcutRadius": 6,
+        "sheetInset": 6,
+        "headerHeight": 40,
+        "headingSize": 12.5,
+        "rowInset": 16,
+        "artworkGap": 13,
+        "dividerInset": 16,
+        "resultTitleSize": 14.5,
+        "resultTitleWeight": 550,
+        "descriptionSize": 13,
+        "textGap": 2,
+        "highlightRadius": 0,
+        "artworkHoverScale": 1.05,
+        "trashSize": 19,
+        "trashButtonSize": 32,
+        "hoverDamping": 0.925,
+        "stripHeight": 64,
+        "chipHeight": 32,
+        "chipRadius": 24,
+        "chipTextSize": 12,
+        "chipInset": 16,
+        "chipControlSize": 24,
+        "rowStagger": 45,
+        "rowDistance": 6,
+        "removalDuration": 145,
+        "chipDuration": 240,
+        "recentHeading": "Recently opened",
+        "matchHeading": "Matching items",
+        "clearLabel": "Clear all",
+        "lightShell": "#ffffff",
+        "darkShell": "#2a2a2a",
+        "lightPaper": "#f5f5f5",
+        "darkPaper": "#222222",
+        "lightInk": "#0d0d0d",
+        "darkInk": "#ffffff",
+        "lightMuted": "#6b6b6b",
+        "darkMuted": "#999999",
+        "lightBorder": "#e9e7e6",
+        "darkBorder": "#262626",
+        "lightRemoval": "#ff3b30",
+        "darkRemoval": "#ff453a",
+        "lightAction": "#000000",
+        "darkAction": "#ffffff",
+        "dismissOnOutside": true,
+        "iconStroke": 2
+      }
+    },
+    {
+      "name": "Midnight",
+      "settings": {
+        "theme": "dark",
+        "corner": 12,
+        "rows": 4,
+        "shortcut": true,
+        "rowHeight": 68,
+        "openWidth": 420,
+        "openDuration": 560,
+        "hoverDuration": 310,
+        "accent": "#f54e00",
+        "showArtwork": true,
+        "placeholder": "Find in workspace…",
+        "thumbnailSize": 44,
+        "showDescriptions": true,
+        "noResultsText": "No matching items",
+        "emptyRecentsText": "No recent items",
+        "showDividers": true,
+        "chipGap": 14,
+        "edgeFade": 48,
+        "hoverTint": 10,
+        "closedWidth": 300,
+        "fieldHeight": 50,
+        "fieldInset": 16,
+        "fieldGap": 10,
+        "fieldTextSize": 15,
+        "searchIconSize": 24,
+        "closeSize": 30,
+        "closeIconSize": 16,
+        "shortcutRadius": 6,
+        "sheetInset": 6,
+        "headerHeight": 40,
+        "headingSize": 12.5,
+        "rowInset": 16,
+        "artworkGap": 13,
+        "dividerInset": 16,
+        "resultTitleSize": 14.5,
+        "resultTitleWeight": 550,
+        "descriptionSize": 13,
+        "textGap": 2,
+        "highlightRadius": 0,
+        "artworkHoverScale": 1.05,
+        "trashSize": 19,
+        "trashButtonSize": 32,
+        "hoverDamping": 0.925,
+        "stripHeight": 64,
+        "chipHeight": 32,
+        "chipRadius": 24,
+        "chipTextSize": 12,
+        "chipInset": 16,
+        "chipControlSize": 24,
+        "rowStagger": 45,
+        "rowDistance": 6,
+        "removalDuration": 145,
+        "chipDuration": 240,
+        "recentHeading": "Recently opened",
+        "matchHeading": "Matching items",
+        "clearLabel": "Clear all",
+        "lightShell": "#ffffff",
+        "darkShell": "#2a2a2a",
+        "lightPaper": "#f5f5f5",
+        "darkPaper": "#222222",
+        "lightInk": "#0d0d0d",
+        "darkInk": "#ffffff",
+        "lightMuted": "#6b6b6b",
+        "darkMuted": "#999999",
+        "lightBorder": "#e9e7e6",
+        "darkBorder": "#262626",
+        "lightRemoval": "#ff3b30",
+        "darkRemoval": "#ff453a",
+        "lightAction": "#000000",
+        "darkAction": "#ffffff",
+        "dismissOnOutside": true,
+        "iconStroke": 2
+      }
+    }
+  ]
+}
