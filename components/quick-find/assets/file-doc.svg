@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="paper" x2=".75" y2="1" gradientUnits="objectBoundingBox"><stop stop-color="#fff"/><stop offset=".6" stop-color="#f8fafb"/><stop offset="1" stop-color="#d4dce2"/></linearGradient>
+    <linearGradient id="edge" x2=".7" y2="1"><stop stop-color="#f1f4f5"/><stop offset="1" stop-color="#acb9c3"/></linearGradient>
+    <linearGradient id="accent" x2=".2" y2="1"><stop stop-color="#62c7ff"/><stop offset=".55" stop-color="#277fe9"/><stop offset="1" stop-color="#1547a6"/></linearGradient>
+    <linearGradient id="fold" x2=".75" y2="1"><stop stop-color="#62c7ff"/><stop offset="1" stop-color="#277fe9"/></linearGradient>
+  </defs>
+  <rect x="9" y="5" width="40" height="51" rx="6" fill="url(#edge)" stroke="#a4afb9" stroke-width=".85" transform="rotate(-6 29 30)"/>
+  <path d="M18 6h21l13 13v35a5 5 0 0 1-5 5H18a5 5 0 0 1-5-5V11a5 5 0 0 1 5-5Z" fill="url(#paper)" stroke="#b4bfc7" stroke-width="1.05"/>
+  <path d="M15 51V12a4 4 0 0 1 4-4h18" fill="none" stroke="#fff" stroke-width="1.5"/>
+  <path d="m38 6 14 13v2.4l-9-.8a5 5 0 0 1-4.7-4.6Z" fill="#233448" opacity=".18"/>
+  <path d="m38.8 6 13.4 13.3-9.5-.5a4.3 4.3 0 0 1-4-4.4Z" fill="url(#fold)"/>
+  <g fill="none" stroke-linecap="round"><path stroke="#1361bd" stroke-width="3.2" d="M20 24h12m-12 5.5h23m-23 5.5h19"/><path stroke="#67c9ff" stroke-width="1.15" d="M20 23.3h12m-12 5.5h23m-23 5.5h19"/></g>
+  <rect x="10" y="41" width="44" height="16" rx="4" fill="#28313d" opacity=".16"/>
+  <rect x="9.4" y="39.3" width="44.4" height="16.5" rx="4" fill="url(#accent)" stroke="#1547a6" stroke-width=".8"/>
+  <path d="M13 40.8h36.7" stroke="#fff" opacity=".65" stroke-linecap="round"/>
+  <text x="31.7" y="51.9" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="13" letter-spacing=".5" fill="white">DOC</text>
+</svg>

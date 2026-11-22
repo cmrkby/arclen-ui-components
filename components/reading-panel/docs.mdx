@@ -1,0 +1,64 @@
+# Reading Panel
+
+Read the opening of “A mark below the tide,” an original field note, in a scrollable excerpt. Open the reader to reach a wider view with type controls and reading progress. The journal remembers the current passage as you switch views or change type size.
+
+## React
+
+```tsx
+import { ReadingPanel } from './components/reading-panel';
+
+export function Example() {
+  return <ReadingPanel theme="light" onOpenChange={open => console.log(open)} />;
+}
+```
+
+Supply your own article using `title` and a `passages` array of paragraphs. Use `theme` for the day or night palette. `fill` removes the outer width limit and takes up the height of a parent that sets one. `className` and `style` apply to the wrapper. `paused` closes the reader and temporarily disables its opener. `Component` aliases `ReadingPanel`.
+
+## Vanilla
+
+```ts
+import { mount } from './components/reading-panel/src/core';
+import './components/reading-panel/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#reading-panel')!;
+const panel = mount(host, { theme: 'dark' }, undefined, {
+  onOpenChange(open) { console.log(open); },
+});
+panel.update({ fill: true });
+// When removing the host:
+panel.destroy();
+```
+
+The bubbling `reading-panel-open-change` event carries the same boolean as the callback.
+
+## Reading and keyboard access
+
+Open reader carries the excerpt’s visible sentence into the article. Focus moves to Close when the sheet has finished expanding. Press Tab to focus the article, then scroll with Page Up, Page Down or the arrow keys. Tab stays within the reader. Close with the header button, the backdrop, or Escape. Focus returns to Open reader. Choose the smaller or larger A to change type size while preserving the displayed reading percentage. The percentage measures the character at the reading line within the whole article. It reads 0% and 100% at the document boundaries. Rewrapping a paragraph changes its pixel position. The reader follows that same character when you resize the view or change the type.
+
+The opening passage briefly receives a soft highlight. Reduced motion removes the opening and closing transitions and keeps the marker steady for the same interval. Browsers without backdrop blur use solid surfaces.
+
+Set `--rp-stage-height` on the wrapper to set the available height. The compact card measures 289 × 290 px. The expanded sheet defaults to a maximum of 680 px wide and 860 px tall within that space. Three generated normal maps refract the toolbar and buttons.
+
+## Tuning the reader
+
+Choose Night in the preview to tune the dark glass. **Dark glass** adjusts the tint color, tint strength, rim brightness and how much of the scrolling text is visible beneath the toolbar. On the expanded sheet, **Side bevel width** controls how far each reflection reaches inward (0–24 px, default 9 px). **Corner taper** sets the fraction of the sheet height used to fade each end (0–50%, default 24%). At 0% taper the sides stay evenly lit. At 0 px width the side reflections disappear. At 0% visibility the toolbar is opaque. At 100% it has a clear center and retains the selected rim.
+
+`backgroundGlow` sets the backdrop glow strength in both themes. It defaults to 18 percent.
+
+`glassMode` selects refracted or frosted controls. `glassStrength` changes the surface normal displacement, inner rim and cast shadow. `paperOpacity` adjusts transmission through the sheet. The refracted preset draws three individual lens profiles for the open button, close button and toolbar. Narrow hosts simplify the edge blur, and browsers without backdrop filtering show the paper fallback.
+
+The cover title, excerpt, reader title and article use bundled Geist Serif Regular by default. Set `typeface` to `geist-serif`, `sans`, `editorial` or `book`. The Read label follows the article typeface. The two text-size buttons use Geist Serif. The byline and percentage use Geist Sans. `fontSize` and `lineHeight` configure the expanded article. `readerWidth` caps the text sheet. `accent` sets the passage highlight. The progress bar defaults to solid white with zero shine. A plain percentage beside it shows the current reading position. Under **Progress bar finish**, choose the base and highlight colors and set the shine strength, width and angle. `byline` and `openLabel` control the header credit and compact button. `motionSpeed` changes the open and close duration. A reversal starts at the sheet’s current position and size.
+
+The paper’s `cornerRadius` applies to the compact card and expanded sheet throughout their transition. Use `readingMeasure` to cap the inner column independently of the sheet width. `paragraphSpacing` sets the gap between expanded paragraphs in em. Changing the column or spacing while reading keeps the current character anchored. Defaults are 40 px, 576 px and 1 em respectively.
+
+## Cover, reader and toolbar controls
+
+The cover has its own dimensions, headline, excerpt spacing and edge fades. Tune the expanded sheet separately with its maximum height, headline and byline sizes, article padding, drop cap, and section label. The light and dark palettes each include paper, ink, secondary text, stage background and three background washes.
+
+**Cover backdrop blur** and **Sheet backdrop blur** control the paper. **Frosted control blur** and saturation apply in frosted mode and on browsers using that fallback. **Glass rim intensity** adjusts the highlights in either mode. Changing the open button, close button or toolbar size also resizes its refraction map.
+
+Open and close timings are independent and use the **Motion speed** multiplier. Set the entrance delays for the toolbar and text, then reopen the reader to see the sequence. **Passage highlight time** sets how long the opening sentence stays marked.
+
+## Icon credits
+
+Functional icons come from Lucide. The bundled license includes the ISC and Feather MIT notices. [Lucide](https://lucide.dev)

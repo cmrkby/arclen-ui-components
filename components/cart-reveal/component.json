@@ -1,0 +1,735 @@
+{
+  "id": "cart-reveal",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Cart Reveal",
+  "category": "Commerce",
+  "description": "A product tile with an expandable cart, live subtotal and slide-to-confirm control.",
+  "keywords": [
+    "cart",
+    "product",
+    "quantity",
+    "subtotal",
+    "slider"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Card finish",
+      "group": "Card frame",
+      "default": "dark",
+      "options": [
+        "dark",
+        "light"
+      ]
+    },
+    {
+      "key": "title",
+      "kind": "text",
+      "label": "Product name",
+      "default": "Relay Trail 01",
+      "maxLength": 90,
+      "group": "Content"
+    },
+    {
+      "key": "brand",
+      "kind": "text",
+      "label": "Brand",
+      "default": "Arclen Footwear",
+      "maxLength": 60,
+      "group": "Content"
+    },
+    {
+      "key": "price",
+      "kind": "number",
+      "label": "Unit price (USD)",
+      "default": 59,
+      "min": 0,
+      "max": 100000,
+      "step": 0.01,
+      "group": "Content"
+    },
+    {
+      "key": "image",
+      "kind": "text",
+      "label": "Product image URL or path",
+      "default": "",
+      "maxLength": 12000000,
+      "group": "Content"
+    },
+    {
+      "key": "confirmLabel",
+      "kind": "text",
+      "label": "Confirmation button text",
+      "group": "Confirmation track",
+      "default": "Slide to confirm",
+      "maxLength": 44
+    },
+    {
+      "key": "receiptText",
+      "kind": "text",
+      "label": "Receipt message",
+      "group": "Receipt",
+      "default": "Confirmed",
+      "maxLength": 64
+    },
+    {
+      "key": "showWishlist",
+      "kind": "boolean",
+      "label": "Show wishlist button",
+      "group": "Wishlist",
+      "default": true
+    },
+    {
+      "key": "sound",
+      "kind": "boolean",
+      "label": "Play confirmation tone",
+      "default": false,
+      "group": "Receipt"
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Card corner radius",
+      "group": "Card frame",
+      "default": 34,
+      "min": 6,
+      "max": 56,
+      "step": 1
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Cart accent",
+      "group": "Quantity controls",
+      "default": "#e0182d"
+    },
+    {
+      "key": "foldSpeed",
+      "kind": "number",
+      "label": "Fold speed",
+      "group": "Motion",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "confirmSpeed",
+      "kind": "number",
+      "label": "Handle and confirmation speed",
+      "group": "Motion",
+      "default": 1,
+      "min": 0.4,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "confirmThreshold",
+      "kind": "number",
+      "label": "Required travel (%)",
+      "group": "Confirmation track",
+      "default": 92,
+      "min": 60,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "receiptDuration",
+      "kind": "number",
+      "label": "Receipt hold (ms)",
+      "group": "Receipt",
+      "default": 1750,
+      "min": 500,
+      "max": 6000,
+      "step": 50
+    },
+    {
+      "key": "cardWidth",
+      "kind": "number",
+      "label": "Card width (px)",
+      "group": "Card frame",
+      "default": 302,
+      "min": 240,
+      "max": 440,
+      "step": 1
+    },
+    {
+      "key": "framePadding",
+      "kind": "number",
+      "label": "Frame inset (px)",
+      "group": "Card frame",
+      "default": 15,
+      "min": 4,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "lightFrame",
+      "kind": "color",
+      "label": "Light frame midtone",
+      "group": "Card frame",
+      "default": "#e7e6e0"
+    },
+    {
+      "key": "darkFrame",
+      "kind": "color",
+      "label": "Dark frame midtone",
+      "group": "Card frame",
+      "default": "#222424"
+    },
+    {
+      "key": "lightText",
+      "kind": "color",
+      "label": "Light card text",
+      "group": "Card frame",
+      "default": "#242724"
+    },
+    {
+      "key": "darkText",
+      "kind": "color",
+      "label": "Dark card text",
+      "group": "Card frame",
+      "default": "#f8f6ef"
+    },
+    {
+      "key": "mediaHeight",
+      "kind": "number",
+      "label": "Image height at 272px wide (px)",
+      "group": "Product image",
+      "default": 241,
+      "min": 152,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "mediaInsetRadius",
+      "kind": "number",
+      "label": "Corner inset from frame (px)",
+      "group": "Product image",
+      "default": 9,
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "mediaBackground",
+      "kind": "color",
+      "label": "Image background",
+      "group": "Product image",
+      "default": "#ebeae7"
+    },
+    {
+      "key": "imageScale",
+      "kind": "number",
+      "label": "Product zoom (×)",
+      "group": "Product image",
+      "default": 1,
+      "min": 0.65,
+      "max": 1.6,
+      "step": 0.01
+    },
+    {
+      "key": "imageFocusX",
+      "kind": "number",
+      "label": "Product horizontal focus (%)",
+      "group": "Product image",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "imageFocusY",
+      "kind": "number",
+      "label": "Product vertical focus (%)",
+      "group": "Product image",
+      "default": 44,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "favoriteSize",
+      "kind": "number",
+      "label": "Heart button diameter (px)",
+      "group": "Wishlist",
+      "default": 38,
+      "min": 26,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "favoriteInset",
+      "kind": "number",
+      "label": "Heart button inset (px)",
+      "group": "Wishlist",
+      "default": 7,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "favoriteIcon",
+      "kind": "number",
+      "label": "Heart icon size (px)",
+      "group": "Wishlist",
+      "default": 19,
+      "min": 12,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "favoriteFill",
+      "kind": "color",
+      "label": "Heart button fill",
+      "group": "Wishlist",
+      "default": "#151515"
+    },
+    {
+      "key": "sparkSize",
+      "kind": "number",
+      "label": "Burst particle diameter (px)",
+      "group": "Wishlist",
+      "default": 6,
+      "min": 2,
+      "max": 10,
+      "step": 1
+    },
+    {
+      "key": "sparkReach",
+      "kind": "number",
+      "label": "Burst travel (px)",
+      "group": "Wishlist",
+      "default": 25,
+      "min": 10,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "detailsTop",
+      "kind": "number",
+      "label": "Space above name (px)",
+      "group": "Product details",
+      "default": 22,
+      "min": 8,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "titleSize",
+      "kind": "number",
+      "label": "Name size (px)",
+      "group": "Product details",
+      "default": 20,
+      "min": 14,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "titleWeight",
+      "kind": "number",
+      "label": "Name weight",
+      "group": "Product details",
+      "default": 600,
+      "min": 350,
+      "max": 850,
+      "step": 10
+    },
+    {
+      "key": "brandGap",
+      "kind": "number",
+      "label": "Space above brand (px)",
+      "group": "Product details",
+      "default": 6,
+      "min": 0,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "brandSize",
+      "kind": "number",
+      "label": "Brand size (px)",
+      "group": "Product details",
+      "default": 14,
+      "min": 10,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "priceGap",
+      "kind": "number",
+      "label": "Space above subtotal (px)",
+      "group": "Product details",
+      "default": 30,
+      "min": 8,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "priceSize",
+      "kind": "number",
+      "label": "Subtotal size (px)",
+      "group": "Product details",
+      "default": 38,
+      "min": 22,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "priceWeight",
+      "kind": "number",
+      "label": "Subtotal weight",
+      "group": "Product details",
+      "default": 750,
+      "min": 350,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "quantityGap",
+      "kind": "number",
+      "label": "Button spacing (px)",
+      "group": "Quantity controls",
+      "default": 7,
+      "min": 1,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "addSize",
+      "kind": "number",
+      "label": "Add button diameter (px)",
+      "group": "Quantity controls",
+      "default": 62,
+      "min": 44,
+      "max": 76,
+      "step": 1
+    },
+    {
+      "key": "addIcon",
+      "kind": "number",
+      "label": "Cart icon size (px)",
+      "group": "Quantity controls",
+      "default": 25,
+      "min": 16,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "removeSize",
+      "kind": "number",
+      "label": "Remove button diameter (px)",
+      "group": "Quantity controls",
+      "default": 36,
+      "min": 28,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "removeIcon",
+      "kind": "number",
+      "label": "Minus icon size (px)",
+      "group": "Quantity controls",
+      "default": 17,
+      "min": 12,
+      "max": 25,
+      "step": 1
+    },
+    {
+      "key": "countSize",
+      "kind": "number",
+      "label": "Count badge diameter (px)",
+      "group": "Quantity controls",
+      "default": 23,
+      "min": 18,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "countFont",
+      "kind": "number",
+      "label": "Count label size (px)",
+      "group": "Quantity controls",
+      "default": 11,
+      "min": 9,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "key": "buttonFill",
+      "kind": "color",
+      "label": "Add and thumb fill",
+      "group": "Quantity controls",
+      "default": "#ffffff"
+    },
+    {
+      "key": "buttonInk",
+      "kind": "color",
+      "label": "Add and thumb icon",
+      "group": "Quantity controls",
+      "default": "#151515"
+    },
+    {
+      "key": "trackHeight",
+      "kind": "number",
+      "label": "Track height (px)",
+      "group": "Confirmation track",
+      "default": 54,
+      "min": 44,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "trackGap",
+      "kind": "number",
+      "label": "Space above track (px)",
+      "group": "Confirmation track",
+      "default": 18,
+      "min": 6,
+      "max": 34,
+      "step": 1
+    },
+    {
+      "key": "trackRadius",
+      "kind": "number",
+      "label": "Track radius (px)",
+      "group": "Confirmation track",
+      "default": 36,
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "thumbInset",
+      "kind": "number",
+      "label": "Thumb inset (px)",
+      "group": "Confirmation track",
+      "default": 4,
+      "min": 2,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "key": "arrowSize",
+      "kind": "number",
+      "label": "Arrow and check size (px)",
+      "group": "Confirmation track",
+      "default": 20,
+      "min": 12,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "trackTextSize",
+      "kind": "number",
+      "label": "Track label size (px)",
+      "group": "Confirmation track",
+      "default": 14,
+      "min": 10,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "lightTrack",
+      "kind": "color",
+      "label": "Light track fill",
+      "group": "Confirmation track",
+      "default": "#d0d2cb"
+    },
+    {
+      "key": "darkTrack",
+      "kind": "color",
+      "label": "Dark track fill",
+      "group": "Confirmation track",
+      "default": "#353737"
+    },
+    {
+      "key": "keyboardStep",
+      "kind": "number",
+      "label": "Keyboard travel (%)",
+      "group": "Confirmation track",
+      "default": 25,
+      "min": 5,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "receiptTop",
+      "kind": "number",
+      "label": "Space above receipt (px)",
+      "group": "Receipt",
+      "default": 15,
+      "min": 4,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "receiptGap",
+      "kind": "number",
+      "label": "Receipt icon gap (px)",
+      "group": "Receipt",
+      "default": 8,
+      "min": 0,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "receiptFont",
+      "kind": "number",
+      "label": "Receipt label size (px)",
+      "group": "Receipt",
+      "default": 14,
+      "min": 10,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "receiptBadge",
+      "kind": "number",
+      "label": "Receipt badge size (px)",
+      "group": "Receipt",
+      "default": 19,
+      "min": 14,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "receiptIcon",
+      "kind": "number",
+      "label": "Receipt check size (px)",
+      "group": "Receipt",
+      "default": 12,
+      "min": 8,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "receiptFill",
+      "kind": "color",
+      "label": "Receipt badge fill",
+      "group": "Receipt",
+      "default": "#2fbf5f"
+    },
+    {
+      "key": "receiptInk",
+      "kind": "color",
+      "label": "Receipt check color",
+      "group": "Receipt",
+      "default": "#0d2e18"
+    },
+    {
+      "key": "subtotalDuration",
+      "kind": "number",
+      "label": "Subtotal roll duration (ms)",
+      "group": "Motion",
+      "default": 380,
+      "min": 80,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "textEntranceSpeed",
+      "kind": "number",
+      "label": "Text entrance speed (×)",
+      "group": "Text entrance",
+      "default": 1,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "textStagger",
+      "kind": "number",
+      "label": "Text entrance stagger (ms)",
+      "group": "Text entrance",
+      "default": 55,
+      "min": 0,
+      "max": 200,
+      "step": 5
+    },
+    {
+      "key": "confirmHold",
+      "kind": "number",
+      "label": "Order placed hold (ms)",
+      "group": "Order confirmation",
+      "default": 770,
+      "min": 100,
+      "max": 5000,
+      "step": 10
+    },
+    {
+      "key": "glowStrength",
+      "kind": "number",
+      "label": "Glow strength (%)",
+      "group": "Order confirmation",
+      "default": 24,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "glowColor",
+      "kind": "color",
+      "label": "Glow color",
+      "group": "Order confirmation",
+      "default": "#269a5a"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/relay-trail.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Original unbranded trail shoe product artwork generated for Arclen with OpenAI ImageGen, 2026."
+      },
+      "gallery": true
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Snap the cart panel, subtotal and confirmation thumb to their current states.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Product tile",
+      "settings": {}
+    }
+  ]
+}

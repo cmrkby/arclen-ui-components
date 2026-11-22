@@ -1,0 +1,170 @@
+@font-face {
+  font-family: 'Geist';
+  src: url('../assets/geist-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.tension-slider {
+  --ts-ink: #171819;
+  --ts-line: #898d90;
+  --ts-muted: #65686a;
+  --ts-signal: #d44611;
+  --ts-ground: #f5f5f5;
+  container-type: inline-size;
+  width: 100%;
+  max-width: var(--ts-wide, 670px);
+  margin-inline: auto;
+  color: var(--ts-ink);
+  font: 400 13px/1.45 'Geist', system-ui, sans-serif;
+  direction: ltr;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tension-slider[data-theme="dark"] {
+  --ts-ink: #f4f3f1;
+  --ts-line: #80858a;
+  --ts-muted: #b0b2b4;
+  --ts-ground: #171819;
+  --ts-signal: #ff8a52;
+}
+.tension-slider__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.tension-slider__fit {
+  --u: calc(100cqw / var(--ts-base, 670));
+  width: 100%;
+  height: calc((var(--ts-headroom, 110) + 96 + var(--ts-bottom, 22)) * var(--u));
+  position: relative;
+}
+.tension-slider__rail {
+  position: absolute;
+  top: calc(var(--ts-headroom, 110) * var(--u));
+  left: 0;
+  width: calc(583 * var(--u));
+  height: calc(96 * var(--u));
+  touch-action: none;
+}
+.tension-slider:not([data-pointer-focus]) input:focus-visible ~ .tension-slider__fit .tension-slider__rail {
+  outline: 2px solid var(--ts-signal);
+  outline-offset: var(--ts-focus-offset, 5px);
+  border-radius: 4px;
+}
+.tension-slider__bars {
+  position: absolute;
+  inset: 20% 0 15%;
+  touch-action: none;
+  cursor: ew-resize;
+}
+.tension-slider [data-mark] {
+  position: absolute;
+  pointer-events: none;
+  left: calc((var(--index) * var(--ts-spacing, 10) + 1.5) * var(--u));
+  top: calc(28.8 * var(--u));
+  height: calc(var(--ts-empty-height, 32) * var(--u));
+  width: max(.65px, calc(var(--ts-empty-width, 1) * var(--u)));
+  border-radius: calc(var(--ts-tick-radius, 3) * var(--u));
+  background: var(--ts-line);
+  transform: translate(-50%, -50%) rotate(calc(var(--lean, 0) * 1deg)) scaleY(var(--wake, 1));
+}
+.tension-slider [data-mark][data-filled="true"] {
+  width: calc(var(--ts-tick-width, 3) * var(--u));
+  height: calc(var(--ts-filled-height, 48) * var(--u));
+  background: var(--ts-ink);
+}
+.tension-slider__fit output {
+  position: absolute;
+  left: calc((583 + var(--ts-value-gap, 20)) * var(--u));
+  top: calc((var(--ts-headroom, 110) + 48 - var(--ts-value-size, 44) / 2) * var(--u));
+  width: calc(var(--ts-value-width, 67) * var(--u));
+  font: var(--ts-value-weight, 400) calc(var(--ts-value-size, 44) * var(--u))/1 'Geist', system-ui, sans-serif;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: calc(-1.32 * var(--u));
+  color: var(--ts-ink);
+}
+.tension-slider__grip, .tension-slider__ghost {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+}
+.tension-slider__grip {
+  left: calc(var(--ball-x) * var(--u));
+  top: calc(var(--ball-y) * var(--u));
+  width: max(28px, calc(var(--ts-grip-width, 40) * var(--u)));
+  height: max(26px, calc(var(--ts-grip-width, 40) * .9 * var(--u)));
+  cursor: grab;
+  touch-action: none;
+}
+.tension-slider[data-phase="aim"] .tension-slider__grip { cursor: grabbing; }
+.tension-slider__ball, .tension-slider__ghost {
+  width: calc(var(--ts-marker-size, 12) * var(--u));
+  height: calc(var(--ts-marker-size, 12) * var(--u));
+  box-sizing: border-box;
+  border-radius: var(--ts-marker-radius, 50%);
+}
+.tension-slider__ball {
+  background: var(--ts-signal);
+  box-shadow: inset 0 0 0 calc(1.5 * var(--u)) var(--ts-signal), inset 0 0 0 calc((1.5 + var(--ts-marker-ring, 1)) * var(--u)) color-mix(in srgb, var(--ts-ground) 48%, var(--ts-signal));
+}
+.tension-slider__ghost {
+  left: calc(var(--target-x, 0) * var(--u));
+  top: calc(var(--ts-marker-y, 10) * var(--u));
+  width: calc(var(--ts-target-size, 12) * var(--u));
+  height: calc(var(--ts-target-size, 12) * var(--u));
+  border: max(1px, var(--u)) solid var(--ts-signal);
+  color: var(--ts-signal);
+  pointer-events: none;
+  opacity: 0;
+}
+.tension-slider__ghost span {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  font: 500 max(11px, calc(12 * var(--u)))/1.2 'Geist', system-ui, sans-serif;
+}
+.tension-slider__paths { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.tension-slider__paths path { stroke: var(--ts-signal); opacity: 0; stroke-linecap: round; }
+.tension-slider[data-phase="aim"] [data-band] { opacity: var(--ts-band-opacity, .84); stroke: var(--ts-ink); stroke-width: var(--ts-band-width, 1.5); }
+.tension-slider[data-phase="aim"] [data-arc] { opacity: var(--ts-arc-opacity, .6); stroke-dasharray: var(--ts-dash, 2 3); stroke-width: var(--ts-arc-width, 1); }
+.tension-slider[data-phase="aim"] .tension-slider__ghost { opacity: 1; }
+.tension-slider[data-phase="flight"] [data-trail] { opacity: var(--ts-trail-opacity, .32); stroke-width: var(--ts-trail-width, 1); stroke-dasharray: var(--ts-dash, 2 3); }
+.tension-slider__hint {
+  width: min(var(--ts-hint-width, 279px), 100%);
+  margin: var(--ts-hint-gap, 10px) auto 0;
+  color: var(--ts-muted);
+  font: inherit;
+  font-size: var(--ts-hint-size, 13px);
+  line-height: 1.45;
+  letter-spacing: -.065px;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  text-align: var(--ts-hint-align, center);
+}
+.tension-slider__hint[hidden] { display: none; }
+
+.tension-slider__label {
+  display: block;
+  color: var(--ts-muted);
+  font-size: var(--ts-label-size, 13px);
+  overflow-wrap: anywhere;
+}
+.tension-slider__fit output::after {
+  content: attr(data-unit);
+  display: block;
+  font-size: .32em;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+.tension-slider [hidden] { display: none !important; }
+.tension-slider[data-phase="aim"][data-stretched] output { color: var(--ts-signal); }
+.tension-slider[data-phase="aim"]:not([data-stretched]) :is([data-arc], [data-band], [data-landing]) { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .tension-slider [data-mark] { transition: width 95ms ease-out, height 100ms ease-out, background-color 100ms; }
+}

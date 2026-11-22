@@ -1,0 +1,70 @@
+# Action Composer
+
+Offer five ways to start a prompt. Choose Create image, Create doc, Create slides, Analyze doc, or Create chart to set the prompt hint and action chip. The microphone adds a simulated voice draft to the current prompt.
+
+## React
+
+```tsx
+import { ActionComposer } from './components/action-composer';
+
+export function Example() {
+  return <ActionComposer theme="light" onSend={({ text, intent, model }) => {
+    console.log(text, intent, model);
+  }} />;
+}
+```
+
+Pass `theme`, `placeholder`, or `model` as individual settings. The model setting sets the initial model and applies when the prop changes. The user can select a different model in the meantime. `className` and `style` apply to the wrapper, and `paused` suspends the controls and clock. `Component` aliases `ActionComposer`.
+
+## Vanilla
+
+```ts
+import { mount } from './components/action-composer/src/core';
+import './components/action-composer/src/styles.css';
+
+const host = document.querySelector<HTMLElement>('#composer')!;
+const composer = mount(host, { theme: 'dark' }, undefined, {
+  onSend(detail) { console.log(detail); },
+});
+composer.update({ placeholder: 'What do you want to work on?' });
+// When removing the host:
+composer.destroy();
+```
+
+The bubbling `action-composer-send` event carries the same `{ text, action, intent, model }` payload as the callback. `action` is `null` when composing without a quick action. Listen to one delivery channel per application action. An application handles the submitted prompt itself.
+
+## Keyboard and voice
+
+Tab through the quick actions and form controls. Enter sends a nonempty prompt, Shift+Enter inserts a new line, and composition input keeps its own Enter key. Sending clears the draft and opens the tray. Removing the action chip keeps the draft.
+
+Cancel or Escape restores the prior draft and action tray. Stop writes the local sample into the field a few words at a time. The field is read-only until the last word arrives, then it regains focus and Send becomes available. The demo runs locally without recording audio. Reduced motion displays the complete transcript immediately and holds the waveform still.
+
+The plus, selected action chip, prompt, model picker, microphone, and send arrow share one line. Long chip labels truncate and the prompt scrolls. The plus toggles the paper actions. The model picker, voice button, and send arrow sit on the right. The six picker labels are Helium, Silicon, Neon, Titanium, Carbon and Argon. The event carries the lowercase key (for example, `silicon`). On phones and narrow hosts the picker button shows only the Lucide Brain glyph and retains the selected name for screen readers. Use the arrow keys and Enter to choose a model. Set `--ac-stage-height` on the wrapper to fit a bounded preview.
+
+## Tuning the cards
+
+The default **Satin paper** card finish adds fine grain, a lit upper edge, and a faint tint from each illustration. Lifting a card deepens its shadow. Set `cardFinish="smooth"` for the plain surface.
+
+`fanSize` adjusts the footprint of the action fan. The default is 86%, with a 250px minimum width when space allows for the labels. Illustration ink defaults to 72%. `fanTuck` drops the cards behind the fixed pill by up to 20px. The default is 9px at 634px composer width and scales down on narrower screens. Set it to 0 to restore the earlier vertical position.
+
+`fanSpread` adjusts card spacing and tilt together. `fanTravel` sets the distance a card retracts at full field width. The distance scales with the host. `fanStagger` sets the delay in milliseconds between returning cards. `motionSpeed` scales the spring’s response and the delay. The cards retain their velocity if you toggle midway. Reduced motion goes directly to the final arrangement.
+
+The five cards carry code-drawn SVG illustrations: a palette and brush, a document with a pencil, a slide deck, a magnifier over a document, and a bar chart. Each instance owns its gradient IDs. Set `artStrength` to change illustration opacity and `accent` to tint active controls. Supply five `actionLabels` in image, note, event, voice, document order. The event retains the original slot keys in `action` and includes an `intent` for routing: `create-image`, `create-doc`, `create-slides`, `analyze-doc`, or `create-chart`. A freeform prompt has a null intent. Connect the send handler to your app to execute the selected task. `voiceSample` supplies the text for simulated recording.
+
+`inputRadius` defaults to 52px, giving the default 50px-tall shell fully rounded ends. Set the shell width, height, padding, spacing and prompt type size in Composer shell. Adjustable radius follows the radius slider. Always pill and Square fix the end shape. When a control inside the prompt pill has focus, orange (#ff771a) and violet (#d152ff) highlights drift around the edge at 0.45× by default, taking about 21.3 seconds per lap. Set the two glow colors with `beamColorA` and `beamColorB`. Adjust `beamSpeed` between 0.25× and 3×. Set `beamBreathSpeed` independently between 0.25× and 3×. The default 2.2× breathing speed gives a cycle of about 2.18 seconds. `beamPulseDepth` sets the percentage drop from peak to trough, with 29% as the default and 0% for steady travel. The glow spreads farther in light mode and stays close to the edge in dark mode. Adjust `focusBeam` from 0 to 100 to set its strength (default 60%). Reduced motion keeps the colors still. `fanTilt` scales card angles independently of their spacing. At 0% the cards sit straight and still retract. `paperPalette` defaults to Arclen neutrals, using the same shell, inset and ink colors as Quick Find. Studio colors, warm Newsprint and cool Blueprint are also available. The default card tilt is 100%.
+
+With `submitOnEnter={false}`, Enter inserts a line break and the Send button submits the draft. Set it to true to restore Enter-to-send. The text field advertises the selected action to mobile keyboards.
+
+Each action has an artwork group. Size defaults to 90%, with 100% restoring the previous size. Position offsets are percentages of the illustration box. Shadow color, opacity, blur, and horizontal and vertical offsets affect the illustration itself. Zero opacity removes the cast shadow. For example, `noteArtSize={80}`, `noteArtY={-4}`, and `noteArtShadowOpacity={15}` adjust the Create doc illustration while the other four keep their settings. Custom action labels retain their original artwork controls.
+
+## Control styling
+
+Plus, Model, Voice, Send, Cancel and Stop each have controls for button size, icon size and corner radius. Enable custom colors for a button to apply its fill and icon colors. Send uses those colors when a draft is ready. Set its empty-state opacity separately. Cancel and Stop appear in the voice draft view. The button finish setting applies raised, flat or hairline styling across the controls.
+
+The Model popup group controls width, radius, option height, padding and offset. The Action chip group controls height, radius and type size. At narrow widths the model label collapses and button sizes fit the available space.
+
+## Icon credits
+
+Functional icons come from Lucide. The bundled license includes the ISC and Feather MIT notices. [Lucide](https://lucide.dev)
+
+The model menu drops below its button. The five illustrated action cards fan upward. Use the arrow keys to move through models and Escape to return focus to the trigger.

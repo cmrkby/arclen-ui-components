@@ -1,0 +1,1269 @@
+{
+  "id": "action-composer",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Action Composer",
+  "category": "Controls",
+  "description": "Five illustrated action cards retract into a single prompt field with a model picker and a local voice-draft demo.",
+  "keywords": [
+    "composer",
+    "quick actions",
+    "voice",
+    "prompt",
+    "form"
+  ],
+  "settings": [
+    {
+      "key": "theme",
+      "kind": "select",
+      "label": "Theme",
+      "default": "light",
+      "options": [
+        {
+          "label": "Graphite",
+          "value": "dark"
+        },
+        {
+          "label": "Ivory",
+          "value": "light"
+        }
+      ],
+      "group": "General"
+    },
+    {
+      "key": "placeholder",
+      "kind": "text",
+      "label": "Prompt placeholder",
+      "default": "Start with a thought…",
+      "maxLength": 120,
+      "group": "Content"
+    },
+    {
+      "key": "model",
+      "kind": "select",
+      "label": "Initial model",
+      "default": "helium",
+      "options": [
+        {
+          "label": "Helium",
+          "value": "helium"
+        },
+        {
+          "label": "Silicon",
+          "value": "silicon"
+        },
+        {
+          "label": "Neon",
+          "value": "neon"
+        },
+        {
+          "label": "Titanium",
+          "value": "titanium"
+        },
+        {
+          "label": "Carbon",
+          "value": "carbon"
+        },
+        {
+          "label": "Argon",
+          "value": "argon"
+        }
+      ],
+      "group": "General"
+    },
+    {
+      "key": "actionLabels",
+      "kind": "string-list",
+      "label": "Action labels",
+      "group": "Content",
+      "default": [
+        "Create image",
+        "Create doc",
+        "Create slides",
+        "Analyze doc",
+        "Create chart"
+      ],
+      "minItems": 5,
+      "maxItems": 5,
+      "maxItemLength": 24
+    },
+    {
+      "key": "voiceSample",
+      "kind": "text",
+      "label": "Demo transcript",
+      "group": "Content",
+      "default": "Meet me at the pier on Friday. Bring the sketches from the last walk.",
+      "maxLength": 240
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Control accent",
+      "group": "Appearance",
+      "default": "#f54e00"
+    },
+    {
+      "key": "cardFinish",
+      "kind": "select",
+      "label": "Card finish",
+      "default": "satin",
+      "options": [
+        {
+          "value": "satin",
+          "label": "Satin paper"
+        },
+        {
+          "value": "smooth",
+          "label": "Smooth"
+        }
+      ],
+      "group": "Appearance"
+    },
+    {
+      "key": "fanSize",
+      "kind": "number",
+      "label": "Card fan size (%)",
+      "default": 86,
+      "min": 75,
+      "max": 100,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "fanTuck",
+      "kind": "number",
+      "label": "Card tuck at full width (px)",
+      "default": 9,
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "group": "Appearance"
+    },
+    {
+      "key": "artStrength",
+      "kind": "number",
+      "label": "Illustration ink (%)",
+      "group": "Appearance",
+      "default": 72,
+      "min": 30,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "imageArtSize",
+      "kind": "number",
+      "label": "Artwork size (%)",
+      "default": 90,
+      "min": 50,
+      "max": 140,
+      "step": 1,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtX",
+      "kind": "number",
+      "label": "Horizontal position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtY",
+      "kind": "number",
+      "label": "Vertical position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtShadowOpacity",
+      "kind": "number",
+      "label": "Shadow opacity (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtShadowBlur",
+      "kind": "number",
+      "label": "Shadow blur (px)",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtShadowX",
+      "kind": "number",
+      "label": "Shadow horizontal offset (px)",
+      "default": 0,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtShadowY",
+      "kind": "number",
+      "label": "Shadow vertical offset (px)",
+      "default": 1.5,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create image artwork"
+    },
+    {
+      "key": "imageArtShadowColor",
+      "kind": "color",
+      "label": "Shadow color",
+      "default": "#202637",
+      "group": "Create image artwork"
+    },
+    {
+      "key": "noteArtSize",
+      "kind": "number",
+      "label": "Artwork size (%)",
+      "default": 90,
+      "min": 50,
+      "max": 140,
+      "step": 1,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtX",
+      "kind": "number",
+      "label": "Horizontal position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtY",
+      "kind": "number",
+      "label": "Vertical position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtShadowOpacity",
+      "kind": "number",
+      "label": "Shadow opacity (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtShadowBlur",
+      "kind": "number",
+      "label": "Shadow blur (px)",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtShadowX",
+      "kind": "number",
+      "label": "Shadow horizontal offset (px)",
+      "default": 0,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtShadowY",
+      "kind": "number",
+      "label": "Shadow vertical offset (px)",
+      "default": 1.5,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "noteArtShadowColor",
+      "kind": "color",
+      "label": "Shadow color",
+      "default": "#202637",
+      "group": "Create doc artwork"
+    },
+    {
+      "key": "eventArtSize",
+      "kind": "number",
+      "label": "Artwork size (%)",
+      "default": 90,
+      "min": 50,
+      "max": 140,
+      "step": 1,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtX",
+      "kind": "number",
+      "label": "Horizontal position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtY",
+      "kind": "number",
+      "label": "Vertical position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtShadowOpacity",
+      "kind": "number",
+      "label": "Shadow opacity (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtShadowBlur",
+      "kind": "number",
+      "label": "Shadow blur (px)",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtShadowX",
+      "kind": "number",
+      "label": "Shadow horizontal offset (px)",
+      "default": 0,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtShadowY",
+      "kind": "number",
+      "label": "Shadow vertical offset (px)",
+      "default": 1.5,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "eventArtShadowColor",
+      "kind": "color",
+      "label": "Shadow color",
+      "default": "#202637",
+      "group": "Create slides artwork"
+    },
+    {
+      "key": "voiceArtSize",
+      "kind": "number",
+      "label": "Artwork size (%)",
+      "default": 90,
+      "min": 50,
+      "max": 140,
+      "step": 1,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtX",
+      "kind": "number",
+      "label": "Horizontal position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtY",
+      "kind": "number",
+      "label": "Vertical position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtShadowOpacity",
+      "kind": "number",
+      "label": "Shadow opacity (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtShadowBlur",
+      "kind": "number",
+      "label": "Shadow blur (px)",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtShadowX",
+      "kind": "number",
+      "label": "Shadow horizontal offset (px)",
+      "default": 0,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtShadowY",
+      "kind": "number",
+      "label": "Shadow vertical offset (px)",
+      "default": 1.5,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "voiceArtShadowColor",
+      "kind": "color",
+      "label": "Shadow color",
+      "default": "#202637",
+      "group": "Analyze doc artwork"
+    },
+    {
+      "key": "docsArtSize",
+      "kind": "number",
+      "label": "Artwork size (%)",
+      "default": 90,
+      "min": 50,
+      "max": 140,
+      "step": 1,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtX",
+      "kind": "number",
+      "label": "Horizontal position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtY",
+      "kind": "number",
+      "label": "Vertical position (%)",
+      "default": 0,
+      "min": -35,
+      "max": 35,
+      "step": 1,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtShadowOpacity",
+      "kind": "number",
+      "label": "Shadow opacity (%)",
+      "default": 18,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtShadowBlur",
+      "kind": "number",
+      "label": "Shadow blur (px)",
+      "default": 2,
+      "min": 0,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtShadowX",
+      "kind": "number",
+      "label": "Shadow horizontal offset (px)",
+      "default": 0,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtShadowY",
+      "kind": "number",
+      "label": "Shadow vertical offset (px)",
+      "default": 1.5,
+      "min": -10,
+      "max": 10,
+      "step": 0.5,
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "docsArtShadowColor",
+      "kind": "color",
+      "label": "Shadow color",
+      "default": "#202637",
+      "group": "Create chart artwork"
+    },
+    {
+      "key": "fanTravel",
+      "kind": "number",
+      "label": "Retraction at full width (px)",
+      "group": "Fan motion",
+      "default": 152,
+      "min": 140,
+      "max": 220,
+      "step": 1
+    },
+    {
+      "key": "fanSpread",
+      "kind": "number",
+      "label": "Spread (%)",
+      "group": "Fan motion",
+      "default": 100,
+      "min": 66,
+      "max": 108,
+      "step": 1
+    },
+    {
+      "key": "fanStagger",
+      "kind": "number",
+      "label": "Return stagger (ms)",
+      "group": "Fan motion",
+      "default": 45,
+      "min": 0,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "motionSpeed",
+      "kind": "number",
+      "label": "Fan speed (×)",
+      "group": "Fan motion",
+      "default": 1,
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "inputRadius",
+      "kind": "number",
+      "label": "Input corner radius (px)",
+      "group": "Composer shell",
+      "default": 52,
+      "min": 0,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "shellShape",
+      "kind": "select",
+      "label": "Shell shape",
+      "group": "Composer shell",
+      "default": "adjustable",
+      "options": [
+        {
+          "label": "Adjustable radius",
+          "value": "adjustable"
+        },
+        {
+          "label": "Always pill",
+          "value": "pill"
+        },
+        {
+          "label": "Square",
+          "value": "square"
+        }
+      ]
+    },
+    {
+      "key": "shellWidth",
+      "kind": "number",
+      "label": "Maximum shell width (px)",
+      "group": "Composer shell",
+      "default": 634,
+      "min": 260,
+      "max": 1000,
+      "step": 1
+    },
+    {
+      "key": "shellHeight",
+      "kind": "number",
+      "label": "Shell height (px)",
+      "group": "Composer shell",
+      "default": 50,
+      "min": 40,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "shellPadding",
+      "kind": "number",
+      "label": "Horizontal padding (px)",
+      "group": "Composer shell",
+      "default": 8,
+      "min": 4,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "controlGap",
+      "kind": "number",
+      "label": "Control spacing (px)",
+      "group": "Composer shell",
+      "default": 6,
+      "min": 2,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "key": "promptSize",
+      "kind": "number",
+      "label": "Prompt type size (px)",
+      "group": "Composer shell",
+      "default": 14.5,
+      "min": 11,
+      "max": 20,
+      "step": 0.5
+    },
+    {
+      "key": "shellLight",
+      "kind": "color",
+      "label": "Light shell fill",
+      "group": "Composer shell",
+      "default": "#ffffff"
+    },
+    {
+      "key": "shellDark",
+      "kind": "color",
+      "label": "Dark shell fill",
+      "group": "Composer shell",
+      "default": "#2a2a2a"
+    },
+    {
+      "key": "buttonFinish",
+      "kind": "select",
+      "label": "Button finish",
+      "group": "Composer shell",
+      "default": "raised",
+      "options": [
+        {
+          "label": "Raised",
+          "value": "raised"
+        },
+        {
+          "label": "Flat",
+          "value": "flat"
+        },
+        {
+          "label": "Hairline",
+          "value": "outline"
+        }
+      ]
+    },
+    {
+      "key": "menuWidth",
+      "kind": "number",
+      "label": "Popup width (px)",
+      "group": "Model popup",
+      "default": 244,
+      "min": 160,
+      "max": 340,
+      "step": 1
+    },
+    {
+      "key": "menuRadius",
+      "kind": "number",
+      "label": "Popup radius (px)",
+      "group": "Model popup",
+      "default": 12,
+      "min": 0,
+      "max": 26,
+      "step": 1
+    },
+    {
+      "key": "menuRowHeight",
+      "kind": "number",
+      "label": "Minimum option height (px)",
+      "group": "Model popup",
+      "default": 42,
+      "min": 34,
+      "max": 58,
+      "step": 1
+    },
+    {
+      "key": "menuPadding",
+      "kind": "number",
+      "label": "Popup padding (px)",
+      "group": "Model popup",
+      "default": 6,
+      "min": 2,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "key": "menuGap",
+      "kind": "number",
+      "label": "Popup offset (px)",
+      "group": "Model popup",
+      "default": 6,
+      "min": 2,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "chipHeight",
+      "kind": "number",
+      "label": "Chip height (px)",
+      "group": "Action chip",
+      "default": 28,
+      "min": 20,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "chipRadius",
+      "kind": "number",
+      "label": "Chip radius (px)",
+      "group": "Action chip",
+      "default": 14,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "chipTypeSize",
+      "kind": "number",
+      "label": "Chip type size (px)",
+      "group": "Action chip",
+      "default": 12,
+      "min": 10,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "plusSize",
+      "kind": "number",
+      "label": "Plus button size (px)",
+      "group": "Plus button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "plusIconSize",
+      "kind": "number",
+      "label": "Plus icon size (px)",
+      "group": "Plus button",
+      "default": 16,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "plusRadius",
+      "kind": "number",
+      "label": "Plus button radius (px)",
+      "group": "Plus button",
+      "default": 24,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "plusCustomColors",
+      "kind": "boolean",
+      "label": "Plus custom colors",
+      "group": "Plus button",
+      "default": false
+    },
+    {
+      "key": "plusFill",
+      "kind": "color",
+      "label": "Plus button fill",
+      "group": "Plus button",
+      "default": "#f1f1f1"
+    },
+    {
+      "key": "plusInk",
+      "kind": "color",
+      "label": "Plus icon color",
+      "group": "Plus button",
+      "default": "#171717"
+    },
+    {
+      "key": "modelSize",
+      "kind": "number",
+      "label": "Model button size (px)",
+      "group": "Model button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "modelIconSize",
+      "kind": "number",
+      "label": "Model icon size (px)",
+      "group": "Model button",
+      "default": 14,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "modelRadius",
+      "kind": "number",
+      "label": "Model button radius (px)",
+      "group": "Model button",
+      "default": 54,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "modelCustomColors",
+      "kind": "boolean",
+      "label": "Model custom colors",
+      "group": "Model button",
+      "default": false
+    },
+    {
+      "key": "modelFill",
+      "kind": "color",
+      "label": "Model button fill",
+      "group": "Model button",
+      "default": "#f1f1f1"
+    },
+    {
+      "key": "modelInk",
+      "kind": "color",
+      "label": "Model icon color",
+      "group": "Model button",
+      "default": "#171717"
+    },
+    {
+      "key": "voiceSize",
+      "kind": "number",
+      "label": "Voice button size (px)",
+      "group": "Voice button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "voiceIconSize",
+      "kind": "number",
+      "label": "Voice icon size (px)",
+      "group": "Voice button",
+      "default": 16,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "voiceRadius",
+      "kind": "number",
+      "label": "Voice button radius (px)",
+      "group": "Voice button",
+      "default": 24,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "voiceCustomColors",
+      "kind": "boolean",
+      "label": "Voice custom colors",
+      "group": "Voice button",
+      "default": false
+    },
+    {
+      "key": "voiceFill",
+      "kind": "color",
+      "label": "Voice button fill",
+      "group": "Voice button",
+      "default": "#f1f1f1"
+    },
+    {
+      "key": "voiceInk",
+      "kind": "color",
+      "label": "Voice icon color",
+      "group": "Voice button",
+      "default": "#171717"
+    },
+    {
+      "key": "sendSize",
+      "kind": "number",
+      "label": "Send button size (px)",
+      "group": "Send button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "sendIconSize",
+      "kind": "number",
+      "label": "Send icon size (px)",
+      "group": "Send button",
+      "default": 16,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "sendRadius",
+      "kind": "number",
+      "label": "Send button radius (px)",
+      "group": "Send button",
+      "default": 24,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "sendCustomColors",
+      "kind": "boolean",
+      "label": "Send custom colors",
+      "group": "Send button",
+      "default": false
+    },
+    {
+      "key": "sendFill",
+      "kind": "color",
+      "label": "Send button fill",
+      "group": "Send button",
+      "default": "#ffffff"
+    },
+    {
+      "key": "sendInk",
+      "kind": "color",
+      "label": "Send icon color",
+      "group": "Send button",
+      "default": "#0d0d0d"
+    },
+    {
+      "key": "cancelSize",
+      "kind": "number",
+      "label": "Cancel button size (px)",
+      "group": "Cancel button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "cancelIconSize",
+      "kind": "number",
+      "label": "Cancel icon size (px)",
+      "group": "Cancel button",
+      "default": 16,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "cancelRadius",
+      "kind": "number",
+      "label": "Cancel button radius (px)",
+      "group": "Cancel button",
+      "default": 10,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "cancelCustomColors",
+      "kind": "boolean",
+      "label": "Cancel custom colors",
+      "group": "Cancel button",
+      "default": false
+    },
+    {
+      "key": "cancelFill",
+      "kind": "color",
+      "label": "Cancel button fill",
+      "group": "Cancel button",
+      "default": "#f1f1f1"
+    },
+    {
+      "key": "cancelInk",
+      "kind": "color",
+      "label": "Cancel icon color",
+      "group": "Cancel button",
+      "default": "#171717"
+    },
+    {
+      "key": "stopSize",
+      "kind": "number",
+      "label": "Stop button size (px)",
+      "group": "Stop button",
+      "default": 32,
+      "min": 24,
+      "max": 44,
+      "step": 1
+    },
+    {
+      "key": "stopIconSize",
+      "kind": "number",
+      "label": "Stop icon size (px)",
+      "group": "Stop button",
+      "default": 16,
+      "min": 12,
+      "max": 22,
+      "step": 1
+    },
+    {
+      "key": "stopRadius",
+      "kind": "number",
+      "label": "Stop button radius (px)",
+      "group": "Stop button",
+      "default": 24,
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "stopCustomColors",
+      "kind": "boolean",
+      "label": "Stop custom colors",
+      "group": "Stop button",
+      "default": false
+    },
+    {
+      "key": "stopFill",
+      "kind": "color",
+      "label": "Stop button fill",
+      "group": "Stop button",
+      "default": "#ff453a"
+    },
+    {
+      "key": "stopInk",
+      "kind": "color",
+      "label": "Stop icon color",
+      "group": "Stop button",
+      "default": "#ffffff"
+    },
+    {
+      "key": "modelTypeSize",
+      "kind": "number",
+      "label": "Model label size (px)",
+      "group": "Model button",
+      "default": 12,
+      "min": 10,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "showModelName",
+      "kind": "boolean",
+      "label": "Show model name when space allows",
+      "group": "Model button",
+      "default": true
+    },
+    {
+      "key": "disabledSendOpacity",
+      "kind": "number",
+      "label": "Empty send button opacity (%)",
+      "group": "Send button",
+      "default": 100,
+      "min": 20,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "focusBeam",
+      "kind": "number",
+      "label": "Focus beam strength (%)",
+      "group": "Focus beam",
+      "default": 60,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beamColorA",
+      "kind": "color",
+      "label": "First beam color",
+      "group": "Focus beam",
+      "default": "#ff771a"
+    },
+    {
+      "key": "beamColorB",
+      "kind": "color",
+      "label": "Second beam color",
+      "group": "Focus beam",
+      "default": "#d152ff"
+    },
+    {
+      "key": "beamSpeed",
+      "kind": "number",
+      "label": "Beam travel speed (×)",
+      "group": "Focus beam",
+      "default": 0.45,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "beamBreathSpeed",
+      "kind": "number",
+      "label": "Beam breathing speed (×)",
+      "group": "Focus beam",
+      "default": 2.2,
+      "min": 0.25,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "beamPulseDepth",
+      "kind": "number",
+      "label": "Beam pulse depth (%)",
+      "group": "Focus beam",
+      "default": 29,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "fanTilt",
+      "kind": "number",
+      "label": "Card tilt (%)",
+      "group": "Fan motion",
+      "default": 100,
+      "min": 0,
+      "max": 165,
+      "step": 1
+    },
+    {
+      "key": "paperPalette",
+      "kind": "select",
+      "label": "Paper stock",
+      "group": "Appearance",
+      "default": "arclen",
+      "options": [
+        {
+          "label": "Arclen neutrals",
+          "value": "arclen"
+        },
+        {
+          "label": "Studio colors",
+          "value": "studio"
+        },
+        {
+          "label": "Newsprint",
+          "value": "newsprint"
+        },
+        {
+          "label": "Blueprint",
+          "value": "blueprint"
+        }
+      ]
+    },
+    {
+      "key": "submitOnEnter",
+      "kind": "boolean",
+      "label": "Send on Enter",
+      "group": "General",
+      "default": true
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Change states immediately, show a static focus beam, and keep the simulated voice waveform still.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Ivory",
+      "settings": {
+        "theme": "light",
+        "placeholder": "Start with a thought…",
+        "model": "silicon"
+      }
+    },
+    {
+      "name": "Graphite",
+      "settings": {
+        "theme": "dark",
+        "placeholder": "Start with a thought…",
+        "model": "helium"
+      }
+    }
+  ]
+}
