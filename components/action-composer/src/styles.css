@@ -33,6 +33,8 @@
   height: var(--ac-stage-height, clamp(340px, 73svh, 900px));
   min-height: 290px;
   container: ac-stage / inline-size;
+  /* Keep the beam halo and fan inside the page width while menus can open below. */
+  overflow-x: clip;
   display: grid;
   place-items: center;
   isolation: isolate;
