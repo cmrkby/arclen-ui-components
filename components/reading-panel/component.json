@@ -1,6 +1,6 @@
 {
   "id": "reading-panel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "tier": "free",
   "name": "Reading Panel",
   "category": "Content",
@@ -29,6 +29,23 @@
         }
       ],
       "group": "General"
+    },
+    {
+      "key": "background",
+      "kind": "select",
+      "label": "Background",
+      "group": "General",
+      "default": "gradient",
+      "options": [
+        {
+          "label": "Ember–violet gradient",
+          "value": "gradient"
+        },
+        {
+          "label": "Coastal dusk",
+          "value": "coastal"
+        }
+      ]
     },
     {
       "key": "backgroundGlow",
@@ -958,6 +975,15 @@
         "kind": "licensed",
         "license": "SIL Open Font License 1.1",
         "attribution": "The Geist Project Authors. See assets/OFL-Geist-Serif.txt."
+      }
+    },
+    {
+      "path": "assets/coastal-dusk.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI. Generated with OpenAI ImageGen for Reading Panel."
       }
     }
   ],

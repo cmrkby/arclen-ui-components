@@ -17,11 +17,11 @@
   --cd-clay: var(--cd-light-base);
   --cd-rim: white;
   --cd-rim-mid: #ffffff66;
-  --cd-shadow: 0 0 0 1px rgb(40 25 10 / 6%), 0 1px 2px rgb(40 25 10 / 6%), 0 40px 70px -35px rgb(80 45 20 / 45%);
+  --cd-shadow: 0 0 0 1px rgb(22 24 28 / 9%), 0 2px 4px rgb(22 24 28 / 5%), 0 18px 36px -22px rgb(22 24 28 / 29%);
   --cd-gain: .5;
   --cd-wash-gain: .78;
-  --cd-wash-filter: blur(2cqw) saturate(.88) brightness(1.1);
-  --cd-hint: rgb(20 20 20 / 50%);
+  --cd-wash-filter: blur(1.5cqw);
+  --cd-hint: #000;
   --cd-separation: rgb(53 35 26 / 34%);
   box-sizing: border-box;
   width: min(var(--cd-size, 340px), 80vw, 100%);
@@ -51,6 +51,7 @@
   box-sizing: border-box;
 }
 .cd-instrument {
+  display: block;
   position: relative;
   isolation: isolate;
   container-type: inline-size;
@@ -118,19 +119,27 @@
   overflow: hidden;
   border-radius: inherit;
 }
+.cd-shell:is([data-mode='dimmer'], [data-mode='site-audit']) .cd-heat {
+  --cd-hotspot: color-mix(in srgb, var(--cd-tip) 78%, white);
+}
 .cd-wash {
   position: absolute;
   inset: 0;
   --cd-bright: calc(var(--cd-glow) * var(--cd-wash-gain));
   opacity: var(--cd-bright);
   background:
-    radial-gradient(62% 22% at 50% 102%, #fff3d2, color-mix(in srgb, var(--cd-tip) 80%, transparent) 40%, transparent 80%),
+    radial-gradient(62% 22% at 50% 102%, var(--cd-hotspot, #fff3d2), color-mix(in srgb, var(--cd-tip) 80%, transparent) 40%, transparent 80%),
     linear-gradient(to top, var(--cd-tip), rgb(var(--cd-rgb)) 8%, var(--cd-deep) 19%, color-mix(in srgb, var(--cd-deep) 38%, transparent) 29%, transparent 40%);
   filter: var(--cd-wash-filter);
   transform-origin: center bottom;
-  --cd-height: calc(var(--cd-rise) * (1 + sin(var(--cd-phase)) * var(--cd-pulse-depth)));
+  --cd-height: calc(var(--cd-rise) * (1 + sin(var(--cd-phase)) * var(--cd-pulse-depth)) + var(--cd-rise-offset, 0));
   transform: scaleY(var(--cd-height));
   transform: scaleY(round(nearest, var(--cd-height), .0001));
+}
+.cd-shell[data-theme='light'] .cd-wash {
+  background:
+    radial-gradient(ellipse 66% 37% at 50% 110%, var(--cd-tip) 6%, rgb(var(--cd-rgb) / 75%) 58%, transparent 100%),
+    radial-gradient(ellipse 90% 52% at 50% 117%, rgb(var(--cd-rgb) / 55%) 12%, rgb(var(--cd-rgb) / 20%) 65%, transparent);
 }
 .cd-wall {
   position: absolute;
@@ -162,13 +171,38 @@
   font-weight: var(--cd-season-weight);
   letter-spacing: var(--cd-season-tracking);
 }
-.cd-season span {
-  display: inline-block;
-  background: var(--cd-label);
-  background-clip: text;
-  color: transparent;
+/* Centre the taller icon artwork on the label line, with clearance for the tick arc. */
+.cd-shell:is([data-mode='dimmer'], [data-mode='heart-rate']) .cd-season:not([hidden]) {
+  top: calc(var(--cd-season-top) - .12em);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1em;
 }
-.cd-season:not(:has(span)) {
+.cd-bulb,
+.cd-heart {
+  display: block;
+  color: rgb(var(--cd-rgb));
+  margin-inline: auto;
+}
+/* The outline stays visible when the light is off. */
+.cd-bulb {
+  width: 1.55em;
+  height: 1.55em;
+  color: color-mix(in srgb, rgb(var(--cd-rgb)) calc(var(--cd-progress) * 100%), var(--cd-ink));
+  opacity: calc(.34 + .66 * var(--cd-progress));
+  filter: drop-shadow(0 0 calc(.14em * var(--cd-progress)) rgb(var(--cd-rgb) / calc(.75 * var(--cd-progress))));
+}
+.cd-heart {
+  width: var(--cd-heart-size);
+  height: var(--cd-heart-size);
+  transform-origin: center;
+}
+.cd-season span {
+  white-space: pre;
+  display: inline-block;
+}
+.cd-shell[data-mode='climate'][data-theme='dark'] :is(.cd-season span, .cd-season:not(:has(span))) {
   background: var(--cd-label);
   background-clip: text;
   color: transparent;
@@ -242,8 +276,7 @@
   min-width: 0.52em;
   text-align: center;
 }
-.cd-sign,
-.cd-lead .cd-drum {
+.cd-shell[data-theme='dark'] :is(.cd-sign, .cd-lead .cd-drum) {
   background-image: var(--cd-leading);
   background-clip: text;
   color: transparent;
@@ -251,6 +284,20 @@
 .cd-unit { filter: drop-shadow(-.6cqw 0 1.2cqw var(--cd-separation)); }
 .cd-unit .cd-drum {
   color: var(--cd-digit-color);
+}
+.cd-shell:is([data-mode='heart-rate'], [data-mode='dimmer']) .cd-reading {
+  font-size: calc(var(--cd-reading-size) * .7);
+  display: inline-flex;
+  align-items: flex-start;
+}
+.cd-shell:not([data-mode='climate']) .cd-degree,
+.cd-suffix:empty { display: none; }
+.cd-suffix {
+  margin: .65em 0 0 .2em;
+  font-size: .25em;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: var(--cd-letter-mid);
 }
 .cd-degree {
   position: absolute;
@@ -265,6 +312,13 @@
   border-radius: 50%;
   opacity: var(--cd-degree-alpha);
 }
+/* In light mode the glow carries the accent and the entire readout uses black ink. */
+.cd-shell[data-theme='light'] :is(.cd-season, .cd-reading, .cd-drum, .cd-suffix, .cd-bulb, .cd-heart, .cd-audit-hint, .cd-audit-finding) {
+  color: #000;
+}
+.cd-shell[data-theme='light'] .cd-unit { filter: none; }
+.cd-shell[data-theme='light'] .cd-degree { background: currentColor; }
+.cd-shell[data-theme='light'] .cd-audit-hint svg { opacity: 1; }
 .cd-band--bottom {
   margin-top: min(17.6vw, var(--cd-hint-gap));
   text-align: center;
@@ -302,8 +356,20 @@
   .cd-shell:not([data-static]) .cd-season[data-motion='out'] span {
     animation: cd-letter-out calc(.13s / var(--cd-speed)) calc(var(--cd-letter) * .012s / var(--cd-speed)) both;
   }
-  .cd-shell[data-pulsing] :is(.cd-bloom, .cd-wash) {
+  .cd-shell:is([data-mode='climate'], [data-mode='site-audit'])[data-pulsing] :is(.cd-bloom, .cd-wash) {
     animation: cd-breathe var(--cd-pulse-period) linear infinite;
+  }
+  .cd-shell[data-heart-beat] .cd-heart {
+    animation: cd-heartbeat var(--cd-beat-period) cubic-bezier(.2,.65,.34,1) infinite;
+  }
+  .cd-shell[data-heart-beat] :is(.cd-bloom, .cd-wash) {
+    animation: cd-beat-phase var(--cd-beat-period) linear infinite;
+  }
+  .cd-shell[data-heart-beat] .cd-bloom {
+    --cd-pulse-depth: var(--cd-beat-depth);
+  }
+  .cd-shell[data-heart-beat] .cd-wash {
+    --cd-pulse-depth: calc(.2 * var(--cd-beat-depth));
   }
   .cd-shell[data-mounted]:not([data-static]) .cd-instrument {
     animation: cd-heat-arrive calc(1.4s / var(--cd-speed)) calc(.3s / var(--cd-speed)) ease-out backwards;
@@ -328,6 +394,15 @@
 }
 @keyframes cd-letter-out {
   to { opacity: 0; transform: translateY(-.22em); filter: blur(5px); }
+}
+@keyframes cd-heartbeat {
+  0%, 100% { transform: scale(var(--cd-heart-scale)); }
+  42%, 88% { transform: scale(1); }
+}
+/* Peak on the heartbeat, using the same base light and brightness curve as Climate. */
+@keyframes cd-beat-phase {
+  from { --cd-phase: .25turn; }
+  to { --cd-phase: 1.25turn; }
 }
 @keyframes cd-breathe {
   from { --cd-phase: 0turn; }
@@ -362,3 +437,56 @@
     transform: none;
   }
 }
+
+/* The summary owns disclosure interaction. Its instrument uses the same face as Climate. */
+.cd-audit { container-type: inline-size; width: min(100%, 680px); }
+.cd-audit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 16px;
+}
+.cd-audit-tile { min-width: 0; --cd-caption-inset: clamp(8px, 1.8cqw, 14px); }
+.cd-audit-tile summary { display: block; list-style: none; cursor: pointer; }
+.cd-audit-tile summary::-webkit-details-marker { display: none; }
+.cd-audit-tile .cd-face { cursor: pointer; touch-action: manipulation; }
+.cd-audit-tile summary:focus-visible { outline: none; }
+.cd-audit-tile summary:focus-visible .cd-face { outline: 3px solid rgb(var(--cd-rgb)); outline-offset: 3px; }
+.cd-audit-label { margin-inline: 9%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cd-audit-three-digits { font-size: calc(var(--cd-reading-size) * .76); }
+.cd-audit-hint {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 22px var(--cd-caption-inset) 0;
+  padding-block: 10px;
+  border-top: 1px solid color-mix(in srgb, var(--cd-ink) 18%, transparent);
+  color: var(--cd-ink);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -.015em;
+}
+.cd-audit-hint svg { flex: none; opacity: .65; }
+.cd-audit-tile[open] .cd-audit-hint svg { transform: rotate(180deg); }
+.cd-audit-tile summary:focus-visible .cd-audit-hint { text-decoration: underline; text-underline-offset: .2em; }
+.cd-audit-finding {
+  position: relative;
+  margin: 0 var(--cd-caption-inset);
+  color: color-mix(in srgb, var(--cd-ink) 84%, transparent);
+  font: 400 14px/1.55 Geist, system-ui, sans-serif;
+  text-align: start;
+  text-wrap: pretty;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+@container (max-width: 459px) {
+  .cd-audit-grid { grid-template-columns: minmax(0, min(100%, var(--cd-size))); justify-content: center; gap: 24px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .cd-audit-hint svg { transition: transform 160ms ease-out; }
+  .cd-audit-tile[open] .cd-audit-finding { animation: cd-audit-enter 160ms ease-out; }
+}
+@keyframes cd-audit-enter { from { opacity: 0; transform: translateY(-3px); } }

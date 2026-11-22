@@ -607,7 +607,7 @@ export function mount(host: HTMLElement, input: unknown = defaults, id = nextId(
       return;
     }
     const data = el.dataset;
-    if ('close' in data) { closePanel(true); return; }
+    if ('close' in data) { closePanel(!!opener || root.contains(doc.activeElement)); return; }
     if (!opened) return;
     if ('option' in data) { pick(matches[Number(data.option)]); return; }
     if ('remove' in data) recents = recents.filter(item => item.id !== matches[Number(data.remove)]?.id);

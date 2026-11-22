@@ -1,8 +1,39 @@
+import { auditText, renderAudit, updateAudit } from './site-audit';
 import manifest from '../../component.json';
 
 export type Season = 'Winter' | 'Spring' | 'Summer' | 'Autumn';
 
-export interface Settings {
+export type DialMode = 'climate' | 'dimmer' | 'heart-rate';
+
+type NumericSettings = SharedSettings & { mode: DialMode };
+export type Settings = NumericSettings | (SharedSettings & { mode: 'site-audit' });
+
+interface SharedSettings {
+  auditEmberColor: string;
+  auditEmberStart: number;
+  auditYellowColor: string;
+  auditYellowStart: number;
+  auditGreenColor: string;
+  auditGreenStart: number;
+  performanceLabel: string;
+  performanceScore: number;
+  performanceFinding: string;
+  accessibilityLabel: string;
+  accessibilityScore: number;
+  accessibilityFinding: string;
+  seoLabel: string;
+  seoScore: number;
+  seoFinding: string;
+  brightness: number;
+  bpm: number;
+  beatDepth: number;
+  heartGlowRise: number;
+  heartIconSize: number;
+  heartPulseAmount: number;
+  dimmerGlowColor: string;
+  lowRateColor: string;
+  midRateColor: string;
+  highRateColor: string;
   faceRadius: number;
   rimWidth: number;
   lightTop: string;
@@ -66,6 +97,7 @@ export interface Settings {
 
 export interface MountOptions {
   paused?: boolean;
+  onDialChange?: (value: number, mode: DialMode) => void;
   onValueChange?: (value: number, season: Season) => void;
 }
 
@@ -81,14 +113,40 @@ export const defaults = Object.fromEntries(
   manifest.settings.map(({ key, default: value }) => [key, value]),
 ) as unknown as Settings;
 
-const minimum = -9;
-const maximum = 70;
+const modes = {
+  climate: { min: -9, max: 70, key: 'value', name: 'Temperature', suffix: '', hint: 'Turn the dial to adjust temperature' },
+  dimmer: { min: 0, max: 100, key: 'brightness', name: 'Brightness', suffix: '%', hint: 'Turn the dial to dim or brighten the light' },
+  'heart-rate': { min: 40, max: 200, key: 'bpm', name: 'Heart rate', suffix: 'BPM', hint: 'Turn the dial to adjust heart rate' },
+} as const;
+
+// Lucide outlines. See assets/Lucide-LICENSE.txt.
+const iconPaths = {
+  'heart-rate': '<path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"/>',
+  dimmer: '<path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/>',
+};
+
+function labelIcon(mode: keyof typeof iconPaths) {
+  const iconClass = mode === 'dimmer' ? 'cd-bulb' : 'cd-heart';
+  return `<svg class="${iconClass}" data-icon="${mode}" viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${iconPaths[mode]}</svg>`;
+}
+
+function caption(value: number, mode: DialMode) {
+  return mode === 'climate' ? seasonOf(value) : '';
+}
+
+function hintFor(s: NumericSettings) {
+  return s.hintText === defaults.hintText ? modes[s.mode].hint : s.hintText;
+}
 const sweep = 230;
 const firstAngle = -sweep / 2;
 const tickCount = 96;
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
-const progressOf = (value: number) => (value - minimum) / (maximum - minimum);
+function progressOf(value: number, mode: Settings['mode'] = 'climate') {
+  if (mode === 'site-audit') return value / 100;
+  const { min, max } = modes[mode];
+  return (value - min) / (max - min);
+}
 const degrees = (progress: number) => firstAngle + sweep * progress;
 
 function seasonOf(value: number): Season {
@@ -98,7 +156,9 @@ function seasonOf(value: number): Season {
   return 'Summer';
 }
 
-function valueLabel(value: number) {
+function valueLabel(value: number, mode: DialMode) {
+  if (mode === 'dimmer') return `${value}% brightness`;
+  if (mode === 'heart-rate') return `${value} beats per minute`;
   return `${value} degrees Celsius, ${seasonOf(value)}`;
 }
 
@@ -115,9 +175,37 @@ function color(value: unknown, fallback: string) {
 export function resolveSettings(input: unknown = {}): Settings {
   const raw =
     input && typeof input === 'object' && !Array.isArray(input)
-      ? (input as Partial<Settings>)
+      ? (input as Partial<Omit<Settings, 'mode'>> & { mode?: unknown })
       : {};
   return {
+    mode: raw.mode === 'site-audit' || raw.mode === 'dimmer' || raw.mode === 'climate'
+      ? raw.mode
+      : 'heart-rate',
+    auditEmberColor: color(raw.auditEmberColor, defaults.auditEmberColor),
+    auditEmberStart: Math.round(bounded(raw.auditEmberStart, defaults.auditEmberStart, 0, 100)),
+    auditYellowColor: color(raw.auditYellowColor, defaults.auditYellowColor),
+    auditYellowStart: Math.round(bounded(raw.auditYellowStart, defaults.auditYellowStart, 0, 100)),
+    auditGreenColor: color(raw.auditGreenColor, defaults.auditGreenColor),
+    auditGreenStart: Math.round(bounded(raw.auditGreenStart, defaults.auditGreenStart, 0, 100)),
+    performanceLabel: auditText(raw.performanceLabel, defaults.performanceLabel, 48),
+    performanceScore: Math.round(bounded(raw.performanceScore, defaults.performanceScore, 0, 100)),
+    performanceFinding: auditText(raw.performanceFinding, defaults.performanceFinding, 320),
+    accessibilityLabel: auditText(raw.accessibilityLabel, defaults.accessibilityLabel, 48),
+    accessibilityScore: Math.round(bounded(raw.accessibilityScore, defaults.accessibilityScore, 0, 100)),
+    accessibilityFinding: auditText(raw.accessibilityFinding, defaults.accessibilityFinding, 320),
+    seoLabel: auditText(raw.seoLabel, defaults.seoLabel, 48),
+    seoScore: Math.round(bounded(raw.seoScore, defaults.seoScore, 0, 100)),
+    seoFinding: auditText(raw.seoFinding, defaults.seoFinding, 320),
+    brightness: Math.round(bounded(raw.brightness, defaults.brightness, modes.dimmer.min, modes.dimmer.max)),
+    bpm: Math.round(bounded(raw.bpm, defaults.bpm, modes['heart-rate'].min, modes['heart-rate'].max)),
+    dimmerGlowColor: color(raw.dimmerGlowColor, defaults.dimmerGlowColor),
+    lowRateColor: color(raw.lowRateColor, defaults.lowRateColor),
+    midRateColor: color(raw.midRateColor, defaults.midRateColor),
+    highRateColor: color(raw.highRateColor, defaults.highRateColor),
+    heartIconSize: bounded(raw.heartIconSize, defaults.heartIconSize, 60, 200),
+    heartPulseAmount: bounded(raw.heartPulseAmount, defaults.heartPulseAmount, 0, 25),
+    heartGlowRise: bounded(raw.heartGlowRise, defaults.heartGlowRise, 0, 200),
+    beatDepth: bounded(raw.beatDepth, defaults.beatDepth, 0, 85),
     faceRadius: bounded(raw.faceRadius, defaults.faceRadius, 0, 50),
     rimWidth: bounded(raw.rimWidth, defaults.rimWidth, 0, 4),
     lightTop: color(raw.lightTop, defaults.lightTop),
@@ -181,7 +269,7 @@ export function resolveSettings(input: unknown = {}): Settings {
         : defaults.theme,
     value:
       typeof raw.value === 'number' && Number.isFinite(raw.value)
-        ? Math.round(clamp(raw.value, minimum, maximum)) || 0
+        ? Math.round(clamp(raw.value, modes.climate.min, modes.climate.max)) || 0
         : defaults.value,
     hint: typeof raw.hint === 'boolean' ? raw.hint : defaults.hint,
   };
@@ -197,14 +285,54 @@ const heatBands = [
   ['#bfdbfe', '#a5f3fc', '#fde68a', '#ffc24a', '#ffb347'],
 ];
 
-function palette(s: Settings) {
+function singleTone(hex: string) {
+  const tone = channels(hex);
+  return {
+    stops: [0],
+    bands: [[tone.map(c => Math.round(c * .48))], [tone], [tone.map(c => Math.round(c + (255 - c) * .63))]],
+  };
+}
+
+function auditPaint(s: Settings, score: number) {
+  // The closest start at or below the score wins. Later bands win ties.
+  let start = -1;
+  let colour: string | undefined;
+  for (const band of ['Ember', 'Yellow', 'Green'] as const) {
+    const threshold = s[`audit${band}Start`];
+    if (threshold <= score && threshold >= start) {
+      start = threshold;
+      colour = s[`audit${band}Color`];
+    }
+  }
+  return colour
+    ? paint(score, singleTone(colour), s)
+    : paint(score, singleTone('#888888'), { ...s, glow: 0 });
+}
+
+function palette(s: NumericSettings) {
+  if (s.mode === 'dimmer') return singleTone(s.dimmerGlowColor);
+  if (s.mode === 'heart-rate') {
+    const keys = ['lowRateColor', 'midRateColor', 'highRateColor'] as const;
+    const tones = keys.map(key => channels(s[key]));
+    // Carry the upper wash and highlight independently, as on the Climate face.
+    // Offsets keep the whole band responsive to each user-selected colour.
+    const offsets = keys.map((key, i) => channels(defaults[key]).map((c, j) => tones[i][j] - c));
+    const tint = (stops: string[]) => stops.map((hex, i) =>
+      channels(hex).map((c, j) => clamp(c + offsets[i][j], 0, 255)),
+    );
+    return {
+      stops: [72, 120, 200],
+      bands: [tint(['#169c52', '#c87b0b', heatBands[0][4]]), tones,
+        tint(['#aff8c5', '#ffe895', heatBands[2][4]])],
+    };
+  }
   function offset(accent: string, base: string) {
     const original = channels(base);
     return channels(accent).map((v, i) => v - original[i]);
   }
   const cold = offset(s.coldAccent, defaults.coldAccent);
   const warm = offset(s.warmAccent, defaults.warmAccent);
-  return heatBands.map((band) =>
+  const bands = heatBands.map((band) =>
     band.map((hex, stop) => {
       const weight = progressOf(temperatureStops[stop]);
       return channels(hex).map((v, i) =>
@@ -212,32 +340,32 @@ function palette(s: Settings) {
       );
     }),
   );
+  return { stops: temperatureStops, bands };
 }
 
-function paint(value: number, bands: ReturnType<typeof palette>, glow: number) {
-  const bounded = clamp(value, minimum, maximum);
-  const t = progressOf(bounded);
-  const hi = Math.max(1, temperatureStops.findIndex((v) => v >= bounded));
-  const lo = hi - 1;
-  const span = temperatureStops[hi] - temperatureStops[lo];
-  const fraction = (bounded - temperatureStops[lo]) / span;
-  // Motion blends the squared RGB channels before converting back to display RGB.
-  const [deep, mid, tip] = bands.map((band) => {
-    const rgb = band[lo].map((v, i) => {
-      const energy = v ** 2 * (1 - fraction) + band[hi][i] ** 2 * fraction;
-      return Math.round(Math.sqrt(energy));
-    });
-    return rgb.join(' ');
-  });
+function paint(value: number, pigments: ReturnType<typeof palette>, s: Settings) {
+  const { glow: strength, mode } = s;
+  const t = clamp(progressOf(value, mode), 0, 1);
+  const travel = 0.43 * t;
+  const riseOffset = mode === 'heart-rate' ? travel * (s.heartGlowRise / 100 - 1) : 0;
+  const glow = mode === 'dimmer' ? strength * t : strength;
+  const { stops, bands } = pigments;
+  const bounded = clamp(value, stops[0], stops[stops.length - 1]);
+  const hi = stops.findIndex(stop => stop >= bounded);
+  const lo = Math.max(0, hi - 1);
+  const fraction = hi === lo ? 0 : (bounded - stops[lo]) / (stops[hi] - stops[lo]);
+  const [deep, mid, tip] = bands.map(band => band[lo].map((c, i) =>
+    Math.round(Math.sqrt(c ** 2 * (1 - fraction) + band[hi][i] ** 2 * fraction)),
+  ).join(' '));
   const rimTip = glow >= 1
     ? 'var(--cd-tip)'
     : `color-mix(in srgb, var(--cd-tip) ${glow * 100}%, transparent)`;
-  return `--cd-rim-tip:${rimTip};--cd-progress:${t};--cd-deep:rgb(${deep});--cd-rgb:${mid};--cd-tip:rgb(${tip});--cd-glow:${glow};--cd-angle:${degrees(progressOf(value))}deg;--cd-halo-alpha:${(0.2 + 0.4 * t) * glow};--cd-bloom-alpha:${(0.4 + 0.55 * t) * glow};--cd-rise:${0.62 + 0.43 * t};`;
+  return `--cd-rim-tip:${rimTip};--cd-progress:${t};--cd-deep:rgb(${deep});--cd-rgb:${mid};--cd-tip:rgb(${tip});--cd-glow:${glow};--cd-angle:${degrees(progressOf(value, mode))}deg;--cd-halo-alpha:${(0.2 + 0.4 * t) * glow};--cd-bloom-alpha:${(0.4 + 0.55 * t) * glow};--cd-rise:${0.62 + travel};--cd-rise-offset:${riseOffset};`;
 }
 
 // Keep the engraved indices fixed while the sweep advances across them.
-function engravedScale(value: number) {
-  const activeIndex = Math.floor((progressOf(value) + 0.001) * (tickCount - 1));
+function engravedScale(value: number, mode: Settings['mode']) {
+  const activeIndex = Math.floor((progressOf(value, mode) + 0.001) * (tickCount - 1));
   return Array.from({ length: tickCount }, (_, i) => {
     const angle = degrees(i / (tickCount - 1));
     const stagger = Math.abs(i - (tickCount - 1) / 2) * 6;
@@ -249,6 +377,10 @@ function shellStyle(s: Settings) {
   return [
     `--cd-size:${s.size}px`,
     `--cd-speed:${s.speed}`,
+    `--cd-beat-period:${60 / s.bpm}s`,
+    `--cd-heart-size:${s.heartIconSize / 100}em`,
+    `--cd-heart-scale:${1 + s.heartPulseAmount / 100}`,
+    `--cd-beat-depth:${s.pulse ? s.beatDepth / 100 : 0}`,
     `--cd-pulse-period:${s.pulsePeriod}s`,
     `--cd-pulse-depth:${s.pulseDepth / 100}`,
     `--cd-bloom-width:${s.bloomWidth}%`,
@@ -294,18 +426,35 @@ function shellStyle(s: Settings) {
 
 export function render(input: unknown = {}): string {
   const s = resolveSettings(input);
-  const digits = String(Math.abs(s.value));
-  return `<div class="cd-shell" data-climate-dial data-theme="${s.theme}" style="${shellStyle(s)}">
-    <div class="cd-instrument" style="${paint(s.value, palette(s), s.glow)}">
-      <div class="cd-halo" aria-hidden="true"></div><div class="cd-bloom" aria-hidden="true"></div>
-      <div class="cd-face" tabindex="0" role="slider" aria-label="Temperature" aria-valuemin="-9" aria-valuemax="70" aria-valuenow="${s.value}" aria-valuetext="${valueLabel(s.value)}">
-        <div class="cd-heat" aria-hidden="true"><div class="cd-wash"></div><div class="cd-wall"></div></div><div class="cd-rim" aria-hidden="true"></div>
-        <span class="cd-season" aria-hidden="true"${s.showSeason ? '' : ' hidden'}>${seasonOf(s.value)}</span>
-        <svg class="cd-scale" aria-hidden="true" viewBox="0 0 440 458"><g class="cd-ticks">${engravedScale(s.value)}</g><path class="cd-needle" d="M218.6 141 Q220 136 221.4 141 L220.65 234 L220 240 L219.35 234Z"/></svg>
-        <span class="cd-reading" aria-hidden="true"><span class="cd-value"><span class="cd-sign">${s.value < 0 ? '−' : ''}</span><span class="cd-lead" ${digits.length === 1 ? 'hidden' : ''}><span class="cd-drum">${digits.slice(0, -1)}</span></span><span class="cd-unit"><span class="cd-drum">${digits.at(-1)}</span></span></span><span class="cd-degree"></span></span>
-      </div>
-    </div><div class="cd-band--bottom"${s.hint ? '' : ' hidden'}>${s.hintText.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</div>
+  if (s.mode === 'site-audit') return renderAudit(s, shellStyle(s), renderInstrument);
+  return renderDial(s);
+}
+
+function renderDial(s: NumericSettings): string {
+  const range = modes[s.mode];
+  const value = s[range.key];
+  const attributes = `tabindex="0" role="slider" aria-label="${range.name}" aria-valuemin="${range.min}" aria-valuemax="${range.max}" aria-valuenow="${value}" aria-valuetext="${valueLabel(value, s.mode)}"`;
+  const title = s.mode === 'climate' ? seasonOf(value) : labelIcon(s.mode);
+  return `<div class="cd-shell" data-climate-dial data-mode="${s.mode}" data-theme="${s.theme}" style="${shellStyle(s)}">
+    ${renderInstrument(s, value, title, attributes, range.suffix)}
+    <div class="cd-band--bottom"${s.hint ? '' : ' hidden'}>${hintFor(s).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')}</div>
   </div>`;
+}
+
+// Numeric controls and score disclosures share the entire visible instrument.
+function renderInstrument(s: Settings, value: number, title: string, attributes = 'aria-hidden="true"', suffix = '') {
+  const audit = s.mode === 'site-audit';
+  const digits = String(Math.abs(value));
+  const surface = s.mode === 'site-audit' ? auditPaint(s, value) : paint(value, palette(s), s);
+  return `<span class="cd-instrument" style="${surface}">
+    <span class="cd-halo" aria-hidden="true"></span><span class="cd-bloom" aria-hidden="true"></span>
+    <span class="cd-face" ${attributes}>
+      <span class="cd-heat" aria-hidden="true"><span class="cd-wash"></span><span class="cd-wall"></span></span><span class="cd-rim" aria-hidden="true"></span>
+      <span class="cd-season${audit ? ' cd-audit-label' : ''}" aria-hidden="true"${audit || s.showSeason ? '' : ' hidden'}>${title}</span>
+      <svg class="cd-scale" aria-hidden="true" viewBox="0 0 440 458"><g class="cd-ticks">${engravedScale(value, s.mode)}</g><path class="cd-needle" d="M218.6 141 Q220 136 221.4 141 L220.65 234 L220 240 L219.35 234Z"/></svg>
+      <span class="cd-reading${audit && digits.length === 3 ? ' cd-audit-three-digits' : ''}" aria-hidden="true"><span class="cd-value${audit ? ' cd-audit-score' : ''}"><span class="cd-sign">${value < 0 ? '−' : ''}</span><span class="cd-lead" ${digits.length === 1 ? 'hidden' : ''}><span class="cd-drum">${digits.slice(0, -1)}</span></span><span class="cd-unit"><span class="cd-drum">${digits.at(-1)}</span></span></span><span class="cd-degree"></span><span class="cd-suffix">${suffix}</span></span>
+    </span>
+  </span>`;
 }
 
 const mounts = new WeakMap<HTMLElement, Controller>();
@@ -317,7 +466,63 @@ export function mount(
 ): Controller {
   mounts.get(host)?.destroy();
   let s = resolveSettings(input);
-  host.innerHTML = render(s);
+  let paused = !!options.paused;
+  let destroyed = false;
+  let dial: ReturnType<typeof mountDial> | undefined;
+
+  function syncAuditMotion() {
+    const audit = host.querySelector('.cd-audit');
+    audit?.toggleAttribute('data-live', !paused);
+    audit?.toggleAttribute('data-pulsing', !paused && s.pulse && s.glow > 0 && s.pulseDepth > 0);
+  }
+
+  function show() {
+    dial?.destroy();
+    dial = undefined;
+    if (s.mode === 'site-audit') {
+      host.innerHTML = renderAudit(s, shellStyle(s), renderInstrument);
+      syncAuditMotion();
+      return;
+    }
+    dial = mountDial(host, s, { ...options, paused, onDialChange(value, mode) {
+      s = { ...s, [modes[mode].key]: value };
+      options.onDialChange?.(value, mode);
+    } });
+  }
+  show();
+  const api: Controller = {
+    update(patch) {
+      if (destroyed) return;
+      s = resolveSettings({ ...s, ...patch });
+      if (s.mode === 'site-audit' && !dial) {
+        updateAudit(host, s, shellStyle(s), renderInstrument, auditPaint);
+        syncAuditMotion();
+      }
+      else if (s.mode !== 'site-audit' && dial) dial.update(s);
+      else show();
+    },
+    pause() { paused = true; dial?.pause(); syncAuditMotion(); },
+    resume() { paused = false; dial?.resume(); syncAuditMotion(); },
+    replay() {
+      if (destroyed) return;
+      if (dial) dial.replay();
+      else host.querySelectorAll<HTMLDetailsElement>('details[open]').forEach(tile => { tile.open = false; });
+    },
+    destroy() {
+      if (destroyed) return;
+      destroyed = true;
+      if (dial) dial.destroy();
+      else host.querySelector('.cd-audit')?.remove();
+      mounts.delete(host);
+    },
+  };
+  mounts.set(host, api);
+  return api;
+}
+
+function mountDial(host: HTMLElement, initial: NumericSettings, options: MountOptions) {
+  let s = initial;
+  host.innerHTML = renderDial(s);
   const root = host.querySelector<HTMLElement>('.cd-shell')!;
   const instrument = root.querySelector<HTMLElement>('.cd-instrument')!;
   const face = root.querySelector<HTMLElement>('.cd-face')!;
@@ -347,13 +552,15 @@ export function mount(
       box.top < win.innerHeight);
   let entrancePending = true;
   let introduction: { start: number; from: number } | null = null;
-  let display = s.value;
+  let range = modes[s.mode];
+  let target = s[range.key];
+  let display = target;
   let speed = 0;
   let frame = 0;
   let lastTime = 0;
   let lastMark = -2;
   let finger: number | null = null;
-  let startValue = s.value;
+  let startValue = target;
   let gapEndpoint: number | null = null;
   let pendingPointer: number | null = null;
   const quiet = () => paused || !visible || doc.hidden || !!media?.matches;
@@ -363,6 +570,11 @@ export function mount(
   let desiredSeason = season.textContent || '';
   let seasonTimer = 0;
   function letters(label: string, enter: boolean) {
+    if (s.mode !== 'climate') {
+      if (season.firstElementChild?.getAttribute('data-icon') !== s.mode) season.innerHTML = labelIcon(s.mode);
+      season.dataset.motion = '';
+      return;
+    }
     season.replaceChildren(...Array.from(label, (letter, index) => {
       const span = doc.createElement('span');
       span.textContent = letter;
@@ -391,7 +603,7 @@ export function mount(
   }
   letters(desiredSeason, false);
 
-  let previousInteger = s.value;
+  let previousInteger = target;
   const slotAnimations = new Map<HTMLElement, Animation>();
   function setSlot(node: HTMLElement, glyph: string, direction: number) {
     if (quiet() || node.textContent !== glyph) {
@@ -410,8 +622,8 @@ export function mount(
     slotAnimations.set(node, animation);
   }
   function draw() {
-    instrument.style.cssText = paint(display, pigments, s.glow);
-    const integer = clamp(Math.round(display), minimum, maximum) || 0;
+    instrument.style.cssText = paint(display, pigments, s);
+    const integer = clamp(Math.round(display), range.min, range.max) || 0;
     const digits = String(Math.abs(integer));
     const direction = Math.sign(integer - previousInteger);
     setSlot(firstWheel, digits.slice(0, -1), direction);
@@ -419,9 +631,9 @@ export function mount(
     setSlot(sign, integer < 0 ? '−' : '', direction);
     lead.hidden = digits.length < 2;
     previousInteger = integer;
-    const label = seasonOf(integer);
+    const label = caption(integer, s.mode);
     setSeason(label);
-    const mark = Math.floor((clamp(progressOf(display), 0, 1) + 0.001) * (tickCount - 1));
+    const mark = Math.floor((clamp(progressOf(display, s.mode), 0, 1) + 0.001) * (tickCount - 1));
     if (mark !== lastMark) {
       for (let i = 0; i < marks.length; i++)
         marks[i].classList.toggle('cd-passed', i <= mark);
@@ -433,7 +645,7 @@ export function mount(
     if (frame) win.cancelAnimationFrame(frame);
     introduction = null;
     lastTime = frame = speed = 0;
-    display = s.value;
+    display = target;
     draw();
   }
 
@@ -442,12 +654,18 @@ export function mount(
       introduction = null;
       entrancePending = false;
     }
-    const next = Math.round(clamp(value, minimum, maximum)) || 0;
-    if (next === s.value) return;
-    s = { ...s, value: next };
+    const next = Math.round(clamp(value, range.min, range.max)) || 0;
+    if (next === target) return;
+    target = next;
+    s = { ...s, [range.key]: next };
+    if (s.mode === 'heart-rate') root.style.setProperty('--cd-beat-period', (60 / next) + 's');
     face.setAttribute('aria-valuenow', String(next));
-    face.setAttribute('aria-valuetext', valueLabel(next));
+    face.setAttribute('aria-valuetext', valueLabel(next, s.mode));
     if (notify) {
+      host.dispatchEvent(new win.CustomEvent('dialchange', { bubbles: true, detail: { mode: s.mode, value: next } }));
+      options.onDialChange?.(next, s.mode);
+    }
+    if (notify && s.mode === 'climate') {
       const detail = { value: next, season: seasonOf(next) };
       host.dispatchEvent(
         new win.CustomEvent('temperaturechange', { bubbles: true, detail }),
@@ -468,7 +686,7 @@ export function mount(
     const dt = Math.min(0.05, Math.max(0.001, (time - lastTime) / 1000));
     lastTime = time;
     // Exact solution of a damped oscillator, independent of refresh rate.
-    let destination = s.value;
+    let destination = target;
     if (introduction) {
       if ((time - introduction.start) * s.speed < s.entranceHold) {
         destination = introduction.from;
@@ -518,12 +736,12 @@ export function mount(
     const angle = (Math.atan2(x, -y) * 180) / Math.PI;
     if (Math.abs(angle) > sweep / 2) {
       // Stay on the same end stop when a drag crosses the gap below the scale.
-      gapEndpoint ??= angle < 0 ? minimum : maximum;
+      gapEndpoint ??= angle < 0 ? range.min : range.max;
       return gapEndpoint;
     }
     gapEndpoint = null;
     return (
-      minimum + clamp((angle - firstAngle) / sweep, 0, 1) * (maximum - minimum)
+      range.min + clamp((angle - firstAngle) / sweep, 0, 1) * (range.max - range.min)
     );
   }
 
@@ -548,7 +766,7 @@ export function mount(
       face.focus({ preventScroll: true });
       face.setPointerCapture?.(e.pointerId);
       finger = e.pointerId;
-      startValue = s.value;
+      startValue = target;
       root.setAttribute('data-tracking', '');
       updateTarget(targetAt(e), true);
       schedule();
@@ -587,12 +805,12 @@ export function mount(
     (e) => {
       const step = e.shiftKey ? s.shiftStep : s.keyboardStep;
       const keys: Record<string, number> = {
-        Home: minimum,
-        End: maximum,
-        ArrowUp: s.value + step,
-        ArrowRight: s.value + step,
-        ArrowDown: s.value - step,
-        ArrowLeft: s.value - step,
+        Home: range.min,
+        End: range.max,
+        ArrowUp: target + step,
+        ArrowRight: target + step,
+        ArrowDown: target - step,
+        ArrowLeft: target - step,
       };
       if (e.key === 'Escape' && finger !== null) {
         e.preventDefault();
@@ -611,7 +829,7 @@ export function mount(
     (e) => {
       if (!s.wheelEnabled || doc.activeElement !== face || !e.deltaY) return;
       e.preventDefault();
-      updateTarget(s.value - Math.sign(e.deltaY) * (e.shiftKey ? s.shiftStep : s.keyboardStep), true);
+      updateTarget(target - Math.sign(e.deltaY) * (e.shiftKey ? s.shiftStep : s.keyboardStep), true);
       schedule();
     },
     { signal, passive: false },
@@ -628,7 +846,7 @@ export function mount(
       return;
     }
     entrancePending = false;
-    const from = minimum;
+    const from = range.min;
     display = from;
     speed = 0;
     introduction = { start: win.performance.now(), from };
@@ -636,12 +854,17 @@ export function mount(
     root.setAttribute('data-mounted', '');
     draw();
     win.clearTimeout(seasonTimer);
-    desiredSeason = seasonOf(from);
+    desiredSeason = caption(from, s.mode);
     letters(desiredSeason, true);
     schedule();
   }
   function syncPulse() {
-    root.toggleAttribute('data-pulsing', s.pulse && s.pulseDepth > 0 && s.glow > 0 && !quiet());
+    const depth = s.mode === 'heart-rate' ? s.beatDepth : s.pulseDepth;
+    const glowPulses = s.pulse && depth > 0 && s.glow > 0;
+    const active = !quiet();
+    root.toggleAttribute('data-pulsing', s.mode !== 'dimmer' && glowPulses && active);
+    root.toggleAttribute('data-heart-beat', s.mode === 'heart-rate' && active &&
+      (glowPulses || (s.showSeason && s.heartPulseAmount > 0)));
   }
 
   function motionPolicy() {
@@ -666,23 +889,41 @@ export function mount(
   host.addEventListener('climatedialreplay', replay, { signal });
   motionPolicy();
   draw();
-  const api: Controller = {
-    update(settings) {
+  return {
+    update(next: NumericSettings) {
       if (destroyed) return;
-      const next = resolveSettings({ ...s, ...settings });
-      if (next.value !== s.value || !next.entrance) introduction = null;
-      updateTarget(next.value, false);
+      const modeChanged = next.mode !== s.mode;
+      if (modeChanged) {
+        pendingPointer = null;
+        release(false);
+        root.removeAttribute('data-mounted');
+        range = modes[next.mode];
+        root.dataset.mode = next.mode;
+        face.setAttribute('aria-label', range.name);
+        face.setAttribute('aria-valuemin', String(range.min));
+        face.setAttribute('aria-valuemax', String(range.max));
+        face.querySelector('.cd-suffix')!.textContent = range.suffix;
+      }
+      if (modeChanged || next[range.key] !== target || !next.entrance) introduction = null;
       s = next;
+      target = s[range.key];
+      face.setAttribute('aria-valuenow', String(target));
+      face.setAttribute('aria-valuetext', valueLabel(target, s.mode));
       pigments = palette(s);
       if (!s.entrance) entrancePending = false;
       root.style.cssText = shellStyle(s);
       season.hidden = !s.showSeason;
       syncPulse();
-      if (settings.entrance === false) root.removeAttribute('data-mounted');
+      if (!next.entrance) root.removeAttribute('data-mounted');
       root.dataset.theme = next.theme;
       hint.hidden = !next.hint;
-      hint.textContent = next.hintText;
-      schedule();
+      hint.textContent = hintFor(next);
+      if (modeChanged) {
+        win.clearTimeout(seasonTimer);
+        desiredSeason = caption(target, s.mode);
+        letters(desiredSeason, false);
+        snap();
+      } else schedule();
     },
     replay,
     pause() {
@@ -704,10 +945,7 @@ export function mount(
       if (finger !== null && face.hasPointerCapture?.(finger))
         face.releasePointerCapture(finger);
       if (frame) win.cancelAnimationFrame(frame);
-      mounts.delete(host);
       root.remove();
     },
   };
-  mounts.set(host, api);
-  return api;
 }

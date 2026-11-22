@@ -1,4 +1,22 @@
-Climate Dial is a circular temperature input for −9 to 70 °C. The dial pairs a segmented scale with a numeric readout and a seasonal label.
+Climate Dial opens in Heart Rate mode at 72 BPM. Select **Dial mode** in the preview or pass `mode` as a prop. Each mode remembers its own reading when you switch.
+
+| Mode | Setting | Glow |
+| --- | --- | --- |
+| Site audit | Three editable scores, 0–100 | Glow follows each score band |
+| Light dimmer | `brightness`, 0–100% | A steady amber light that goes dark at 0% |
+| Heart rate (default) | `bpm`, 40–200 BPM | A pulse that blends from green through yellow to red |
+
+**Site audit** displays sample scores for Performance, Accessibility and SEO. Each tile opens independently by click, tap, Enter or Space and reveals its finding. The tiles stack in narrow containers. In the preview, each tile has a label, a score (0–100) and a finding. Pass `mode="site-audit"` with props such as `performanceScore`, `accessibilityLabel` or `seoFinding` to use your own audit results.
+
+Under **Audit glow**, set each colour and its first score. Ember starts at 0, yellow at 50 and green at 90 by default. Each tile uses the colour with the highest start it has reached. Scores below all three starts have no glow. When starts coincide, green takes priority over yellow, then ember. Use `auditEmberColor` and `auditEmberStart`, or the matching Yellow and Green props.
+
+Set **Dimmer glow colour** for the light, or use the **Low**, **Mid** and **High BPM glow colour** pickers for heart rate. Their React props are `dimmerGlowColor`, `lowRateColor`, `midRateColor` and `highRateColor`.
+
+**Heart-rate glow rise (%)** controls how far the light climbs inside the face as you turn the dial. At 100% it follows Climate’s rise. At 0% it stays at its starting height, and at 200% it travels twice as far. The beat timing and pulse depth are independent. Use `heartGlowRise` in code.
+
+Heart rate starts at 72 BPM. The preview uses green up to 72 BPM, yellow at 120 BPM and Climate’s warm ember accent at 200 BPM, blending continuously between those visual stops. The floor reflection uses Climate’s base brightness and default 1.5% pulse depth. The bottom edge rises slightly on the beat. Set `beatDepth` for glow intensity. Under **Heart icon**, `heartIconSize` sets the resting size as a percentage of the label size (135% by default). `heartPulseAmount` sets the percentage growth on each beat (2% by default). Set it to zero to keep the heart still while the glow pulses. The selected BPM determines the beat independently of the dial’s spring speed and climate breathing settings. Reduced motion, pause and offscreen handling keep the glow steady.
+
+Use `onDialChange(value, mode)` in React or listen for `dialchange` with `{ value, mode }` in JavaScript. The climate-specific `onValueChange` and `temperaturechange` also include the season.
 
 ## React
 
@@ -7,12 +25,12 @@ import { ClimateDial } from './components/climate-dial/src/react';
 
 <ClimateDial
   theme="dark"
-  value={38}
-  onValueChange={(value, season) => console.log(value, season)}
+  bpm={72}
+  onDialChange={(value, mode) => console.log(value, mode)}
 />
 ```
 
-The default face is warm porcelain. Pass `theme="dark"` for graphite or `hint={false}` to hide the instruction band. A changed `value` prop updates the dial. User input updates its current value immediately and calls `onValueChange`. The seasonal ranges are Winter through 4 °C, Autumn from 5 through 15 °C, Spring from 16 through 25 °C and Summer from 26 °C. These are display ranges.
+The default face is warm porcelain. Pass `theme="dark"` for graphite or `hint={false}` to hide the instruction band. Existing integrations can still request `mode="climate"` to display temperature. A changed `value` prop updates that mode. User input updates its current value immediately and calls `onValueChange`. The seasonal ranges are Winter through 4 °C, Autumn from 5 through 15 °C, Spring from 16 through 25 °C and Summer from 26 °C. These are display ranges.
 
 ## HTML and vanilla JavaScript
 
