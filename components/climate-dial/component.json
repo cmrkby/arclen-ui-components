@@ -1,18 +1,259 @@
 {
   "id": "climate-dial",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "tier": "free",
   "name": "Climate Dial",
   "category": "Controls",
-  "description": "A radial temperature control with a calibrated scale and a seasonal readout.",
+  "description": "A heart-rate dial with a beat-synced glow, a light dimmer and three expandable site audit scores.",
   "keywords": [
     "temperature",
     "climate",
     "dial",
     "slider",
-    "radial"
+    "radial",
+    "dimmer",
+    "heart-rate",
+    "site audit"
   ],
   "settings": [
+    {
+      "key": "mode",
+      "kind": "select",
+      "label": "Dial mode",
+      "group": "Dial",
+      "default": "heart-rate",
+      "options": [
+        {
+          "value": "heart-rate",
+          "label": "Heart rate"
+        },
+        {
+          "value": "dimmer",
+          "label": "Light dimmer"
+        },
+        {
+          "value": "site-audit",
+          "label": "Site audit"
+        }
+      ]
+    },
+    {
+      "key": "auditEmberColor",
+      "kind": "color",
+      "label": "Ember glow colour",
+      "group": "Audit glow",
+      "default": "#ff3d1a"
+    },
+    {
+      "key": "auditEmberStart",
+      "kind": "number",
+      "label": "Ember starts at score",
+      "group": "Audit glow",
+      "default": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "auditYellowColor",
+      "kind": "color",
+      "label": "Yellow glow colour",
+      "group": "Audit glow",
+      "default": "#ffce42"
+    },
+    {
+      "key": "auditYellowStart",
+      "kind": "number",
+      "label": "Yellow starts at score",
+      "group": "Audit glow",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "auditGreenColor",
+      "kind": "color",
+      "label": "Green glow colour",
+      "group": "Audit glow",
+      "default": "#36dc80"
+    },
+    {
+      "key": "auditGreenStart",
+      "kind": "number",
+      "label": "Green starts at score",
+      "group": "Audit glow",
+      "default": 90,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "performanceLabel",
+      "kind": "text",
+      "label": "Performance label",
+      "group": "Performance tile",
+      "default": "Performance",
+      "maxLength": 48
+    },
+    {
+      "key": "performanceScore",
+      "kind": "number",
+      "label": "Performance score",
+      "group": "Performance tile",
+      "default": 92,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "performanceFinding",
+      "kind": "text",
+      "label": "Performance finding",
+      "group": "Performance tile",
+      "default": "Resize the hero image to improve the first render.",
+      "maxLength": 320
+    },
+    {
+      "key": "accessibilityLabel",
+      "kind": "text",
+      "label": "Accessibility label",
+      "group": "Accessibility tile",
+      "default": "Accessibility",
+      "maxLength": 48
+    },
+    {
+      "key": "accessibilityScore",
+      "kind": "number",
+      "label": "Accessibility score",
+      "group": "Accessibility tile",
+      "default": 76,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "accessibilityFinding",
+      "kind": "text",
+      "label": "Accessibility finding",
+      "group": "Accessibility tile",
+      "default": "Three icon buttons need accessible names.",
+      "maxLength": 320
+    },
+    {
+      "key": "seoLabel",
+      "kind": "text",
+      "label": "SEO label",
+      "group": "SEO tile",
+      "default": "SEO",
+      "maxLength": 48
+    },
+    {
+      "key": "seoScore",
+      "kind": "number",
+      "label": "SEO score",
+      "group": "SEO tile",
+      "default": 88,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "seoFinding",
+      "kind": "text",
+      "label": "SEO finding",
+      "group": "SEO tile",
+      "default": "Two pages share the same title tag.",
+      "maxLength": 320
+    },
+    {
+      "key": "brightness",
+      "kind": "number",
+      "label": "Brightness (%)",
+      "group": "Dial",
+      "default": 65,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "dimmerGlowColor",
+      "kind": "color",
+      "label": "Dimmer glow colour",
+      "group": "Dial",
+      "default": "#ffb14a"
+    },
+    {
+      "key": "bpm",
+      "kind": "number",
+      "label": "Heart rate (BPM)",
+      "group": "Dial",
+      "default": 72,
+      "min": 40,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "lowRateColor",
+      "kind": "color",
+      "label": "Low BPM glow colour",
+      "group": "Dial",
+      "default": "#36d779"
+    },
+    {
+      "key": "midRateColor",
+      "kind": "color",
+      "label": "Mid BPM glow colour",
+      "group": "Dial",
+      "default": "#ffcf38"
+    },
+    {
+      "key": "highRateColor",
+      "kind": "color",
+      "label": "High BPM glow colour",
+      "group": "Dial",
+      "default": "#ff3d1a"
+    },
+    {
+      "key": "heartGlowRise",
+      "kind": "number",
+      "label": "Heart-rate glow rise (%)",
+      "group": "Dial",
+      "default": 100,
+      "min": 0,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "beatDepth",
+      "kind": "number",
+      "label": "Glow pulse depth (%)",
+      "group": "Dial",
+      "default": 1.5,
+      "min": 0,
+      "max": 85,
+      "step": 0.5
+    },
+    {
+      "key": "heartIconSize",
+      "kind": "number",
+      "label": "Heart icon size (%)",
+      "group": "Heart icon",
+      "default": 135,
+      "min": 60,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "heartPulseAmount",
+      "kind": "number",
+      "label": "Heart pulse amount (%)",
+      "group": "Heart icon",
+      "default": 2,
+      "min": 0,
+      "max": 25,
+      "step": 0.1
+    },
     {
       "key": "theme",
       "kind": "select",
@@ -32,7 +273,7 @@
       "min": -9,
       "max": 70,
       "step": 1,
-      "group": "Interaction"
+      "group": "Dial"
     },
     {
       "key": "hint",
@@ -54,7 +295,7 @@
     {
       "key": "glow",
       "kind": "number",
-      "label": "Thermal glow",
+      "label": "Glow strength",
       "group": "Floor glow",
       "default": 1,
       "min": 0,
@@ -142,8 +383,8 @@
     {
       "key": "showSeason",
       "kind": "boolean",
-      "label": "Show season name",
-      "group": "Season label",
+      "label": "Show dial label",
+      "group": "Dial label",
       "default": true
     },
     {
@@ -276,7 +517,7 @@
       "key": "readingSize",
       "kind": "number",
       "label": "Number size (% of width)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 45,
       "min": 28,
       "max": 55,
@@ -286,7 +527,7 @@
       "key": "readingTop",
       "kind": "number",
       "label": "Number position from top (%)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 46,
       "min": 32,
       "max": 58,
@@ -296,7 +537,7 @@
       "key": "readingWeight",
       "kind": "number",
       "label": "Number weight",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 500,
       "min": 200,
       "max": 850,
@@ -306,7 +547,7 @@
       "key": "readingStretch",
       "kind": "number",
       "label": "Number width (×)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 0.916,
       "min": 0.7,
       "max": 1.2,
@@ -315,15 +556,15 @@
     {
       "key": "digitColor",
       "kind": "color",
-      "label": "Units digit color",
-      "group": "Temperature readout",
+      "label": "Dark mode units digit color",
+      "group": "Number readout",
       "default": "#ffffff"
     },
     {
       "key": "degreeSize",
       "kind": "number",
       "label": "Degree ring size (% of width)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 3.25,
       "min": 1.5,
       "max": 5,
@@ -333,7 +574,7 @@
       "key": "degreeAlpha",
       "kind": "number",
       "label": "Degree ring opacity (%)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 92,
       "min": 0,
       "max": 100,
@@ -343,7 +584,7 @@
       "key": "digitTravel",
       "kind": "number",
       "label": "Digit roll distance (px)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 22,
       "min": 0,
       "max": 45,
@@ -353,7 +594,7 @@
       "key": "digitDuration",
       "kind": "number",
       "label": "Digit roll duration (ms)",
-      "group": "Temperature readout",
+      "group": "Number readout",
       "default": 265,
       "min": 50,
       "max": 700,
@@ -363,7 +604,7 @@
       "key": "seasonSize",
       "kind": "number",
       "label": "Label size (% of width)",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 9.4,
       "min": 5,
       "max": 14,
@@ -373,7 +614,7 @@
       "key": "seasonTop",
       "kind": "number",
       "label": "Label position from top (%)",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 15.45,
       "min": 7,
       "max": 26,
@@ -383,7 +624,7 @@
       "key": "seasonWeight",
       "kind": "number",
       "label": "Label weight",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 720,
       "min": 300,
       "max": 900,
@@ -393,7 +634,7 @@
       "key": "seasonTracking",
       "kind": "number",
       "label": "Letter spacing (em)",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 0.13,
       "min": -0.03,
       "max": 0.3,
@@ -403,7 +644,7 @@
       "key": "letterIn",
       "kind": "number",
       "label": "Letter arrival (ms)",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 380,
       "min": 100,
       "max": 900,
@@ -413,7 +654,7 @@
       "key": "letterStagger",
       "kind": "number",
       "label": "Arrival stagger (ms)",
-      "group": "Season label",
+      "group": "Dial label",
       "default": 30,
       "min": 0,
       "max": 80,
@@ -502,7 +743,7 @@
     {
       "key": "keyboardStep",
       "kind": "number",
-      "label": "Keyboard and wheel step (°C)",
+      "label": "Keyboard and wheel step",
       "group": "Interaction",
       "default": 1,
       "min": 1,
@@ -512,7 +753,7 @@
     {
       "key": "shiftStep",
       "kind": "number",
-      "label": "Shift step (°C)",
+      "label": "Shift step",
       "group": "Interaction",
       "default": 5,
       "min": 1,
@@ -531,7 +772,7 @@
       "kind": "text",
       "label": "Hint text",
       "group": "Hint",
-      "default": "Turn the dial to adjust temperature",
+      "default": "Turn the dial to adjust heart rate",
       "maxLength": 100
     },
     {
@@ -579,6 +820,15 @@
         "license": "SIL Open Font License 1.1",
         "attribution": "The Geist Project Authors."
       }
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      }
     }
   ],
   "poster": "poster.webp",
@@ -588,14 +838,21 @@
   },
   "previews": [
     {
-      "name": "Warm",
-      "settings": {}
+      "name": "Heart rate",
+      "settings": {
+        "mode": "heart-rate"
+      }
     },
     {
-      "name": "Cool",
+      "name": "Light dimmer",
       "settings": {
-        "theme": "dark",
-        "value": 8
+        "mode": "dimmer"
+      }
+    },
+    {
+      "name": "Site audit",
+      "settings": {
+        "mode": "site-audit"
       }
     }
   ]

@@ -372,7 +372,7 @@ function actionName(s: Settings) {
 
 export function render(input: unknown = {}): string {
   const s = resolveSettings(input);
-  return `<article class="cr-shell" data-cart-reveal data-theme="${s.theme}" data-state="compact" style="${appearance(s)}">
+  return `<div class="cr-layout"><article class="cr-shell" data-cart-reveal data-theme="${s.theme}" data-state="compact" style="${appearance(s)}">
     <span class="cr-success-light" aria-hidden="true"></span>
     <div class="cr-cover">
       <button class="cr-product" type="button" aria-expanded="false" aria-label="View ${escape(s.title)}">
@@ -398,7 +398,7 @@ export function render(input: unknown = {}): string {
     </div>
     <div class="cr-receipt" aria-hidden="true"><div class="cr-slip"><i>${icon('check')}</i><span class="cr-receipt-text">${escape(s.receiptText)}</span></div></div>
     <span class="cr-announcement" role="status" aria-live="polite" aria-atomic="true"></span>
-  </article>`;
+  </article></div>`;
 }
 
 type Phase = 'compact' | 'open' | 'confirming' | 'receipt';
@@ -413,7 +413,8 @@ export function mount(
   mounts.get(host)?.destroy();
   let s = resolveSettings(input);
   host.innerHTML = render(s);
-  const root = host.querySelector<HTMLElement>('.cr-shell')!;
+  const layout = host.querySelector<HTMLElement>('.cr-layout')!;
+  const root = layout.querySelector<HTMLElement>('.cr-shell')!;
   const element = <T extends HTMLElement = HTMLElement>(name: string) =>
     root.querySelector<T>(`.cr-${name}`)!;
   const product = element<HTMLButtonElement>('product');
@@ -804,6 +805,21 @@ export function mount(
       })
     : null;
   observer?.observe(root);
+
+  // Measure the available slot, which stays the same width throughout the fold.
+  function fitFold(width: number) {
+    const side = width >= Math.max(600, 2 * s.cardWidth);
+    if (side === root.hasAttribute('data-side')) return;
+    if (pointer !== null) abortDrag();
+    root.toggleAttribute('data-side', side);
+    if (phase === 'confirming') { measureTravel(); setProgress(100); }
+  }
+  const resize = win.ResizeObserver
+    ? new win.ResizeObserver(([entry]) => fitFold(entry.contentRect.width))
+    : null;
+  resize?.observe(layout);
+  if (!resize) win.addEventListener('resize', () => fitFold(layout.clientWidth), { signal });
+  fitFold(layout.clientWidth);
   doc.addEventListener('visibilitychange', motionPolicy, { signal });
   media?.addEventListener('change', motionPolicy);
   root.setAttribute('data-mounted', '');
@@ -835,6 +851,7 @@ export function mount(
       }
       root.dataset.theme = s.theme;
       root.style.cssText = appearance(s);
+      if (prior.cardWidth !== s.cardWidth) fitFold(layout.clientWidth);
       state(phase);
       if (progress > 0) {
         measureTravel();
@@ -856,13 +873,14 @@ export function mount(
       listeners.abort();
       stopDrag();
       observer?.disconnect();
+      resize?.disconnect();
       media?.removeEventListener('change', motionPolicy);
       if (amountFrame) win.cancelAnimationFrame(amountFrame);
       win.clearTimeout(settleTimer);
       win.clearTimeout(resetTimer);
       if (audio) void audio.close().catch(() => {});
       mounts.delete(host);
-      root.remove();
+      layout.remove();
     },
   };
   mounts.set(host, api);

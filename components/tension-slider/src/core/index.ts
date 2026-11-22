@@ -518,9 +518,9 @@ export function mount(host: HTMLElement, input: unknown = defaults, id = nextId(
     event.preventDefault();
     rest();
     root.setAttribute('data-pointer-focus', '');
-    range.focus({ preventScroll: true });
+    if (event.isTrusted) range.focus({ preventScroll: true });
     gesture = { id: event.pointerId, value: settings.value, origin: local(event), mode };
-    rail.setPointerCapture?.(event.pointerId);
+    if (event.isTrusted) rail.setPointerCapture?.(event.pointerId);
     root.dataset.phase = mode;
     if (mode === 'aim') aim(gesture, gesture.origin);
     else scrub(gesture.origin, 290);

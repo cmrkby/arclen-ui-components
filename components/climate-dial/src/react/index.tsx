@@ -27,6 +27,7 @@ export type ClimateDialProps = Partial<Settings> &
 
 export function ClimateDial({
   onValueChange,
+  onDialChange,
   className,
   style,
   paused = false,
@@ -36,7 +37,7 @@ export function ClimateDial({
   const lastReplay = useRef(replayKey);
   const host = useRef<HTMLDivElement>(null);
   const controller = useRef<Controller | null>(null);
-  const callback = useRef(onValueChange);
+  const callback = useRef({ onValueChange, onDialChange });
   const [initial] = useState(() => ({
     settings: resolveSettings(settings),
     paused,
@@ -45,12 +46,13 @@ export function ClimateDial({
   const previous = useRef(settings);
 
   useLayoutEffect(() => {
-    callback.current = onValueChange;
-  }, [onValueChange]);
+    callback.current = { onValueChange, onDialChange };
+  }, [onValueChange, onDialChange]);
   useLayoutEffect(() => {
     const api = mount(host.current!, initial.settings, {
       paused: initial.paused,
-      onValueChange: (next, season) => callback.current?.(next, season),
+      onValueChange: (next, season) => callback.current.onValueChange?.(next, season),
+      onDialChange: (value, mode) => callback.current.onDialChange?.(value, mode),
     });
     controller.current = api;
     return () => {

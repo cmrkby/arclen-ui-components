@@ -2,6 +2,7 @@ import manifest from '../../component.json';
 import { lensImages } from './lens';
 
 export interface Settings {
+  background: 'gradient' | 'coastal';
   backgroundGlow: number;
   darkGlassTint: string;
   darkTintStrength: number;
@@ -317,7 +318,7 @@ function veils() {
 export function render(input: unknown = defaults, id = instance()): string {
   const settings = resolveSettings(input);
   const key = 'rp-' + Array.from(id, (c) => c.codePointAt(0)!.toString(16)).join('-');
-  return `<section class="rp-stage" data-rp-root data-theme="${settings.theme}" data-fill="${settings.fill}" data-phase="compact" data-glass="${settings.glassMode}" style="${safe(
+  return `<section class="rp-stage" data-rp-root data-background="${settings.background}" data-theme="${settings.theme}" data-fill="${settings.fill}" data-phase="compact" data-glass="${settings.glassMode}" style="${safe(
     Object.entries(surface(settings))
       .map(([k, v]) => k + ':' + v)
       .join(';'),
@@ -727,6 +728,7 @@ export function mount(
           filter.querySelector('[result="polished"]')?.setAttribute('stdDeviation', lensCenterBlur(next, i));
         });
       }
+      root.dataset.background = next.background;
       root.dataset.theme = next.theme;
       root.dataset.fill = String(next.fill);
       root.dataset.glass = next.glassMode;

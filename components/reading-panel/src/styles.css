@@ -54,6 +54,15 @@
   --rp-mist-c: #923f68;
   color-scheme: dark;
 }
+.rp-stage[data-background='coastal'] {
+  --rp-coast-tint: rgb(245 241 236 / 13%);
+  background-image: linear-gradient(var(--rp-coast-tint), var(--rp-coast-tint)), url('../assets/coastal-dusk.webp');
+  background-size: cover;
+  background-position: center;
+}
+.rp-stage[data-background='coastal'][data-theme='dark'] {
+  --rp-coast-tint: rgb(10 12 23 / 36%);
+}
 .rp-stage[data-fill='true'] {
   height: var(--rp-stage-height, 100%);
 }
@@ -323,6 +332,8 @@
   top: 20px;
   width: var(--rp-close-size);
   height: var(--rp-close-size);
+  display: grid;
+  place-items: center;
   font:
     400 23px/1 'Geist', system-ui, sans-serif;
 }

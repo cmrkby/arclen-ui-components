@@ -6,6 +6,8 @@
   font-display: swap;
 }
 
+.cr-layout { width: 100%; min-width: 0; }
+
 .cr-shell {
   --cr-title-line: calc(var(--cr-title-size) * 1.15);
   --cr-price-height: max(var(--cr-price-size), var(--cr-add-size), var(--cr-remove-size));
@@ -382,6 +384,35 @@
   clip-path: inset(50%);
   white-space: nowrap;
 }
+/* Two card widths are reserved in the host so opening never recentres the photograph. */
+.cr-shell[data-side] {
+  display: grid;
+  grid-template-columns: calc(var(--cr-card-width) - 2 * var(--cr-frame-padding)) minmax(0, 1fr);
+  width: var(--cr-card-width);
+  margin-left: calc((100% - 2 * var(--cr-card-width)) / 2);
+  margin-right: auto;
+}
+.cr-shell[data-side]:is([data-state='open'], [data-state='confirming']) { width: calc(2 * var(--cr-card-width)); }
+.cr-shell[data-side][data-state='receipt'] { width: calc(var(--cr-card-width) + min(var(--cr-card-width), 168px)); }
+.cr-shell[data-side] .cr-cover { grid-area: 1 / 1; align-self: center; }
+.cr-shell[data-side] :is(.cr-body, .cr-receipt) {
+  grid-area: 1 / 2;
+  min-width: 0;
+}
+.cr-shell[data-side] .cr-body {
+  display: grid;
+  align-items: center;
+  height: auto;
+  min-height: var(--cr-details-height);
+}
+.cr-shell[data-side] .cr-details {
+  width: var(--cr-card-width);
+  padding-inline: var(--cr-frame-padding);
+}
+.cr-shell[data-side] .cr-receipt { align-self: center; pointer-events: none; }
+.cr-shell[data-side] .cr-slip { padding: 0 4px 0 var(--cr-frame-padding); }
+.cr-shell[data-side][data-state='receipt'] .cr-body { opacity: 0; }
+
 @media (prefers-reduced-motion: no-preference) {
   .cr-shell[data-mounted]:not([data-static]) {
     animation: cr-in calc(0.47s * var(--cr-fold, 1))
@@ -463,6 +494,20 @@
     transform: scale(0.95);
   }
 }
+@media (prefers-reduced-motion: no-preference) {
+  .cr-shell[data-side]:not([data-static]) {
+    transition: width calc(480ms * var(--cr-fold)) var(--cr-open-ease);
+  }
+  .cr-shell[data-side]:is([data-state='open'], [data-state='confirming']):not([data-static]) {
+    animation: none;
+    --cr-row-x: -14px;
+    --cr-row-y: 0px;
+  }
+  .cr-shell[data-side]:not([data-static]) .cr-body {
+    transition: opacity calc(160ms * var(--cr-fold)) ease;
+  }
+}
+
 @keyframes cr-photo-in {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -472,7 +517,7 @@
   32% { scale: 1.015; }
 }
 @keyframes cr-detail-in {
-  from { opacity: 0; translate: 0 14px; }
+  from { opacity: 0; translate: var(--cr-row-x, 0px) var(--cr-row-y, 14px); }
   to { opacity: 1; translate: none; }
 }
 @keyframes cr-order-in {

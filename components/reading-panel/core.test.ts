@@ -9,6 +9,21 @@ afterEach(() => {
   document.body.replaceChildren();
 });
 
+test('switches the backdrop in place and restores the default', () => {
+  expect(defaults.background).toBe('gradient');
+  expect(() => resolveSettings({ background: 'unknown' })).toThrow();
+  expect(render(resolveSettings({ background: 'coastal' }))).toContain('data-background="coastal"');
+  const host = document.createElement('div');
+  document.body.append(host);
+  controller = mount(host, {});
+  const stage = host.querySelector<HTMLElement>('[data-rp-root]')!;
+  controller.update({ background: 'coastal' });
+  expect(stage.dataset.background).toBe('coastal');
+  controller.update({ background: 'gradient' });
+  expect(stage.dataset.background).toBe('gradient');
+  expect(host.querySelector('[data-rp-root]')).toBe(stage);
+});
+
 test('validates the manifest settings and gives each rendered reader its own IDs', () => {
   expect(resolveSettings({})).toEqual(defaults);
   expect(() => resolveSettings({ theme: 'amber' })).toThrow();
