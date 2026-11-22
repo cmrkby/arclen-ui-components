@@ -18,6 +18,7 @@ export interface Settings {
   favoriteInset: number;
   favoriteIcon: number;
   favoriteFill: string;
+  favoriteLightFill: string;
   sparkSize: number;
   sparkReach: number;
   detailsTop: number;
@@ -206,6 +207,7 @@ export function resolveSettings(input: unknown = {}): Settings {
     favoriteInset: bounded(raw.favoriteInset, defaults.favoriteInset, 0, 24),
     favoriteIcon: bounded(raw.favoriteIcon, defaults.favoriteIcon, 12, 28),
     favoriteFill: color(raw.favoriteFill, defaults.favoriteFill),
+    favoriteLightFill: color(raw.favoriteLightFill, defaults.favoriteLightFill),
     sparkSize: bounded(raw.sparkSize, defaults.sparkSize, 2, 10),
     sparkReach: bounded(raw.sparkReach, defaults.sparkReach, 10, 45),
     detailsTop: bounded(raw.detailsTop, defaults.detailsTop, 8, 40),
@@ -324,6 +326,7 @@ function appearance(s: Settings) {
     `--cr-favorite-inset:${s.favoriteInset}px`,
     `--cr-favorite-icon:${s.favoriteIcon}px`,
     `--cr-favorite-fill:${s.favoriteFill}`,
+    `--cr-favorite-light-fill:${s.favoriteLightFill}`,
     `--cr-spark-size:${s.sparkSize}px`,
     `--cr-spark-reach:${s.sparkReach}px`,
     `--cr-details-top:${s.detailsTop}px`,
@@ -443,6 +446,14 @@ export function mount(
   let resetTimer = 0;
   let pointer: number | null = null;
   let origin = 0;
+  let downX = 0;
+  let downY = 0;
+  let dragScale = 1;
+  let endCenter = Infinity;
+  let fromThumb = false;
+  let moved = false;
+  let suppressLabelClick = false;
+  let capture: HTMLElement | null = null;
   let distance = 0;
   let progress = 0;
   let travel = 218;
@@ -545,8 +556,9 @@ export function mount(
     root.removeAttribute('data-tracking');
     const id = pointer;
     pointer = null;
-    if (id !== null && thumb.hasPointerCapture?.(id))
-      thumb.releasePointerCapture(id);
+    if (id !== null && capture?.hasPointerCapture?.(id))
+      capture.releasePointerCapture(id);
+    capture = null;
   }
   function abortDrag() {
     stopDrag();
@@ -652,8 +664,18 @@ export function mount(
   }
   add.addEventListener('click', () => change(1), { signal });
   less.addEventListener('click', () => change(-1), { signal });
-  labelButton.addEventListener('click', confirm, { signal });
-  thumb.addEventListener(
+  // A deliberate label click is also the accessible single-action alternative.
+  labelButton.addEventListener('click', (event) => {
+    if (!event.detail || !suppressLabelClick) confirm();
+  }, { signal });
+  function dragDistance(event: PointerEvent) {
+    const x = event.clientX;
+    if (Math.max(Math.abs(x - downX), Math.abs(event.clientY - downY)) >= 4) moved = true;
+    // Grabbing the right edge of the thumb should still reach the visible end stop.
+    if (moved && x >= endCenter && x > downX) return travel;
+    return (x - origin) / dragScale;
+  }
+  track.addEventListener(
     'pointerdown',
     (e) => {
       if (
@@ -672,21 +694,31 @@ export function mount(
       const painted = match
         ? Number(match[1].split(',')[4])
         : (travel * progress) / 100;
-      origin = e.clientX - painted;
+      const bounds = track.getBoundingClientRect();
+      dragScale = bounds.width && track.clientWidth ? bounds.width / track.clientWidth : 1;
+      const halfThumb = (thumb.offsetWidth || s.trackHeight - 2 * s.thumbInset) / 2;
+      endCenter = bounds.width ? bounds.right - (s.thumbInset + halfThumb) * dragScale : Infinity;
+      downX = e.clientX;
+      downY = e.clientY;
+      fromThumb = thumb.contains(e.target as Node);
+      moved = suppressLabelClick = false;
+      origin = fromThumb ? downX - painted * dragScale : bounds.left + (s.thumbInset + halfThumb) * dragScale;
+      distance = painted;
       setProgress((painted / travel) * 100);
-      distance = e.clientX - origin;
       root.removeAttribute('data-returning');
       root.setAttribute('data-tracking', '');
-      thumb.setPointerCapture?.(e.pointerId);
-      thumb.focus({ preventScroll: true });
+      capture = fromThumb ? thumb : labelButton.contains(e.target as Node) ? labelButton : track;
+      capture.setPointerCapture?.(e.pointerId);
+      if (fromThumb) thumb.focus({ preventScroll: true });
     },
     { signal },
   );
-  track.addEventListener(
+  doc.addEventListener(
     'pointermove',
     (e) => {
       if (e.pointerId !== pointer) return;
-      distance = e.clientX - origin;
+      distance = dragDistance(e);
+      if (!fromThumb && !moved) return;
       if (still()) setProgress((distance / travel) * 100);
       else if (!dragFrame)
         dragFrame = win.requestAnimationFrame(() => {
@@ -696,13 +728,18 @@ export function mount(
     },
     { signal },
   );
-  track.addEventListener(
+  doc.addEventListener(
     'pointerup',
     (e) => {
       if (e.pointerId !== pointer) return;
-      const end = (e.clientX - origin) / travel;
+      const end = dragDistance(e) / travel;
+      const labelBounds = labelButton.getBoundingClientRect();
+      suppressLabelClick = moved || (capture === labelButton && labelBounds.width > 0 && (
+        e.clientX < labelBounds.left || e.clientX > labelBounds.right ||
+        e.clientY < labelBounds.top || e.clientY > labelBounds.bottom
+      ));
       stopDrag();
-      if (end >= s.confirmThreshold / 100) confirm();
+      if (e.clientX - downX >= 4 && end >= s.confirmThreshold / 100) confirm();
       else {
         root.setAttribute('data-returning', '');
         setProgress(0);
@@ -714,7 +751,10 @@ export function mount(
     track.addEventListener(
       type,
       (e) => {
-        if (e.pointerId === pointer) abortDrag();
+        if (e.pointerId === pointer) {
+          suppressLabelClick = true;
+          abortDrag();
+        }
       },
       { signal },
     );

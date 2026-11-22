@@ -258,6 +258,43 @@ describe('Cart Reveal', () => {
     });
     api.destroy();
   });
+  test('drags from the label, reaches the visible end from an off-centre grip, and rejects partial drags', () => {
+    const { host } = setup();
+    const onConfirm = vi.fn();
+    const api = mount(host, {}, { paused: true, onConfirm });
+    const product = host.querySelector<HTMLButtonElement>('.cr-product')!;
+    const track = host.querySelector<HTMLElement>('.cr-track')!;
+    const thumb = host.querySelector<HTMLElement>('.cr-thumb')!;
+    const label = host.querySelector<HTMLButtonElement>('.cr-confirm-label')!;
+    Object.defineProperty(track, 'clientWidth', {value: 200});
+    Object.defineProperty(thumb, 'offsetWidth', {value: 40});
+    vi.spyOn(track, 'getBoundingClientRect').mockReturnValue(new DOMRect(100, 0, 150, 40));
+    const fire = (target:EventTarget, type:string, clientX:number, clientY=20) => target.dispatchEvent(
+      new window.PointerEvent(type, {button:0,pointerId:5,isPrimary:true,clientX,clientY,bubbles:true})
+    );
+    try {
+      product.click();
+      fire(label, 'pointerdown', 172);
+      fire(document, 'pointerup', 172, 80);
+      label.dispatchEvent(new MouseEvent('click', {bubbles:true,detail:1}));
+      fire(track, 'pointerdown', 249);
+      fire(document, 'pointerup', 240);
+      expect(onConfirm).not.toHaveBeenCalled();
+      fire(label, 'pointerdown', 170);
+      fire(document, 'pointermove', 190);
+      fire(document, 'pointerup', 190);
+      label.dispatchEvent(new MouseEvent('click', {bubbles:true,detail:1}));
+      expect(onConfirm).not.toHaveBeenCalled();
+      fire(label, 'pointerdown', 170);
+      fire(document, 'pointerup', 240);
+      expect(onConfirm).toHaveBeenCalledTimes(1);
+      product.click();
+      fire(thumb, 'pointerdown', 132);
+      fire(document, 'pointerup', 234);
+      expect(onConfirm).toHaveBeenCalledTimes(2);
+    } finally {api.destroy();}
+  });
+
   test('confirms from the rail label, clears the receipt, and reopens at one', () => {
     vi.useFakeTimers();
     const { host } = setup();
