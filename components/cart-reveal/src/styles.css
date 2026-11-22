@@ -271,6 +271,8 @@
   display: none;
 }
 .cr-track {
+  touch-action: pan-y;
+  user-select: none;
   --cr-offset: 0px;
   --cr-text-opacity: 1;
   position: relative;
@@ -534,6 +536,12 @@
   --cr-frame: var(--cr-light-frame);
   color: var(--cr-light-text);
   background: linear-gradient(150deg, #faf9f4, var(--cr-frame) 52%, #dcdad4);
+}
+.cr-shell[data-theme='light'] .cr-favorite {
+  color: var(--cr-light-text);
+}
+.cr-shell[data-theme='light'] .cr-favorite-paint {
+  background: var(--cr-favorite-light-fill);
 }
 .cr-shell[data-theme='light'] .cr-brand,
 .cr-shell[data-theme='light'] .cr-step--less,

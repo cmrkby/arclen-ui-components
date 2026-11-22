@@ -1,6 +1,6 @@
 {
   "id": "cart-reveal",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "tier": "free",
   "name": "Cart Reveal",
   "category": "Commerce",
@@ -283,9 +283,16 @@
     {
       "key": "favoriteFill",
       "kind": "color",
-      "label": "Heart button fill",
+      "label": "Dark heart button fill",
       "group": "Wishlist",
       "default": "#151515"
+    },
+    {
+      "key": "favoriteLightFill",
+      "kind": "color",
+      "label": "Light heart button fill",
+      "group": "Wishlist",
+      "default": "#ffffff"
     },
     {
       "key": "sparkSize",
