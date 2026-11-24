@@ -1,0 +1,23 @@
+# Color Cut Cards
+
+Set three linked posters side by side. Hover or focus a card to raise its panel and reveal a description. In a single column the descriptions open automatically.
+
+## Artwork
+
+Choose **AI · Soft focus** for blurred monochrome marks, **AI · Obsidian** for black-glass studies, or **Optical studies** for amber, rose and violet glass. All nine images are included locally. Each card opens the full artwork by default. Set its destination to link to a product or article.
+
+## React
+
+```tsx
+import { ColorCutCards } from './components/color-cut-cards';
+
+<ColorCutCards collection="optical" radius={12} bodySize={14} cropX2={60} />
+```
+
+## Adjust the cards
+
+Choose card heights for three, two and single columns. Tune the resting, open and phone panels independently. Each card has its own crop, copy, panel and text colours. AI titles have independent logo and wordmark sizes and spacing. Use a line break or vertical bar between model entries, with a colon between the name and description.
+
+The Description and Footer groups control type size and spacing. Motion controls set the reveal and zoom durations, image magnification, description lift and arrow travel. Reduced motion shows state changes immediately. Native links support keyboard focus and Enter.
+
+Brand names and marks identify their respective owners. The image treatments are Arclen artwork. Licence notices for Geist, Lucide and LobeHub are included in assets.
