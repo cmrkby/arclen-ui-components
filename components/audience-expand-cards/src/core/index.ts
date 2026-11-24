@@ -51,7 +51,7 @@ export function render(input:unknown={}) {
       <button class="aud-hit aud-select" type="button" aria-label="Expand ${t('Title')}" ${open?'hidden':''}></button>
       <button class="aud-hit aud-project" type="button" aria-haspopup="dialog" aria-label="${t('Title')} ${t('Action')}" ${open&&!s[key+'Url']?'':'hidden'}></button>
       <a class="aud-hit" href="${t('Url')}" target="_blank" rel="noopener noreferrer" aria-label="${t('Title')} ${t('Action')}" ${open&&s[key+'Url']?'':'hidden'}></a></article>`;
-  }).join('')}</div></div><dialog class="aud-study" aria-label="Product details"><div class="aud-study-panel"><form method="dialog"><button aria-label="Close product">Close</button></form><img width="1536" height="1024" alt=""><div class="aud-study-copy"><small></small><h2></h2><div class="aud-spec"><strong></strong><span></span></div><p></p><p></p></div></div></dialog></section>`;
+  }).join('')}</div></div><dialog class="aud-study" aria-label="Product details"><div class="aud-study-panel"><form method="dialog"><button aria-label="Close product">Close</button></form><img src="${escape(cards[0].photo)}" width="1536" height="1024" alt=""><div class="aud-study-copy"><small></small><h2></h2><div class="aud-spec"><strong></strong><span></span></div><p></p><p></p></div></div></dialog></section>`;
 }
 export function mount(host:HTMLElement,input:unknown={},_id?:string,options:{paused?:boolean}={}) {
   let s=resolveSettings(input), active=cards.findIndex(c=>c.key===s.initialCard);
