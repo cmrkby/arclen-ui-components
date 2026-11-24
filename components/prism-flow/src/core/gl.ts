@@ -10,6 +10,8 @@ export function createField(canvas: HTMLCanvasElement) {
   }
   const gl = context;
   if (!gl) return null;
+  const info = gl.getExtension('WEBGL_debug_renderer_info');
+  const software = info && /swiftshader|llvmpipe|softpipe|software rasterizer/i.test(gl.getParameter(info.UNMASKED_RENDERER_WEBGL));
   const program = gl.createProgram();
   if (!program) return null;
   const shaders: WebGLShader[] = [];
@@ -44,6 +46,13 @@ export function createField(canvas: HTMLCanvasElement) {
     gl!.uniform3f(uniforms[key],(rgb>>16)/255,((rgb>>8)&255)/255,(rgb&255)/255);
   }
   return {
+    resize(width:number,height:number,pixelRatio:number) {
+      // The ribbon is a smooth field. On a CPU rasterizer, keep the optical
+      // layer small while the caption and overlay retain native resolution.
+      const scale=software?Math.min(pixelRatio,Math.sqrt(90000/Math.max(1,width*height))):pixelRatio;
+      const w=Math.max(1,Math.round(width*scale)),h=Math.max(1,Math.round(height*scale));
+      if(canvas.width!==w || canvas.height!==h){canvas.width=w;canvas.height=h;}
+    },
     configure(s:Settings) {
       palettes[s.palette].forEach((hex,i)=>color('c'+i,hex));
       color('bg',s.background);

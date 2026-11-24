@@ -50,8 +50,7 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:{pau
   }
   function resize() {
     const dpr=Math.min(win.devicePixelRatio||1,1.25);
-    const w=Math.max(1,Math.round(canvas.clientWidth*dpr)), h=Math.max(1,Math.round(canvas.clientHeight*dpr));
-    if(canvas.width!==w || canvas.height!==h){canvas.width=w; canvas.height=h;}
+    field?.resize(canvas.clientWidth,canvas.clientHeight,dpr);
     sync();
   }
   function configure() {
