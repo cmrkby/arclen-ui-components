@@ -1,15 +1,12 @@
-import manifest from '../../component.json';
 import {createLens} from './lens';
 import {recordPlayer} from './record';
-import {resolveSettings,type Settings,type OpticalKey} from './settings';
+import {resolveSettings,type Settings} from './settings';
 export {defaults,resolveSettings,type Settings} from './settings';
 
 const escapeText = (s:string) => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 export function render(input:unknown={}) {
   const s=resolveSettings(input);
-  const sliders=manifest.settings.filter(r=>r.kind==='number' && r.group!=='Motion').map(r=>
-    `<label><span>${r.label}</span><output>${s[r.key as OpticalKey]}</output><input aria-label="${r.label}" data-key="${r.key}" type="range" min="${r.min}" max="${r.max}" step="${r.step}" value="${s[r.key as OpticalKey]}"></label>`).join('');
-  return `<div class="lg-scene" style="--lg-radius:${s.borderRadius}px"><canvas class="lg-record" aria-hidden="true"></canvas><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-marker" aria-hidden="true"><canvas></canvas></div><div class="lg-foreground"><span class="lg-ring" aria-hidden="true" ${s.showRing?'':'hidden'}><i></i></span><p>${escapeText(s.caption)}</p></div><button type="button" class="lg-toggle" aria-label="Open controls" aria-expanded="false"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h5m4 0h7M4 17h9m4 0h3"/><circle cx="11" cy="7" r="2"/><circle cx="15" cy="17" r="2"/></svg></button><section class="lg-controls" aria-label="Lens controls" inert><strong>Lens controls</strong>${sliders}</section></div>`;
+  return `<div class="lg-scene" style="--lg-radius:${s.borderRadius}px"><canvas class="lg-record" aria-hidden="true"></canvas><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-marker" aria-hidden="true"><canvas></canvas></div><div class="lg-foreground"><span class="lg-ring" aria-hidden="true" ${s.showRing?'':'hidden'}><i></i></span><p>${escapeText(s.caption)}</p></div></div>`;
 }
 
 export type MountOptions={paused?:boolean;videoSrc?:string;imageSrc?:string;onChange?:(patch:Partial<Settings>)=>void};
@@ -23,8 +20,6 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
   const record=scene.querySelector<HTMLCanvasElement>('.lg-record')!;
   const video=scene.querySelector('video')!,marker=scene.querySelector<HTMLElement>('.lg-marker')!;
   const canvas=marker.querySelector('canvas')!,caption=scene.querySelector('p')!,ring=scene.querySelector<HTMLElement>('.lg-ring')!;
-  const toggle=scene.querySelector('button')!,panel=scene.querySelector<HTMLElement>('.lg-controls')!;
-  const ranges=Array.from(panel.querySelectorAll('input'));
   const listeners=new win.AbortController(),on={signal:listeners.signal};
   const motion=win.matchMedia('(prefers-reduced-motion: reduce)');
   // An explicit empty source selects the procedural record.
@@ -108,22 +103,8 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
     if(useVideo && video.playbackRate!==settings.playbackSpeed)video.playbackRate=settings.playbackSpeed;
     if(useVideo && video.defaultPlaybackRate!==settings.playbackSpeed)video.defaultPlaybackRate=settings.playbackSpeed;
     ring.hidden=!settings.showRing;caption.textContent=settings.caption;
-    for(const range of ranges){
-      range.value=String(settings[range.dataset.key as OpticalKey]);
-      range.previousElementSibling!.textContent=range.value;
-    }
     lens?.configure(settings);if(visible)draw();
   }
-  function disclosure(open:boolean){
-    toggle.setAttribute('aria-expanded',String(open));toggle.setAttribute('aria-label',open?'Close controls':'Open controls');
-    panel.inert=!open;panel.dataset.open=String(open);
-  }
-  toggle.addEventListener('click',()=>disclosure(panel.inert),on);
-  scene.addEventListener('keydown',e=>{if(e.key==='Escape'&&!panel.inert){disclosure(false);toggle.focus();}},on);
-  for(const range of ranges)range.addEventListener('input',()=>{
-    const patch={[range.dataset.key!]:range.valueAsNumber};update(patch);options.onChange?.(patch);
-    host.dispatchEvent(new win.CustomEvent('liquid-glass-change',{detail:patch,bubbles:true}));
-  },on);
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lens=null;marker.dataset.renderer='fallback';},on);
   canvas.addEventListener('webglcontextrestored',()=>{lens=createLens(canvas);lens?.configure(settings);resize();},on);
   image.addEventListener('load', sync, on); image.addEventListener('error', sync, on);

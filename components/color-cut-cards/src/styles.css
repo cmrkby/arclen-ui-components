@@ -28,7 +28,7 @@
 .cc-num{height:var(--cc-badgeHeight);padding-inline:var(--cc-badgePad);font-size:var(--cc-badgeType);font-weight:550;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.015em}
 .cc-disc{width:var(--cc-circleSize);height:var(--cc-circleSize);transform:scale(var(--disc-scale))}
 .cc-disc svg{display:block;width:var(--cc-glyphSize);height:var(--cc-glyphSize);transform:translate(var(--arrow-x),var(--arrow-y))}
-.cc-card:focus-visible :is(.cc-num,.cc-disc){background-color:var(--cc-controlHover)}
+.cc-card:is(:focus-visible,[data-demo-hover]) :is(.cc-num,.cc-disc){background-color:var(--cc-controlHover)}
 @media(hover:hover){.cc-card:hover :is(.cc-num,.cc-disc){background-color:var(--cc-controlHover)}}
 .cc-panel{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;padding:var(--cc-inset);height:var(--panel-height);min-height:max-content;overflow:hidden;background:var(--cc-colour)}
 .cc-track>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -75,7 +75,7 @@
 .cc-panel,.cc-reveal,.cc-track,.cc-card svg{transition-duration:var(--cc-duration);transition-timing-function:var(--cc-ease);transition-property:transform}
 .cc-disc{transition:background-color 140ms ease,transform var(--cc-duration) var(--cc-ease)}
 .cc-panel{transition-property:height}.cc-reveal{transition-property:grid-template-rows,opacity,transform}
-.cc-card:focus{--panel-height:var(--cc-active);--body-track:1fr;--body-alpha:1;--body-y:0px;--line-y:-50%;--disc-scale:1.09;--photo-scale:var(--cc-zoom);--arrow-x:var(--cc-arrowTravel);--arrow-y:calc(-1 * var(--cc-arrowTravel));--foot-x:4px}
+.cc-card:is(:focus,[data-demo-hover]){--panel-height:var(--cc-active);--body-track:1fr;--body-alpha:1;--body-y:0px;--line-y:-50%;--disc-scale:1.09;--photo-scale:var(--cc-zoom);--arrow-x:var(--cc-arrowTravel);--arrow-y:calc(-1 * var(--cc-arrowTravel));--foot-x:4px}
 @media(hover:hover){.cc-card:hover{--panel-height:var(--cc-active);--body-track:1fr;--body-alpha:1;--body-y:0px;--line-y:-50%;--disc-scale:1.09;--photo-scale:var(--cc-zoom);--arrow-x:var(--cc-arrowTravel);--arrow-y:calc(-1 * var(--cc-arrowTravel));--foot-x:4px}}
 .cc-grid[data-cols="1"] .cc-card{--panel-height:var(--cc-mobile);--body-track:1fr;--body-alpha:1;--body-y:0px}
 .cc-stage[data-paused] *{transition-duration:0s!important;transform:none!important}

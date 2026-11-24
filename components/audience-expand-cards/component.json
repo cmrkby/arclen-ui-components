@@ -1,7 +1,7 @@
 {
   "id": "audience-expand-cards",
   "name": "Showroom Cards",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An expanding furniture catalogue with materials, finishes and product details.",
   "settings": [
     {
@@ -73,7 +73,7 @@
       "key": "height",
       "label": "Row height (px)",
       "kind": "number",
-      "default": 500,
+      "default": 440,
       "group": "Layout",
       "min": 400,
       "max": 660,
