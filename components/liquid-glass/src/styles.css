@@ -1,6 +1,6 @@
-.lg-scene{position:relative;isolation:isolate;container:lg / inline-size;overflow:hidden;width:100%;height:100%;min-height:300px;background:#16151a;color:#fff;font-family:var(--lg-font,Geist,Arial,sans-serif)}
+.lg-scene{position:relative;isolation:isolate;container:lg / inline-size;overflow:hidden;width:100%;height:100%;min-height:300px;background:#000;color:#fff;font-family:var(--lg-font,Geist,Arial,sans-serif)}
 .lg-scene *{box-sizing:border-box}.lg-scene [hidden]{display:none}
-.lg-backplate,.lg-record,.lg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lg-backplate,.lg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .lg-shape{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(calc(var(--lg-width)*1px),calc(100% - 32px));height:min(calc(var(--lg-height)*1px),calc(100% - 32px));border-radius:var(--lg-radius)}
 .lg-marker,.lg-foreground{position:absolute;inset:0;border-radius:inherit}
 .lg-marker{overflow:hidden;box-shadow:0 8px 26px #0003;backdrop-filter:blur(2px)}
@@ -17,7 +17,7 @@
 .lg-button span,.lg-badge span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lg-badge{font-size:14px;font-weight:600}
 .lg-badge i{width:6px;height:6px;flex:none;border-radius:50%;background:currentColor}
-.lg-scene[data-magnified=true]:has(.lg-marker[data-renderer=fallback]) :is(.lg-backplate,.lg-record,.lg-video){transform:scale(1.8)}
+.lg-scene[data-magnified=true]:has(.lg-marker[data-renderer=fallback]) :is(.lg-backplate,.lg-video){transform:scale(1.8)}
 .lg-scene[data-shape=card] .lg-foreground{display:flex;align-items:flex-end;justify-content:space-between;flex-direction:row-reverse;overflow:hidden;gap:16px;padding:min(7%,40px);background:linear-gradient(transparent,#0003)}
 .lg-foreground p{min-width:0;max-width:429px;max-height:100%;overflow:auto;pointer-events:auto;margin:0;font:500 22px/1.32 var(--lg-font,Geist,Arial,sans-serif);white-space:pre-wrap;overflow-wrap:anywhere}
 .lg-ring{width:min(18%,88px);aspect-ratio:1;flex:none;display:grid;place-items:center;border:1px solid currentColor;border-radius:50%}

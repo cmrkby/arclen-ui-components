@@ -1,6 +1,6 @@
 @font-face{font-family:CutGeist;src:url('../assets/geist-latin.woff2') format('woff2');font-weight:100 900;font-display:swap}
 .cc-stage,.cc-stage *{box-sizing:border-box}
-.cc-stage{min-height:max(800px,100%);display:flex;align-items:center;justify-content:center;background:var(--cc-stage);font:400 16px CutGeist,Arial,sans-serif;--cc-ease:cubic-bezier(.22,1,.36,1)}
+.cc-stage{width:100%;min-width:0;min-height:max(800px,100%);display:flex;align-items:center;justify-content:center;background:var(--cc-stage);font:400 16px CutGeist,Arial,sans-serif;--cc-ease:cubic-bezier(.22,1,.36,1)}
 .cc-stage[data-frame=reference]{height:max(800px,100vh);overflow:clip}
 .cc-grid{width:var(--cc-width);flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--cc-gap);--cc-height:var(--cc-wideHeight);--cc-title:var(--cc-titleSize)}
 .cc-grid[data-cols="2"]{grid-template-columns:repeat(2,minmax(0,1fr));--cc-height:var(--cc-midHeight)}

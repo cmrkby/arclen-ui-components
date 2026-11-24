@@ -1,5 +1,4 @@
 import {createLens} from './lens';
-import {recordPlayer} from './record';
 import {resolveSettings,type Settings} from './settings';
 export {defaults,resolveSettings,type Settings} from './settings';
 
@@ -17,87 +16,97 @@ function shapeContent(s:Settings) {
 }
 export function render(input:unknown={}) {
   const s=resolveSettings(input);
-  return `<div class="lg-scene" data-shape="${s.shape}" style="${shapeStyle(s)}"><canvas class="lg-record" aria-hidden="true"></canvas><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-shape"><div class="lg-marker" aria-hidden="true"><canvas></canvas></div><div class="lg-foreground">${shapeContent(s)}</div></div></div>`;
+  return `<div class="lg-scene" data-shape="${s.shape}" style="${shapeStyle(s)}"><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-shape"><div class="lg-marker" aria-hidden="true"><canvas hidden></canvas></div><div class="lg-foreground">${shapeContent(s)}</div></div></div>`;
 }
 
 export type MountOptions={paused?:boolean;videoSrc?:string;imageSrc?:string;onChange?:(patch:Partial<Settings>)=>void};
 const instances=new WeakMap<HTMLElement,{destroy():void}>();
 export function mount(host:HTMLElement,input:unknown={},_id?:string,options:MountOptions={}) {
   instances.get(host)?.destroy();
-  let settings=resolveSettings(input),disposed=false,paused=!!options.paused,visible=false,raf=0,videoFrame=0,previous=0,time=0,lastDecoded=-1;
+  let settings=resolveSettings(input),disposed=false,paused=!!options.paused,visible=false,raf=0,videoFrame=0,lastDecoded=-1;
   const doc=host.ownerDocument,win=doc.defaultView!;
   host.innerHTML=render(settings);
   const scene=host.firstElementChild as HTMLElement;
-  const record=scene.querySelector<HTMLCanvasElement>('.lg-record')!;
   const video=scene.querySelector('video')!,marker=scene.querySelector<HTMLElement>('.lg-marker')!;
   const canvas=marker.querySelector('canvas')!,foreground=scene.querySelector<HTMLElement>('.lg-foreground')!;
   let magnified=false;
   const listeners=new win.AbortController(),on={signal:listeners.signal};
   const motion=win.matchMedia('(prefers-reduced-motion: reduce)');
-  // An explicit empty source selects the procedural record.
   const stills = {
     iris: new URL('../../assets/iris-drift.webp', import.meta.url).href,
     salt: new URL('../../assets/salt-meadow.webp', import.meta.url).href,
     velodrome: new URL('../../assets/velodrome.webp', import.meta.url).href
   };
   const film = new URL('../../assets/tidal-fold-loop.mp4', import.meta.url).href;
-  let useVideo = false, useImage = false;
-  const image = doc.createElement('img');
-  image.className = 'lg-backplate'; image.alt = ''; image.hidden = true;
-  image.crossOrigin = 'anonymous';
+  let useVideo = false;
+  let image: HTMLImageElement | null = null;
+  function discardImage() {
+    if (!image) return;
+    image.onload = image.onerror = null;
+    image.remove();
+    image = null;
+  }
   function selectScene() {
     const custom = options.videoSrc !== undefined || options.imageSrc !== undefined;
     const videoUrl = custom ? options.videoSrc : settings.scene === 'tidal' ? film : '';
     const imageUrl = custom ? options.imageSrc : settings.scene === 'tidal' ? '' : stills[settings.scene];
-    useVideo = Boolean(videoUrl); useImage = !useVideo && Boolean(imageUrl); blocked = false;
-    if (useVideo) video.src = videoUrl!;
+    discardImage();
+    canvas.hidden = video.hidden = true;
+    marker.dataset.renderer = 'fallback';
+    lastDecoded = -1;
+    blocked = false;
+    useVideo = Boolean(videoUrl);
+    if (videoUrl) video.src = videoUrl;
     else if (video.hasAttribute('src')) {video.pause(); video.removeAttribute('src'); video.load();}
-    if (useImage) {record.after(image); image.src = imageUrl!;}
-    else {image.remove(); image.removeAttribute('src');}
+    if (!videoUrl && imageUrl) {
+      image = doc.createElement('img');
+      image.className = 'lg-backplate';
+      image.alt = '';
+      image.hidden = true;
+      image.crossOrigin = 'anonymous';
+      image.onload = image.onerror = sync;
+      scene.prepend(image);
+      image.src = imageUrl;
+    }
     sync();
   }
-  const ctx=record.getContext('2d');
-  const paintRecord=ctx?recordPlayer(ctx):null;
-  paintRecord?.(0);
   let lens=createLens(canvas),blocked=false;
   function hasVideo(){return useVideo && video.readyState>=2 && video.videoWidth>0 && !video.error;}
   function draw(){
     const decoded=hasVideo();
-    const still=useImage && image.complete && image.naturalWidth>0 ? image : null;
-    image.hidden=!still;
-    video.hidden=!decoded; record.hidden=decoded || !!still;
-    if(!decoded && !still) paintRecord?.(time);
-    if(lens){
+    const still=image?.complete && image.naturalWidth>0 ? image : null;
+    if(image) image.hidden=!still;
+    video.hidden=!decoded;
+    if(lens && (decoded || still)){
       try{
-        if(decoded)lens.draw(video,video.videoWidth,video.videoHeight);
-        else if(still)lens.draw(still,still.naturalWidth,still.naturalHeight);
-        else if(paintRecord)lens.draw(record,record.width,record.height);
-        marker.dataset.renderer=decoded||still||paintRecord?'webgl':'fallback';
-      }catch{lens.destroy();lens=null;marker.dataset.renderer='fallback';}
-    }else marker.dataset.renderer='fallback';
+        if(still)lens.draw(still,still.naturalWidth,still.naturalHeight);
+        else lens.draw(video,video.videoWidth,video.videoHeight);
+      }catch{lens.destroy();lens=null;}
+    }
+    const refracted=Boolean(lens && (decoded || still));
+    if(canvas.hidden===refracted)canvas.hidden=!refracted;
+    const renderer=refracted?'webgl':'fallback';
+    if(marker.dataset.renderer!==renderer)marker.dataset.renderer=renderer;
     lastDecoded=decoded?video.currentTime:-1;
   }
-  function tick(now:number){
-    if(disposed)return;
-    if(!hasVideo()){
-      time+=previous?Math.min((now-previous)/1000,.1):0;draw();
-    }else if(lastDecoded!==video.currentTime)draw();
-    previous=now;raf=win.requestAnimationFrame(tick);
+  function tick(){
+    if(hasVideo() && lastDecoded!==video.currentTime)draw();
+    raf=win.requestAnimationFrame(tick);
   }
   function presented(){
     draw();
     videoFrame=video.requestVideoFrameCallback(presented);
   }
   function sync(){
-    win.cancelAnimationFrame(raf);raf=0;previous=0;
+    win.cancelAnimationFrame(raf);raf=0;
     if(videoFrame){video.cancelVideoFrameCallback(videoFrame);videoFrame=0;}
     const run=!disposed && visible && !doc.hidden && !motion.matches && !paused;
     if(!run && useVideo)video.pause();
     if(disposed || !visible || doc.hidden)return;
     draw();
-    if(run && !useImage){
-      if(useVideo && !video.error && !blocked && video.paused)void video.play().catch(err=>{if(err?.name!=='AbortError')blocked=true;});
-      if(useVideo && !video.error && typeof video.requestVideoFrameCallback==='function'){
+    if(run && useVideo && !video.error){
+      if(!blocked && video.paused)void video.play().catch(err=>{if(err?.name!=='AbortError')blocked=true;});
+      if(typeof video.requestVideoFrameCallback==='function'){
         videoFrame=video.requestVideoFrameCallback(presented);
       }else raf=win.requestAnimationFrame(tick);
     }
@@ -143,7 +152,6 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
   }
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lens=null;marker.dataset.renderer='fallback';},on);
   canvas.addEventListener('webglcontextrestored',()=>{lens=createLens(canvas);configureLens();resize();},on);
-  image.addEventListener('load', sync, on); image.addEventListener('error', sync, on);
   video.muted = true;
   for (const event of ['loadeddata','seeked','error']) video.addEventListener(event, sync, on);
   selectScene();
@@ -152,7 +160,7 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
   const observer=new win.IntersectionObserver(([entry])=>{visible=entry.isIntersecting;sync();});
   observer.observe(scene);update(settings);resize();
   const api={update,pause(){paused=true;sync();},resume(){paused=false;blocked=false;sync();},
-    destroy(){if(disposed)return;disposed=true;sync();listeners.abort();size.disconnect();observer.disconnect();lens?.destroy();
+    destroy(){if(disposed)return;disposed=true;sync();listeners.abort();discardImage();size.disconnect();observer.disconnect();lens?.destroy();
       if(useVideo){video.removeAttribute('src');video.load();}scene.remove();instances.delete(host);}
   };
   instances.set(host,api); return api;

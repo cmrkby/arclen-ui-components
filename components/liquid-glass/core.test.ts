@@ -14,6 +14,8 @@ describe('Liquid Glass',()=>{
     }
   });
   it('starts with a keyboard-operable pill and renders badges as text',()=>{
+    expect(render()).not.toContain('lg-record');
+    expect(render()).toContain('<canvas hidden>');
     expect(render()).toContain('class="lg-button" type="button" aria-pressed="false"');
     const badge=render({shape:'badge',badgeLabel:'Salt & sand',badgeWidth:180,badgeHeight:42,badgeRadius:4});
     expect(badge).toContain('Salt &amp; sand');
