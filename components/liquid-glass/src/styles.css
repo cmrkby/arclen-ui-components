@@ -9,9 +9,10 @@
 .lg-marker::after{content:"";border-radius:inherit;box-shadow:inset 0 1px 2px #ffffff70,inset 0 0 0 1px #ffffff50}
 .lg-foreground{background:linear-gradient(155deg,#fff1,transparent 34%,#10101838);pointer-events:none}
 .lg-button,.lg-badge{width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:.55em;padding:0 min(8%,18px);border:0;border-radius:inherit;color:#fff;text-shadow:0 1px 4px #0009;background:transparent;font:550 20px/1.15 var(--lg-font,Geist,Arial,sans-serif)}
-.lg-button{pointer-events:auto;cursor:pointer;transition:background-color 160ms ease}
+.lg-scene[data-shape=button] .lg-marker[data-renderer=fallback]{backdrop-filter:blur(calc(2px + var(--lg-button-frost)*.5px))}
+.lg-button{font-size:22px;background-color:rgb(45 49 56 / calc(var(--lg-button-frost)*.014));pointer-events:auto;cursor:pointer;transition:background-color 160ms ease}
 .lg-button:focus-visible{outline:2px solid #fff;outline-offset:3px}
-.lg-button:hover,.lg-button[aria-pressed=true]{background:#12131a24}
+.lg-button:hover,.lg-button[aria-pressed=true]{background-color:rgb(35 39 46 / calc(.14 + var(--lg-button-frost)*.014))}
 .lg-button svg{width:1em;height:1em;flex:none}
 .lg-button[aria-pressed=true] .lg-plus{display:none}
 .lg-button span,.lg-badge span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}

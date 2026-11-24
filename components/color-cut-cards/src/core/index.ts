@@ -42,8 +42,8 @@ function escape(value:Setting) {
   return String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
 }
 
-function destination(raw:string, photo:string) {
-  if(!raw.trim())return photo;
+function destination(raw:string) {
+  if(!raw.trim())return '';
   try {
     const url=new URL(raw,'https://example.invalid/');
     return ['https:','http:','mailto:','tel:'].includes(url.protocol)?raw.trim():'';
@@ -67,7 +67,7 @@ function stageStyle(s:CardSettings) {
 function cardParts(s:CardSettings,i:number) {
   const get=(key:string)=>s[key+(i+1)];
   const photo=photos[s.collection as keyof typeof photos][i];
-  const href=destination(String(get('href')),photo);
+  const href=destination(String(get('href')));
   const title=escape(get('title'));
   const style=[
     '--cc-colour:'+get('colour'),'--cc-ink:'+get('ink'),'--cc-crop:'+get('crop')+'%','--cc-crop-x:'+get('cropX')+'%',
@@ -86,7 +86,7 @@ export function render(input:unknown={}) {
   const s=resolveSettings(input);
   const cards=brandNames.map((_,i)=>{
     const {style,brand,html,href}=cardParts(s,i);
-    return '<a class="cc-card" target="_blank" rel="noopener noreferrer"'+(href?' href="'+escape(href)+'"':'')+' style="'+style+'" '+(brand?'data-brand-title="'+brand+'"':'')+'>'+html+'</a>';
+    return '<a class="cc-card" tabindex="0" target="_blank" rel="noopener noreferrer"'+(href?' href="'+escape(href)+'"':'')+' style="'+style+'" '+(brand?'data-brand-title="'+brand+'"':'')+'>'+html+'</a>';
   });
   return '<section class="cc-stage" aria-label="Cutaway Cards" data-frame="'+s.frame+'" data-collection="'+s.collection+'" style="'+stageStyle(s)+'"><div class="cc-grid" data-cols="3">'+cards.join('')+'</div></section>';
 }

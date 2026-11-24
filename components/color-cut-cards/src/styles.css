@@ -8,7 +8,8 @@
 .cc-card{display:block;position:relative;overflow:hidden;height:var(--cc-height);border-radius:var(--cc-radius);background:var(--cc-colour);color:var(--cc-ink);text-decoration:none;text-align:left;isolation:isolate;--panel-height:var(--cc-rest);--body-track:0fr;--body-alpha:0;--body-y:var(--cc-copyLift);--line-y:0%;--disc-scale:1;--photo-scale:1;--arrow-x:0px;--arrow-y:0px;--foot-x:0px}
 .cc-card:focus-visible{outline:3px solid #181818;outline-offset:3px}
 .cc-stage:is([data-collection=obsidian],[data-collection=signal]) .cc-card:focus-visible{outline-color:#e7e7e7}
-.cc-card:active{transform:scale(.995)}
+.cc-card:not([href]) :is(.cc-disc,.cc-foot){visibility:hidden}
+.cc-card[href]:active{transform:scale(.995)}
 .cc-card>img{display:block;width:100%;height:max(60%,calc(100% - var(--cc-rest)),calc(100% - var(--cc-mobile)),calc(100% - var(--cc-active)));object-fit:cover;object-position:var(--cc-crop-x) var(--cc-crop);user-select:none;transform:scale(var(--photo-scale));transition:transform var(--cc-photoDuration) var(--cc-ease)}
 .cc-grid[data-cols="3"] .cc-card>img{object-position:var(--cc-crop-x) clamp(0%,calc(var(--cc-crop) - 14%),100%)}
 .cc-grid[data-cols="1"] .cc-card>img{height:max(60%,calc(100% - var(--cc-mobile)))}
