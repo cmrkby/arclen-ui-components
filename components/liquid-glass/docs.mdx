@@ -1,11 +1,9 @@
-Tidal Glass refracts the Tidal Fold wave beneath a rounded lens. The ring is a decorative play mark. Supply a same-origin or CORS-enabled video with the React videoSrc prop or the vanilla mount options to use a looping clip. The host defines the dimensions of the scene.
+Tidal Glass opens as a pill button over the Tidal Fold wave. Activate **Look closer** to magnify the scene inside the lens. Click again to return, or use Enter or Space while the button is focused.
 
-The lens and its caption are positioned independently. At 810px of component width the centered lens becomes 632 by 451 pixels. Narrower scenes dock the lens 16 pixels above the bottom edge.
+In Tweaks, choose **Shape preset** to switch between Pill button, Card and Badge. Each shape has its own width, height and corner radius in pixels. Switching shapes restores that shape’s dimensions. Set a small radius for square corners, or at least half the short side for a pill. The lens fits within the available frame on narrow screens.
 
-In the catalogue, open Tweaks to adjust the lens. In an installed component, pass the same settings as React props or call the vanilla instance’s update method. Refraction and Magnify change the interior. Edge Refraction, Bevel Width and Bevel Depth shape the rim. Dispersion separates the channels along the rim. Frost softens the sampled frame.
+The Button and Badge groups each include an editable label. The badge is static. The card displays the caption and optional play mark, and docks near the bottom on phones. Pass the same settings as React props or call the vanilla instance’s `update` method.
 
-Reduced motion and pause hold the frame. The renderer suspends offscreen. When a video cannot decode, the original animated record appears. Without WebGL, the background and caption remain visible with a translucent outlined lens.
+Choose Tidal Fold for the seven-second wave loop, or Iris Drift, Salt Meadow or Velodrome for a still. Playback speed ranges from 0.25× to 2×. Supply a same-origin or CORS-enabled backplate through `videoSrc` or `imageSrc`. The host sets the size of the scene.
 
-Tidal Fold · Loop opens by default. The breaking wave loops every seven seconds at 1×. Adjust `playbackSpeed` between 0.25× and 2×. At 0.5×, one cycle takes 14 seconds.
-
-Choose Iris Drift, Salt Meadow, or Velodrome in the Scene picker for a still backplate. To use one in React or vanilla, pass its WebP URL from `assets/` as `imageSrc`. The still redraws when the lens settings or layout change.
+Refraction and Magnify affect the interior of the lens. Edge Refraction, Bevel Width and Bevel Depth shape the rim. Dispersion separates the colour channels at the edge. Frost softens the view. Reduced motion and pause hold the frame, and the renderer suspends offscreen.

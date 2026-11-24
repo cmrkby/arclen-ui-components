@@ -1,10 +1,10 @@
 {
   "id": "liquid-glass",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "tier": "free",
   "name": "Tidal Glass",
   "category": "Backgrounds",
-  "description": "A refractive glass lens over a looping wave, with a sharp caption and adjustable optics.",
+  "description": "A refractive glass button, card or badge over a breaking wave, with adjustable geometry and optics.",
   "keywords": [
     "glass",
     "refraction",
@@ -12,6 +12,131 @@
     "lens"
   ],
   "settings": [
+    {
+      "key": "shape",
+      "label": "Shape preset",
+      "kind": "select",
+      "default": "button",
+      "group": "Shape",
+      "options": [
+        {
+          "value": "button",
+          "label": "Pill button"
+        },
+        {
+          "value": "card",
+          "label": "Card"
+        },
+        {
+          "value": "badge",
+          "label": "Badge"
+        }
+      ]
+    },
+    {
+      "key": "buttonWidth",
+      "label": "Button width (px)",
+      "kind": "number",
+      "default": 244,
+      "min": 48,
+      "max": 1200,
+      "step": 1,
+      "group": "Button shape"
+    },
+    {
+      "key": "buttonHeight",
+      "label": "Button height (px)",
+      "kind": "number",
+      "default": 72,
+      "min": 24,
+      "max": 900,
+      "step": 1,
+      "group": "Button shape"
+    },
+    {
+      "key": "buttonRadius",
+      "label": "Button radius (px)",
+      "kind": "number",
+      "default": 36,
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "group": "Button shape"
+    },
+    {
+      "key": "buttonLabel",
+      "label": "Button label",
+      "kind": "text",
+      "default": "Look closer",
+      "group": "Button shape"
+    },
+    {
+      "key": "cardWidth",
+      "label": "Card width (px)",
+      "kind": "number",
+      "default": 632,
+      "min": 48,
+      "max": 1200,
+      "step": 1,
+      "group": "Card shape"
+    },
+    {
+      "key": "cardHeight",
+      "label": "Card height (px)",
+      "kind": "number",
+      "default": 451,
+      "min": 24,
+      "max": 900,
+      "step": 1,
+      "group": "Card shape"
+    },
+    {
+      "key": "borderRadius",
+      "label": "Card radius (px)",
+      "kind": "number",
+      "default": 32,
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "group": "Card shape"
+    },
+    {
+      "key": "badgeWidth",
+      "label": "Badge width (px)",
+      "kind": "number",
+      "default": 152,
+      "min": 48,
+      "max": 1200,
+      "step": 1,
+      "group": "Badge shape"
+    },
+    {
+      "key": "badgeHeight",
+      "label": "Badge height (px)",
+      "kind": "number",
+      "default": 40,
+      "min": 24,
+      "max": 900,
+      "step": 1,
+      "group": "Badge shape"
+    },
+    {
+      "key": "badgeRadius",
+      "label": "Badge radius (px)",
+      "kind": "number",
+      "default": 20,
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "group": "Badge shape"
+    },
+    {
+      "key": "badgeLabel",
+      "label": "Badge label",
+      "kind": "text",
+      "default": "Coastal study",
+      "group": "Badge shape"
+    },
     {
       "key": "scene",
       "label": "Backplate",
@@ -158,16 +283,6 @@
       "group": "Surface"
     },
     {
-      "key": "borderRadius",
-      "label": "Border Radius",
-      "kind": "number",
-      "default": 32,
-      "min": 0,
-      "max": 1000,
-      "step": 1,
-      "group": "Surface"
-    },
-    {
       "key": "specularStrength",
       "label": "Specular Strength",
       "kind": "number",
@@ -234,7 +349,7 @@
   ],
   "poster": "poster.webp",
   "motion": {
-    "reducedMotion": "Holds a single frame and skips disclosure transitions.",
+    "reducedMotion": "Holds a still frame and skips button transitions.",
     "pauseOffscreen": true
   },
   "previews": [

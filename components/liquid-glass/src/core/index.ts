@@ -4,9 +4,20 @@ import {resolveSettings,type Settings} from './settings';
 export {defaults,resolveSettings,type Settings} from './settings';
 
 const escapeText = (s:string) => s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+function radius(s:Settings) {
+  return s.shape==='card'?s.borderRadius:s.shape==='button'?s.buttonRadius:s.badgeRadius;
+}
+function shapeStyle(s:Settings) {
+  return `--lg-radius:${radius(s)}px;--lg-width:${s[`${s.shape}Width`]};--lg-height:${s[`${s.shape}Height`]}`;
+}
+function shapeContent(s:Settings) {
+  if(s.shape==='card')return `<span class="lg-ring" aria-hidden="true" ${s.showRing?'':'hidden'}><i></i></span><p>${escapeText(s.caption)}</p>`;
+  if(s.shape==='badge')return `<span class="lg-badge"><i aria-hidden="true"></i><span>${escapeText(s.badgeLabel)}</span></span>`;
+  return `<button class="lg-button" type="button" aria-pressed="false"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4M8 10.5h5"/><path class="lg-plus" d="M10.5 8v5"/></svg><span>${escapeText(s.buttonLabel)}</span></button>`;
+}
 export function render(input:unknown={}) {
   const s=resolveSettings(input);
-  return `<div class="lg-scene" style="--lg-radius:${s.borderRadius}px"><canvas class="lg-record" aria-hidden="true"></canvas><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-marker" aria-hidden="true"><canvas></canvas></div><div class="lg-foreground"><span class="lg-ring" aria-hidden="true" ${s.showRing?'':'hidden'}><i></i></span><p>${escapeText(s.caption)}</p></div></div>`;
+  return `<div class="lg-scene" data-shape="${s.shape}" style="${shapeStyle(s)}"><canvas class="lg-record" aria-hidden="true"></canvas><video class="lg-video" muted playsinline loop preload="auto" crossorigin="anonymous" hidden></video><div class="lg-shape"><div class="lg-marker" aria-hidden="true"><canvas></canvas></div><div class="lg-foreground">${shapeContent(s)}</div></div></div>`;
 }
 
 export type MountOptions={paused?:boolean;videoSrc?:string;imageSrc?:string;onChange?:(patch:Partial<Settings>)=>void};
@@ -19,7 +30,8 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
   const scene=host.firstElementChild as HTMLElement;
   const record=scene.querySelector<HTMLCanvasElement>('.lg-record')!;
   const video=scene.querySelector('video')!,marker=scene.querySelector<HTMLElement>('.lg-marker')!;
-  const canvas=marker.querySelector('canvas')!,caption=scene.querySelector('p')!,ring=scene.querySelector<HTMLElement>('.lg-ring')!;
+  const canvas=marker.querySelector('canvas')!,foreground=scene.querySelector<HTMLElement>('.lg-foreground')!;
+  let magnified=false;
   const listeners=new win.AbortController(),on={signal:listeners.signal};
   const motion=win.matchMedia('(prefers-reduced-motion: reduce)');
   // An explicit empty source selects the procedural record.
@@ -94,19 +106,43 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
     lens?.resize(scene.getBoundingClientRect(),marker.getBoundingClientRect(),Math.min(2,win.devicePixelRatio||1));
     if(visible)draw();
   }
+  function configureLens(){
+    lens?.configure({...settings,borderRadius:radius(settings),magnify:settings.magnify*(magnified?1.8:1)});
+  }
+  foreground.addEventListener('click',event=>{
+    const button=foreground.querySelector('button');
+    if(!button || !button.contains(event.target as Node))return;
+    magnified=!magnified;
+    button.setAttribute('aria-pressed',String(magnified));
+    scene.dataset.magnified=String(magnified);
+    configureLens();
+    if(visible)draw();
+  },on);
   function update(patch:unknown){
     if(disposed)return;
-    const previousScene = settings.scene;
+    const previousScene = settings.scene, previousShape=settings.shape;
     settings=resolveSettings({...settings,...(patch && typeof patch==='object'?patch:{})});
     if (previousScene !== settings.scene) selectScene();
-    scene.style.setProperty('--lg-radius',settings.borderRadius+'px');
+    if(previousShape!==settings.shape){
+      magnified=false;delete scene.dataset.magnified;
+      scene.dataset.shape=settings.shape;
+      foreground.innerHTML=shapeContent(settings);
+    }
+    scene.style.setProperty('--lg-radius',radius(settings)+'px');
+    scene.style.setProperty('--lg-width',String(settings[`${settings.shape}Width`]));
+    scene.style.setProperty('--lg-height',String(settings[`${settings.shape}Height`]));
     if(useVideo && video.playbackRate!==settings.playbackSpeed)video.playbackRate=settings.playbackSpeed;
     if(useVideo && video.defaultPlaybackRate!==settings.playbackSpeed)video.defaultPlaybackRate=settings.playbackSpeed;
-    ring.hidden=!settings.showRing;caption.textContent=settings.caption;
-    lens?.configure(settings);if(visible)draw();
+    if(settings.shape==='card'){
+      foreground.querySelector<HTMLElement>('.lg-ring')!.hidden=!settings.showRing;
+      foreground.querySelector('p')!.textContent=settings.caption;
+    }else{
+      foreground.querySelector('.lg-button span,.lg-badge span')!.textContent=settings.shape==='button'?settings.buttonLabel:settings.badgeLabel;
+    }
+    configureLens();if(visible)draw();
   }
   canvas.addEventListener('webglcontextlost',e=>{e.preventDefault();lens=null;marker.dataset.renderer='fallback';},on);
-  canvas.addEventListener('webglcontextrestored',()=>{lens=createLens(canvas);lens?.configure(settings);resize();},on);
+  canvas.addEventListener('webglcontextrestored',()=>{lens=createLens(canvas);configureLens();resize();},on);
   image.addEventListener('load', sync, on); image.addEventListener('error', sync, on);
   video.muted = true;
   for (const event of ['loadeddata','seeked','error']) video.addEventListener(event, sync, on);
