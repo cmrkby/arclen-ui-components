@@ -48,6 +48,9 @@ export function createLens(canvas: HTMLCanvasElement) {
   if (!context) return null;
   const gl=context, program=gl.createProgram();
   if (!program) return null;
+  const info=gl.getExtension('WEBGL_debug_renderer_info');
+  const software=Boolean(info && /swiftshader|llvmpipe|softpipe|software rasterizer/i.test(gl.getParameter(info.UNMASKED_RENDERER_WEBGL)));
+  const sampler=software ? canvas.ownerDocument.createElement('canvas').getContext('2d') : null;
   const buffer=gl.createBuffer(), texture=gl.createTexture(), shaders: WebGLShader[]=[];
   function destroy() {
     gl.deleteTexture(texture); gl.deleteBuffer(buffer); gl.deleteProgram(program);
@@ -73,13 +76,21 @@ export function createLens(canvas: HTMLCanvasElement) {
   return {
     configure(s:Settings){ for(const k of opticalKeys) gl.uniform1f(u[k],s[k]); },
     resize(stage:DOMRect,lens:DOMRect,scale:number){
+      if(software)scale=Math.min(scale,Math.sqrt(48000/Math.max(1,lens.width*lens.height)));
       const w=Math.max(1,Math.round(lens.width*scale)),h=Math.max(1,Math.round(lens.height*scale));
       if(canvas.width!==w || canvas.height!==h){canvas.width=w;canvas.height=h;}
       gl.viewport(0,0,w,h);gl.uniform2f(u.bufferSize,w,h);gl.uniform2f(u.stage,stage.width,stage.height);
       gl.uniform2f(u.lens,lens.width,lens.height);gl.uniform2f(u.origin,lens.left-stage.left,lens.top-stage.top);
     },
     draw(source:HTMLImageElement|HTMLVideoElement|HTMLCanvasElement,w:number,h:number){
-      gl.uniform2f(u.media,w,h);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,source);
+      let pixels=source;
+      if(sampler && Math.max(w,h)>480){
+        const ratio=480/Math.max(w,h),sw=Math.max(1,Math.round(w*ratio)),sh=Math.max(1,Math.round(h*ratio));
+        if(sampler.canvas.width!==sw || sampler.canvas.height!==sh){sampler.canvas.width=sw;sampler.canvas.height=sh;}
+        sampler.drawImage(source,0,0,sw,sh);
+        pixels=sampler.canvas;
+      }
+      gl.uniform2f(u.media,w,h);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,pixels);
       gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
     }, destroy,
   };
