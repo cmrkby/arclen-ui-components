@@ -1,7 +1,7 @@
 {
   "id": "color-cut-cards",
-  "name": "Color Cut Cards",
-  "version": "1.0.0",
+  "name": "Cutaway Cards",
+  "version": "1.0.1",
   "description": "Three photographic links with rising colour panels and rolling titles.",
   "settings": [
     {

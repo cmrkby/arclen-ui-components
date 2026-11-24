@@ -1,0 +1,544 @@
+{
+  "id": "ricizen-slideshow",
+  "name": "Trackside Slideshow",
+  "version": "1.0.0",
+  "description": "Two downhill race builds from Rafe Calder × TOR, on the trail and in the studio.",
+  "settings": [
+    {
+      "key": "framing",
+      "kind": "select",
+      "label": "Stage framing",
+      "default": "fit",
+      "group": "Appearance",
+      "options": [
+        {
+          "value": "fit",
+          "label": "Fit preview"
+        },
+        {
+          "value": "reference",
+          "label": "Reference crop"
+        }
+      ]
+    },
+    {
+      "key": "font",
+      "kind": "select",
+      "label": "Typeface",
+      "default": "inter",
+      "group": "Appearance",
+      "options": [
+        {
+          "value": "inter",
+          "label": "Inter"
+        },
+        {
+          "value": "geist",
+          "label": "Geist Sans"
+        }
+      ]
+    },
+    {
+      "key": "headlineWeight",
+      "kind": "number",
+      "label": "Headline weight",
+      "default": 620,
+      "group": "Appearance",
+      "min": 400,
+      "max": 900,
+      "step": 10
+    },
+    {
+      "key": "accent",
+      "kind": "color",
+      "label": "Accent colour",
+      "default": "#f54e00",
+      "group": "Appearance"
+    },
+    {
+      "key": "backplateStrength",
+      "kind": "number",
+      "label": "Backplate strength (%)",
+      "default": 56,
+      "group": "Appearance",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Stage radius (px)",
+      "default": 0,
+      "group": "Appearance",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "photoBorder",
+      "kind": "number",
+      "label": "Photo border opacity (%)",
+      "default": 16,
+      "group": "Appearance",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "pillSize",
+      "kind": "number",
+      "label": "Height (px)",
+      "default": 32,
+      "group": "Image pill",
+      "min": 24,
+      "max": 52,
+      "step": 1
+    },
+    {
+      "key": "pillRadius",
+      "kind": "number",
+      "label": "Corner radius (px)",
+      "default": 24,
+      "group": "Image pill",
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "pillShadow",
+      "kind": "number",
+      "label": "Shadow strength (%)",
+      "default": 100,
+      "group": "Image pill",
+      "min": 0,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "arrowSize",
+      "kind": "number",
+      "label": "Size (px)",
+      "default": 32,
+      "group": "Arrow buttons",
+      "min": 24,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "arrowRadius",
+      "kind": "number",
+      "label": "Corner radius (px)",
+      "default": 24,
+      "group": "Arrow buttons",
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "arrowShadow",
+      "kind": "number",
+      "label": "Shadow strength (%)",
+      "default": 100,
+      "group": "Arrow buttons",
+      "min": 0,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "shellSize",
+      "kind": "number",
+      "label": "Size (%)",
+      "default": 100,
+      "group": "Thumbnail shell",
+      "min": 70,
+      "max": 130,
+      "step": 1
+    },
+    {
+      "key": "shellRadius",
+      "kind": "number",
+      "label": "Corner radius (px)",
+      "default": 16,
+      "group": "Thumbnail shell",
+      "min": 0,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "shellShadow",
+      "kind": "number",
+      "label": "Shadow strength (%)",
+      "default": 100,
+      "group": "Thumbnail shell",
+      "min": 0,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "autoplay",
+      "kind": "boolean",
+      "label": "Auto-advance",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "interval",
+      "kind": "number",
+      "label": "Seconds per slide",
+      "default": 5,
+      "group": "Motion",
+      "min": 2,
+      "max": 15,
+      "step": 0.25
+    },
+    {
+      "key": "marquee",
+      "kind": "number",
+      "label": "Marquee duration (s)",
+      "default": 27,
+      "group": "Motion",
+      "min": 8,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Transition speed (×)",
+      "default": 1,
+      "group": "Motion",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "initial",
+      "kind": "select",
+      "label": "Opening slide",
+      "default": "1",
+      "group": "Appearance",
+      "options": [
+        {
+          "value": "1",
+          "label": "Red Dust / Film"
+        },
+        {
+          "value": "2",
+          "label": "Red Dust / Studio"
+        },
+        {
+          "value": "3",
+          "label": "Nightfire / Trail"
+        },
+        {
+          "value": "4",
+          "label": "Nightfire / Studio"
+        }
+      ]
+    },
+    {
+      "key": "s1_eyebrow",
+      "kind": "text",
+      "label": "Eyebrow",
+      "default": "Red Dust / Film",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "Red Dust in motion.",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_description",
+      "kind": "text",
+      "label": "Description",
+      "default": "The rear wheel breaks loose as the rider leans into a red-earth berm.",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_action",
+      "kind": "text",
+      "label": "Button label",
+      "default": "Play the film",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_href",
+      "kind": "text",
+      "label": "Button link",
+      "default": "#",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_marquee",
+      "kind": "text",
+      "label": "Marquee phrase",
+      "default": "RED DUST",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s1_background",
+      "kind": "color",
+      "label": "Field colour",
+      "default": "#0a0a0a",
+      "group": "Slide 01"
+    },
+    {
+      "key": "s2_eyebrow",
+      "kind": "text",
+      "label": "Eyebrow",
+      "default": "Red Dust / Studio",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "The Red Dust build.",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_description",
+      "kind": "text",
+      "label": "Description",
+      "default": "A side profile of the red frame, gold fork and black wheels.",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_action",
+      "kind": "text",
+      "label": "Button label",
+      "default": "View the bike",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_href",
+      "kind": "text",
+      "label": "Button link",
+      "default": "#",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_marquee",
+      "kind": "text",
+      "label": "Marquee phrase",
+      "default": "RED DUST",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s2_background",
+      "kind": "color",
+      "label": "Field colour",
+      "default": "#0a0a0a",
+      "group": "Slide 02"
+    },
+    {
+      "key": "s3_eyebrow",
+      "kind": "text",
+      "label": "Eyebrow",
+      "default": "Nightfire / Trail",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "After the light goes.",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_description",
+      "kind": "text",
+      "label": "Description",
+      "default": "Track lights catch the rider between the trees on a blue-hour descent.",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_action",
+      "kind": "text",
+      "label": "Button label",
+      "default": "View the ride",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_href",
+      "kind": "text",
+      "label": "Button link",
+      "default": "#",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_marquee",
+      "kind": "text",
+      "label": "Marquee phrase",
+      "default": "NIGHTFIRE",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s3_background",
+      "kind": "color",
+      "label": "Field colour",
+      "default": "#0a0a0a",
+      "group": "Slide 03"
+    },
+    {
+      "key": "s4_eyebrow",
+      "kind": "text",
+      "label": "Eyebrow",
+      "default": "Nightfire / Studio",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_heading",
+      "kind": "text",
+      "label": "Heading",
+      "default": "The Nightfire build.",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_description",
+      "kind": "text",
+      "label": "Description",
+      "default": "Warm light picks out the orange frame against the dark studio floor.",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_action",
+      "kind": "text",
+      "label": "Button label",
+      "default": "View the bike",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_href",
+      "kind": "text",
+      "label": "Button link",
+      "default": "#",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_marquee",
+      "kind": "text",
+      "label": "Marquee phrase",
+      "default": "NIGHTFIRE",
+      "group": "Slide 04"
+    },
+    {
+      "key": "s4_background",
+      "kind": "color",
+      "label": "Field colour",
+      "default": "#0a0a0a",
+      "group": "Slide 04"
+    }
+  ],
+  "tier": "free",
+  "category": "Slideshow",
+  "keywords": [
+    "slideshow",
+    "film",
+    "cycling"
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "poster": "poster.webp",
+  "assets": [
+    {
+      "path": "assets/red-dust-poster.png",
+      "contentType": "image/png",
+      "rights": {
+        "kind": "licensed",
+        "license": "Permission to redistribute with the Arclen UI component",
+        "attribution": "Rafe Calder × TOR. Red Dust film animated for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/red-dust-studio.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "licensed",
+        "license": "Permission to redistribute with the Arclen UI component",
+        "attribution": "Rafe Calder × TOR. Red Dust film animated for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/nightfire-action.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "licensed",
+        "license": "Permission to redistribute with the Arclen UI component",
+        "attribution": "Rafe Calder × TOR. Red Dust film animated for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/nightfire-studio.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "licensed",
+        "license": "Permission to redistribute with the Arclen UI component",
+        "attribution": "Rafe Calder × TOR. Red Dust film animated for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/red-dust.mp4",
+      "contentType": "video/mp4",
+      "rights": {
+        "kind": "licensed",
+        "license": "Permission to redistribute with the Arclen UI component",
+        "attribution": "Rafe Calder × TOR. Red Dust film animated for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/Inter-OFL.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors."
+      }
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist project authors."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist project authors."
+      }
+    },
+    {
+      "path": "assets/inter-latin-variable.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors."
+      }
+    }
+  ],
+  "dependencies": {},
+  "previews": [
+    {
+      "name": "Arclen",
+      "settings": {}
+    }
+  ],
+  "motion": {
+    "pauseOffscreen": true,
+    "reducedMotion": "Switch slides without the animated transition."
+  }
+}

@@ -1,0 +1,1591 @@
+{
+  "id": "nudge-footer",
+  "name": "Sticker Footer",
+  "description": "DOPE Coffee. Move the pointer near the cup, beans or roast-club sticker to give it a nudge.",
+  "settings": [
+    {
+      "key": "background",
+      "label": "Shopfront orange",
+      "default": "#ff7042",
+      "kind": "color",
+      "group": "Appearance"
+    },
+    {
+      "key": "ink",
+      "label": "Espresso lettering",
+      "default": "#291a16",
+      "kind": "color",
+      "group": "Appearance"
+    },
+    {
+      "key": "edgeVisible",
+      "label": "Show receipt edge",
+      "default": true,
+      "kind": "boolean",
+      "group": "Appearance"
+    },
+    {
+      "key": "edgeSize",
+      "label": "Edge tooth width (px)",
+      "default": 14,
+      "kind": "number",
+      "group": "Appearance",
+      "min": 4,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "stickerScale",
+      "label": "Sticker size (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Appearance",
+      "min": 50,
+      "max": 160,
+      "step": 1
+    },
+    {
+      "key": "word",
+      "label": "Wordmark",
+      "default": "DOPE",
+      "kind": "text",
+      "group": "Wordmark"
+    },
+    {
+      "key": "fit",
+      "label": "Wordmark width (%)",
+      "default": 96,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": 65,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "wordFace",
+      "label": "Typeface",
+      "default": "NudgeLilita",
+      "kind": "select",
+      "group": "Wordmark",
+      "options": [
+        {
+          "value": "NudgeLilita",
+          "label": "Lilita One"
+        },
+        {
+          "value": "NudgeInter",
+          "label": "Inter"
+        },
+        {
+          "value": "system-ui",
+          "label": "System sans"
+        },
+        {
+          "value": "Georgia",
+          "label": "Georgia"
+        }
+      ]
+    },
+    {
+      "key": "wordTracking",
+      "label": "Tracking (em)",
+      "default": -0.045,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": -0.12,
+      "max": 0.12,
+      "step": 0.005
+    },
+    {
+      "key": "wordX",
+      "label": "Horizontal center (%)",
+      "default": 50,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": 35,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "wordLift",
+      "label": "Lift from baseline (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": -40,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "artRatio",
+      "label": "Artwork width / height",
+      "default": 2.16,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": 1.6,
+      "max": 3.2,
+      "step": 0.01
+    },
+    {
+      "key": "compactRatio",
+      "label": "Compact width / height",
+      "default": 2.38,
+      "kind": "number",
+      "group": "Wordmark",
+      "min": 1.6,
+      "max": 3.2,
+      "step": 0.01
+    },
+    {
+      "key": "padTop",
+      "label": "Desktop top padding (px)",
+      "default": 64,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 140,
+      "step": 1
+    },
+    {
+      "key": "padSide",
+      "label": "Desktop side padding (px)",
+      "default": 40,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 90,
+      "step": 1
+    },
+    {
+      "key": "padBottom",
+      "label": "Bottom padding (px)",
+      "default": 24,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "inset",
+      "label": "Desktop content inset (px)",
+      "default": 32,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "topGap",
+      "label": "Menu to signup gap (px)",
+      "default": 80,
+      "kind": "number",
+      "group": "Layout",
+      "min": 8,
+      "max": 140,
+      "step": 1
+    },
+    {
+      "key": "navGap",
+      "label": "Column gap (px)",
+      "default": 9,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 50,
+      "step": 1
+    },
+    {
+      "key": "rowGap",
+      "label": "Menu row gap (px)",
+      "default": 10,
+      "kind": "number",
+      "group": "Layout",
+      "min": 1,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "artGap",
+      "label": "Space above artwork (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Layout",
+      "min": 0,
+      "max": 120,
+      "step": 1
+    },
+    {
+      "key": "tabletTop",
+      "label": "Tablet top padding (px)",
+      "default": 48,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "phoneTop",
+      "label": "Phone top padding (px)",
+      "default": 32,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "smallSide",
+      "label": "Side padding (px)",
+      "default": 20,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "tabletInset",
+      "label": "Tablet content inset (px)",
+      "default": 20,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "stackGap",
+      "label": "Menu to signup gap (px)",
+      "default": 32,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 88,
+      "step": 1
+    },
+    {
+      "key": "phoneGroupGap",
+      "label": "Phone group gap (px)",
+      "default": 24,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "smallArtGap",
+      "label": "Space above artwork (px)",
+      "default": 40,
+      "kind": "number",
+      "group": "Tablet and phone",
+      "min": 0,
+      "max": 120,
+      "step": 1
+    },
+    {
+      "key": "headingFace",
+      "label": "Heading typeface",
+      "default": "NudgeLilita",
+      "kind": "select",
+      "group": "Typography",
+      "options": [
+        {
+          "value": "NudgeLilita",
+          "label": "Lilita One"
+        },
+        {
+          "value": "NudgeInter",
+          "label": "Inter"
+        },
+        {
+          "value": "system-ui",
+          "label": "System sans"
+        },
+        {
+          "value": "Georgia",
+          "label": "Georgia"
+        }
+      ]
+    },
+    {
+      "key": "bodyFace",
+      "label": "Body typeface",
+      "default": "NudgeInter",
+      "kind": "select",
+      "group": "Typography",
+      "options": [
+        {
+          "value": "NudgeLilita",
+          "label": "Lilita One"
+        },
+        {
+          "value": "NudgeInter",
+          "label": "Inter"
+        },
+        {
+          "value": "system-ui",
+          "label": "System sans"
+        },
+        {
+          "value": "Georgia",
+          "label": "Georgia"
+        }
+      ]
+    },
+    {
+      "key": "headingSize",
+      "label": "Heading size (px)",
+      "default": 28,
+      "kind": "number",
+      "group": "Typography",
+      "min": 16,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "bodySize",
+      "label": "Body size (px)",
+      "default": 18,
+      "kind": "number",
+      "group": "Typography",
+      "min": 12,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "bodyLeading",
+      "label": "Body line height",
+      "default": 1.5,
+      "kind": "number",
+      "group": "Typography",
+      "min": 1.1,
+      "max": 2.0,
+      "step": 0.05
+    },
+    {
+      "key": "headingTracking",
+      "label": "Heading tracking (em)",
+      "default": -0.04,
+      "kind": "number",
+      "group": "Typography",
+      "min": -0.09,
+      "max": 0.08,
+      "step": 0.005
+    },
+    {
+      "key": "destination",
+      "label": "Shop URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Line0",
+      "label": "Heading",
+      "default": "At the bar",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Line1",
+      "label": "Line 1",
+      "default": "Short black",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Url1",
+      "label": "Line 1 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Line2",
+      "label": "Line 2",
+      "default": "Flat white",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Url2",
+      "label": "Line 2 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Line3",
+      "label": "Line 3",
+      "default": "Batch brew",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu1Url3",
+      "label": "Line 3 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Coffee menu"
+    },
+    {
+      "key": "menu2Line0",
+      "label": "Heading",
+      "default": "Bean shelf",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Line1",
+      "label": "Line 1",
+      "default": "House espresso",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Url1",
+      "label": "Line 1 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Line2",
+      "label": "Line 2",
+      "default": "Single origin",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Url2",
+      "label": "Line 2 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Line3",
+      "label": "Line 3",
+      "default": "Half-caf blend",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu2Url3",
+      "label": "Line 3 URL (optional)",
+      "default": "",
+      "kind": "text",
+      "group": "Bean shelf"
+    },
+    {
+      "key": "menu3Line0",
+      "label": "Heading",
+      "default": "Window hours",
+      "kind": "text",
+      "group": "Opening hours"
+    },
+    {
+      "key": "menu3Line1",
+      "label": "Line 1",
+      "default": "Mon–Fri · 7am–4pm",
+      "kind": "text",
+      "group": "Opening hours"
+    },
+    {
+      "key": "menu3Line2",
+      "label": "Line 2",
+      "default": "Saturday · 8am–3pm",
+      "kind": "text",
+      "group": "Opening hours"
+    },
+    {
+      "key": "menu3Line3",
+      "label": "Line 3",
+      "default": "Sunday · 8am–2pm",
+      "kind": "text",
+      "group": "Opening hours"
+    },
+    {
+      "key": "caption",
+      "label": "Newsletter caption",
+      "default": "Fresh roasts land on Fridays. Get the list.",
+      "kind": "text",
+      "group": "Newsletter"
+    },
+    {
+      "key": "button",
+      "label": "Signup label",
+      "default": "ROAST NOTES",
+      "kind": "text",
+      "group": "Newsletter"
+    },
+    {
+      "key": "placeholder",
+      "label": "Email placeholder",
+      "default": "you@example.com",
+      "kind": "text",
+      "group": "Newsletter"
+    },
+    {
+      "key": "signupWidth",
+      "label": "Desktop signup width (px)",
+      "default": 390,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 240,
+      "max": 540,
+      "step": 1
+    },
+    {
+      "key": "captionGap",
+      "label": "Caption gap (px)",
+      "default": 16,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "controlGap",
+      "label": "Field to button gap (px)",
+      "default": 8,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "controlHeight",
+      "label": "Control height (px)",
+      "default": 44,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 34,
+      "max": 70,
+      "step": 1
+    },
+    {
+      "key": "buttonWidth",
+      "label": "Button width (px)",
+      "default": 120,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 72,
+      "max": 168,
+      "step": 1
+    },
+    {
+      "key": "fieldRadius",
+      "label": "Field radius (px)",
+      "default": 10,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "buttonRadius",
+      "label": "Button radius (px)",
+      "default": 3,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "fieldPadding",
+      "label": "Field horizontal padding (px)",
+      "default": 14,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 2,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "fieldFont",
+      "label": "Input text size (px)",
+      "default": 16,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 12,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "buttonFont",
+      "label": "Button text size (px)",
+      "default": 12,
+      "kind": "number",
+      "group": "Newsletter",
+      "min": 10,
+      "max": 20,
+      "step": 1
+    },
+    {
+      "key": "outline",
+      "label": "Field outline",
+      "default": "#63301f",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "borderWidth",
+      "label": "Field border width (px)",
+      "default": 1,
+      "kind": "number",
+      "group": "Signup colors and states",
+      "min": 0,
+      "max": 4,
+      "step": 1
+    },
+    {
+      "key": "fieldTint",
+      "label": "Field ink tint (%)",
+      "default": 0,
+      "kind": "number",
+      "group": "Signup colors and states",
+      "min": 0,
+      "max": 35,
+      "step": 1
+    },
+    {
+      "key": "placeholderAlpha",
+      "label": "Placeholder opacity (%)",
+      "default": 80,
+      "kind": "number",
+      "group": "Signup colors and states",
+      "min": 30,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "customButton",
+      "label": "Use custom button colors",
+      "default": false,
+      "kind": "boolean",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "buttonFill",
+      "label": "Custom button fill",
+      "default": "#291a16",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "buttonInk",
+      "label": "Custom button text",
+      "default": "#ff7042",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "errorFill",
+      "label": "Error fill",
+      "default": "#831d48",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "successFill",
+      "label": "Success fill",
+      "default": "#376a44",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "statusInk",
+      "label": "Success and error text",
+      "default": "#ffffff",
+      "kind": "color",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "pendingLabel",
+      "label": "Pending label",
+      "default": "SENDING…",
+      "kind": "text",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "errorLabel",
+      "label": "Retry label",
+      "default": "FAILED · RETRY",
+      "kind": "text",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "successLabel",
+      "label": "Success label",
+      "default": "SUBSCRIBED",
+      "kind": "text",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "demoLabel",
+      "label": "Demo label",
+      "default": "DEMO COMPLETE",
+      "kind": "text",
+      "group": "Signup colors and states"
+    },
+    {
+      "key": "copyright",
+      "label": "Copyright",
+      "default": "© 2026 DOPE Coffee",
+      "kind": "text",
+      "group": "Bottom row"
+    },
+    {
+      "key": "notesLabel",
+      "label": "Signup shortcut",
+      "default": "Join the roast list ↗",
+      "kind": "text",
+      "group": "Bottom row"
+    },
+    {
+      "key": "showNotes",
+      "label": "Show signup shortcut",
+      "default": true,
+      "kind": "boolean",
+      "group": "Bottom row"
+    },
+    {
+      "key": "legalSize",
+      "label": "Text size (px)",
+      "default": 16,
+      "kind": "number",
+      "group": "Bottom row",
+      "min": 12,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "legalGap",
+      "label": "Space above row (px)",
+      "default": 24,
+      "kind": "number",
+      "group": "Bottom row",
+      "min": 0,
+      "max": 80,
+      "step": 1
+    },
+    {
+      "key": "legalMobileGap",
+      "label": "Phone row gap (px)",
+      "default": 12,
+      "kind": "number",
+      "group": "Bottom row",
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "motion",
+      "label": "Pointer response",
+      "default": true,
+      "kind": "boolean",
+      "group": "Motion"
+    },
+    {
+      "key": "radius",
+      "label": "Response radius",
+      "default": 190,
+      "kind": "number",
+      "group": "Motion",
+      "min": 40,
+      "max": 360,
+      "step": 1
+    },
+    {
+      "key": "travel",
+      "label": "Travel distance",
+      "default": 120,
+      "kind": "number",
+      "group": "Motion",
+      "min": 10,
+      "max": 200,
+      "step": 1
+    },
+    {
+      "key": "tilt",
+      "label": "Tilt (degrees)",
+      "default": 17,
+      "kind": "number",
+      "group": "Motion",
+      "min": 0,
+      "max": 45,
+      "step": 1
+    },
+    {
+      "key": "spring",
+      "label": "Spring stiffness",
+      "default": 115,
+      "kind": "number",
+      "group": "Motion",
+      "min": 40,
+      "max": 260,
+      "step": 1
+    },
+    {
+      "key": "damping",
+      "label": "Damping",
+      "default": 15,
+      "kind": "number",
+      "group": "Motion",
+      "min": 6,
+      "max": 35,
+      "step": 1
+    },
+    {
+      "key": "falloff",
+      "label": "Force falloff",
+      "default": 1.35,
+      "kind": "number",
+      "group": "Motion",
+      "min": 0.5,
+      "max": 3,
+      "step": 0.05
+    },
+    {
+      "key": "cupVisible",
+      "label": "Show on desktop and tablet",
+      "default": true,
+      "kind": "boolean",
+      "group": "Espresso cup"
+    },
+    {
+      "key": "cupPhone",
+      "label": "Show on phone",
+      "default": true,
+      "kind": "boolean",
+      "group": "Espresso cup"
+    },
+    {
+      "key": "cupX",
+      "label": "Horizontal position (%)",
+      "default": 17,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cupY",
+      "label": "Vertical position (%)",
+      "default": 80,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cupSmallX",
+      "label": "Compact horizontal position (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cupSmallY",
+      "label": "Compact vertical position (%)",
+      "default": 78,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cupSize",
+      "label": "Width (%)",
+      "default": 12,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 4,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "cupSmallSize",
+      "label": "Compact width (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 5,
+      "max": 40,
+      "step": 0.5
+    },
+    {
+      "key": "cupAngle",
+      "label": "Rotation (degrees)",
+      "default": -9,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "cupSmallAngle",
+      "label": "Compact rotation (degrees)",
+      "default": -9,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "cupOpacity",
+      "label": "Opacity (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cupShadow",
+      "label": "Shadow blur (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "cupResponse",
+      "label": "Pointer travel (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Espresso cup",
+      "min": 0,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "bagVisible",
+      "label": "Show on desktop and tablet",
+      "default": true,
+      "kind": "boolean",
+      "group": "Bean bag"
+    },
+    {
+      "key": "bagPhone",
+      "label": "Show on phone",
+      "default": true,
+      "kind": "boolean",
+      "group": "Bean bag"
+    },
+    {
+      "key": "bagX",
+      "label": "Horizontal position (%)",
+      "default": 69,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "bagY",
+      "label": "Vertical position (%)",
+      "default": 73,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "bagSmallX",
+      "label": "Compact horizontal position (%)",
+      "default": 72,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "bagSmallY",
+      "label": "Compact vertical position (%)",
+      "default": 41,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "bagSize",
+      "label": "Width (%)",
+      "default": 12,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 4,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "bagSmallSize",
+      "label": "Compact width (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 5,
+      "max": 40,
+      "step": 0.5
+    },
+    {
+      "key": "bagAngle",
+      "label": "Rotation (degrees)",
+      "default": 7,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "bagSmallAngle",
+      "label": "Compact rotation (degrees)",
+      "default": 7,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "bagOpacity",
+      "label": "Opacity (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "bagShadow",
+      "label": "Shadow blur (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "bagResponse",
+      "label": "Pointer travel (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Bean bag",
+      "min": 0,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "filterVisible",
+      "label": "Show on desktop and tablet",
+      "default": true,
+      "kind": "boolean",
+      "group": "Portafilter"
+    },
+    {
+      "key": "filterPhone",
+      "label": "Show on phone",
+      "default": false,
+      "kind": "boolean",
+      "group": "Portafilter"
+    },
+    {
+      "key": "filterX",
+      "label": "Horizontal position (%)",
+      "default": 88,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "filterY",
+      "label": "Vertical position (%)",
+      "default": 30,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "filterSmallX",
+      "label": "Compact horizontal position (%)",
+      "default": 88,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "filterSmallY",
+      "label": "Compact vertical position (%)",
+      "default": 30,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "filterSize",
+      "label": "Width (%)",
+      "default": 12,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 4,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "filterSmallSize",
+      "label": "Compact width (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 5,
+      "max": 40,
+      "step": 0.5
+    },
+    {
+      "key": "filterAngle",
+      "label": "Rotation (degrees)",
+      "default": -8,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "filterSmallAngle",
+      "label": "Compact rotation (degrees)",
+      "default": -8,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "filterOpacity",
+      "label": "Opacity (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "filterShadow",
+      "label": "Shadow blur (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "filterResponse",
+      "label": "Pointer travel (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Portafilter",
+      "min": 0,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "badgeVisible",
+      "label": "Show on desktop and tablet",
+      "default": true,
+      "kind": "boolean",
+      "group": "Coffee badge"
+    },
+    {
+      "key": "badgePhone",
+      "label": "Show on phone",
+      "default": false,
+      "kind": "boolean",
+      "group": "Coffee badge"
+    },
+    {
+      "key": "badgeX",
+      "label": "Horizontal position (%)",
+      "default": 48,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "badgeY",
+      "label": "Vertical position (%)",
+      "default": 49,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "badgeSmallX",
+      "label": "Compact horizontal position (%)",
+      "default": 48,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "badgeSmallY",
+      "label": "Compact vertical position (%)",
+      "default": 49,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "badgeSize",
+      "label": "Width (%)",
+      "default": 12,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 4,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "badgeSmallSize",
+      "label": "Compact width (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 5,
+      "max": 40,
+      "step": 0.5
+    },
+    {
+      "key": "badgeAngle",
+      "label": "Rotation (degrees)",
+      "default": -12,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "badgeSmallAngle",
+      "label": "Compact rotation (degrees)",
+      "default": -12,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "badgeOpacity",
+      "label": "Opacity (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "badgeShadow",
+      "label": "Shadow blur (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "badgeResponse",
+      "label": "Pointer travel (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Coffee badge",
+      "min": 0,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "beansVisible",
+      "label": "Show on desktop and tablet",
+      "default": true,
+      "kind": "boolean",
+      "group": "Roasted beans"
+    },
+    {
+      "key": "beansPhone",
+      "label": "Show on phone",
+      "default": false,
+      "kind": "boolean",
+      "group": "Roasted beans"
+    },
+    {
+      "key": "beansX",
+      "label": "Horizontal position (%)",
+      "default": 29,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beansY",
+      "label": "Vertical position (%)",
+      "default": 24,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beansSmallX",
+      "label": "Compact horizontal position (%)",
+      "default": 29,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beansSmallY",
+      "label": "Compact vertical position (%)",
+      "default": 24,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beansSize",
+      "label": "Width (%)",
+      "default": 12,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 4,
+      "max": 30,
+      "step": 0.5
+    },
+    {
+      "key": "beansSmallSize",
+      "label": "Compact width (%)",
+      "default": 18,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 5,
+      "max": 40,
+      "step": 0.5
+    },
+    {
+      "key": "beansAngle",
+      "label": "Rotation (degrees)",
+      "default": 10,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "beansSmallAngle",
+      "label": "Compact rotation (degrees)",
+      "default": 10,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": -180,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "beansOpacity",
+      "label": "Opacity (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "beansShadow",
+      "label": "Shadow blur (px)",
+      "default": 0,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "beansResponse",
+      "label": "Pointer travel (%)",
+      "default": 100,
+      "kind": "number",
+      "group": "Roasted beans",
+      "min": 0,
+      "max": 180,
+      "step": 1
+    }
+  ],
+  "version": "1.0.0",
+  "tier": "free",
+  "category": "Sections",
+  "keywords": [
+    "footer",
+    "coffee",
+    "stickers"
+  ],
+  "assets": [
+    {
+      "path": "assets/OFL-Inter.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/OFL-Lilita-One.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Lilita One project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/coffee-beans.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/coffee-club.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/demitasse.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/inter-latin-400.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/inter-latin-600.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/lilita-one-400.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Lilita One project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/portafilter.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/roast-bag.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    }
+  ],
+  "dependencies": {},
+  "poster": "poster.webp",
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "motion": {
+    "reducedMotion": "Reduce animation when the visitor prefers reduced motion.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Arclen",
+      "settings": {}
+    }
+  ]
+}

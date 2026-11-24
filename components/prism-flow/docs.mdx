@@ -1,0 +1,9 @@
+Spectral Ribbon draws a moving spectrum on a dark field. Move the pointer across the ribbon to pull it toward you. When the pointer leaves, the ribbon eases back into its path.
+
+The **Palette** control switches between Ember, Orchid, Lagoon and Silver. **Color separation** fans the colors apart. **Echo band** adds a second, fainter curve. Lower **Travel speed** to zero to hold the ribbon’s shape while the grain continues to move.
+
+Set **Caption** to an empty string for artwork alone. In React you can pass children to center your own content over the field. Give the parent a height to fill a taller section. The field has a 320px minimum height.
+
+Reduced motion holds the artwork at a single phase and skips the entrance. Animation pauses offscreen and in hidden tabs. Browsers without WebGL display a static gradient in the selected palette.
+
+The fragment shader is adapted from Md Eftakher’s MIT-licensed PrismFlow. The package includes the MIT notice and the Geist font’s OFL notice.

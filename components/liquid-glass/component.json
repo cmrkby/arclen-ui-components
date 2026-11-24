@@ -1,0 +1,253 @@
+{
+  "id": "liquid-glass",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Tidal Glass",
+  "category": "Backgrounds",
+  "description": "A refractive glass lens over a looping wave, with a sharp caption and adjustable optics.",
+  "keywords": [
+    "glass",
+    "refraction",
+    "video",
+    "lens"
+  ],
+  "settings": [
+    {
+      "key": "scene",
+      "label": "Backplate",
+      "group": "Scene",
+      "kind": "select",
+      "default": "tidal",
+      "options": [
+        {
+          "label": "Tidal Fold",
+          "value": "tidal"
+        },
+        {
+          "label": "Iris Drift",
+          "value": "iris"
+        },
+        {
+          "label": "Salt Meadow",
+          "value": "salt"
+        },
+        {
+          "label": "Velodrome",
+          "value": "velodrome"
+        }
+      ]
+    },
+    {
+      "key": "playbackSpeed",
+      "label": "Playback speed (×)",
+      "kind": "number",
+      "default": 1,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "group": "Motion"
+    },
+    {
+      "key": "refraction",
+      "label": "Refraction",
+      "kind": "number",
+      "default": 0.161,
+      "min": 0,
+      "max": 0.25,
+      "step": 0.001,
+      "group": "Lens"
+    },
+    {
+      "key": "edgeRefraction",
+      "label": "Edge Refraction",
+      "kind": "number",
+      "default": 0.06,
+      "min": 0,
+      "max": 0.25,
+      "step": 0.001,
+      "group": "Lens"
+    },
+    {
+      "key": "frost",
+      "label": "Frost",
+      "kind": "number",
+      "default": 0,
+      "min": 0,
+      "max": 40,
+      "step": 0.5,
+      "group": "Lens"
+    },
+    {
+      "key": "magnify",
+      "label": "Magnify",
+      "kind": "number",
+      "default": 1.372,
+      "min": 0.6,
+      "max": 2,
+      "step": 0.001,
+      "group": "Lens"
+    },
+    {
+      "key": "dispersion",
+      "label": "Dispersion",
+      "kind": "number",
+      "default": 0.44,
+      "min": 0,
+      "max": 3,
+      "step": 0.01,
+      "group": "Lens"
+    },
+    {
+      "key": "bevelDepth",
+      "label": "Bevel Depth",
+      "kind": "number",
+      "default": 0.41,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "bevelWidth",
+      "label": "Bevel Width",
+      "kind": "number",
+      "default": 0.15,
+      "min": 0,
+      "max": 0.6,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "edgeHighlight",
+      "label": "Edge Highlight",
+      "kind": "number",
+      "default": 0.22,
+      "min": 0,
+      "max": 2,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "edgeDarkening",
+      "label": "Edge Darkening",
+      "kind": "number",
+      "default": 0.22,
+      "min": 0,
+      "max": 2,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "tintOpacity",
+      "label": "Tint Opacity",
+      "kind": "number",
+      "default": 0.015,
+      "min": 0,
+      "max": 0.4,
+      "step": 0.005,
+      "group": "Surface"
+    },
+    {
+      "key": "glassOpacity",
+      "label": "Glass Opacity",
+      "kind": "number",
+      "default": 1,
+      "min": 0,
+      "max": 1,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "borderRadius",
+      "label": "Border Radius",
+      "kind": "number",
+      "default": 32,
+      "min": 0,
+      "max": 1000,
+      "step": 1,
+      "group": "Surface"
+    },
+    {
+      "key": "specularStrength",
+      "label": "Specular Strength",
+      "kind": "number",
+      "default": 0.65,
+      "min": 0,
+      "max": 3,
+      "step": 0.01,
+      "group": "Surface"
+    },
+    {
+      "key": "caption",
+      "label": "Caption",
+      "kind": "text",
+      "default": "White water draws a line across volcanic sand.",
+      "group": "Content"
+    },
+    {
+      "key": "showRing",
+      "label": "Show play mark",
+      "kind": "boolean",
+      "default": true,
+      "group": "Content"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/iris-drift.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Generated for Arclen UI using the Light in Motion reference library."
+      }
+    },
+    {
+      "path": "assets/salt-meadow.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Generated for Arclen UI using the Light in Motion reference library."
+      }
+    },
+    {
+      "path": "assets/velodrome.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Generated for Arclen UI using the Light in Motion reference library."
+      }
+    },
+    {
+      "path": "assets/tidal-fold-loop.mp4",
+      "contentType": "video/mp4",
+      "rights": {
+        "kind": "original",
+        "attribution": "Generated for Arclen UI from the Tidal Fold backplate using Higgsfield."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Holds a single frame and skips disclosure transitions.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Clear",
+      "settings": {}
+    },
+    {
+      "name": "Frosted",
+      "settings": {
+        "frost": 10,
+        "tintOpacity": 0.06
+      }
+    }
+  ]
+}

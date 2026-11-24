@@ -88,7 +88,7 @@ export function render(input:unknown={}) {
     const {style,brand,html,href}=cardParts(s,i);
     return '<a class="cc-card" target="_blank" rel="noopener noreferrer"'+(href?' href="'+escape(href)+'"':'')+' style="'+style+'" '+(brand?'data-brand-title="'+brand+'"':'')+'>'+html+'</a>';
   });
-  return '<section class="cc-stage" aria-label="Color Cut Cards" data-frame="'+s.frame+'" data-collection="'+s.collection+'" style="'+stageStyle(s)+'"><div class="cc-grid" data-cols="3">'+cards.join('')+'</div></section>';
+  return '<section class="cc-stage" aria-label="Cutaway Cards" data-frame="'+s.frame+'" data-collection="'+s.collection+'" style="'+stageStyle(s)+'"><div class="cc-grid" data-cols="3">'+cards.join('')+'</div></section>';
 }
 
 export function mount(host:HTMLElement,input:unknown={}) {

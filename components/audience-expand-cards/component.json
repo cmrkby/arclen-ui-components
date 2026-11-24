@@ -1,0 +1,751 @@
+{
+  "id": "audience-expand-cards",
+  "name": "Showroom Cards",
+  "version": "1.0.0",
+  "description": "An expanding furniture catalogue with materials, finishes and product details.",
+  "settings": [
+    {
+      "key": "initialCard",
+      "label": "Opening card",
+      "kind": "select",
+      "default": "portfolios",
+      "group": "Appearance",
+      "options": [
+        {
+          "value": "portfolios",
+          "label": "Sill Reader"
+        },
+        {
+          "value": "studios",
+          "label": "Cove Lounge"
+        },
+        {
+          "value": "businesses",
+          "label": "Moss Slipper"
+        }
+      ]
+    },
+    {
+      "key": "canvas",
+      "label": "Canvas colour",
+      "kind": "color",
+      "default": "#f4f3f0",
+      "group": "Appearance"
+    },
+    {
+      "key": "accent",
+      "label": "Action colour",
+      "kind": "color",
+      "default": "#ffffff",
+      "group": "Appearance"
+    },
+    {
+      "key": "gap",
+      "label": "Card gap (px)",
+      "kind": "number",
+      "default": 12,
+      "group": "Layout",
+      "min": 4,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "label": "Corner radius (px)",
+      "kind": "number",
+      "default": 19,
+      "group": "Layout",
+      "min": 0,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "share",
+      "label": "Expanded width ratio",
+      "kind": "number",
+      "default": 2.6,
+      "group": "Layout",
+      "min": 1.6,
+      "max": 3.6,
+      "step": 0.1
+    },
+    {
+      "key": "height",
+      "label": "Row height (px)",
+      "kind": "number",
+      "default": 500,
+      "group": "Layout",
+      "min": 400,
+      "max": 660,
+      "step": 10
+    },
+    {
+      "key": "stackHeight",
+      "label": "Expanded mobile height (px)",
+      "kind": "number",
+      "default": 340,
+      "group": "Layout",
+      "min": 320,
+      "max": 480,
+      "step": 4
+    },
+    {
+      "key": "speed",
+      "label": "Motion speed (×)",
+      "kind": "number",
+      "default": 1,
+      "group": "Motion",
+      "min": 0.5,
+      "max": 2,
+      "step": 0.05
+    },
+    {
+      "key": "zoom",
+      "label": "Hover zoom (×)",
+      "kind": "number",
+      "default": 1.055,
+      "group": "Motion",
+      "min": 1,
+      "max": 1.15,
+      "step": 0.005
+    },
+    {
+      "key": "tintStrength",
+      "label": "Image tint (%)",
+      "kind": "number",
+      "default": 20,
+      "group": "Appearance",
+      "min": 0,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "glassTint",
+      "label": "Glass tint",
+      "kind": "color",
+      "default": "#ffffff",
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassRest",
+      "label": "Resting opacity (%)",
+      "kind": "number",
+      "default": 48,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassOpen",
+      "label": "Expanded opacity (%)",
+      "kind": "number",
+      "default": 54,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassHover",
+      "label": "Hover opacity (%)",
+      "kind": "number",
+      "default": 62,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassSaturation",
+      "label": "Backdrop saturation (%)",
+      "kind": "number",
+      "default": 115,
+      "min": 0,
+      "max": 200,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassRim",
+      "label": "Rim brightness (%)",
+      "kind": "number",
+      "default": 40,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassHighlight",
+      "label": "Surface highlight (%)",
+      "kind": "number",
+      "default": 19,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassShadow",
+      "label": "Shadow strength (%)",
+      "kind": "number",
+      "default": 16,
+      "min": 0,
+      "max": 75,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassBlur",
+      "label": "Backdrop blur (px)",
+      "kind": "number",
+      "default": 10,
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "glassRimWidth",
+      "label": "Rim width (px)",
+      "kind": "number",
+      "default": 1,
+      "min": 0,
+      "max": 3,
+      "step": 0.25,
+      "group": "Frosted glass"
+    },
+    {
+      "key": "controlSize",
+      "label": "Button size (px)",
+      "kind": "number",
+      "default": 32,
+      "min": 24,
+      "max": 48,
+      "step": 1,
+      "group": "Plus and close"
+    },
+    {
+      "key": "controlRadius",
+      "label": "Corner radius (px)",
+      "kind": "number",
+      "default": 24,
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "group": "Plus and close"
+    },
+    {
+      "key": "glyphSize",
+      "label": "Icon size (px)",
+      "kind": "number",
+      "default": 16,
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "group": "Plus and close"
+    },
+    {
+      "key": "glyphColor",
+      "label": "Icon colour",
+      "kind": "color",
+      "default": "#101010",
+      "group": "Plus and close"
+    },
+    {
+      "key": "glyphStroke",
+      "label": "Icon stroke",
+      "kind": "number",
+      "default": 2,
+      "min": 1,
+      "max": 3.5,
+      "step": 0.25,
+      "group": "Plus and close"
+    },
+    {
+      "key": "glyphTime",
+      "label": "Rotation time (ms)",
+      "kind": "number",
+      "default": 280,
+      "min": 0,
+      "max": 600,
+      "step": 10,
+      "group": "Plus and close"
+    },
+    {
+      "key": "pressScale",
+      "label": "Pressed scale",
+      "kind": "number",
+      "default": 0.95,
+      "min": 0.8,
+      "max": 1,
+      "step": 0.01,
+      "group": "Plus and close"
+    },
+    {
+      "key": "expandTime",
+      "label": "Card expansion (ms)",
+      "kind": "number",
+      "default": 560,
+      "min": 150,
+      "max": 1000,
+      "step": 10,
+      "group": "Card and text reveal"
+    },
+    {
+      "key": "revealDelay",
+      "label": "Text reveal delay (ms)",
+      "kind": "number",
+      "default": 120,
+      "min": 0,
+      "max": 500,
+      "step": 10,
+      "group": "Card and text reveal"
+    },
+    {
+      "key": "actionStagger",
+      "label": "Button delay after text (ms)",
+      "kind": "number",
+      "default": 65,
+      "min": 0,
+      "max": 300,
+      "step": 5,
+      "group": "Card and text reveal"
+    },
+    {
+      "key": "textTravel",
+      "label": "Text travel (px)",
+      "kind": "number",
+      "default": 7,
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "group": "Card and text reveal"
+    },
+    {
+      "key": "copyPadding",
+      "label": "Card padding (px)",
+      "kind": "number",
+      "default": 25,
+      "min": 14,
+      "max": 40,
+      "step": 1,
+      "group": "Card and text reveal"
+    },
+    {
+      "key": "dialogIn",
+      "label": "Opening time (ms)",
+      "kind": "number",
+      "default": 280,
+      "min": 0,
+      "max": 600,
+      "step": 10,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogInCurve",
+      "label": "Expansion easing",
+      "kind": "select",
+      "default": "ease-out",
+      "options": [
+        {
+          "value": "ease-out",
+          "label": "Ease out"
+        },
+        {
+          "value": "ease-in-out",
+          "label": "Ease in and out"
+        },
+        {
+          "value": "ease-in",
+          "label": "Ease in"
+        }
+      ],
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogInPower",
+      "label": "Expansion easing strength",
+      "kind": "number",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "step": 0.1,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogOut",
+      "label": "Closing time (ms)",
+      "kind": "number",
+      "default": 180,
+      "min": 0,
+      "max": 450,
+      "step": 10,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogOutCurve",
+      "label": "Return easing",
+      "kind": "select",
+      "default": "ease-out",
+      "options": [
+        {
+          "value": "ease-out",
+          "label": "Ease out"
+        },
+        {
+          "value": "ease-in-out",
+          "label": "Ease in and out"
+        },
+        {
+          "value": "ease-in",
+          "label": "Ease in"
+        }
+      ],
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogOutPower",
+      "label": "Return easing strength",
+      "kind": "number",
+      "default": 3,
+      "min": 1,
+      "max": 6,
+      "step": 0.1,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogTravel",
+      "label": "Travel distance (px)",
+      "kind": "number",
+      "default": 12,
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "dialogScale",
+      "label": "Starting scale",
+      "kind": "number",
+      "default": 0.975,
+      "min": 0.9,
+      "max": 1,
+      "step": 0.005,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "backdropShade",
+      "label": "Backdrop darkness (%)",
+      "kind": "number",
+      "default": 68,
+      "min": 0,
+      "max": 90,
+      "step": 1,
+      "group": "Product preview motion"
+    },
+    {
+      "key": "portfoliosTitle",
+      "label": "Title",
+      "kind": "text",
+      "default": "Sill Reader",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosLabel",
+      "label": "Eyebrow",
+      "kind": "text",
+      "default": "01 / Reading",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosBody",
+      "label": "Description",
+      "kind": "text",
+      "default": "Saddle leather sits inside a bent walnut shell on bronze runners.",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosAction",
+      "label": "Action label",
+      "kind": "text",
+      "default": "View piece",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosUrl",
+      "label": "External URL (optional)",
+      "kind": "text",
+      "default": "",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosTint",
+      "label": "Tint colour",
+      "kind": "color",
+      "default": "#6c625c",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosFocus",
+      "label": "Image focal height (%)",
+      "kind": "number",
+      "default": 50,
+      "group": "Sill Reader",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "studiosTitle",
+      "label": "Title",
+      "kind": "text",
+      "default": "Cove Lounge",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosLabel",
+      "label": "Eyebrow",
+      "kind": "text",
+      "default": "02 / Lounge",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosBody",
+      "label": "Description",
+      "kind": "text",
+      "default": "Ivory bouclé curves around a deep cushion above a low ash frame.",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosAction",
+      "label": "Action label",
+      "kind": "text",
+      "default": "View piece",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosUrl",
+      "label": "External URL (optional)",
+      "kind": "text",
+      "default": "",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosTint",
+      "label": "Tint colour",
+      "kind": "color",
+      "default": "#938a80",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosFocus",
+      "label": "Image focal height (%)",
+      "kind": "number",
+      "default": 50,
+      "group": "Cove Lounge",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "businessesTitle",
+      "label": "Title",
+      "kind": "text",
+      "default": "Moss Slipper",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesLabel",
+      "label": "Eyebrow",
+      "kind": "text",
+      "default": "03 / Occasional",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesBody",
+      "label": "Description",
+      "kind": "text",
+      "default": "Moss mohair wraps a low armless seat on a dark oak plinth.",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesAction",
+      "label": "Action label",
+      "kind": "text",
+      "default": "View piece",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesUrl",
+      "label": "External URL (optional)",
+      "kind": "text",
+      "default": "",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesTint",
+      "label": "Tint colour",
+      "kind": "color",
+      "default": "#68635d",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesFocus",
+      "label": "Image focal height (%)",
+      "kind": "number",
+      "default": 50,
+      "group": "Moss Slipper",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "portfoliosPrice",
+      "label": "Display price",
+      "default": "€280",
+      "kind": "text",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "portfoliosMaterials",
+      "label": "Materials and finish",
+      "default": "Walnut veneer · Saddle leather · Bronze",
+      "kind": "text",
+      "group": "Sill Reader"
+    },
+    {
+      "key": "studiosPrice",
+      "label": "Display price",
+      "default": "€690",
+      "kind": "text",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "studiosMaterials",
+      "label": "Materials and finish",
+      "default": "Ivory wool bouclé · Natural ash",
+      "kind": "text",
+      "group": "Cove Lounge"
+    },
+    {
+      "key": "businessesPrice",
+      "label": "Display price",
+      "default": "€310",
+      "kind": "text",
+      "group": "Moss Slipper"
+    },
+    {
+      "key": "businessesMaterials",
+      "label": "Materials and finish",
+      "default": "Dark oak · Moss mohair",
+      "kind": "text",
+      "group": "Moss Slipper"
+    }
+  ],
+  "tier": "free",
+  "category": "Components",
+  "keywords": [
+    "furniture",
+    "cards",
+    "gallery"
+  ],
+  "assets": [
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/OFL-Inter.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/cove-lounge.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Geist project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/inter-400-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/inter-500-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/inter-600-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "Inter project authors. See the accompanying OFL notice."
+      }
+    },
+    {
+      "path": "assets/moss-slipper.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    },
+    {
+      "path": "assets/sill-reader.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen UI"
+      }
+    }
+  ],
+  "dependencies": {},
+  "poster": "poster.webp",
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "motion": {
+    "reducedMotion": "Reduce animation when the visitor prefers reduced motion.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Arclen",
+      "settings": {}
+    }
+  ]
+}

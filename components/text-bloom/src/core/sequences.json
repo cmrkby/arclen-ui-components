@@ -1,0 +1,18 @@
+[
+  {
+    "anchor": "hand",
+    "label": "Demonstration"
+  },
+  {
+    "anchor": "crack",
+    "label": "Fracture"
+  },
+  {
+    "anchor": "fingertips",
+    "label": "Revised grip"
+  },
+  {
+    "anchor": "glass",
+    "label": "Handoff"
+  }
+]
