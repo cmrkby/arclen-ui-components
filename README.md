@@ -10,7 +10,7 @@ Source for the free components in the [Arclen UI library](https://arclenui.dev/c
 | Quick Find | [`components/quick-find`](components/quick-find) |
 | Action Composer | [`components/action-composer`](components/action-composer) |
 | Reading Panel | [`components/reading-panel`](components/reading-panel) |
-| Climate Dial | [`components/climate-dial`](components/climate-dial) |
+| Heart Rate Dial | [`components/climate-dial`](components/climate-dial) |
 | Cart Reveal | [`components/cart-reveal`](components/cart-reveal) |
 | Number Reel | [`components/number-reel`](components/number-reel) |
 | Toast Stack | [`components/toast-stack`](components/toast-stack) |
