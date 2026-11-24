@@ -32,7 +32,7 @@
   width: 100%;
   height: var(--ac-stage-height, clamp(340px, 73svh, 900px));
   min-height: 290px;
-  container: ac-stage / inline-size;
+  container: ac-stage / size;
   /* Keep the beam halo and fan inside the page width while menus can open below. */
   overflow-x: clip;
   display: grid;
@@ -780,6 +780,10 @@
   @container ac-field (max-width: 460px) {
     .ac-stage textarea { font-size: max(16px, var(--ac-prompt-size)); }
     .ac-stage .ac-input-row { gap: min(3px, var(--ac-control-gap)); }
+    /* The centred field shares the stage height with the fan and open menu. */
+    .ac-stage .ac-menu {
+      max-height: clamp(44px, calc(50cqh - var(--ac-shell-height) / 2 - 8.5cqw * var(--ac-fan-scale) - var(--ac-menu-gap) - 18px), 180px);
+    }
     .ac-stage :is(.ac-icon, .ac-send, .ac-stop, .ac-model) {
       position: relative;
       --ac-hit-pad: max(0px, calc((44px - min(var(--ac-btn-size), 14cqw)) / 2));
