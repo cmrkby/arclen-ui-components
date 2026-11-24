@@ -1,0 +1,86 @@
+@font-face{font-family:CutGeist;src:url('../assets/geist-latin.woff2') format('woff2');font-weight:100 900;font-display:swap}
+.cc-stage,.cc-stage *{box-sizing:border-box}
+.cc-stage{min-height:max(800px,100%);display:flex;align-items:center;justify-content:center;background:var(--cc-stage);font:400 16px CutGeist,Arial,sans-serif;--cc-ease:cubic-bezier(.22,1,.36,1)}
+.cc-stage[data-frame=reference]{height:max(800px,100vh);overflow:clip}
+.cc-grid{width:var(--cc-width);flex:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--cc-gap);--cc-height:var(--cc-wideHeight);--cc-title:var(--cc-titleSize)}
+.cc-grid[data-cols="2"]{grid-template-columns:repeat(2,minmax(0,1fr));--cc-height:var(--cc-midHeight)}
+.cc-grid[data-cols="1"]{grid-template-columns:minmax(0,1fr);--cc-height:var(--cc-phoneHeight);--cc-title:calc(var(--cc-titleSize) + 1px)}
+.cc-card{display:block;position:relative;overflow:hidden;height:var(--cc-height);border-radius:var(--cc-radius);background:var(--cc-colour);color:var(--cc-ink);text-decoration:none;text-align:left;isolation:isolate;--panel-height:var(--cc-rest);--body-track:0fr;--body-alpha:0;--body-y:var(--cc-copyLift);--line-y:0%;--disc-scale:1;--photo-scale:1;--arrow-x:0px;--arrow-y:0px;--foot-x:0px}
+.cc-card:focus-visible{outline:3px solid #181818;outline-offset:3px}
+.cc-stage:is([data-collection=obsidian],[data-collection=signal]) .cc-card:focus-visible{outline-color:#e7e7e7}
+.cc-card:active{transform:scale(.995)}
+.cc-card>img{display:block;width:100%;height:max(60%,calc(100% - var(--cc-rest)),calc(100% - var(--cc-mobile)),calc(100% - var(--cc-active)));object-fit:cover;object-position:var(--cc-crop-x) var(--cc-crop);user-select:none;transform:scale(var(--photo-scale));transition:transform var(--cc-photoDuration) var(--cc-ease)}
+.cc-grid[data-cols="3"] .cc-card>img{object-position:var(--cc-crop-x) clamp(0%,calc(var(--cc-crop) - 14%),100%)}
+.cc-grid[data-cols="1"] .cc-card>img{height:max(60%,calc(100% - var(--cc-mobile)))}
+.cc-shade{position:absolute;inset:0 0 auto;height:27%;background:linear-gradient(#0000002b,transparent);pointer-events:none}
+.cc-top{position:absolute;inset:var(--cc-inset) var(--cc-inset) auto;display:flex;align-items:flex-start;justify-content:space-between;pointer-events:none}
+.cc-num,.cc-disc{
+  display:inline-grid;
+  place-items:center;
+  border-radius:999px;
+  background-color:var(--cc-controlFill);
+  color:var(--cc-controlInk);
+  /* Action Composer light picker ring, lower edge and contact shadow. */
+  box-shadow:0 1px 3px rgb(0 0 0 / 4%),inset 0 -1px 0 rgb(0 0 0 / 8%),
+    inset 0 0 0 1px rgb(196 196 196 / 10%),inset 0 0 0 1px rgb(0 0 0 / 8%);
+  transition:background-color 140ms ease;
+}
+.cc-num{height:var(--cc-badgeHeight);padding-inline:var(--cc-badgePad);font-size:var(--cc-badgeType);font-weight:550;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.015em}
+.cc-disc{width:var(--cc-circleSize);height:var(--cc-circleSize);transform:scale(var(--disc-scale))}
+.cc-disc svg{display:block;width:var(--cc-glyphSize);height:var(--cc-glyphSize);transform:translate(var(--arrow-x),var(--arrow-y))}
+.cc-card:focus-visible :is(.cc-num,.cc-disc){background-color:var(--cc-controlHover)}
+@media(hover:hover){.cc-card:hover :is(.cc-num,.cc-disc){background-color:var(--cc-controlHover)}}
+.cc-panel{position:absolute;inset:auto 0 0;display:flex;flex-direction:column;padding:var(--cc-inset);height:var(--panel-height);min-height:max-content;overflow:hidden;background:var(--cc-colour)}
+.cc-track>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-space{flex:1;min-height:8px}
+.cc-mask{display:block;overflow:hidden;height:1.15em;flex:none;font-size:var(--cc-title);line-height:1.15;letter-spacing:-.045em}
+.cc-track,.cc-track>span{display:block}
+/* Keep each half of the lockup on its native aspect ratio. Both title copies share these dimensions. */
+.cc-card[data-brand-title="Claude"]{--cc-logo:url(../assets/claude-logo.svg);--cc-wordmark:url(../assets/claude-wordmark.svg)}
+.cc-card[data-brand-title="ChatGPT"]{--cc-logo:url(../assets/chatgpt-logo.svg);--cc-wordmark-ratio:.791667}
+.cc-card[data-brand-title="Grok"]{--cc-logo:url(../assets/grok-logo.svg);--cc-wordmark:url(../assets/grok-wordmark.svg)}
+.cc-card[data-brand-title] .cc-mask{
+  --logo-height:calc(var(--cc-title) * .88 * var(--cc-logo-scale));
+  --word-height:calc(var(--cc-title) * .88 * var(--cc-wordmark-ratio,1) * var(--cc-wordmark-scale));
+  --brand-line:max(1.15em,var(--logo-height),var(--word-height));
+  height:var(--brand-line);
+}
+.cc-card[data-brand-title] .cc-track>span{position:relative;height:var(--brand-line);text-indent:100%;text-overflow:clip}
+.cc-card[data-brand-title] .cc-track>span::before,
+.cc-card[data-brand-title] .cc-track>span::after{
+  content:"";
+  position:absolute;
+  inset-block:0;
+  margin-block:auto;
+  background:currentColor;
+  -webkit-mask:var(--piece) left center / contain no-repeat;
+  mask:var(--piece) left center / contain no-repeat;
+}
+.cc-card[data-brand-title] .cc-track>span::before{--piece:var(--cc-logo);left:0;width:var(--logo-height);height:var(--logo-height)}
+.cc-card[data-brand-title] .cc-track>span::after{--piece:var(--cc-wordmark);left:calc(var(--logo-height) + var(--cc-brand-gap));right:0;height:var(--word-height)}
+@media(forced-colors:active){
+  .cc-card[data-brand-title] .cc-track>span{text-indent:0}
+  .cc-card[data-brand-title] .cc-track>span::before,.cc-card[data-brand-title] .cc-track>span::after{display:none}
+}
+.cc-track{transform:translateY(var(--line-y))}
+.cc-reveal{display:grid;flex:none;grid-template-rows:var(--body-track);overflow:hidden;opacity:var(--body-alpha);transform:translateY(var(--body-y))}
+.cc-clip{min-height:0;overflow:hidden}
+.cc-body{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;padding-top:var(--cc-bodyInset);font-size:var(--cc-bodySize);line-height:1.45;opacity:.85}
+.cc-models{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:var(--cc-rowGap) var(--cc-columnGap);opacity:1}
+.cc-models>span{display:grid;grid-template-columns:subgrid;grid-column:1/-1}
+.cc-models strong{font-weight:600}
+.cc-models>span>span{opacity:.78;overflow-wrap:anywhere}
+.cc-foot{display:flex;flex:none;align-items:center;justify-content:space-between;gap:10px;margin-top:var(--cc-footGap);padding-top:var(--cc-footInset);border-top:1px solid color-mix(in srgb,currentColor 28%,transparent);font-size:var(--cc-footSize);line-height:1.1;letter-spacing:.1em;text-transform:uppercase;font-weight:650}
+.cc-foot svg{width:13px;height:13px;transform:translateX(var(--foot-x))}
+.cc-panel,.cc-reveal,.cc-track,.cc-card svg{transition-duration:var(--cc-duration);transition-timing-function:var(--cc-ease);transition-property:transform}
+.cc-disc{transition:background-color 140ms ease,transform var(--cc-duration) var(--cc-ease)}
+.cc-panel{transition-property:height}.cc-reveal{transition-property:grid-template-rows,opacity,transform}
+.cc-card:focus{--panel-height:var(--cc-active);--body-track:1fr;--body-alpha:1;--body-y:0px;--line-y:-50%;--disc-scale:1.09;--photo-scale:var(--cc-zoom);--arrow-x:var(--cc-arrowTravel);--arrow-y:calc(-1 * var(--cc-arrowTravel));--foot-x:4px}
+@media(hover:hover){.cc-card:hover{--panel-height:var(--cc-active);--body-track:1fr;--body-alpha:1;--body-y:0px;--line-y:-50%;--disc-scale:1.09;--photo-scale:var(--cc-zoom);--arrow-x:var(--cc-arrowTravel);--arrow-y:calc(-1 * var(--cc-arrowTravel));--foot-x:4px}}
+.cc-grid[data-cols="1"] .cc-card{--panel-height:var(--cc-mobile);--body-track:1fr;--body-alpha:1;--body-y:0px}
+.cc-stage[data-paused] *{transition-duration:0s!important;transform:none!important}
+@media(prefers-reduced-motion:reduce){.cc-stage *{transition-duration:0s!important;transform:none!important}}
+
+/* Set the ChatGPT name in the bundled Geist face. */
+.cc-card[data-brand-title="ChatGPT"] .cc-track>span::after{content:"ChatGPT";display:flex;align-items:center;text-indent:0;font:620 var(--word-height)/1 CutGeist,Arial,sans-serif;letter-spacing:-.045em;color:inherit;background:none;mask:none}
+@media(forced-colors:active){.cc-card[data-brand-title="ChatGPT"] .cc-track>span::after{display:none}}

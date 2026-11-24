@@ -1,0 +1,864 @@
+{
+  "id": "color-cut-cards",
+  "name": "Color Cut Cards",
+  "version": "1.0.0",
+  "description": "Three photographic links with rising colour panels and rolling titles.",
+  "settings": [
+    {
+      "key": "collection",
+      "label": "Artwork set",
+      "group": "Appearance",
+      "kind": "select",
+      "default": "signal",
+      "options": [
+        {
+          "value": "signal",
+          "label": "AI · Soft focus"
+        },
+        {
+          "value": "obsidian",
+          "label": "AI · Obsidian"
+        },
+        {
+          "value": "optical",
+          "label": "Optical studies"
+        }
+      ]
+    },
+    {
+      "key": "frame",
+      "label": "Framing",
+      "group": "Appearance",
+      "kind": "select",
+      "default": "scroll",
+      "options": [
+        {
+          "value": "scroll",
+          "label": "Scrollable gallery"
+        },
+        {
+          "value": "reference",
+          "label": "Reference crop"
+        }
+      ]
+    },
+    {
+      "key": "stage",
+      "label": "Stage colour",
+      "group": "Appearance",
+      "kind": "color",
+      "default": "#111112"
+    },
+    {
+      "key": "width",
+      "label": "Gallery width (%)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 90,
+      "min": 55,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "gap",
+      "label": "Gap (px)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 12,
+      "min": 0,
+      "max": 36,
+      "step": 1
+    },
+    {
+      "key": "radius",
+      "label": "Corner radius (px)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 12,
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "inset",
+      "label": "Card padding (px)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 19,
+      "min": 12,
+      "max": 30,
+      "step": 1
+    },
+    {
+      "key": "titleSize",
+      "label": "Title size (px)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 34,
+      "min": 22,
+      "max": 42,
+      "step": 1
+    },
+    {
+      "key": "rest",
+      "label": "Resting panel (%)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 28,
+      "min": 24,
+      "max": 65,
+      "step": 1
+    },
+    {
+      "key": "active",
+      "label": "Active panel (%)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 52,
+      "min": 50,
+      "max": 85,
+      "step": 1
+    },
+    {
+      "key": "mobile",
+      "label": "Phone panel (%)",
+      "group": "Appearance",
+      "kind": "number",
+      "default": 64,
+      "min": 55,
+      "max": 85,
+      "step": 1
+    },
+    {
+      "key": "badgeHeight",
+      "label": "Badge height (px)",
+      "group": "Badges and circles",
+      "kind": "number",
+      "default": 30,
+      "min": 24,
+      "max": 40,
+      "step": 1
+    },
+    {
+      "key": "circleSize",
+      "label": "Arrow circle (px)",
+      "group": "Badges and circles",
+      "kind": "number",
+      "default": 38,
+      "min": 30,
+      "max": 52,
+      "step": 1
+    },
+    {
+      "key": "glyphSize",
+      "label": "Arrow glyph (px)",
+      "group": "Badges and circles",
+      "kind": "number",
+      "default": 17,
+      "min": 12,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "controlFill",
+      "label": "Resting fill",
+      "group": "Badges and circles",
+      "kind": "color",
+      "default": "#39393a"
+    },
+    {
+      "key": "controlHover",
+      "label": "Hover and focus fill",
+      "group": "Badges and circles",
+      "kind": "color",
+      "default": "#545456"
+    },
+    {
+      "key": "controlInk",
+      "label": "Control ink",
+      "group": "Badges and circles",
+      "kind": "color",
+      "default": "#fafafa"
+    },
+    {
+      "key": "duration",
+      "label": "Panel and title (ms)",
+      "group": "Motion",
+      "kind": "number",
+      "default": 600,
+      "min": 0,
+      "max": 1400,
+      "step": 10
+    },
+    {
+      "key": "photoDuration",
+      "label": "Photo zoom (ms)",
+      "group": "Motion",
+      "kind": "number",
+      "default": 720,
+      "min": 0,
+      "max": 1600,
+      "step": 10
+    },
+    {
+      "key": "zoom",
+      "label": "Photo zoom (%)",
+      "group": "Motion",
+      "kind": "number",
+      "default": 8,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "title1",
+      "label": "Title",
+      "group": "Card 1",
+      "kind": "text",
+      "default": "Claude",
+      "maxLength": 500
+    },
+    {
+      "key": "logoScale1",
+      "label": "Logo size (%)",
+      "group": "Card 1",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "wordmarkScale1",
+      "label": "Wordmark size (%)",
+      "group": "Card 1",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "brandGap1",
+      "label": "Logo–wordmark gap (px)",
+      "group": "Card 1",
+      "kind": "number",
+      "default": 7.5,
+      "min": 0,
+      "max": 32,
+      "step": 0.5
+    },
+    {
+      "key": "body1",
+      "label": "Description",
+      "group": "Card 1",
+      "kind": "text",
+      "default": "Fable 5.2: Research across sources | Opus 5.5: Refactor a codebase | Sonnet 5.5: Write and debug code",
+      "maxLength": 500
+    },
+    {
+      "key": "cta1",
+      "label": "Link label",
+      "group": "Card 1",
+      "kind": "text",
+      "default": "View poster",
+      "maxLength": 500
+    },
+    {
+      "key": "href1",
+      "label": "Destination (blank opens photo)",
+      "group": "Card 1",
+      "kind": "text",
+      "default": "",
+      "maxLength": 2048
+    },
+    {
+      "key": "colour1",
+      "label": "Panel colour",
+      "group": "Card 1",
+      "kind": "color",
+      "default": "#292929"
+    },
+    {
+      "key": "ink1",
+      "label": "Text colour",
+      "group": "Card 1",
+      "kind": "color",
+      "default": "#f4f4f4"
+    },
+    {
+      "key": "crop1",
+      "label": "Photo vertical focus (%)",
+      "group": "Card 1",
+      "kind": "number",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "title2",
+      "label": "Title",
+      "group": "Card 2",
+      "kind": "text",
+      "default": "ChatGPT",
+      "maxLength": 500
+    },
+    {
+      "key": "logoScale2",
+      "label": "Logo size (%)",
+      "group": "Card 2",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "wordmarkScale2",
+      "label": "Wordmark size (%)",
+      "group": "Card 2",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "brandGap2",
+      "label": "Logo–wordmark gap (px)",
+      "group": "Card 2",
+      "kind": "number",
+      "default": 7.5,
+      "min": 0,
+      "max": 32,
+      "step": 0.5
+    },
+    {
+      "key": "body2",
+      "label": "Description",
+      "group": "Card 2",
+      "kind": "text",
+      "default": "GPT-6.2 Astra: Analyze complex data | GPT-6.2 Sol: Write and test code | GPT-6.1 Terra: Navigate apps on screen",
+      "maxLength": 500
+    },
+    {
+      "key": "cta2",
+      "label": "Link label",
+      "group": "Card 2",
+      "kind": "text",
+      "default": "View poster",
+      "maxLength": 500
+    },
+    {
+      "key": "href2",
+      "label": "Destination (blank opens photo)",
+      "group": "Card 2",
+      "kind": "text",
+      "default": "",
+      "maxLength": 2048
+    },
+    {
+      "key": "colour2",
+      "label": "Panel colour",
+      "group": "Card 2",
+      "kind": "color",
+      "default": "#242424"
+    },
+    {
+      "key": "ink2",
+      "label": "Text colour",
+      "group": "Card 2",
+      "kind": "color",
+      "default": "#f4f4f4"
+    },
+    {
+      "key": "crop2",
+      "label": "Photo vertical focus (%)",
+      "group": "Card 2",
+      "kind": "number",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "title3",
+      "label": "Title",
+      "group": "Card 3",
+      "kind": "text",
+      "default": "Grok",
+      "maxLength": 500
+    },
+    {
+      "key": "logoScale3",
+      "label": "Logo size (%)",
+      "group": "Card 3",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "wordmarkScale3",
+      "label": "Wordmark size (%)",
+      "group": "Card 3",
+      "kind": "number",
+      "default": 100,
+      "min": 40,
+      "max": 180,
+      "step": 1
+    },
+    {
+      "key": "brandGap3",
+      "label": "Logo–wordmark gap (px)",
+      "group": "Card 3",
+      "kind": "number",
+      "default": 7.5,
+      "min": 0,
+      "max": 32,
+      "step": 0.5
+    },
+    {
+      "key": "body3",
+      "label": "Description",
+      "group": "Card 3",
+      "kind": "text",
+      "default": "Grok 4.7: Build with code and tools | Imagine Image 2.0: Create and edit images | Imagine Video 1.5: Animate a still image",
+      "maxLength": 500
+    },
+    {
+      "key": "cta3",
+      "label": "Link label",
+      "group": "Card 3",
+      "kind": "text",
+      "default": "View poster",
+      "maxLength": 500
+    },
+    {
+      "key": "href3",
+      "label": "Destination (blank opens photo)",
+      "group": "Card 3",
+      "kind": "text",
+      "default": "",
+      "maxLength": 2048
+    },
+    {
+      "key": "colour3",
+      "label": "Panel colour",
+      "group": "Card 3",
+      "kind": "color",
+      "default": "#1e1e1e"
+    },
+    {
+      "key": "ink3",
+      "label": "Text colour",
+      "group": "Card 3",
+      "kind": "color",
+      "default": "#f4f4f4"
+    },
+    {
+      "key": "crop3",
+      "label": "Photo vertical focus (%)",
+      "group": "Card 3",
+      "kind": "number",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "wideHeight",
+      "kind": "number",
+      "label": "Three-column card height (px)",
+      "group": "Card layout",
+      "default": 510,
+      "min": 320,
+      "max": 720,
+      "step": 1
+    },
+    {
+      "key": "midHeight",
+      "kind": "number",
+      "label": "Two-column card height (px)",
+      "group": "Card layout",
+      "default": 410,
+      "min": 300,
+      "max": 640,
+      "step": 1
+    },
+    {
+      "key": "phoneHeight",
+      "kind": "number",
+      "label": "Phone card height (px)",
+      "group": "Card layout",
+      "default": 420,
+      "min": 320,
+      "max": 680,
+      "step": 1
+    },
+    {
+      "key": "bodySize",
+      "kind": "number",
+      "label": "Description size (px)",
+      "group": "Description",
+      "default": 12,
+      "min": 10,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "rowGap",
+      "kind": "number",
+      "label": "Model row gap (px)",
+      "group": "Description",
+      "default": 4,
+      "min": 0,
+      "max": 14,
+      "step": 1
+    },
+    {
+      "key": "columnGap",
+      "kind": "number",
+      "label": "Model column gap (px)",
+      "group": "Description",
+      "default": 12,
+      "min": 4,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "bodyInset",
+      "kind": "number",
+      "label": "Space below title (px)",
+      "group": "Description",
+      "default": 9,
+      "min": 0,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "footGap",
+      "kind": "number",
+      "label": "Space above divider (px)",
+      "group": "Footer",
+      "default": 13,
+      "min": 0,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "footInset",
+      "kind": "number",
+      "label": "Space below divider (px)",
+      "group": "Footer",
+      "default": 11,
+      "min": 2,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "footSize",
+      "kind": "number",
+      "label": "Link label size (px)",
+      "group": "Footer",
+      "default": 10,
+      "min": 9,
+      "max": 15,
+      "step": 1
+    },
+    {
+      "key": "badgePad",
+      "kind": "number",
+      "label": "Badge side padding (px)",
+      "group": "Badges and circles",
+      "default": 12,
+      "min": 4,
+      "max": 24,
+      "step": 1
+    },
+    {
+      "key": "badgeType",
+      "kind": "number",
+      "label": "Badge text size (px)",
+      "group": "Badges and circles",
+      "default": 11,
+      "min": 9,
+      "max": 16,
+      "step": 1
+    },
+    {
+      "key": "arrowTravel",
+      "kind": "number",
+      "label": "Arrow travel (px)",
+      "group": "Motion",
+      "default": 2,
+      "min": 0,
+      "max": 8,
+      "step": 1
+    },
+    {
+      "key": "copyLift",
+      "kind": "number",
+      "label": "Description entrance distance (px)",
+      "group": "Motion",
+      "default": 6,
+      "min": 0,
+      "max": 18,
+      "step": 1
+    },
+    {
+      "key": "cropX1",
+      "group": "Card 1",
+      "kind": "number",
+      "label": "Photo horizontal focus (%)",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cropX2",
+      "group": "Card 2",
+      "kind": "number",
+      "label": "Photo horizontal focus (%)",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "cropX3",
+      "group": "Card 3",
+      "kind": "number",
+      "label": "Photo horizontal focus (%)",
+      "default": 50,
+      "min": 0,
+      "max": 100,
+      "step": 1
+    }
+  ],
+  "tier": "free",
+  "category": "Cards",
+  "keywords": [
+    "gallery",
+    "artwork",
+    "cards",
+    "hover"
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "assets": [
+    {
+      "path": "assets/amber-flutes.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp",
+      "gallery": true
+    },
+    {
+      "path": "assets/rose-discs.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp",
+      "gallery": true
+    },
+    {
+      "path": "assets/split-spectrum.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp",
+      "gallery": true
+    },
+    {
+      "path": "assets/claude-mono.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/chatgpt-mono.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/grok-mono.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/claude-signal.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/chatgpt-signal.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/grok-signal.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Arclen studio artwork. Any depicted brand marks belong to their respective owners."
+      },
+      "contentType": "image/webp"
+    },
+    {
+      "path": "assets/chatgpt-logo.svg",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "image/svg+xml"
+    },
+    {
+      "path": "assets/claude-logo.svg",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "image/svg+xml"
+    },
+    {
+      "path": "assets/grok-logo.svg",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "image/svg+xml"
+    },
+    {
+      "path": "assets/claude-wordmark.svg",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "image/svg+xml"
+    },
+    {
+      "path": "assets/grok-wordmark.svg",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "image/svg+xml"
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors. See assets/OFL-Geist.txt."
+      },
+      "contentType": "font/woff2"
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/LobeHub-LICENSE.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "LobeHub contributors. See assets/LobeHub-LICENSE.txt. Brand marks belong to their respective owners."
+      },
+      "contentType": "text/plain"
+    },
+    {
+      "path": "assets/Lucide-LICENSE.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "ISC and MIT",
+        "attribution": "Lucide contributors and Cole Bemis. See assets/Lucide-LICENSE.txt."
+      },
+      "contentType": "text/plain"
+    }
+  ],
+  "dependencies": {},
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Show expanded content immediately on focus or hover.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "AI · Soft focus",
+      "settings": {
+        "collection": "signal"
+      }
+    },
+    {
+      "name": "AI · Obsidian",
+      "settings": {
+        "collection": "obsidian",
+        "cta1": "View photograph",
+        "cta2": "View photograph",
+        "cta3": "View photograph"
+      }
+    },
+    {
+      "name": "Optical studies",
+      "settings": {
+        "collection": "optical",
+        "cta1": "View photograph",
+        "cta2": "View photograph",
+        "cta3": "View photograph",
+        "stage": "#f5f5f5",
+        "controlFill": "#e7e7e7",
+        "controlHover": "#ffffff",
+        "controlInk": "#161616",
+        "title1": "Ribbed light",
+        "body1": "Each rib sends a narrow stripe of amber across the table.",
+        "colour1": "#ff986c",
+        "ink1": "#191716",
+        "crop1": 30,
+        "title2": "A slight offset",
+        "body2": "Two discs sit a little off centre. Rose light pools where their edges meet.",
+        "colour2": "#f6c7d8",
+        "ink2": "#251c20",
+        "crop2": 27,
+        "title3": "Split spectrum",
+        "body3": "One edge catches the sun. A thin band of colour slips across the violet surface.",
+        "colour3": "#544477",
+        "ink3": "#ffffff",
+        "crop3": 62
+      }
+    }
+  ]
+}
