@@ -16,7 +16,7 @@ export type MountOptions={paused?:boolean;videoSrc?:string;imageSrc?:string;onCh
 const instances=new WeakMap<HTMLElement,{destroy():void}>();
 export function mount(host:HTMLElement,input:unknown={},_id?:string,options:MountOptions={}) {
   instances.get(host)?.destroy();
-  let settings=resolveSettings(input),disposed=false,paused=!!options.paused,visible=false,raf=0,previous=0,time=0,lastDecoded=-1;
+  let settings=resolveSettings(input),disposed=false,paused=!!options.paused,visible=false,raf=0,videoFrame=0,previous=0,time=0,lastDecoded=-1;
   const doc=host.ownerDocument,win=doc.defaultView!;
   host.innerHTML=render(settings);
   const scene=host.firstElementChild as HTMLElement;
@@ -77,19 +77,26 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
     }else if(lastDecoded!==video.currentTime)draw();
     previous=now;raf=win.requestAnimationFrame(tick);
   }
+  function presented(){
+    draw();
+    videoFrame=video.requestVideoFrameCallback(presented);
+  }
   function sync(){
     win.cancelAnimationFrame(raf);raf=0;previous=0;
+    if(videoFrame){video.cancelVideoFrameCallback(videoFrame);videoFrame=0;}
     const run=!disposed && visible && !doc.hidden && !motion.matches && !paused;
     if(!run && useVideo)video.pause();
     if(disposed || !visible || doc.hidden)return;
     draw();
     if(run && !useImage){
       if(useVideo && !video.error && !blocked && video.paused)void video.play().catch(err=>{if(err?.name!=='AbortError')blocked=true;});
-      raf=win.requestAnimationFrame(tick);
+      if(useVideo && !video.error && typeof video.requestVideoFrameCallback==='function'){
+        videoFrame=video.requestVideoFrameCallback(presented);
+      }else raf=win.requestAnimationFrame(tick);
     }
   }
   function resize(){
-    lens?.resize(scene.getBoundingClientRect(),marker.getBoundingClientRect(),Math.min(2,2*(win.devicePixelRatio||1)));
+    lens?.resize(scene.getBoundingClientRect(),marker.getBoundingClientRect(),Math.min(2,win.devicePixelRatio||1));
     if(visible)draw();
   }
   function update(patch:unknown){
