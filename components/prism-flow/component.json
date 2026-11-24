@@ -1,0 +1,214 @@
+{
+  "id": "prism-flow",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Spectral Ribbon",
+  "category": "Backgrounds",
+  "description": "A luminous spectral ribbon bends toward the pointer over a fine-grained dark field.",
+  "keywords": [
+    "shader",
+    "prism",
+    "spectrum",
+    "ribbon",
+    "background",
+    "webgl"
+  ],
+  "settings": [
+    {
+      "key": "palette",
+      "kind": "select",
+      "label": "Palette",
+      "default": "ember",
+      "group": "Color",
+      "options": [
+        {
+          "value": "ember",
+          "label": "Ember"
+        },
+        {
+          "value": "orchid",
+          "label": "Orchid"
+        },
+        {
+          "value": "lagoon",
+          "label": "Lagoon"
+        },
+        {
+          "value": "silver",
+          "label": "Silver"
+        }
+      ]
+    },
+    {
+      "key": "background",
+      "kind": "color",
+      "label": "Background",
+      "default": "#050507",
+      "group": "Color"
+    },
+    {
+      "key": "speed",
+      "kind": "number",
+      "label": "Travel speed",
+      "default": 2.7,
+      "group": "Ribbon",
+      "min": 0,
+      "max": 5,
+      "step": 0.1
+    },
+    {
+      "key": "width",
+      "kind": "number",
+      "label": "Ribbon width",
+      "default": 2.75,
+      "group": "Ribbon",
+      "min": 0.2,
+      "max": 5,
+      "step": 0.05
+    },
+    {
+      "key": "spread",
+      "kind": "number",
+      "label": "Color separation",
+      "default": 1.45,
+      "group": "Ribbon",
+      "min": 0,
+      "max": 4,
+      "step": 0.05
+    },
+    {
+      "key": "warp",
+      "kind": "number",
+      "label": "Bend",
+      "default": 1,
+      "group": "Ribbon",
+      "min": 0,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "intensity",
+      "kind": "number",
+      "label": "Light intensity",
+      "default": 2.25,
+      "group": "Ribbon",
+      "min": 0.2,
+      "max": 4,
+      "step": 0.05
+    },
+    {
+      "key": "grain",
+      "kind": "number",
+      "label": "Film grain",
+      "default": 1.75,
+      "group": "Ribbon",
+      "min": 0,
+      "max": 2.5,
+      "step": 0.05
+    },
+    {
+      "key": "echo",
+      "kind": "boolean",
+      "label": "Echo band",
+      "default": true,
+      "group": "Ribbon"
+    },
+    {
+      "key": "followPointer",
+      "kind": "boolean",
+      "label": "Follow pointer",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "entrance",
+      "kind": "boolean",
+      "label": "Entrance motion",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "caption",
+      "kind": "text",
+      "label": "Caption",
+      "default": "Light, bent",
+      "group": "Content"
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius",
+      "default": 32,
+      "group": "Frame",
+      "min": 0,
+      "max": 80,
+      "step": 1
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/PrismFlow-MIT.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Md Eftakher (2026). Fragment shader."
+      }
+    },
+    {
+      "path": "assets/geist-latin.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    },
+    {
+      "path": "assets/OFL-Geist.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL Open Font License 1.1",
+        "attribution": "The Geist Project Authors."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Holds a still frame and skips the stage entrance.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Ember",
+      "settings": {
+        "palette": "ember"
+      }
+    },
+    {
+      "name": "Orchid",
+      "settings": {
+        "palette": "orchid"
+      }
+    },
+    {
+      "name": "Lagoon",
+      "settings": {
+        "palette": "lagoon"
+      }
+    },
+    {
+      "name": "Silver",
+      "settings": {
+        "palette": "silver"
+      }
+    }
+  ]
+}

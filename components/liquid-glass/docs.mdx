@@ -1,0 +1,11 @@
+Tidal Glass refracts the Tidal Fold wave beneath a rounded lens. The ring is a decorative play mark. Supply a same-origin or CORS-enabled video with the React videoSrc prop or the vanilla mount options to use a looping clip. The host defines the dimensions of the scene.
+
+The lens and its caption are positioned independently. At 810px of component width the centered lens becomes 632 by 451 pixels. Narrower scenes dock the lens 16 pixels above the bottom edge.
+
+The controls button opens the optical settings. Refraction and Magnify change the interior. Edge Refraction, Bevel Width and Bevel Depth shape the rim. Dispersion separates the channels along the rim. Frost softens the sampled frame. The panel supports keyboard adjustment and Escape. The component sends a liquid-glass-change event when an in-scene slider changes.
+
+Reduced motion and pause hold the frame. The renderer suspends offscreen. When a video cannot decode, the original animated record appears. Without WebGL, the background and caption remain visible with a translucent outlined lens.
+
+Tidal Fold · Loop opens by default. The breaking wave loops every seven seconds at 1×. Adjust `playbackSpeed` between 0.25× and 2×. At 0.5×, one cycle takes 14 seconds.
+
+Choose Iris Drift, Salt Meadow, or Velodrome in the Scene picker for a still backplate. To use one in React or vanilla, pass its WebP URL from `assets/` as `imageSrc`. The still redraws when the lens settings or layout change.

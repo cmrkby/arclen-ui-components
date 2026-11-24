@@ -26,3 +26,4 @@ export function ColorCutCards({settings,className,style,paused=false,...override
   return <div ref={host} className={className} style={style} dangerouslySetInnerHTML={first.markup}/>;
 }
 export const Component=ColorCutCards;
+export const CutawayCards = Component;

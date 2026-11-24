@@ -1,0 +1,12 @@
+@font-face{font-family:PrismGeist;src:url("../assets/geist-latin.woff2") format("woff2");font-style:normal;font-weight:100 900;font-display:swap}
+.pf-stage{position:relative;isolation:isolate;display:grid;place-items:center;width:100%;height:100%;min-height:320px;overflow:hidden;border-radius:var(--pf-radius);background:radial-gradient(ellipse 60% 30% at 40% 55%,#fff8,transparent 60%),linear-gradient(160deg,transparent 30%,var(--pf-c0) 42%,var(--pf-c1) 48%,var(--pf-c2) 54%,var(--pf-c3) 60%,transparent 72%),var(--pf-bg);color:white}
+.pf-stage canvas{position:absolute;inset:0;width:100%;height:100%;visibility:hidden;pointer-events:none}
+.pf-stage[data-renderer=webgl] canvas{visibility:visible}
+.pf-caption,.pf-children{position:relative;grid-area:1/1;text-align:center;z-index:1}
+.pf-caption{pointer-events:none;margin:0;padding:0 .5em;font:600 32px/40px PrismGeist,system-ui,sans-serif;letter-spacing:-.8px;color:white;overflow-wrap:anywhere}
+@media(prefers-reduced-motion:no-preference){.pf-stage[data-entrance=true]{animation:pf-entrance .5s linear(0,.286 10%,.622 20%,.835 30%,.941 40%,.986 50%,1.003 65%,1)}}
+@keyframes pf-entrance{from{transform:translateY(24px) scale(.98);opacity:0}to{transform:none;opacity:1}}
+.pf-host{display:grid;isolation:isolate;height:100%;min-height:320px}
+.pf-field,.pf-children{grid-area:1/1;min-width:0}
+.pf-children{align-self:center;justify-self:center}
+@media(prefers-reduced-motion:no-preference){.pf-children[data-entrance=true]{animation:pf-entrance .5s linear(0,.286 10%,.622 20%,.835 30%,.941 40%,.986 50%,1.003 65%,1)}}
