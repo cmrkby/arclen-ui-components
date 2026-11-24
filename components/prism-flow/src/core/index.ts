@@ -31,7 +31,8 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:{pau
     stage.dataset.renderer=field?'webgl':'fallback';
   }
   function tick(now:number) {
-    frame=0;
+    frame=win.requestAnimationFrame(tick);
+    if(previous && now-previous<(field?.minFrameInterval??0))return;
     const dt=previous?Math.min(.05,(now-previous)/1000):0;
     previous=now;
     phase+=dt*s.speed;
@@ -40,7 +41,6 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:{pau
     y+=(ty-y)*(1-Math.exp(-3*dt));
     strength+=(target-strength)*(1-Math.exp(-2.5*dt));
     paint();
-    frame=win.requestAnimationFrame(tick);
   }
   function sync() {
     win.cancelAnimationFrame(frame);frame=0;previous=0;

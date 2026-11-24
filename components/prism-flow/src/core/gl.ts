@@ -46,10 +46,11 @@ export function createField(canvas: HTMLCanvasElement) {
     gl!.uniform3f(uniforms[key],(rgb>>16)/255,((rgb>>8)&255)/255,(rgb&255)/255);
   }
   return {
+    minFrameInterval:software?1000/30-1:0,
     resize(width:number,height:number,pixelRatio:number) {
       // The ribbon is a smooth field. On a CPU rasterizer, keep the optical
       // layer small while the caption and overlay retain native resolution.
-      const scale=software?Math.min(pixelRatio,Math.sqrt(90000/Math.max(1,width*height))):pixelRatio;
+      const scale=software?Math.min(pixelRatio,Math.sqrt(48000/Math.max(1,width*height))):pixelRatio;
       const w=Math.max(1,Math.round(width*scale)),h=Math.max(1,Math.round(height*scale));
       if(canvas.width!==w || canvas.height!==h){canvas.width=w;canvas.height=h;}
     },
