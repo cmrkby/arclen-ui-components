@@ -1,7 +1,7 @@
 {
   "id": "color-cut-cards",
   "name": "Cutaway Cards",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Three photographic links with rising colour panels and rolling titles.",
   "settings": [
     {
@@ -266,7 +266,7 @@
     },
     {
       "key": "href1",
-      "label": "Destination (blank opens photo)",
+      "label": "Destination (optional)",
       "group": "Card 1",
       "kind": "text",
       "default": "",
@@ -352,7 +352,7 @@
     },
     {
       "key": "href2",
-      "label": "Destination (blank opens photo)",
+      "label": "Destination (optional)",
       "group": "Card 2",
       "kind": "text",
       "default": "",
@@ -438,7 +438,7 @@
     },
     {
       "key": "href3",
-      "label": "Destination (blank opens photo)",
+      "label": "Destination (optional)",
       "group": "Card 3",
       "kind": "text",
       "default": "",

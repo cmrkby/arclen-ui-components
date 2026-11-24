@@ -8,7 +8,7 @@ export const opticalKeys = [
 export type OpticalKey = typeof opticalKeys[number];
 export type Shape = 'button' | 'card' | 'badge';
 type Dimension = `${Shape}Width` | `${Shape}Height` | 'buttonRadius' | 'badgeRadius';
-export type Settings = Record<OpticalKey | Dimension | 'playbackSpeed', number> & {shape:Shape; buttonLabel:string; badgeLabel:string; scene: 'tidal' | 'iris' | 'salt' | 'velodrome'; caption: string; showRing: boolean};
+export type Settings = Record<OpticalKey | Dimension | 'buttonFrost' | 'playbackSpeed', number> & {shape:Shape; buttonLabel:string; badgeLabel:string; scene: 'tidal' | 'iris' | 'salt' | 'velodrome'; caption: string; showRing: boolean};
 export const defaults = Object.fromEntries(manifest.settings.map(rule => [rule.key, rule.default])) as Settings;
 
 export function resolveSettings(input: unknown = {}): Settings {

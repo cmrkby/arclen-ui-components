@@ -7,7 +7,7 @@ function radius(s:Settings) {
   return s.shape==='card'?s.borderRadius:s.shape==='button'?s.buttonRadius:s.badgeRadius;
 }
 function shapeStyle(s:Settings) {
-  return `--lg-radius:${radius(s)}px;--lg-width:${s[`${s.shape}Width`]};--lg-height:${s[`${s.shape}Height`]}`;
+  return `--lg-radius:${radius(s)}px;--lg-width:${s[`${s.shape}Width`]};--lg-height:${s[`${s.shape}Height`]};--lg-button-frost:${s.buttonFrost}`;
 }
 function shapeContent(s:Settings) {
   if(s.shape==='card')return `<span class="lg-ring" aria-hidden="true" ${s.showRing?'':'hidden'}><i></i></span><p>${escapeText(s.caption)}</p>`;
@@ -116,7 +116,7 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
     if(visible)draw();
   }
   function configureLens(){
-    lens?.configure({...settings,borderRadius:radius(settings),magnify:settings.magnify*(magnified?1.8:1)});
+    lens?.configure({...settings,frost:settings.shape==='button'?Math.min(40,settings.frost+settings.buttonFrost):settings.frost,borderRadius:radius(settings),magnify:settings.magnify*(magnified?1.8:1)});
   }
   foreground.addEventListener('click',event=>{
     const button=foreground.querySelector('button');
@@ -137,6 +137,7 @@ export function mount(host:HTMLElement,input:unknown={},_id?:string,options:Moun
       scene.dataset.shape=settings.shape;
       foreground.innerHTML=shapeContent(settings);
     }
+    scene.style.setProperty('--lg-button-frost',String(settings.buttonFrost));
     scene.style.setProperty('--lg-radius',radius(settings)+'px');
     scene.style.setProperty('--lg-width',String(settings[`${settings.shape}Width`]));
     scene.style.setProperty('--lg-height',String(settings[`${settings.shape}Height`]));

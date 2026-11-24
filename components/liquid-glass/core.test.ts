@@ -29,3 +29,8 @@ describe('Liquid Glass',()=>{
     expect(html).not.toMatch(/<(button|input|section)\b/);
   });
 });
+
+it('starts with a larger frosted pill and allows a clear surface',()=>{
+ expect(defaults).toMatchObject({buttonWidth:288,buttonHeight:84,buttonRadius:42,buttonFrost:12});
+ expect(render({buttonFrost:0})).toContain('--lg-button-frost:0');
+});

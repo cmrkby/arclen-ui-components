@@ -1,6 +1,6 @@
 {
   "id": "liquid-glass",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "tier": "free",
   "name": "Tidal Glass",
   "category": "Backgrounds",
@@ -37,7 +37,7 @@
       "key": "buttonWidth",
       "label": "Button width (px)",
       "kind": "number",
-      "default": 244,
+      "default": 288,
       "min": 48,
       "max": 1200,
       "step": 1,
@@ -47,7 +47,7 @@
       "key": "buttonHeight",
       "label": "Button height (px)",
       "kind": "number",
-      "default": 72,
+      "default": 84,
       "min": 24,
       "max": 900,
       "step": 1,
@@ -57,10 +57,20 @@
       "key": "buttonRadius",
       "label": "Button radius (px)",
       "kind": "number",
-      "default": 36,
+      "default": 42,
       "min": 0,
       "max": 1000,
       "step": 1,
+      "group": "Button shape"
+    },
+    {
+      "key": "buttonFrost",
+      "label": "Button frost",
+      "kind": "number",
+      "default": 12,
+      "min": 0,
+      "max": 40,
+      "step": 0.5,
       "group": "Button shape"
     },
     {
@@ -354,8 +364,14 @@
   },
   "previews": [
     {
-      "name": "Clear",
+      "name": "Arclen",
       "settings": {}
+    },
+    {
+      "name": "Clear",
+      "settings": {
+        "buttonFrost": 0
+      }
     },
     {
       "name": "Frosted",
