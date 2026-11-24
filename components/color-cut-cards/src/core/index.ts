@@ -99,7 +99,8 @@ export function mount(host:HTMLElement,input:unknown={}) {
   const anchors=Array.from(grid.querySelectorAll('a'));
   let cards=anchors.map((_,i)=>cardParts(s,i));
   function resize(){
-    const w=grid.getBoundingClientRect().width;
+    const w=grid.clientWidth;
+    if(!w)return;
     grid.dataset.cols=w<=620?'1':w<=900?'2':'3';
   }
   resize();
