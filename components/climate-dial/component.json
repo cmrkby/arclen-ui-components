@@ -1,8 +1,8 @@
 {
   "id": "climate-dial",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "tier": "free",
-  "name": "Climate Dial",
+  "name": "Heart Rate Dial",
   "category": "Controls",
   "description": "A heart-rate dial with a beat-synced glow, a light dimmer and three expandable site audit scores.",
   "keywords": [

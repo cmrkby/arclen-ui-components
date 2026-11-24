@@ -1,4 +1,4 @@
-Climate Dial opens in Heart Rate mode at 72 BPM. Select **Dial mode** in the preview or pass `mode` as a prop. Each mode remembers its own reading when you switch.
+Heart Rate Dial opens at 72 BPM. Select **Dial mode** in the preview or pass `mode` as a prop. Each mode remembers its own reading when you switch.
 
 | Mode | Setting | Glow |
 | --- | --- | --- |
@@ -21,9 +21,9 @@ Use `onDialChange(value, mode)` in React or listen for `dialchange` with `{ valu
 ## React
 
 ```tsx
-import { ClimateDial } from './components/climate-dial/src/react';
+import { HeartRateDial } from './components/climate-dial/src/react';
 
-<ClimateDial
+<HeartRateDial
   theme="dark"
   bpm={72}
   onDialChange={(value, mode) => console.log(value, mode)}

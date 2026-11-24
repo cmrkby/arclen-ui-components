@@ -87,4 +87,5 @@ export function ClimateDial({
     />
   );
 }
-export const Component = ClimateDial;
+export { ClimateDial as HeartRateDial, ClimateDial as Component };
+export type HeartRateDialProps = ClimateDialProps;
