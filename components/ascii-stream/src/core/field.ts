@@ -311,7 +311,11 @@ export function makeField(canvas:HTMLCanvasElement,ctx:CanvasRenderingContext2D)
     }
   }
   function streak(lane:number,x:number,strength:number,reach=.15,softness=0){
-    if(!strength)return;
+    if(!strength || x+reach<=0 || x-reach>=1)return;
+    // The rest of this path has zero alpha. Clip before stroking so the
+    // rasterizer only touches the short illuminated section of the ribbon.
+    ctx.save();
+    ctx.beginPath();ctx.rect((x-reach)*length,-cross,2*reach*length,cross*3);ctx.clip();
     const color=colors[lane],g=ctx.createLinearGradient((x-reach)*length,0,(x+reach)*length,0);
     for(const [stop,a] of [[0,0],[.14,.045],[.28,.26],[.41,.79],[.5,1],[.59,.79],[.72,.26],[.86,.045],[1,0]]){
       g.addColorStop(stop,luminous(color,strength*a,.60*a));
@@ -321,7 +325,7 @@ export function makeField(canvas:HTMLCanvasElement,ctx:CanvasRenderingContext2D)
       ctx.globalAlpha=Math.min(1,power*(width>4?s.glow:1)*(width<=2?1-.78*softness:1));
       ctx.lineWidth=width*(1+.85*softness);ctx.stroke(profiles[lane].rim);
     }
-    ctx.globalAlpha=1;
+    ctx.restore();
   }
   function drawLayers(ctx:CanvasRenderingContext2D,t:number,progress:number,ribbons:boolean,beamLight:boolean){
     ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,canvas.width,canvas.height);

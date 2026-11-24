@@ -1,7 +1,7 @@
 {
   "id": "audience-expand-cards",
   "name": "Showroom Cards",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An expanding furniture catalogue with materials, finishes and product details.",
   "settings": [
     {

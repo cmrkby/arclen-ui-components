@@ -1,7 +1,7 @@
 {
   "id": "ascii-stream",
   "name": "Glyph Funnel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Six ribbons of moving type gather into a rising ember beam with a rose afterglow. Brush a ribbon or tap the field to send a pulse.",
   "settings": [
     {
