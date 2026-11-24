@@ -17,7 +17,6 @@ describe('Liquid Glass',()=>{
     const html=render({caption:'Side <A> & Guy-Manuel de Homem-Christo.',showRing:false});
     expect(html).toContain('<p>Side &lt;A&gt; &amp; Guy-Manuel de Homem-Christo.</p>');
     expect(html).toContain('class="lg-ring" aria-hidden="true" hidden');
-    expect(html).toContain('aria-label="Lens controls" inert');
-    expect(html.match(/type="range"/g)).toHaveLength(13);
+    expect(html).not.toMatch(/<(button|input|section)\b/);
   });
 });
