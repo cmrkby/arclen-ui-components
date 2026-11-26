@@ -1,0 +1,642 @@
+{
+  "id": "snapshot-footer",
+  "name": "Photo Stack Footer",
+  "version": "1.0.0",
+  "tier": "free",
+  "category": "Footers",
+  "description": "A neighborhood dog-walking footer with liftable walk snapshots and a handwritten contact card.",
+  "keywords": [
+    "footer",
+    "dog walking",
+    "photos",
+    "polaroid",
+    "contact"
+  ],
+  "settings": [
+    {
+      "key": "headline",
+      "group": "Introduction",
+      "kind": "string-list",
+      "label": "Headline lines",
+      "default": [
+        "See you round",
+        "the block."
+      ],
+      "minItems": 2,
+      "maxItems": 2,
+      "maxItemLength": 100
+    },
+    {
+      "key": "intro",
+      "group": "Introduction",
+      "kind": "text",
+      "label": "Introduction",
+      "default": "Solo walks and small packs, close to home. We’ll meet you and your dog first, find their favorite route, and send a snapshot on the way back.",
+      "maxLength": 800
+    },
+    {
+      "key": "brand",
+      "group": "Brand & contact",
+      "kind": "text",
+      "label": "Brand name",
+      "default": "loop",
+      "maxLength": 50
+    },
+    {
+      "key": "tagline",
+      "group": "Brand & contact",
+      "kind": "string-list",
+      "label": "Tagline lines",
+      "default": [
+        "Good walks.",
+        "Happy dogs."
+      ],
+      "minItems": 2,
+      "maxItems": 3,
+      "maxItemLength": 100
+    },
+    {
+      "key": "address",
+      "group": "Brand & contact",
+      "kind": "string-list",
+      "label": "Note address",
+      "default": [
+        "Loop walking rounds",
+        "East Bristol",
+        "St George & Redfield",
+        "walks@loop.example"
+      ],
+      "minItems": 4,
+      "maxItems": 4,
+      "maxItemLength": 100
+    },
+    {
+      "key": "hours",
+      "group": "Brand & contact",
+      "kind": "text",
+      "label": "Walking hours",
+      "default": "Weekdays, 8 am–4 pm",
+      "maxLength": 50
+    },
+    {
+      "key": "copyright",
+      "group": "Brand & contact",
+      "kind": "text",
+      "label": "Copyright",
+      "default": "© 2026 Loop Dog Walking",
+      "maxLength": 150
+    },
+    {
+      "key": "captions",
+      "group": "Photo pile",
+      "kind": "string-list",
+      "label": "Print captions",
+      "default": [
+        "Mabel, the long way home",
+        "Otis found the puddle",
+        "Pip on the blue steps",
+        "Fern caught a scent",
+        "Alfie, nearly home"
+      ],
+      "minItems": 5,
+      "maxItems": 5,
+      "maxItemLength": 100
+    },
+    {
+      "key": "photo1",
+      "group": "Photo pile",
+      "kind": "image",
+      "label": "Replace photo 1",
+      "default": ""
+    },
+    {
+      "key": "photo2",
+      "group": "Photo pile",
+      "kind": "image",
+      "label": "Replace photo 2",
+      "default": ""
+    },
+    {
+      "key": "photo3",
+      "group": "Photo pile",
+      "kind": "image",
+      "label": "Replace photo 3",
+      "default": ""
+    },
+    {
+      "key": "photo4",
+      "group": "Photo pile",
+      "kind": "image",
+      "label": "Replace photo 4",
+      "default": ""
+    },
+    {
+      "key": "photo5",
+      "group": "Photo pile",
+      "kind": "image",
+      "label": "Replace photo 5",
+      "default": ""
+    },
+    {
+      "key": "legalUrls",
+      "group": "Links",
+      "kind": "string-list",
+      "label": "Legal destinations",
+      "default": [
+        "/",
+        "/",
+        "/"
+      ],
+      "minItems": 3,
+      "maxItems": 3,
+      "maxItemLength": 280
+    },
+    {
+      "key": "background",
+      "group": "Appearance",
+      "kind": "color",
+      "label": "Background",
+      "default": "#19392F"
+    },
+    {
+      "key": "accent",
+      "group": "Appearance",
+      "kind": "color",
+      "label": "Booking button and sticker",
+      "default": "#F48A54"
+    },
+    {
+      "key": "entrance",
+      "group": "Motion",
+      "kind": "boolean",
+      "label": "Entrance animation",
+      "default": true
+    },
+    {
+      "key": "bookingLabel",
+      "kind": "text",
+      "label": "Booking button label",
+      "default": "Book a first walk",
+      "group": "Links",
+      "maxLength": 280
+    },
+    {
+      "key": "bookingUrl",
+      "kind": "text",
+      "label": "Booking destination",
+      "default": "mailto:walks@loop.example",
+      "group": "Links",
+      "maxLength": 280
+    },
+    {
+      "key": "homeUrl",
+      "kind": "text",
+      "label": "Wordmark destination",
+      "default": "/",
+      "group": "Links",
+      "maxLength": 280
+    },
+    {
+      "key": "navLabels",
+      "group": "Links",
+      "kind": "string-list",
+      "label": "Footer link labels",
+      "default": [
+        "Our walks",
+        "Meet your walker",
+        "Get in touch"
+      ],
+      "minItems": 3,
+      "maxItems": 3,
+      "maxItemLength": 80
+    },
+    {
+      "key": "navUrls",
+      "group": "Links",
+      "kind": "string-list",
+      "label": "Footer link destinations",
+      "default": [
+        "/walks",
+        "/about",
+        "mailto:walks@loop.example"
+      ],
+      "minItems": 3,
+      "maxItems": 3,
+      "maxItemLength": 280
+    },
+    {
+      "key": "walkLabels",
+      "label": "Our walks link labels",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 80,
+      "default": [
+        "Solo walks",
+        "Small pack walks",
+        "Puppy visits",
+        "Senior strolls"
+      ]
+    },
+    {
+      "key": "walkUrls",
+      "label": "Our walks destinations",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 280,
+      "default": [
+        "/walks/solo",
+        "/walks/small-pack",
+        "/walks/puppy-visits",
+        "/walks/senior-strolls"
+      ]
+    },
+    {
+      "key": "walkerLabels",
+      "label": "Meet your walker link labels",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 80,
+      "default": [
+        "About Loop",
+        "Your first walk",
+        "Our walking routes",
+        "Walk diary"
+      ]
+    },
+    {
+      "key": "walkerUrls",
+      "label": "Meet your walker destinations",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 280,
+      "default": [
+        "/about",
+        "/first-walk",
+        "/routes",
+        "/diary"
+      ]
+    },
+    {
+      "key": "contactLabels",
+      "label": "Get in touch link labels",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 80,
+      "default": [
+        "Check availability",
+        "Areas we cover",
+        "Walking FAQs",
+        "Email Loop"
+      ]
+    },
+    {
+      "key": "contactUrls",
+      "label": "Get in touch destinations",
+      "group": "Links",
+      "kind": "string-list",
+      "minItems": 0,
+      "maxItems": 10,
+      "maxItemLength": 280,
+      "default": [
+        "/availability",
+        "/service-area",
+        "/faq",
+        "mailto:walks@loop.example"
+      ]
+    },
+    {
+      "key": "contentWidth",
+      "label": "Content width",
+      "group": "Design",
+      "kind": "number",
+      "default": 1440,
+      "min": 1060,
+      "max": 1680,
+      "step": 10
+    },
+    {
+      "key": "gutter",
+      "label": "Side padding",
+      "group": "Design",
+      "kind": "number",
+      "default": 40,
+      "min": 16,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "topSpace",
+      "label": "Space above headline",
+      "group": "Design",
+      "kind": "number",
+      "default": 120,
+      "min": 32,
+      "max": 160,
+      "step": 4
+    },
+    {
+      "key": "linkWidth",
+      "label": "Desktop link column width",
+      "group": "Design",
+      "kind": "number",
+      "default": 190,
+      "min": 140,
+      "max": 230,
+      "step": 2
+    },
+    {
+      "key": "headlineSize",
+      "label": "Headline size",
+      "group": "Design",
+      "kind": "number",
+      "default": 78,
+      "min": 46,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "brandSize",
+      "label": "Wordmark size",
+      "group": "Design",
+      "kind": "number",
+      "default": 44,
+      "min": 28,
+      "max": 72,
+      "step": 1
+    },
+    {
+      "key": "markSize",
+      "label": "Leash mark size",
+      "group": "Design",
+      "kind": "number",
+      "default": 36,
+      "min": 18,
+      "max": 54,
+      "step": 1
+    },
+    {
+      "key": "buttonRadius",
+      "label": "Button corner radius",
+      "group": "Design",
+      "kind": "number",
+      "default": 24,
+      "min": 0,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "printScale",
+      "label": "Print size (%)",
+      "group": "Design",
+      "kind": "number",
+      "default": 100,
+      "min": 80,
+      "max": 115,
+      "step": 1
+    },
+    {
+      "key": "printTilt",
+      "label": "Print tilt (%)",
+      "group": "Design",
+      "kind": "number",
+      "default": 100,
+      "min": 0,
+      "max": 130,
+      "step": 5
+    },
+    {
+      "key": "lift",
+      "label": "Lift distance (%)",
+      "group": "Design",
+      "kind": "number",
+      "default": 100,
+      "min": 75,
+      "max": 115,
+      "step": 1
+    },
+    {
+      "key": "duration",
+      "label": "Lift duration (ms)",
+      "group": "Design",
+      "kind": "number",
+      "default": 450,
+      "min": 100,
+      "max": 800,
+      "step": 10
+    },
+    {
+      "key": "ink",
+      "label": "Text",
+      "group": "Design",
+      "kind": "color",
+      "default": "#F6F1DF"
+    },
+    {
+      "key": "muted",
+      "label": "Secondary text",
+      "group": "Design",
+      "kind": "color",
+      "default": "#C4CFC3"
+    },
+    {
+      "key": "paper",
+      "label": "Photo border",
+      "group": "Design",
+      "kind": "color",
+      "default": "#F8F7F3"
+    },
+    {
+      "key": "notePaper",
+      "label": "Contact card paper",
+      "group": "Design",
+      "kind": "color",
+      "default": "#EAE1C9"
+    },
+    {
+      "key": "noteInk",
+      "label": "Contact card ink",
+      "group": "Design",
+      "kind": "color",
+      "default": "#253D32"
+    },
+    {
+      "key": "buttonInk",
+      "label": "Booking button text",
+      "group": "Design",
+      "kind": "color",
+      "default": "#201B17"
+    },
+    {
+      "key": "showMark",
+      "label": "Show leash mark",
+      "group": "Design",
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "key": "showSticker",
+      "label": "Show sticker",
+      "group": "Design",
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "key": "showCaptions",
+      "label": "Show print captions",
+      "group": "Design",
+      "kind": "boolean",
+      "default": true
+    },
+    {
+      "key": "typeface",
+      "label": "Headline typeface",
+      "group": "Design",
+      "kind": "select",
+      "options": [
+        "Sans",
+        "Serif",
+        "Rounded"
+      ],
+      "default": "Sans"
+    },
+    {
+      "key": "phonePhotos",
+      "label": "Phone photo layout",
+      "group": "Design",
+      "kind": "select",
+      "options": [
+        "Compact pile",
+        "Swipe all photos"
+      ],
+      "default": "Compact pile"
+    },
+    {
+      "key": "stickerText",
+      "kind": "text",
+      "group": "Copy",
+      "label": "Sticker text",
+      "default": "walk club",
+      "maxLength": 24
+    }
+  ],
+  "assets": [
+    {
+      "path": "poster.webp",
+      "contentType": "image/webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Rendered from the Photo Stack Footer component."
+      }
+    },
+    {
+      "path": "assets/walk-1.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated neighborhood dog-walk photograph created for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/walk-2.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated neighborhood dog-walk photograph created for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/walk-3.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated neighborhood dog-walk photograph created for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/walk-4.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated neighborhood dog-walk photograph created for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/walk-5.webp",
+      "contentType": "image/webp",
+      "gallery": true,
+      "rights": {
+        "kind": "original",
+        "license": "MIT",
+        "attribution": "Original AI-generated neighborhood dog-walk photograph created for Arclen UI."
+      }
+    },
+    {
+      "path": "assets/caveat-semibold.woff2",
+      "contentType": "font/woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL OFL 1.1",
+        "attribution": "Copyright 2014 The Caveat Project Authors."
+      }
+    },
+    {
+      "path": "assets/Caveat-OFL.txt",
+      "contentType": "text/plain",
+      "rights": {
+        "kind": "licensed",
+        "license": "SIL OFL 1.1",
+        "attribution": "Copyright 2014 The Caveat Project Authors."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Cameron Rickerby"
+      }
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Show settled content immediately and reveal the active print without animated travel.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Loop",
+      "settings": {}
+    },
+    {
+      "name": "Plum paper",
+      "settings": {
+        "background": "#211b24",
+        "accent": "#dfa2bc"
+      }
+    }
+  ]
+}
