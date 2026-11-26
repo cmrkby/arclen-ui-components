@@ -1,0 +1,334 @@
+{
+  "id": "dynamic-island-nav",
+  "version": "1.0.0",
+  "tier": "free",
+  "name": "Island Nav",
+  "category": "Navigation",
+  "description": "A floating capsule tracks the current section, folds on scroll and opens into a touch menu on small screens.",
+  "keywords": [
+    "navigation",
+    "capsule",
+    "responsive",
+    "menu",
+    "scroll"
+  ],
+  "settings": [
+    {
+      "key": "labels",
+      "kind": "string-list",
+      "label": "Section labels",
+      "default": [
+        "Home",
+        "Work",
+        "Lab",
+        "Journal",
+        "About",
+        "Contact"
+      ],
+      "group": "Navigation",
+      "minItems": 2,
+      "maxItems": 12
+    },
+    {
+      "key": "destinations",
+      "kind": "string-list",
+      "label": "Link destinations",
+      "default": [
+        "#home",
+        "#work",
+        "#lab",
+        "#journal",
+        "#about",
+        "#contact"
+      ],
+      "group": "Navigation",
+      "minItems": 2,
+      "maxItems": 12
+    },
+    {
+      "key": "icons",
+      "label": "Item icons",
+      "kind": "string-list",
+      "default": [
+        "Home",
+        "Grid",
+        "Sparkle",
+        "Pencil",
+        "Profile",
+        "Mail"
+      ],
+      "group": "Navigation",
+      "minItems": 2,
+      "maxItems": 12
+    },
+    {
+      "key": "compactOnScroll",
+      "kind": "boolean",
+      "label": "Compact on scroll",
+      "default": true,
+      "group": "Motion"
+    },
+    {
+      "key": "hoverDwell",
+      "kind": "number",
+      "label": "Hover delay",
+      "default": 140,
+      "group": "Motion",
+      "min": 0,
+      "max": 400,
+      "step": 10
+    },
+    {
+      "key": "topOffset",
+      "kind": "number",
+      "label": "Edge inset (px)",
+      "default": 16,
+      "group": "Layout",
+      "min": 6,
+      "max": 64,
+      "step": 1
+    },
+    {
+      "key": "surface",
+      "kind": "color",
+      "label": "Dark capsule",
+      "default": "#292826",
+      "group": "Colours"
+    },
+    {
+      "key": "lightSurface",
+      "kind": "color",
+      "label": "Light capsule",
+      "default": "#f7f4ed",
+      "group": "Colours"
+    },
+    {
+      "key": "headingColor",
+      "kind": "color",
+      "label": "Section heading",
+      "default": "#8b8e98",
+      "group": "Colours"
+    },
+    {
+      "key": "showBadge",
+      "kind": "boolean",
+      "label": "Show catalogue link",
+      "default": true,
+      "group": "Badge"
+    },
+    {
+      "key": "badgeLabel",
+      "kind": "text",
+      "label": "Link label",
+      "default": "More components",
+      "group": "Badge",
+      "maxLength": 40
+    },
+    {
+      "key": "badgeHref",
+      "kind": "text",
+      "label": "Link destination",
+      "default": "https://arclenui.dev/components",
+      "group": "Badge",
+      "maxLength": 512
+    },
+    {
+      "key": "placement",
+      "kind": "select",
+      "label": "Placement",
+      "default": "top",
+      "group": "Layout",
+      "options": [
+        "top",
+        "bottom"
+      ]
+    },
+    {
+      "key": "alignment",
+      "kind": "select",
+      "label": "Alignment",
+      "default": "center",
+      "group": "Layout",
+      "options": [
+        "start",
+        "center",
+        "end"
+      ]
+    },
+    {
+      "key": "radius",
+      "kind": "number",
+      "label": "Corner radius (px)",
+      "default": 26,
+      "group": "Layout",
+      "min": 8,
+      "max": 32,
+      "step": 1
+    },
+    {
+      "key": "iconSize",
+      "kind": "number",
+      "label": "Icon size (px)",
+      "default": 20,
+      "group": "Layout",
+      "min": 14,
+      "max": 28,
+      "step": 1
+    },
+    {
+      "key": "menuWidth",
+      "kind": "number",
+      "label": "Open menu width (px)",
+      "default": 400,
+      "group": "Layout",
+      "min": 220,
+      "max": 600,
+      "step": 1
+    },
+    {
+      "key": "blur",
+      "kind": "number",
+      "label": "Backdrop blur (px)",
+      "default": 28,
+      "group": "Glass",
+      "min": 0,
+      "max": 48,
+      "step": 1
+    },
+    {
+      "key": "darkOpacity",
+      "kind": "number",
+      "label": "Dark tint (%)",
+      "default": 62,
+      "group": "Glass",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "lightOpacity",
+      "kind": "number",
+      "label": "Light tint (%)",
+      "default": 72,
+      "group": "Glass",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "rim",
+      "kind": "number",
+      "label": "Rim strength (%)",
+      "default": 100,
+      "group": "Glass",
+      "min": 0,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "key": "breakpoint",
+      "kind": "number",
+      "label": "Mobile breakpoint (px)",
+      "default": 640,
+      "group": "Layout",
+      "min": 320,
+      "max": 1024,
+      "step": 1
+    },
+    {
+      "key": "compactDistance",
+      "kind": "number",
+      "label": "Compact after (px)",
+      "default": 120,
+      "group": "Motion",
+      "min": 0,
+      "max": 600,
+      "step": 1
+    },
+    {
+      "key": "darkAccent",
+      "kind": "color",
+      "label": "Dark active accent",
+      "default": "#e09b6c",
+      "group": "Colours"
+    },
+    {
+      "key": "lightAccent",
+      "kind": "color",
+      "label": "Light active accent",
+      "default": "#985126",
+      "group": "Colours"
+    },
+    {
+      "key": "darkCanvas",
+      "kind": "color",
+      "label": "Dark page",
+      "default": "#22211f",
+      "group": "Colours"
+    },
+    {
+      "key": "lightCanvas",
+      "kind": "color",
+      "label": "Light page",
+      "default": "#faf9f6",
+      "group": "Colours"
+    }
+  ],
+  "targets": [
+    "react",
+    "html",
+    "vanilla"
+  ],
+  "dependencies": {},
+  "assets": [
+    {
+      "path": "assets/inter-latin-variable.woff2",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors. See assets/Inter-OFL.txt."
+      }
+    },
+    {
+      "path": "assets/Inter-OFL.txt",
+      "rights": {
+        "kind": "licensed",
+        "license": "OFL-1.1",
+        "attribution": "The Inter Project Authors. See assets/Inter-OFL.txt."
+      }
+    },
+    {
+      "path": "LICENSE",
+      "rights": {
+        "kind": "licensed",
+        "license": "MIT",
+        "attribution": "Cameron Rickerby"
+      }
+    },
+    {
+      "path": "poster.webp",
+      "rights": {
+        "kind": "original",
+        "attribution": "Captured from Island Nav."
+      }
+    }
+  ],
+  "poster": "poster.webp",
+  "motion": {
+    "reducedMotion": "Geometry, highlights and labels settle immediately. The badge and rows appear without entrance motion.",
+    "pauseOffscreen": true
+  },
+  "previews": [
+    {
+      "name": "Section navigation",
+      "settings": {}
+    },
+    {
+      "name": "Always expanded desktop",
+      "settings": {
+        "compactOnScroll": false,
+        "showBadge": false
+      }
+    }
+  ]
+}

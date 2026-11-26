@@ -1,0 +1,17 @@
+Island Nav places a frosted-glass capsule over a scroll surface with two to twelve sections. The current section keeps its label as you hover another icon to reveal its name. Keyboard focus reveals it immediately. Scrolling down compacts the desktop bar to the active section and an expander. On smaller screens the current section and chevron form one button. It opens a list inside the same capsule, with a check beside the current section.
+
+The labels and destinations follow the same order. A fragment selects its corresponding local section. An absolute HTTP or HTTPS link opens a new tab. Relative paths starting with a slash open in the current tab. Set the catalogue badge destination and label for your own site, or turn the badge off.
+
+Escape closes the mobile panel and returns focus to its button. Tapping outside the panel or scrolling more than 64 pixels also closes it. Reduced-motion mode snaps to each geometry and removes the delayed badge entrance. The component pauses its motion when offscreen. The HTML package includes a static poster for browsers without JavaScript.
+
+Typography uses Inter under the SIL Open Font License, included in assets/Inter-OFL.txt. The inline icons are original line drawings.
+
+The capsule follows the colour theme with charcoal and warm off-white surfaces. A copper dot marks the active desktop label and a copper check marks the selected mobile row. Both capsule colours can be customised.
+
+## Customizing the island
+
+In Layout, choose the top or bottom edge, horizontal alignment and inset. A bottom-mounted menu expands upward and moves the catalogue link to the top. The open menu width is capped by the available space. The mobile breakpoint sets when to switch to the single-button menu. Long labels can trigger that layout earlier.
+
+Glass controls set the blur in pixels, each theme’s tint opacity, and the strength of the outer rim. Set blur to zero for clear glass, or increase the tint for a denser surface. Reduced-transparency preferences use the solid capsule color. The active accent and page color can be set independently for each theme. Alternating sections derive their shading from the page color.
+
+Compact after sets the downward scroll distance for desktop collapse. Hover delay controls when a second desktop label appears. Keyboard focus reveals a label immediately.
